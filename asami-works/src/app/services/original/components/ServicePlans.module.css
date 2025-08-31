@@ -1,0 +1,235 @@
+/* サービス一覧セクション */
+.services {
+  background-color: #f9fafb;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.servicesContent {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.sectionDescription {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 3カードのレスポンシブレイアウト */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .serviceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .serviceGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+.serviceCard {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.serviceCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.recommended {
+  border: 2px solid #ef4444;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.serviceHeader {
+  margin-bottom: 20px;
+}
+
+.serviceTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #111827;
+  line-height: 1.4;
+  min-height: 2.8em;
+}
+
+.servicePrice {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 16px 0;
+  color: #0066cc;
+  display: block;
+}
+
+.serviceDescription {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex-grow: 1;
+  font-size: 0.95rem;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  font-size: 0.95rem;
+}
+
+.featureItem {
+  position: relative;
+  padding: 12px 0 12px 28px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.featureItem:last-child {
+  border-bottom: none;
+}
+
+.checkIcon {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  color: #10b981;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.serviceLink {
+  display: inline-block;
+  margin-top: auto;
+  padding: 12px 28px;
+  background-color: #0066cc;
+  color: white;
+  border-radius: 9999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  text-align: center;
+  width: 100%;
+}
+
+.serviceLink:hover {
+  background-color: #005bac;
+}
+
+.arrow {
+  margin-left: 8px;
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.serviceLink:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 639px) {
+  .services {
+    padding: 60px 20px;
+  }
+  
+  .serviceGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .serviceCard {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+  
+  .servicePrice {
+    font-size: 2rem;
+  }
+  
+  .serviceTitle {
+    font-size: 1.1rem;
+    min-height: auto;
+  }
+  
+  .featureItem {
+    font-size: 0.875rem;
+    padding: 10px 0 10px 24px;
+  }
+  
+  .checkIcon {
+    font-size: 1rem;
+    top: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sectionTitle {
+    font-size: 2.5rem;
+  }
+  
+  .sectionDescription {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sectionTitle {
+    font-size: 3rem;
+  }
+  
+  .serviceCard {
+    height: 100%;
+  }
+  
+  /* 3カラムレイアウトでカードの高さを揃える */
+  .serviceDescription {
+    min-height: 80px;
+  }
+  
+  .featureList {
+    min-height: 240px;
+  }
+}

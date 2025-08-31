@@ -1,0 +1,32 @@
+# 文字コード設定
+AddDefaultCharset UTF-8
+
+# PHPの文字コード設定（さくらサーバー対応）
+php_value default_charset UTF-8
+php_value mbstring.internal_encoding UTF-8
+php_value mbstring.http_input auto
+php_value mbstring.http_output UTF-8
+
+# ディレクトリ一覧の非表示
+Options -Indexes
+
+# セキュリティヘッダー
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# キャッシュ設定
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
+
+# Gzip圧縮
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript
+</IfModule>

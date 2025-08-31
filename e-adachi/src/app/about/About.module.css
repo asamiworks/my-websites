@@ -1,0 +1,329 @@
+/* ヒーローセクション */
+.hero {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 60%;
+  height: 200%;
+  background: rgba(0, 91, 172, 0.03);
+  transform: rotate(45deg);
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.titleDecoration {
+  width: 80px;
+  height: 4px;
+  background: #005bac;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: 48px;
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  color: #005bac;
+  font-weight: 600;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 12px;
+}
+
+/* 基本情報グリッド */
+.infoGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.infoItem {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.infoItem:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.value {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* 役員リスト */
+.executiveList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.executive {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.position {
+  font-weight: 600;
+  color: #666;
+  min-width: 140px;
+  font-size: 0.95rem;
+}
+
+.name {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 資格リスト */
+.qualificationList {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.qualificationList li {
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #005bac;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* 許認可ボックス */
+.licenseBox {
+  background: #f0f7ff;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.licenseTitle {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.licenseNumber {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* CTAセクション */
+.ctaSection {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #005bac 0%, #004494 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 80%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.05);
+  transform: rotate(-45deg);
+}
+
+.ctaText {
+  font-size: 1.15rem;
+  margin-bottom: 32px;
+  line-height: 1.8;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 18px 48px;
+  background-color: #fff;
+  color: #005bac;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background-color: #f8f9fa;
+}
+
+/* モバイル対応 */
+@media (max-width: 767px) {
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 40px 20px;
+  }
+
+  .section {
+    margin-bottom: 40px;
+    padding: 20px;
+  }
+
+  .sectionTitle {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .ctaSection {
+    margin-top: 60px;
+    padding: 50px 20px;
+  }
+
+  .ctaText {
+    font-size: 1rem;
+  }
+
+  .ctaButton {
+    padding: 16px 32px;
+    font-size: 1rem;
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 768px) {
+  .hero {
+    padding: 80px 40px;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .container {
+    padding: 80px 40px;
+  }
+
+  .section {
+    padding: 32px;
+    margin-bottom: 60px;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .infoItem {
+    grid-template-columns: 140px 1fr;
+  }
+
+  .qualificationList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .executiveList {
+    flex-direction: row;
+    justify-content: center;
+    gap: 48px;
+  }
+
+  .executive {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .ctaSection {
+    padding: 80px 40px;
+    margin-top: 100px;
+  }
+}
+
+/* PC対応 */
+@media (min-width: 1024px) {
+  .hero {
+    padding: 100px 40px;
+  }
+
+  .container {
+    padding: 100px 40px;
+  }
+
+  .section {
+    padding: 40px;
+  }
+
+  .infoItem {
+    grid-template-columns: 160px 1fr;
+  }
+
+  .ctaSection {
+    padding: 100px 40px;
+  }
+
+  .ctaText {
+    font-size: 1.2rem;
+  }
+}
+
+/* 大画面対応 */
+@media (min-width: 1440px) {
+  .ctaSection {
+    margin-top: 120px;
+  }
+}

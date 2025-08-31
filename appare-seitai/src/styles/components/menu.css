@@ -1,0 +1,290 @@
+/* 施術メニューセクション */
+.menu {
+  padding: var(--spacing-5xl) 0;
+  background-color: var(--color-bg-primary);
+}
+
+/* メニューグリッド */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-2xl);
+  margin-bottom: var(--spacing-4xl);
+}
+
+/* メニューカード基本スタイル */
+.menu-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: all var(--transition-base);
+  border: 1px solid var(--color-border);
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* カードタイトル */
+.menu-card-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.menu-card-title svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* メニューアイテム */
+.menu-card-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px dotted var(--color-border);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  flex: 1;
+}
+
+.menu-item-duration {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-left: var(--spacing-sm);
+}
+
+.menu-item-price {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+/* カードノート */
+.menu-card-note {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-md);
+  margin-top: calc(var(--spacing-md) * -1);
+}
+
+/* 人気バッジ */
+.menu-card-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  box-shadow: 0 2px 8px rgba(238, 90, 111, 0.3);
+}
+
+/* 割引情報 */
+.menu-card-discount {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.menu-card-discount span {
+  background: var(--color-success);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+/* メッセージ */
+.menu-card-message {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: var(--radius-base);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border-left: 4px solid var(--color-primary);
+}
+
+.menu-card-message p {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* カードバリエーション */
+.menu-card--popular {
+  border-color: #ff6b6b;
+  background: linear-gradient(to bottom, rgba(255, 107, 107, 0.02), white);
+}
+
+.menu-card--special {
+  border-color: var(--color-primary);
+  background: linear-gradient(to bottom, rgba(74, 144, 226, 0.02), white);
+}
+
+.menu-card--home-visit {
+  border-color: #28a745;
+  background: linear-gradient(to bottom, rgba(40, 167, 69, 0.02), white);
+}
+
+/* highlightクラスのタイトル色を削除（青色の問題を修正） */
+/* .menu-card--highlight .menu-card-title {
+  color: var(--color-primary);
+} */
+
+/* 注意事項 */
+.menu-notes {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* グリッド内の注意事項 */
+.menu-notes--grid {
+  grid-column: span 2;
+  margin: 0;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  border: 1px solid var(--color-border);
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+}
+
+.menu-notes h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.menu-notes ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-notes li {
+  position: relative;
+  padding-left: var(--spacing-xl);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.menu-notes li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+  .menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+  }
+  
+  /* タブレットでは注意事項を通常の幅に戻す */
+  .menu-notes--grid {
+    grid-column: span 1;
+  }
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .menu {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .menu-card {
+    padding: var(--spacing-xl);
+  }
+
+  .menu-card-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .menu-item {
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .menu-item-name {
+    flex: 1 1 100%;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .menu-item-duration {
+    order: 1;
+  }
+
+  .menu-item-price {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .menu-card-discount {
+    position: static;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .menu-notes {
+    padding: var(--spacing-xl);
+  }
+  
+  /* モバイルでは注意事項も1カラム */
+  .menu-notes--grid {
+    grid-column: span 1;
+  }
+
+  .menu-notes h3 {
+    font-size: var(--font-size-base);
+  }
+
+  .menu-notes li {
+    font-size: var(--font-size-sm);
+  }
+}

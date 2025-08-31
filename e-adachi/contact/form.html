@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | 株式会社足立電機</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>お問い合わせ</h1>
+        <p class="subtitle">法人様向けお問い合わせフォーム</p>
+        
+        <div class="card">
+            <form action="confirm.php" method="POST">
+                <div class="form-group">
+                    <label for="company">会社名<span class="required">*</span></label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">お名前<span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">メールアドレス<span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                    <p class="form-note">自動返信メールをお送りしますので、正確にご入力ください。</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">電話番号</label>
+                    <input type="tel" id="phone" name="phone">
+                    <p class="form-note">任意：お急ぎの場合はご記入ください。</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inquiry_type">お問い合わせ種別</label>
+                    <select id="inquiry_type" name="inquiry_type">
+                        <option value="">選択してください</option>
+                        <option value="見積もり依頼">見積もり依頼</option>
+                        <option value="サービスについて">サービスについて</option>
+                        <option value="その他">その他</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">お問い合わせ内容<span class="required">*</span></label>
+                    <textarea id="message" name="message" required placeholder="お問い合わせ内容をご記入ください。"></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="button">送信する</button>
+                </div>
+            </form>
+            
+            <div class="back-link">
+                <a href="https://jh-ad.jp/">← トップページに戻る</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

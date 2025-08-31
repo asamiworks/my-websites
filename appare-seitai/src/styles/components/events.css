@@ -1,0 +1,613 @@
+/* イベントセクション */
+.events {
+  padding: var(--spacing-5xl) 0;
+  background-color: var(--color-bg-secondary);
+}
+
+/* イベントコンテナ */
+.event-container {
+  max-width: 400px; /* 画像サイズを小さく */
+  margin: 0 auto var(--spacing-3xl);
+}
+
+.event-content {
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* イベントヘッダー */
+.event-header {
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  text-align: center;
+}
+
+.event-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 var(--spacing-sm);
+  line-height: 1.3;
+}
+
+.event-instruction {
+  font-size: var(--font-size-xs);
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* イベント画像 */
+.event-image-wrapper {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  aspect-ratio: 1414 / 2000;
+  max-width: 300px; /* デスクトップでの最大幅 */
+  margin: 0 auto;
+}
+
+.event-image-wrapper:focus {
+  outline: 3px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
+.event-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: white;
+  transition: transform var(--transition-base);
+}
+
+.event-image-wrapper:hover .event-image {
+  transform: scale(1.05);
+}
+
+/* 画像オーバーレイ */
+.event-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.event-image-wrapper:hover .event-image-overlay {
+  opacity: 1;
+}
+
+.event-image-overlay svg {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* イベント期間表示 */
+.event-period {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-bg-secondary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  border-top: 1px solid var(--color-border);
+}
+
+.event-period svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* イベントCTAセクション */
+.event-cta-section {
+  padding: var(--spacing-lg);
+  background: #fafafa;
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+
+.event-cta-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-md);
+}
+
+.event-cta-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  align-items: center;
+}
+
+.event-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+  color: white;
+}
+
+.event-cta-button svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.event-cta-line {
+  background-color: #00B900;
+}
+
+.event-cta-line:hover {
+  background-color: #00C300;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 185, 0, 0.3);
+}
+
+.event-cta-instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.event-cta-instagram:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 39, 67, 0.3);
+}
+
+.event-cta-phone {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.event-cta-phone:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+/* 空状態 */
+.events-empty {
+  text-align: center;
+  padding: var(--spacing-4xl);
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  max-width: 600px;
+  margin: 0 auto var(--spacing-3xl);
+}
+
+.events-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: var(--color-bg-secondary);
+  border-radius: 50%;
+  margin-bottom: var(--spacing-xl);
+}
+
+.events-empty-icon svg {
+  width: 64px;
+  height: 64px;
+  color: var(--color-primary);
+}
+
+.events-empty-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-md);
+}
+
+.events-empty-message {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+  margin: 0 0 var(--spacing-xl);
+}
+
+/* 次回イベント情報 */
+.events-next-info {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.events-next-info svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+}
+
+.events-next-info p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.events-next-info strong {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+/* 空状態のアクション */
+.events-empty-actions {
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.events-empty-note {
+  font-size: var(--font-size-base) !important;
+  color: var(--color-text-secondary) !important;
+  margin: 0 0 var(--spacing-lg) !important;
+}
+
+/* SNSリンク */
+.events-sns-links {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  align-items: center;
+}
+
+.events-sns-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
+  color: white;
+}
+
+.events-sns-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.events-sns-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+.events-sns-link.line {
+  background-color: #00B900;
+}
+
+.events-sns-link.line:hover {
+  background-color: #00C300;
+}
+
+.events-sns-link.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.events-sns-link.instagram:hover {
+  filter: brightness(1.1);
+}
+
+/* 注記 */
+.events-note {
+  text-align: center;
+  margin-top: var(--spacing-2xl);
+}
+
+.events-note p {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  margin: var(--spacing-xs) 0;
+}
+
+/* モーダル */
+.event-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.event-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.event-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+}
+
+.event-modal-content {
+  position: relative;
+  max-width: min(90vw, 1200px);
+  max-height: 90vh;
+  z-index: 1;
+}
+
+.event-modal-image {
+  max-width: 100%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  display: block;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  background: white;
+  object-fit: contain;
+}
+
+.event-modal-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: white;
+  border: none;
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.event-modal-close:hover {
+  transform: scale(1.1);
+  background: var(--color-primary);
+  color: white;
+}
+
+.event-modal-close:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.event-modal-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+  .event-container {
+    max-width: 350px;
+  }
+  
+  .event-image-wrapper {
+    max-width: 250px;
+  }
+  
+  .events-sns-links {
+    flex-wrap: wrap;
+  }
+}
+
+/* 小型タブレット対応 */
+@media (max-width: 768px) {
+  .events {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .event-container {
+    max-width: 320px;
+  }
+
+  .event-image-wrapper {
+    max-width: 220px;
+  }
+
+  .event-header {
+    padding: var(--spacing-lg);
+  }
+
+  .event-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .event-period {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-sm);
+  }
+
+  .event-cta-section {
+    padding: var(--spacing-md);
+  }
+
+  .event-cta-title {
+    font-size: var(--font-size-sm);
+  }
+
+  .event-cta-buttons {
+    flex-wrap: wrap;
+  }
+
+  .event-cta-button {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .event-cta-button svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .events-empty {
+    padding: var(--spacing-3xl) var(--spacing-xl);
+  }
+
+  .events-empty-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .events-empty-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .events-empty-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .events-empty-message {
+    font-size: var(--font-size-base);
+  }
+
+  .events-next-info {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .events-sns-link {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .events-sns-link svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .event-modal {
+    padding: var(--spacing-md);
+  }
+
+  .event-modal-close {
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+  }
+
+  .event-modal-close:hover {
+    background: rgba(0, 0, 0, 0.9);
+  }
+}
+
+/* モバイル対応 */
+@media (max-width: 480px) {
+  .event-container {
+    max-width: 100%;
+    padding: 0 var(--spacing-md);
+  }
+
+  .event-image-wrapper {
+    max-width: 200px;
+  }
+
+  .event-title {
+    font-size: var(--font-size-base);
+  }
+
+  .event-cta-buttons {
+    gap: var(--spacing-xs);
+  }
+
+  .event-cta-button span {
+    display: none; /* モバイルではアイコンのみ表示 */
+  }
+
+  .event-cta-button {
+    padding: var(--spacing-sm);
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
+
+  .events-sns-links {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .events-sns-link {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* 高解像度ディスプレイ対応 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .event-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* アクセシビリティ - ハイコントラストモード */
+@media (prefers-contrast: high) {
+  .event-header {
+    background: var(--color-primary);
+  }
+
+  .event-image-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .events-empty-icon {
+    background: transparent;
+    border: 2px solid var(--color-primary);
+  }
+
+  .event-cta-button {
+    border: 2px solid transparent;
+  }
+
+  .event-cta-button:focus {
+    border-color: white;
+  }
+}
+
+/* アクセシビリティ - モーション無効化 */
+@media (prefers-reduced-motion: reduce) {
+  .event-image,
+  .event-image-overlay,
+  .event-modal,
+  .events-sns-link,
+  .event-modal-close,
+  .event-cta-button {
+    transition: none;
+  }
+
+  .event-image-wrapper:hover .event-image {
+    transform: none;
+  }
+
+  .events-sns-link:hover,
+  .event-cta-button:hover {
+    transform: none;
+  }
+}

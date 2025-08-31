@@ -1,0 +1,218 @@
+/* ===============================================
+   Hero.css - nodebaseロゴ版（Beautifully Delicious）
+=============================================== */
+
+/* ヒーローセクション全体 */
+.hero-misaki {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 背景画像コンテナ */
+.hero-images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: #f5f5f5; /* 画像がない瞬間の背景色 */
+  isolation: isolate; /* レンダリングコンテキストを分離 */
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* 3D変換時のちらつき防止 */
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0); /* GPUアクセラレーション */
+  -webkit-transform: translateZ(0);
+  will-change: opacity;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block; /* インライン要素の隙間を除去 */
+  line-height: 0; /* 行間による隙間を除去 */
+  font-size: 0; /* フォントサイズによる隙間を除去 */
+}
+
+/* ソフトなオーバーレイ */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(90, 154, 156, 0.15) 100%
+  );
+  pointer-events: none;
+}
+
+/* メインコンテンツ */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 5%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.hero-inner {
+  padding: 2rem;
+  position: relative;
+}
+
+/* ===== nodebaseロゴ ===== */
+.hero-title {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 3rem;
+}
+
+.nodebase-logo {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  display: block;
+  opacity: 0;
+  transform: translateY(20px);
+  filter: drop-shadow(0 2px 8px rgba(90, 154, 156, 0.3));
+}
+
+/* ===== ロゴアニメーション ===== */
+.hero-title.animate .nodebase-logo {
+  animation: 
+    fadeInUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards,
+    gentleFloat 10s ease-in-out 2s infinite;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 2px 8px rgba(90, 154, 156, 0.3));
+  }
+  50% {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 4px 20px rgba(90, 154, 156, 0.5));
+  }
+}
+
+/* ===== ホバーエフェクト ===== */
+.hero-title:hover .nodebase-logo {
+  filter: drop-shadow(0 4px 16px rgba(90, 154, 156, 0.6));
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
+/* ===== インラインSVG用のカラー制御（Option B用） ===== */
+.nodebase-logo path,
+.nodebase-logo text {
+  fill: #5A9A9C;
+  transition: fill 0.3s ease;
+}
+
+.hero-title:hover .nodebase-logo path,
+.hero-title:hover .nodebase-logo text {
+  fill: #4A8A8C;
+}
+
+/* ===== パララックス効果（オプション） ===== */
+@supports (transform: translateZ(0)) {
+  .hero-title {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  .nodebase-logo {
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* ===== レスポンシブ対応 ===== */
+@media (max-width: 768px) {
+  .nodebase-logo {
+    max-width: 250px;
+  }
+  
+  .hero-title {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nodebase-logo {
+    max-width: 200px;
+  }
+  
+  .hero-inner {
+    padding: 1rem;
+  }
+  
+  @keyframes gentleFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+/* ===== アクセシビリティ ===== */
+@media (prefers-reduced-motion: reduce) {
+  .nodebase-logo {
+    animation: none !important;
+    opacity: 1;
+    transform: translateY(0) !important;
+  }
+  
+  .hero-title:hover .nodebase-logo {
+    transform: none;
+  }
+}
+
+/* ===== 追加のエフェクト ===== */
+
+/* パフォーマンス最適化 */
+@supports (backdrop-filter: blur(10px)) {
+  .hero-overlay {
+    backdrop-filter: blur(2px);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(90, 154, 156, 0.1) 100%
+    );
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "skipLibCheck": true,  // 追加: 外部ライブラリの型チェックをスキップ
+    "noImplicitAny": false  // 追加: 暗黙的なanyを許可
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ]
+}

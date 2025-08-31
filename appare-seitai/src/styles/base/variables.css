@@ -1,0 +1,123 @@
+:root {
+  
+  /* カラーパレット */
+  --color-primary: #4A90E2;
+  --color-primary-dark: #357ABD;
+  --color-primary-light: #6BA3E9;
+  --color-secondary: #50C878;
+  --color-secondary-dark: #3BAF63;
+  --color-secondary-light: #6DD88E;
+  
+  --color-accent: #FFA500;
+  --color-accent-dark: #E69500;
+  --color-accent-light: #FFB733;
+  
+  /* テキストカラー */
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-light: #999999;
+  --color-text-muted: #999999;  /* 追加: menu.cssなどで使用されている */
+  --color-text-inverse: #FFFFFF;
+  
+  /* 背景色 */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8F9FA;
+  --color-bg-tertiary: #E9ECEF;
+  --color-bg-dark: #2C3E50;
+  
+  /* ボーダー色 */
+  --color-border: #DEE2E6;
+  --color-border-light: #E9ECEF;
+  
+  /* 状態色 */
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-danger: #DC3545;
+  --color-info: #17A2B8;
+  
+  /* フォント */
+  --font-family-base: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-heading: "Noto Sans JP", sans-serif;
+  --font-family-mono: "Source Code Pro", monospace;
+  
+  /* フォントサイズ */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  
+  /* フォントウェイト */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  
+  /* 行間 */
+  --line-height-tight: 1.25;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.8;
+  
+  /* スペーシング */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  --spacing-3xl: 4rem;     /* 64px */
+  --spacing-4xl: 6rem;     /* 96px */
+  --spacing-5xl: 8rem;     /* 128px - 追加 */
+  
+  /* ボーダー半径 */
+  --radius-sm: 0.25rem;    /* 4px */
+  --radius-base: 0.5rem;   /* 8px */
+  --radius-lg: 1rem;       /* 16px */
+  --radius-xl: 1.5rem;     /* 24px */
+  --radius-full: 9999px;
+  
+  /* シャドウ */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* トランジション */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  
+  /* Z-index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-header: 1025;        /* 追加: ヘッダー用 */
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* コンテナ幅 */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  
+  /* ブレイクポイント */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  
+  /* セクションスペーシング（追加） */
+  --section-spacing-desktop: var(--spacing-5xl);  /* 128px */
+  --section-spacing-tablet: var(--spacing-4xl);   /* 96px */
+  --section-spacing-mobile: var(--spacing-3xl);   /* 64px */
+}
+

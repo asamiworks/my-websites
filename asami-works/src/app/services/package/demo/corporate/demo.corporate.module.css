@@ -1,0 +1,1433 @@
+/* ===================================
+   コーポレートサイト デモスタイル
+   3ページ構成・3デザインテーマ対応
+   改善版
+=================================== */
+
+/* ===================================
+   ベース設定
+=================================== */
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ===================================
+   コントロールパネル（改善版）
+=================================== */
+.controlPanel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(44, 62, 80, 0.95);
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 1rem 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* コントロールパネルが開いているときは透過度を上げる */
+.controlPanel:not(.controlPanelClosed) {
+  background: rgba(44, 62, 80, 0.85);
+  backdrop-filter: blur(5px);
+}
+
+.controlInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.controlHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.controlPanelClosed .controlHeader {
+  margin-bottom: 0;
+}
+
+.controlPanel h3 {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.toggleButton {
+  display: block;
+  position: absolute;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+
+.controlContent {
+  transition: all 0.3s ease;
+  max-height: 300px;
+  overflow: visible;
+  opacity: 1;
+}
+
+.controlContent.hidden {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.controlPanelClosed {
+  padding: 0.8rem 0;
+  background: rgba(44, 62, 80, 0.95);
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.controlGroup label {
+  font-size: 0.9rem;
+  min-width: 80px;
+  font-weight: 500;
+}
+
+/* 会社名入力欄 */
+.companyNameInput {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  max-width: 300px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.buttonGroup button {
+  padding: 0.5rem 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  color: white;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 400;
+}
+
+.buttonGroup button:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.buttonGroup button.active {
+  background: white;
+  color: #2c3e50;
+  border-color: white;
+  font-weight: 500;
+}
+
+/* ===================================
+   ヘッダー（改善版）
+=================================== */
+.header {
+  position: sticky;
+  top: 60px; /* コントロールパネルの下に配置 */
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+/* コントロールパネルが閉じているときの調整 */
+.controlPanelClosed ~ .header {
+  top: 48px;
+}
+
+.headerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #333;
+}
+
+.tagline {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #666;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav button:hover {
+  color: #333;
+}
+
+.nav button.navActive {
+  color: #333;
+  font-weight: 600;
+}
+
+.nav button.navActive::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #667eea;
+  border-radius: 2px;
+}
+
+/* ===================================
+   メインコンテンツ
+=================================== */
+.main {
+  flex: 1;
+  padding-top: 140px; /* ヘッダー分の余白 */
+  padding-bottom: 80px;
+  transition: padding-top 0.3s ease;
+}
+
+.controlPanelClosed ~ .header ~ .main {
+  padding-top: 128px;
+}
+
+.page {
+  min-height: calc(100vh - 220px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #333;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #f5f5f5;
+  border: 2px dashed #ddd;
+  border-radius: 10px;
+  color: #999;
+}
+
+/* アイコン要素を非表示 */
+.featureIcon,
+.valueIcon,
+.specialtyIcon {
+  display: none;
+}
+
+/* お知らせセクションを非表示 */
+.news {
+  display: none;
+}
+
+/* ===================================
+   ホームページ
+=================================== */
+.hero {
+  height: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.heroContent {
+  text-align: center;
+  color: white;
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  white-space: pre-line;
+}
+
+.heroDescription {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+  white-space: pre-line;
+}
+
+.heroCta {
+  margin-top: 2rem;
+}
+
+.ctaButton {
+  padding: 1rem 3rem;
+  background: white;
+  color: #333;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.features {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.featureCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.featureCard h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.featureCard p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 実績セクション */
+.stats {
+  padding: 5rem 0;
+  background: white;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  text-align: center;
+}
+
+.statCard {
+  padding: 2rem;
+}
+
+.statNumber {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.statDesc {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* 専門外来セクション */
+.specialties {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.specialtyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.specialtyCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.specialtyCard h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.specialtyInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.specialtyTime {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.specialtyDoctor {
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* ===================================
+   会社紹介ページ
+=================================== */
+.pageHeader {
+  background: #f8f9fa;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.pageHeader h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.pageHeader p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.mission {
+  padding: 5rem 0;
+}
+
+.missionText {
+  font-size: 1.3rem;
+  line-height: 2;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #555;
+}
+
+.values {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.valueGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.valueCard {
+  text-align: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+}
+
+.valueCard h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.valueCard p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* メッセージセクション */
+.message {
+  padding: 5rem 0;
+  background: white;
+}
+
+.messageContent {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.messageImage .imagePlaceholder {
+  height: 300px;
+  border-radius: 10px;
+}
+
+.messageText p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.messageName {
+  font-weight: 700;
+  color: #333;
+  text-align: right;
+}
+
+/* 沿革セクション */
+.history {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.historyTimeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  padding-left: 3rem;
+}
+
+.historyTimeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #667eea;
+}
+
+.historyItem {
+  position: relative;
+  padding: 1.5rem 0;
+  display: flex;
+  gap: 2rem;
+}
+
+.historyItem::before {
+  content: "";
+  position: absolute;
+  left: -3.4rem;
+  top: 1.8rem;
+  width: 10px;
+  height: 10px;
+  background: #667eea;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px #667eea;
+}
+
+.historyYear {
+  font-weight: 700;
+  color: #667eea;
+  min-width: 80px;
+}
+
+.historyEvent {
+  color: #333;
+  flex: 1;
+}
+
+.info {
+  padding: 5rem 0;
+}
+
+.infoTable {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.infoTable th,
+.infoTable td {
+  padding: 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.infoTable th {
+  font-weight: 600;
+  color: #666;
+  width: 30%;
+  background: #f8f9fa;
+}
+
+.infoTable td {
+  color: #333;
+}
+
+/* ===================================
+   事業紹介ページ
+=================================== */
+.services {
+  padding: 5rem 0;
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+}
+
+.serviceCard {
+  background: #f8f9fa;
+  padding: 3rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.serviceCard:hover {
+  background: #e9ecef;
+  transform: translateY(-3px);
+}
+
+.serviceCard h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.serviceCard p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.serviceDesc {
+  font-weight: 600;
+}
+
+.serviceDetails {
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.serviceButton {
+  padding: 0.8rem 2rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.serviceButton:hover {
+  background: #5a67d8;
+  transform: translateX(5px);
+}
+
+/* 料金プランセクション */
+.pricing {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.pricingCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.pricingCard h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.pricingPrice {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.pricingTime {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.facilities {
+  padding: 5rem 0;
+  background: white;
+}
+
+.facilityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.facilityCard {
+  text-align: center;
+}
+
+.facilityCard .imagePlaceholder {
+  height: 300px;
+  margin-bottom: 1rem;
+}
+
+.facilityCard p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* ===================================
+   お問い合わせページ
+=================================== */
+.contactInfo {
+  padding: 5rem 0;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.contactCard {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.contactCard h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.contactTel {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #667eea;
+  margin: 1rem 0;
+}
+
+.contactEmail {
+  font-size: 1.3rem;
+  color: #667eea;
+  margin: 1rem 0;
+}
+
+.map {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.mapContainer {
+  margin-bottom: 3rem;
+}
+
+.accessInfo {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.accessInfo h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.accessInfo ul {
+  list-style: none;
+  padding: 0;
+}
+
+.accessInfo li {
+  padding: 0.5rem 0;
+  padding-left: 2rem;
+  position: relative;
+  color: #666;
+}
+
+.accessInfo li::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  color: #667eea;
+}
+
+.faq {
+  padding: 5rem 0;
+}
+
+.faqList {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faqItem {
+  background: white;
+  padding: 2rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #667eea;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.faqItem h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.faqItem p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ===================================
+   フッター
+=================================== */
+.footer {
+  background: #2c3e50;
+  color: white;
+  padding: 3rem 0 1rem;
+}
+
+.footerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footerContent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footerSection h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.footerSection p {
+  margin: 0.5rem 0;
+  opacity: 0.9;
+}
+
+.tel {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.footerTagline {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.footerBottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.7;
+}
+
+/* ===================================
+   固定CTAフッター
+=================================== */
+.fixedCta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #2c3e50;
+  border-top: 3px solid #667eea;
+  padding: 1rem 0;
+  z-index: 9998;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.fixedCtaInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.fixedCtaText p {
+  color: white;
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.fixedCtaText small {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+}
+
+.fixedCtaButton {
+  padding: 0.8rem 2rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.fixedCtaButton:hover {
+  background: #5a67d8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* ===================================
+   テーマ: プロフェッショナル
+=================================== */
+.professional {
+  font-family: "游明朝体", "Yu Mincho", "YuMincho", "ヒラギノ明朝 Pro", "Hiragino Mincho Pro", serif;
+}
+
+.professional .sectionTitle,
+.professional h1,
+.professional h2,
+.professional h3 {
+  font-family: "游明朝体", "Yu Mincho", "YuMincho", "ヒラギノ明朝 Pro", "Hiragino Mincho Pro", serif;
+  letter-spacing: 0.08em;
+}
+
+.professional .hero {
+  background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+}
+
+.professional .ctaButton:hover {
+  background: #f5f5f5;
+  transform: scale(1.05);
+}
+
+.professional .header {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.professional .nav button.navActive::after {
+  background: #1a237e;
+}
+
+.professional .featureCard h3,
+.professional .valueCard h3,
+.professional .serviceCard h3 {
+  color: #1a237e;
+}
+
+.professional .serviceButton {
+  background: #1a237e;
+}
+
+.professional .serviceButton:hover {
+  background: #283593;
+}
+
+.professional .statNumber {
+  color: #1a237e;
+}
+
+.professional .specialtyCard {
+  border-left-color: #1a237e;
+}
+
+.professional .historyTimeline::before,
+.professional .historyItem::before {
+  background: #1a237e;
+}
+
+.professional .historyYear {
+  color: #1a237e;
+}
+
+.professional .pricingPrice {
+  color: #1a237e;
+}
+
+.professional .contactTel,
+.professional .contactEmail {
+  color: #1a237e;
+}
+
+.professional .accessInfo li::before {
+  color: #1a237e;
+}
+
+.professional .faqItem {
+  border-left-color: #1a237e;
+}
+
+/* ===================================
+   テーマ: イノベーティブ
+=================================== */
+.innovative {
+  font-family: "Noto Sans JP", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", sans-serif;
+}
+
+.innovative .sectionTitle,
+.innovative h1,
+.innovative h2,
+.innovative h3 {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.innovative .hero {
+  background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+}
+
+.innovative .heroContent {
+  text-align: left;
+  max-width: 800px;
+}
+
+.innovative .heroTitle {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.innovative .ctaButton {
+  background: transparent;
+  border: 2px solid white;
+}
+
+.innovative .ctaButton:hover {
+  background: white;
+  color: #00bcd4;
+}
+
+.innovative .header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.innovative .nav button.navActive::after {
+  background: #00bcd4;
+}
+
+.innovative .featureCard {
+  border-radius: 0;
+  box-shadow: none;
+  border: 2px solid #e0e0e0;
+}
+
+.innovative .featureCard:hover {
+  border-color: #00bcd4;
+  background: #f5f5f5;
+}
+
+.innovative .serviceCard {
+  background: transparent;
+  border: 2px solid #00bcd4;
+}
+
+.innovative .serviceButton {
+  background: #00bcd4;
+  border-radius: 0;
+}
+
+.innovative .statNumber {
+  color: #00bcd4;
+  font-family: "Roboto Mono", monospace;
+}
+
+.innovative .specialtyCard {
+  border-left-color: #00bcd4;
+  border-radius: 0;
+}
+
+.innovative .valueCard {
+  border-radius: 0;
+  border: 2px solid #e0e0e0;
+}
+
+.innovative .historyTimeline::before,
+.innovative .historyItem::before {
+  background: #00bcd4;
+}
+
+.innovative .historyYear {
+  color: #00bcd4;
+  font-family: "Roboto Mono", monospace;
+}
+
+.innovative .pricingCard {
+  border-radius: 0;
+  border: 2px solid #e0e0e0;
+}
+
+.innovative .pricingPrice {
+  color: #00bcd4;
+  font-family: "Roboto Mono", monospace;
+}
+
+.innovative .contactCard {
+  border-radius: 0;
+}
+
+.innovative .contactTel,
+.innovative .contactEmail {
+  color: #00bcd4;
+  font-family: "Roboto Mono", monospace;
+}
+
+.innovative .accessInfo li::before {
+  color: #00bcd4;
+}
+
+.innovative .faqItem {
+  border-left-color: #00bcd4;
+  border-radius: 0;
+}
+
+/* ===================================
+   テーマ: フレンドリー
+=================================== */
+.friendly {
+  font-family: "M PLUS Rounded 1c", "ヒラギノ丸ゴ Pro", "Hiragino Maru Gothic Pro", sans-serif;
+}
+
+.friendly .sectionTitle,
+.friendly h1,
+.friendly h2,
+.friendly h3 {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.friendly .hero {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+  border-radius: 0 0 50px 50px;
+}
+
+.friendly .heroTitle {
+  font-weight: 700;
+}
+
+.friendly .ctaButton {
+  background: #ffd93d;
+  color: #333;
+  border-radius: 50px;
+  padding: 1.2rem 3.5rem;
+}
+
+.friendly .ctaButton:hover {
+  background: #ffeb3b;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(255, 217, 61, 0.3);
+}
+
+.friendly .header {
+  background: #fff8e1;
+}
+
+.friendly .logo h1 {
+  color: #ff6b6b;
+}
+
+.friendly .nav button.navActive::after {
+  background: #ff6b6b;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.friendly .featureCard {
+  border-radius: 20px;
+  background: #fff3e0;
+  border: none;
+}
+
+.friendly .featureCard h3 {
+  color: #ff6b6b;
+}
+
+.friendly .serviceCard {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  border-radius: 20px;
+}
+
+.friendly .serviceButton {
+  background: #ff6b6b;
+  border-radius: 50px;
+}
+
+.friendly .serviceButton:hover {
+  background: #ff5252;
+}
+
+.friendly .statNumber {
+  color: #ff6b6b;
+}
+
+.friendly .specialtyCard {
+  border-left-color: #ff6b6b;
+  border-radius: 10px;
+  background: #fff8e1;
+}
+
+.friendly .valueCard {
+  border-radius: 20px;
+  background: #fff3e0;
+}
+
+.friendly .valueCard h3 {
+  color: #ff6b6b;
+}
+
+.friendly .historyTimeline::before,
+.friendly .historyItem::before {
+  background: #ff6b6b;
+}
+
+.friendly .historyYear {
+  color: #ff6b6b;
+}
+
+.friendly .pricingCard {
+  border-radius: 20px;
+  background: #fff8e1;
+}
+
+.friendly .pricingPrice {
+  color: #ff6b6b;
+}
+
+.friendly .contactCard {
+  border-radius: 20px;
+  background: #fff3e0;
+}
+
+.friendly .contactTel,
+.friendly .contactEmail {
+  color: #ff6b6b;
+}
+
+.friendly .accessInfo li::before {
+  color: #ff6b6b;
+}
+
+.friendly .faqItem {
+  border-left-color: #ff6b6b;
+  background: #fff8e1;
+}
+
+/* ===================================
+   レスポンシブ対応
+=================================== */
+@media (max-width: 768px) {
+  /* ヘッダーの調整 */
+  .header {
+    top: 60px;
+  }
+  
+  .controlPanelClosed ~ .header {
+    top: 48px;
+  }
+  
+  .main {
+    padding-top: 140px;
+  }
+  
+  .controlPanelClosed ~ .header ~ .main {
+    padding-top: 128px;
+  }
+
+  .headerInner {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .logo {
+    margin-bottom: 1rem;
+  }
+
+  .nav {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav button {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem !important;
+  }
+
+  .heroDescription {
+    font-size: 1rem;
+  }
+
+  .featureGrid,
+  .valueGrid,
+  .statsGrid,
+  .specialtyGrid,
+  .pricingGrid,
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .serviceGrid,
+  .facilityGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .messageContent {
+    grid-template-columns: 1fr;
+  }
+
+  .footerContent {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .fixedCtaInner {
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+  }
+
+  .fixedCtaButton {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .controlGroup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .buttonGroup {
+    width: 100%;
+  }
+
+  .buttonGroup button {
+    flex: 1;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .companyNameInput {
+    max-width: 100%;
+  }
+}

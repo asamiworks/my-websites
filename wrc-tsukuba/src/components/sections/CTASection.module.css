@@ -1,0 +1,271 @@
+.ctaSection {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #ff6bcb 0%, #9b59b6 50%, #7c4dff 100%);
+    overflow: hidden;
+  }
+  
+  /* 背景装飾 */
+  .backgroundShapes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  
+  .shape1, .shape2, .shape3, .shape4 {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    background: #fff;
+  }
+  
+  .shape1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    left: -100px;
+    animation: float 25s infinite ease-in-out;
+  }
+  
+  .shape2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    right: -50px;
+    animation: float 20s infinite ease-in-out reverse;
+  }
+  
+  .shape3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: 80%;
+    animation: pulse 15s infinite ease-in-out;
+  }
+  
+  .shape4 {
+    width: 250px;
+    height: 250px;
+    top: 20%;
+    left: 10%;
+    animation: rotate 30s infinite linear;
+  }
+  
+  /* コンテンツ */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .content {
+    text-align: center;
+    color: #fff;
+  }
+  
+  .title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 30px;
+    line-height: 1.2;
+  }
+  
+  .titleLine1, .titleLine2 {
+    display: block;
+    animation: slideInUp 0.8s ease-out both;
+  }
+  
+  .titleLine2 {
+    animation-delay: 0.2s;
+  }
+  
+  .description {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    opacity: 0.95;
+    animation: fadeIn 0.8s ease-out both;
+    animation-delay: 0.4s;
+  }
+  
+  .subDescription {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    animation: fadeIn 0.8s ease-out both;
+    animation-delay: 0.5s;
+  }
+  
+  /* 特徴 */
+  .features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    animation: fadeIn 0.8s ease-out both;
+    animation-delay: 0.6s;
+  }
+  
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 24px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .feature:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+  }
+  
+  .feature svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .feature span {
+    font-weight: 500;
+  }
+  
+  /* CTAボタン */
+  .ctaButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    color: #9b59b6;
+    padding: 18px 40px;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: bounceIn 0.8s ease-out both;
+    animation-delay: 0.8s;
+  }
+  
+  .ctaButton:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  }
+  
+  .ctaButton svg {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s ease;
+  }
+  
+  .ctaButton:hover svg {
+    transform: scale(1.2);
+  }
+  
+ 
+  
+  /* アニメーション */
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    33% {
+      transform: translate(30px, -30px);
+    }
+    66% {
+      transform: translate(-20px, 20px);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.2;
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .ctaSection {
+      padding: 80px 0;
+    }
+  
+    .features {
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+  
+    .feature {
+      width: fit-content;
+    }
+  
+    .ctaButton {
+      font-size: 1.1rem;
+      padding: 15px 30px;
+    }
+  
+    .ctaButton svg {
+      width: 24px;
+      height: 24px;
+    }
+  
+    .description {
+      font-size: 1.2rem;
+    }
+  
+    .subDescription {
+      font-size: 1rem;
+    }
+  }

@@ -1,0 +1,348 @@
+/* 利用規約ページ専用スタイル */
+
+/* メインコンテナ */
+.termsMain {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%);
+  }
+  
+  .termsContainer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 16px;
+  }
+  
+  @media (min-width: 640px) {
+    .termsContainer {
+      padding: 64px 24px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .termsContainer {
+      padding: 72px 32px;
+    }
+  }
+  
+  /* ヘッダー */
+  .termsHeader {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  
+  .termsTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  
+  @media (min-width: 640px) {
+    .termsTitle {
+      font-size: 40px;
+    }
+  }
+  
+  .termsLastUpdated {
+    color: #666666;
+    font-size: 15px;
+    font-weight: 500;
+    background: #f0f0f0;
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 20px;
+  }
+  
+  /* コンテンツラッパー */
+  .termsContent {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 40px 32px;
+  }
+  
+  @media (min-width: 640px) {
+    .termsContent {
+      padding: 56px 48px;
+    }
+  }
+  
+  /* セクション（条項） */
+  .termsSection {
+    margin-bottom: 48px;
+    position: relative;
+  }
+  
+  .termsSection:last-child {
+    margin-bottom: 0;
+  }
+  
+  .termsSectionTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    padding: 12px 0;
+    border-bottom: 2px solid #333333;
+  }
+  
+  .termsText {
+    color: #333333;
+    line-height: 1.9;
+    margin-bottom: 16px;
+    font-size: 15px;
+    text-align: justify;
+  }
+  
+  /* 番号付きリスト（条項内） */
+  .termsOrderedList {
+    margin-left: 24px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    list-style-type: none;
+    counter-reset: item;
+  }
+  
+  .termsOrderedList > li {
+    margin-bottom: 16px;
+    padding-left: 32px;
+    position: relative;
+    color: #333333;
+    line-height: 1.9;
+    font-size: 15px;
+    counter-increment: item;
+  }
+  
+  .termsOrderedList > li::before {
+    content: counter(item) ".";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 600;
+    color: #1a1a1a;
+    width: 24px;
+  }
+  
+  /* 箇条書きリスト（サブリスト） */
+  .termsUnorderedList {
+    margin-left: 24px;
+    margin-top: 12px;
+    list-style-type: none;
+  }
+  
+  .termsUnorderedList li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+    color: #333333;
+    line-height: 1.8;
+    font-size: 14px;
+  }
+  
+  .termsUnorderedList li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #666666;
+    font-weight: 700;
+  }
+  
+  /* 区切り線付きセクション（最終セクション） */
+  .termsDividerSection {
+    border-top: 2px solid #e0e0e0;
+    padding-top: 32px;
+    margin-top: 48px;
+  }
+  
+  .termsDividerSection p {
+    color: #333333;
+    line-height: 1.8;
+  }
+  
+  .termsDividerSection strong {
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  
+  /* CTAセクション */
+  .termsCta {
+    margin-top: 64px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+    border-radius: 12px;
+    padding: 48px 40px;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .termsCtaTitle {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  
+  .termsCtaText {
+    margin-bottom: 32px;
+    font-size: 17px;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+  
+  .termsCtaButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @media (min-width: 640px) {
+    .termsCtaButtons {
+      flex-direction: row;
+      gap: 20px;
+    }
+  }
+  
+  .termsCtaButton {
+    display: inline-block;
+    padding: 16px 40px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+  }
+  
+  .termsCtaPrimary {
+    background-color: #ffffff;
+    color: #1e3a8a;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .termsCtaPrimary:hover {
+    background-color: #f8f8f8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .termsCtaSecondary {
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    box-shadow: none;
+  }
+  
+  .termsCtaSecondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #f0f0f0;
+  }
+  
+  /* 関連リンク */
+  .termsRelatedLinks {
+    margin-top: 32px;
+    text-align: center;
+  }
+  
+  .termsRelatedLinks p {
+    color: #666666;
+    font-size: 15px;
+  }
+  
+  .termsRelatedLink {
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  
+  .termsRelatedLink:hover {
+    border-bottom-color: #1e3a8a;
+  }
+  
+  /* 印刷用スタイル */
+  @media print {
+    .termsMain {
+      background: white;
+    }
+    
+    .termsCta,
+    .termsRelatedLinks {
+      display: none;
+    }
+    
+    .termsContent {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+    }
+    
+    .termsSectionTitle {
+      page-break-after: avoid;
+    }
+    
+    .termsSection {
+      page-break-inside: avoid;
+    }
+  }
+  
+  /* ダークモード対応 */
+  @media (prefers-color-scheme: dark) {
+    .termsMain {
+      background: linear-gradient(to bottom, #1a1a1a 0%, #0f0f0f 100%);
+    }
+    
+    .termsContent {
+      background: #1f1f1f;
+      border-color: #333333;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .termsTitle {
+      color: #f0f0f0;
+    }
+    
+    .termsSectionTitle {
+      color: #f0f0f0;
+      border-bottom-color: #666666;
+    }
+    
+    .termsText,
+    .termsOrderedList > li,
+    .termsUnorderedList li {
+      color: #cccccc;
+    }
+    
+    .termsOrderedList > li::before {
+      color: #f0f0f0;
+    }
+    
+    .termsLastUpdated {
+      color: #999999;
+      background: #2a2a2a;
+    }
+    
+    .termsDividerSection {
+      border-top-color: #333333;
+    }
+    
+    .termsRelatedLinks p {
+      color: #999999;
+    }
+    
+    .termsRelatedLink {
+      color: #5b8dd9;
+    }
+    
+    .termsRelatedLink:hover {
+      border-bottom-color: #5b8dd9;
+    }
+  }

@@ -1,0 +1,351 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-color: #fcfcfc;
+}
+
+/* ヒーローセクション */
+.heroSection {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 60px 20px;
+  background-color: #ffffff;
+  border-radius: 16px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.highlight {
+  color: #f59e0b;
+  font-size: 3rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #6b7280;
+}
+
+/* 警告セクション */
+.warningSection {
+  margin-bottom: 60px;
+}
+
+.warningBox {
+  background-color: #fef3c7;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+}
+
+.warningTitle {
+  font-size: 1.5rem;
+  color: #d97706;
+  margin-bottom: 12px;
+}
+
+.warningText {
+  font-size: 1.125rem;
+  color: #374151;
+  line-height: 1.8;
+}
+
+.warningText strong {
+  color: #dc2626;
+  font-size: 1.25rem;
+}
+
+/* なぜ必要かセクション */
+.whySection {
+  margin-bottom: 60px;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: #f59e0b;
+}
+
+.reasonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.reasonCard {
+  background-color: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
+  transition: all 0.3s ease;
+}
+
+.reasonCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(245, 158, 11, 0.1);
+  border-color: #f59e0b;
+}
+
+.reasonTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.reasonText {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* 特徴セクション */
+.featureSection {
+  background-color: #fffbeb;
+  padding: 60px 40px;
+  border-radius: 16px;
+  margin-bottom: 60px;
+}
+
+.featureList {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid #fed7aa;
+}
+
+.featureNumber {
+  width: 48px;
+  height: 48px;
+  background-color: #f59e0b;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.featureContent h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.featureContent p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* プロセスセクション */
+.processSection {
+  margin-bottom: 60px;
+}
+
+.stepGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.stepCard {
+  text-align: center;
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.stepNumber {
+  width: 60px;
+  height: 60px;
+  background-color: #f59e0b;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 auto 20px;
+}
+
+.stepCard h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.stepCard p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* 信頼性セクション */
+.trustSection {
+  background-color: #f8f9fa;
+  padding: 60px 40px;
+  border-radius: 16px;
+  margin-bottom: 60px;
+}
+
+.trustContent {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.trustTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+.trustText {
+  font-size: 1.125rem;
+  color: #374151;
+  line-height: 1.8;
+}
+
+/* CTAセクション */
+.ctaSection {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 60px 40px;
+  border-radius: 16px;
+  border: 2px solid #fed7aa;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.ctaSubtext {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-bottom: 32px;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #f59e0b;
+  color: white;
+  padding: 20px 48px;
+  border-radius: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+}
+
+.ctaButton:hover {
+  background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(245, 158, 11, 0.3);
+}
+
+.ctaNote {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 16px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px;
+  }
+  
+  .heroSection {
+    padding: 40px 20px;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .highlight {
+    font-size: 2.25rem;
+  }
+  
+  .featureSection,
+  .trustSection,
+  .ctaSection {
+    padding: 40px 20px;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+  
+  .reasonGrid,
+  .stepGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ctaButton {
+    padding: 16px 32px;
+    font-size: 1.125rem;
+  }
+}
+
+/* 既存のスタイル（互換性のため残す） */
+.text {
+  font-size: 1.125rem;
+  color: #374151;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.button {
+  display: inline-block;
+  background-color: #f59e0b;
+  color: white;
+  padding: 16px 48px;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}

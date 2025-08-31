@@ -1,0 +1,262 @@
+.howToUseSection {
+    padding: 80px 0;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  /* ステップ */
+  .stepsWrapper {
+    margin-bottom: 60px;
+    overflow-x: auto;
+    padding: 20px 0;
+  }
+  
+  .stepsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 800px;
+    gap: 20px;
+  }
+  
+  .step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .stepNumber {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ff6bcb, #9b59b6);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    z-index: 2;
+  }
+  
+  .iconWrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .step:hover .iconWrapper {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .iconWrapper svg {
+    width: 60px;
+    height: 60px;
+    color: #666;
+  }
+  
+  .stepTitle {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .stepDescription {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .connector {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ddd;
+    z-index: 1;
+  }
+  
+  .connector svg {
+    width: 40px;
+    height: 20px;
+  }
+  
+  /* 情報カード */
+  .infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+  
+  .infoCard {
+    background: linear-gradient(135deg, #f8f9ff, #fff);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .infoCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .infoIcon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #ff6bcb, #9b59b6);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .infoIcon svg {
+    width: 30px;
+    height: 30px;
+    color: #fff;
+  }
+  
+  .infoCard h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .infoCard p {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  /* 注意事項 */
+  .notice {
+    background: #f8f9ff;
+    border-radius: 20px;
+    padding: 40px;
+  }
+  
+  .notice h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .noticeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .noticeItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .noticeItem svg {
+    width: 20px;
+    height: 20px;
+    color: #4caf50;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  
+  .noticeItem p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  /* アニメーション */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .howToUseSection {
+      padding: 60px 0;
+    }
+  
+    .stepsContainer {
+      min-width: auto;
+      flex-direction: column;
+      gap: 40px;
+    }
+  
+    .connector {
+      right: 50%;
+      top: auto;
+      bottom: -30px;
+      transform: translateX(50%) rotate(90deg);
+    }
+  
+    .step:last-child .connector {
+      display: none;
+    }
+  
+    .infoGrid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  
+    .notice {
+      padding: 30px 20px;
+    }
+  
+    .noticeGrid {
+      grid-template-columns: 1fr;
+    }
+  }

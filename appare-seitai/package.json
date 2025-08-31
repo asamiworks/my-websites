@@ -1,0 +1,22 @@
+{
+    "name": "appare-seitai",
+    "version": "1.0.0",
+    "description": "天晴れ整体院 - 龍ケ崎市白羽の整体院",
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "clean": "rm -rf dist",
+        "deploy": "npm run build && echo 'Ready to deploy dist folder'"
+    },
+    "devDependencies": {
+        "@types/node": "^20.19.9",
+        "@vitejs/plugin-legacy": "^5.4.3",
+        "typescript": "^5.3.3",
+        "vite": "^5.0.10",
+        "vite-plugin-compression": "^0.5.1",
+        "vite-plugin-html": "^3.2.1",
+        "vite-plugin-pwa": "^0.17.5"
+    }
+}

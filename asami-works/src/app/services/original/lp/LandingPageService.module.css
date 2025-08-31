@@ -1,0 +1,613 @@
+/* LandingPageService.module.css */
+
+.container {
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+/* ヒーローセクション */
+.hero {
+  background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%);
+  color: white;
+  padding: 80px 24px;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.heroDescription {
+  font-size: 1.25rem;
+  margin-bottom: 32px;
+  opacity: 0.9;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.primaryButton {
+  background: white;
+  color: #9333ea;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.primaryButton:hover {
+  background: #f3f4f6;
+}
+
+.secondaryButton {
+  border: 2px solid white;
+  color: white;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.secondaryButton:hover {
+  background: white;
+  color: #9333ea;
+}
+
+/* 価格セクション */
+.priceSection {
+  padding: 64px 24px;
+  background: white;
+}
+
+.sectionContent {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 48px;
+  color: #111827;
+}
+
+.priceCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.priceAmount {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #9333ea;
+  margin-bottom: 8px;
+}
+
+.priceNote {
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.priceDivider {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
+  margin-bottom: 16px;
+}
+
+.priceIncludes {
+  font-size: 1.125rem;
+  color: #374151;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.includesList {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+
+.includesList li {
+  margin-bottom: 8px;
+  color: #4b5563;
+  padding-left: 20px;
+  position: relative;
+}
+
+.includesList li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #9333ea;
+  font-weight: bold;
+}
+
+.optionNote {
+  margin-top: 16px;
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* 特徴セクション */
+.featuresSection {
+  padding: 64px 24px;
+  background: #f9fafb;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featureItem {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.featureDescription {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* オプション活用事例セクション */
+.exampleSection {
+  padding: 64px 24px;
+  background: white;
+}
+
+.exampleSubtitle {
+  color: #6b7280;
+  font-size: 1.125rem;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.exampleGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.exampleCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.exampleHeader {
+  background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%);
+  color: white;
+  padding: 24px;
+}
+
+.exampleTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.exampleTarget {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.exampleContent {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.exampleDescription {
+  color: #374151;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.exampleBreakdown {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.breakdownTitle {
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 12px 0;
+}
+
+.breakdownList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.breakdownList li {
+  color: #4b5563;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.breakdownList li::before {
+  content: "・";
+  position: absolute;
+  left: 0;
+  color: #9333ea;
+}
+
+.exampleTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  margin: 0;
+}
+
+.exampleTotal span:first-child {
+  font-weight: 600;
+  color: #111827;
+}
+
+.totalPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #9333ea;
+}
+
+/* オプション活用事例のCTAボタン */
+.exampleCTA {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #9333ea;
+  color: white;
+  text-decoration: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  width: 100%;
+}
+
+.exampleCTA:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+}
+
+.exampleCTA:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(147, 51, 234, 0.3);
+}
+
+.exampleNote {
+  margin: 48px auto 0;
+  padding: 24px;
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 900px;
+}
+
+.exampleNote p {
+  font-size: 0.95rem;
+  color: #374151;
+  margin: 0;
+  line-height: 1.8;
+}
+
+.exampleNote strong {
+  font-weight: 600;
+  color: #92400e;
+}
+
+/* ターゲットセクション */
+.targetSection {
+  padding: 64px 24px;
+  background: #f9fafb;
+}
+
+.targetList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.targetItem {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.targetTitle {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.targetDescription {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* フローセクション */
+.flowSection {
+  padding: 64px 24px;
+  background: white;
+}
+
+.flowList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.flowItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  position: relative;
+}
+
+/* 番号の縦線を追加 */
+.flowItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 56px;
+  width: 2px;
+  height: calc(100% + 16px);
+  background: #e5e7eb;
+}
+
+.flowNumber {
+  background: #9333ea;
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.flowContent {
+  flex: 1;
+  padding-top: 4px;
+}
+
+.flowContent h3 {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+  color: #111827;
+  line-height: 1.4;
+}
+
+.flowContent p {
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 0.875rem;
+}
+
+/* CTAセクション */
+.ctaSection {
+  padding: 64px 24px;
+  background: #9333ea;
+  color: white;
+  text-align: center;
+}
+
+.ctaContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.ctaDescription {
+  font-size: 1.25rem;
+  margin-bottom: 32px;
+  opacity: 0.9;
+  line-height: 1.8;
+}
+
+.ctaButton {
+  background: white;
+  color: #9333ea;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.ctaButton:hover {
+  background: #f3f4f6;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 639px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+  
+  .heroDescription {
+    font-size: 1.125rem;
+  }
+  
+  .priceAmount {
+    font-size: 2.5rem;
+  }
+  
+  .flowList {
+    gap: 24px;
+  }
+  
+  .flowItem {
+    gap: 16px;
+  }
+  
+  .flowNumber {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .flowItem:not(:last-child)::after {
+    left: 20px;
+    top: 48px;
+  }
+  
+  .exampleGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .totalPrice {
+    font-size: 1.25rem;
+  }
+  
+  .exampleTitle {
+    font-size: 1.25rem;
+  }
+  
+  .breakdownList li {
+    font-size: 0.8rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+  
+  .ctaTitle {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .exampleGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+  
+  .priceAmount {
+    font-size: 3.5rem;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .flowItem {
+    gap: 32px;
+  }
+  
+  .flowItem:not(:last-child)::after {
+    left: 24px;
+  }
+  
+  .sectionTitle {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroTitle {
+    font-size: 3.5rem;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .exampleGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  
+  .exampleTitle {
+    font-size: 1.25rem;
+  }
+  
+  .sectionTitle {
+    font-size: 3rem;
+  }
+  
+  /* 3カラムレイアウトでカードの高さを揃える */
+  .exampleCard {
+    height: 100%;
+  }
+  
+  .exampleContent {
+    min-height: 450px;
+  }
+}

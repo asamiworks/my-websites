@@ -1,0 +1,344 @@
+/* プライバシーポリシーページ専用スタイル */
+
+/* メインコンテナ */
+.privacyMain {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  }
+  
+  .privacyContainer {
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 48px 16px;
+  }
+  
+  @media (min-width: 640px) {
+    .privacyContainer {
+      padding: 64px 24px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .privacyContainer {
+      padding: 64px 32px;
+    }
+  }
+  
+  /* ヘッダー */
+  .privacyHeader {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeInDown 0.6s ease-out;
+  }
+  
+  .privacyTitle {
+    font-size: 30px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    position: relative;
+  }
+  
+  .privacyTitle::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #2563eb;
+    border-radius: 2px;
+  }
+  
+  @media (min-width: 640px) {
+    .privacyTitle {
+      font-size: 36px;
+    }
+  }
+  
+  .privacyLastUpdated {
+    color: #6b7280;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  /* コンテンツラッパー */
+  .privacyContent {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 32px 24px;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @media (min-width: 640px) {
+    .privacyContent {
+      padding: 48px 40px;
+    }
+  }
+  
+  /* セクション */
+  .privacySection {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .privacySection:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  
+  .privacySectionTitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+  }
+  
+  .privacySectionTitle::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 24px;
+    background: #2563eb;
+    margin-right: 12px;
+    border-radius: 2px;
+  }
+  
+  .privacyText {
+    color: #374151;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+  
+  /* リスト */
+  .privacyList {
+    margin-left: 20px;
+    color: #374151;
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  
+  .privacyList li {
+    margin-bottom: 12px;
+    padding-left: 8px;
+    position: relative;
+  }
+  
+  .privacyList li::marker {
+    color: #2563eb;
+  }
+  
+  /* 連絡先ボックス */
+  .privacyContactBox {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bfdbfe;
+    padding: 24px;
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+  
+  .privacyContactBox strong {
+    font-weight: 600;
+    color: #1e40af;
+  }
+  
+  /* リンク */
+  .privacyLink {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .privacyLink::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #2563eb;
+    transition: width 0.3s ease;
+  }
+  
+  .privacyLink:hover::after {
+    width: 100%;
+  }
+  
+  /* CTAセクション */
+  .privacyCta {
+    margin-top: 64px;
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    border-radius: 16px;
+    padding: 48px 32px;
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .privacyCta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  
+  .privacyCtaTitle {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .privacyCtaText {
+    margin-bottom: 32px;
+    font-size: 18px;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .privacyCtaButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  @media (min-width: 640px) {
+    .privacyCtaButtons {
+      flex-direction: row;
+    }
+  }
+  
+  .privacyCtaButton {
+    display: inline-block;
+    padding: 14px 36px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .privacyCtaPrimary {
+    background-color: #ffffff;
+    color: #2563eb;
+    box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .privacyCtaPrimary:hover {
+    background-color: #f8fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.15);
+  }
+  
+  .privacyCtaSecondary {
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+  }
+  
+  .privacyCtaSecondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  /* アニメーション */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  /* ダークモード対応 */
+  @media (prefers-color-scheme: dark) {
+    .privacyMain {
+      background: linear-gradient(to bottom, #1f2937 0%, #111827 100%);
+    }
+    
+    .privacyContent {
+      background: #1f2937;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+    
+    .privacyTitle,
+    .privacySectionTitle {
+      color: #f9fafb;
+    }
+    
+    .privacyText,
+    .privacyList {
+      color: #d1d5db;
+    }
+    
+    .privacySection {
+      border-bottom-color: #374151;
+    }
+    
+    .privacyLastUpdated {
+      color: #9ca3af;
+    }
+    
+    .privacyContactBox {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      border-color: #475569;
+    }
+    
+    .privacyContactBox strong {
+      color: #60a5fa;
+    }
+    
+    .privacyLink {
+      color: #60a5fa;
+    }
+    
+    .privacyLink:hover {
+      color: #93bbfc;
+    }
+  }

@@ -1,0 +1,38 @@
+.ctaSection {
+    background-color: #eaf4ff;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .ctaTitle {
+    font-size: 1.8rem;
+    color: #005bac;
+    margin-bottom: 20px;
+  }
+  
+  .ctaText {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .ctaButton {
+    display: inline-block;
+    background-color: #005bac;
+    color: #fff;
+    padding: 14px 30px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ctaButton:hover {
+    background-color: #004b95;
+  }
+  
+
+
+  

@@ -1,0 +1,9 @@
+{
+  "gmail": {
+    "admin_email": "info@my-home-starter.com",
+    "sender_email": "noreply@my-home-starter.com"
+  },
+  "app": {
+    "url": "https://my-home-starter.com"
+  }
+}

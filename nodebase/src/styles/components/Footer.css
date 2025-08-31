@@ -1,0 +1,405 @@
+/* Footer.css - フッタースタイル */
+
+/* ===== フッター全体 ===== */
+.footer {
+  background: linear-gradient(
+    180deg,
+    var(--washi-white, #FEFEFE) 0%,
+    var(--misaki-lightest, #E6F2F3) 100%
+  );
+  margin-top: var(--spacing-xxl, 9rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== 装飾的な波模様 ===== */
+.footer-wave {
+  position: absolute;
+  top: -59px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1;
+}
+
+.footer-wave svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== フッターコンテンツ ===== */
+.footer-content {
+  max-width: var(--max-width, 1200px);
+  margin: 0 auto;
+  padding: var(--spacing-xl, 6rem) var(--spacing-md, 3rem) var(--spacing-lg, 4.5rem);
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== フッター上部（メイン情報） ===== */
+.footer-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: var(--spacing-lg, 4.5rem);
+  padding-bottom: var(--spacing-lg, 4.5rem);
+  border-bottom: 1px solid rgba(90, 154, 156, 0.15);
+}
+
+/* ===== 会社情報セクション ===== */
+.footer-company {
+  padding-right: var(--spacing-md, 3rem);
+}
+
+.footer-logo {
+  display: inline-block;
+  margin-bottom: var(--spacing-sm, 1.5rem);
+  text-decoration: none;
+}
+
+.footer-logo-text {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 300;
+  color: var(--misaki-primary, #5A9A9C);
+  letter-spacing: 0.1em;
+  transition: opacity var(--transition-gentle, 0.4s ease-out);
+}
+
+.footer-logo:hover .footer-logo-text {
+  opacity: 0.7;
+}
+
+.footer-company-name {
+  font-family: var(--font-mincho, 'Noto Serif JP', serif);
+  font-size: 0.875rem;
+  color: var(--text-secondary, #5A5A5A);
+  margin-bottom: var(--spacing-xs, 0.75rem);
+  letter-spacing: 0.05em;
+}
+
+.footer-description {
+  font-family: var(--font-handwrite, 'Klee One', serif);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-light, #7A7A7A);
+  letter-spacing: 0.08em;
+  margin-bottom: var(--spacing-sm, 1.5rem);
+}
+
+
+/* ===== フッターナビゲーション ===== */
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-nav-title {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-heading, #2C2C2C);
+  margin-bottom: var(--spacing-sm, 1.5rem);
+  letter-spacing: 0.08em;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footer-nav-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2rem;
+  height: 1px;
+  background: var(--misaki-base, #7FB5B7);
+}
+
+.footer-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 0.75rem);
+}
+
+.footer-nav-item {
+  position: relative;
+}
+
+.footer-nav-link {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.875rem;
+  color: var(--text-secondary, #5A5A5A);
+  text-decoration: none;
+  transition: all var(--transition-gentle, 0.4s ease-out);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.nav-arrow {
+  color: var(--misaki-base, #7FB5B7);
+  font-size: 0.75rem;
+  transition: transform var(--transition-gentle, 0.4s ease-out);
+}
+
+.footer-nav-link:hover {
+  color: var(--misaki-primary, #5A9A9C);
+  padding-left: 0.25rem;
+}
+
+.footer-nav-link:hover .nav-arrow {
+  transform: translateX(3px);
+  color: var(--misaki-primary, #5A9A9C);
+}
+
+
+
+/* ===== コンタクト情報 ===== */
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: var(--spacing-sm, 1.5rem);
+}
+
+.footer-contact-label {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-light, #7A7A7A);
+  letter-spacing: 0.05em;
+}
+
+.footer-contact-value {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.875rem;
+  color: var(--text-secondary, #5A5A5A);
+}
+
+.footer-contact-value a {
+  color: var(--misaki-primary, #5A9A9C);
+  text-decoration: none;
+  transition: opacity var(--transition-gentle, 0.4s ease-out);
+}
+
+.footer-contact-value a:hover {
+  opacity: 0.7;
+}
+
+.footer-contact-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  margin-top: var(--spacing-sm, 1.5rem);
+  background: transparent;
+  color: var(--misaki-primary, #5A9A9C);
+  border: 1px solid var(--misaki-primary, #5A9A9C);
+  border-radius: 2px;
+  text-decoration: none;
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-gentle, 0.4s ease-out);
+}
+
+.footer-contact-button:hover {
+  background: var(--misaki-primary, #5A9A9C);
+  color: var(--washi-white, #FEFEFE);
+}
+
+/* ===== フッター下部（コピーライト） ===== */
+.footer-bottom {
+  padding-top: var(--spacing-md, 3rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  position: relative;
+}
+
+/* 装飾的な上線 */
+.footer-bottom::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(90, 154, 156, 0.2) 20%,
+    rgba(90, 154, 156, 0.2) 80%,
+    transparent 100%
+  );
+}
+
+.footer-bottom-left {
+  text-align: left;
+}
+
+.footer-bottom-center {
+  text-align: center;
+}
+
+.footer-bottom-right {
+  text-align: right;
+}
+
+.footer-copyright {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.75rem;
+  color: var(--text-light, #7A7A7A);
+  letter-spacing: 0.05em;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-md, 3rem);
+  list-style: none;
+  justify-content: center;
+}
+
+.footer-bottom-link {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.75rem;
+  color: var(--text-light, #7A7A7A);
+  text-decoration: none;
+  transition: color var(--transition-gentle, 0.4s ease-out);
+  letter-spacing: 0.02em;
+}
+
+.footer-bottom-link:hover {
+  color: var(--misaki-primary, #5A9A9C);
+}
+
+.footer-credit {
+  font-family: var(--font-gothic, 'Noto Sans JP', sans-serif);
+  font-size: 0.75rem;
+  color: var(--text-light, #7A7A7A);
+  letter-spacing: 0.02em;
+}
+
+.footer-credit-link {
+  color: var(--misaki-primary, #5A9A9C);
+  text-decoration: none;
+  transition: all var(--transition-gentle, 0.4s ease-out);
+  position: relative;
+  margin-left: 0.25rem;
+  font-weight: 500;
+}
+
+.footer-credit-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--misaki-primary, #5A9A9C);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-gentle, 0.4s ease-out);
+}
+
+.footer-credit-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ===== レスポンシブ対応 ===== */
+@media (max-width: 1024px) {
+  .footer-main {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md, 3rem);
+  }
+  
+  .footer-company {
+    grid-column: 1 / -1;
+    padding-right: 0;
+    padding-bottom: var(--spacing-md, 3rem);
+    border-bottom: 1px solid rgba(90, 154, 156, 0.15);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md, 3rem);
+  }
+  
+  .footer-nav,
+  .footer-contact {
+    padding-bottom: var(--spacing-sm, 1.5rem);
+    border-bottom: 1px solid rgba(90, 154, 156, 0.15);
+  }
+  
+  .footer-nav:last-child,
+  .footer-contact:last-child {
+    border-bottom: none;
+  }
+  
+  .footer-bottom {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm, 1.5rem);
+    text-align: center;
+  }
+  
+  .footer-bottom-left,
+  .footer-bottom-center,
+  .footer-bottom-right {
+    text-align: center;
+  }
+  
+  .footer-content {
+    padding: var(--spacing-lg, 4.5rem) var(--spacing-sm, 1.5rem) var(--spacing-md, 3rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-wave {
+    top: -29px;
+    height: 30px;
+  }
+  
+  .footer-content {
+    padding: var(--spacing-md, 3rem) var(--spacing-sm, 1.5rem);
+  }
+  
+  .footer-logo-text {
+    font-size: 1.5rem;
+  }
+  
+  .footer-description {
+    font-size: 0.875rem;
+  }
+  
+  .footer-nav-title {
+    font-size: 0.8125rem;
+  }
+  
+  .footer-nav-link,
+  .footer-contact-value,
+  .footer-copyright,
+  .footer-bottom-link,
+  .footer-credit {
+    font-size: 0.75rem;
+  }
+  
+  .footer-business-tags {
+    gap: 0.25rem;
+  }
+  
+  .business-tag {
+    font-size: 0.5625rem;
+    padding: 0.125rem 0.5rem;
+  }
+}

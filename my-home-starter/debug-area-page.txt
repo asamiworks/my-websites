@@ -1,0 +1,5 @@
+companiesData の中身を確認するには、ページに以下を追加：
+
+console.log('companiesData:', companiesData);
+console.log('companies length:', companies.length);
+console.log('companies:', companies);

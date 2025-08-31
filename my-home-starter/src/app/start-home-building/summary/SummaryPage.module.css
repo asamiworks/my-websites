@@ -1,0 +1,503 @@
+/* コンテナ */
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+/* ヘッダー */
+.header {
+  background-color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* 進捗バー */
+.progressBar {
+  background-color: #e5e7eb;
+  height: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  background-color: #10b981;
+  height: 100%;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+/* メインコンテンツ */
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.summaryContainer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* セクション共通 */
+.summarySection {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summarySection:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #374151;
+  margin: 0;
+}
+
+.editButton {
+  background: none;
+  border: none;
+  color: #f59e0b;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.editButton:hover {
+  color: #d97706;
+  text-decoration: underline;
+}
+
+/* コンテンツスタイル */
+.summaryContent {
+  background-color: #f9fafb;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.mainItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mainValue {
+  font-size: 36px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.mainUnit {
+  font-size: 20px;
+  color: #6b7280;
+}
+
+.subItems {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subItem {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.subLabel {
+  color: #6b7280;
+}
+
+.subValue {
+  color: #374151;
+  font-weight: 500;
+}
+
+/* 建築地セクション */
+.locationInfo {
+  text-align: center;
+}
+
+.locationMain {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+/* 家づくりタイプセクション */
+.typeResult {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f59e0b;
+  text-align: center;
+  padding: 12px;
+}
+
+/* 予算内訳セクション */
+.budgetBreakdownSection {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.chartContainer {
+  margin-top: 16px;
+}
+
+/* 円グラフカスタムスタイル */
+.chartLabel {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Rechartsのレジェンドスタイル */
+.chartContainer :global(.recharts-legend-wrapper) {
+  margin-top: 20px;
+}
+
+.chartContainer :global(.recharts-legend-item-text) {
+  font-size: 14px;
+  color: #374151;
+}
+
+.customTooltip {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tooltipLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 4px 0;
+}
+
+.tooltipValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.tooltipPercent {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* 予算アラート */
+.budgetAlert {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+}
+
+.alertIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.alertContent {
+  flex: 1;
+}
+
+.alertTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #92400e;
+  margin: 0 0 8px 0;
+}
+
+.alertDescription {
+  font-size: 14px;
+  color: #78350f;
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+}
+
+.alertCalculation {
+  font-size: 14px;
+  color: #78350f;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.alertActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.alertButton {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #92400e;
+  background-color: white;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.alertButton:hover {
+  background-color: #f59e0b;
+  color: white;
+}
+
+/* CTAセクション */
+.ctaSection {
+  margin-top: 48px;
+  padding: 40px;
+  background-color: #fffbeb;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid #f59e0b;
+}
+
+.ctaTitle {
+  font-size: 28px;
+  font-weight: bold;
+  color: #92400e;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.ctaDescription {
+  font-size: 16px;
+  color: #78350f;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.startButton {
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 48px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.startButton:hover {
+  background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ナビゲーション */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.backButton,
+.restartButton {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.backButton:hover,
+.restartButton:hover {
+  color: #374151;
+}
+
+.backButton::before {
+  content: '←';
+  margin-right: 8px;
+}
+
+/* ローディング */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.loadingSpinner {
+  font-size: 16px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loadingSpinner::before {
+  content: '';
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .summaryContainer {
+    padding: 24px;
+  }
+  
+  .main {
+    padding: 24px 16px;
+  }
+  
+  .ctaSection {
+    padding: 24px;
+  }
+  
+  .mainValue {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .summaryContainer {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .editButton {
+    align-self: flex-end;
+  }
+
+  .mainValue {
+    font-size: 24px;
+  }
+
+  .mainUnit {
+    font-size: 16px;
+  }
+
+  .locationMain {
+    font-size: 20px;
+  }
+
+  .typeResult {
+    font-size: 20px;
+  }
+
+  .ctaTitle {
+    font-size: 22px;
+  }
+
+  .ctaDescription {
+    font-size: 14px;
+  }
+
+  .startButton {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+
+  .navigation {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .alertActions {
+    flex-wrap: wrap;
+  }
+
+  .alertButton {
+    flex: 1;
+    min-width: 120px;
+  }
+}

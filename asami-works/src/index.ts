@@ -1,0 +1,250 @@
+import * as functions from 'firebase-functions';
+import cors from 'cors';
+import { sendAutoReply, sendAdminNotification } from './lib/gmail-sender';
+
+// CORS設定を詳細に設定
+const corsHandler = cors({ 
+  origin: [
+    'https://asami-works.com',
+    'https://asamiworks-679b3.web.app',
+    'https://asamiworks-679b3.firebaseapp.com',
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+});
+
+// 型定義
+interface ContactRequest {
+  name: string;
+  email: string;
+  company?: string;
+  phone?: string;
+  message: string;
+}
+
+interface FormRequest {
+  name: string;
+  email: string;
+  inquiryType: string;
+  other?: string;
+  message: string;
+}
+
+/**
+ * お問い合わせフォーム処理
+ */
+export const contact = functions.https.onRequest((request, response) => {
+  corsHandler(request, response, async () => {
+    // OPTIONSリクエストに対応
+    if (request.method === 'OPTIONS') {
+      response.status(200).send();
+      return;
+    }
+
+    // POSTメソッドのみ許可
+    if (request.method !== 'POST') {
+      response.status(405).send('Method Not Allowed');
+      return;
+    }
+
+    try {
+      const body: ContactRequest = request.body;
+      const { name, email, company, phone, message } = body;
+
+      // バリデーション
+      if (!name || !email || !message) {
+        response.status(400).json({
+          success: false,
+          message: '必須項目が入力されていません'
+        });
+        return;
+      }
+
+      // Gmail送信処理
+      const contactData = {
+        name,
+        email,
+        company,
+        phone,
+        message,
+        timestamp: new Date().toISOString(),
+        userAgent: request.headers['user-agent'] || '',
+        ip: request.ip
+      };
+
+      // 自動返信メール送信
+      const autoReplyResult = await sendAutoReply(contactData);
+      
+      // 管理者通知メール送信
+      const adminNotificationResult = await sendAdminNotification(contactData);
+
+      if (autoReplyResult.success && adminNotificationResult.success) {
+        response.json({
+          success: true,
+          message: 'お問い合わせを受け付けました。自動返信メールをご確認ください。'
+        });
+      } else {
+        throw new Error('メール送信に失敗しました');
+      }
+
+    } catch (error) {
+      console.error('Contact form error:', error);
+      response.status(500).json({
+        success: false,
+        message: 'エラーが発生しました。しばらく経ってから再度お試しください。'
+      });
+    }
+  });
+});
+
+/**
+ * 一般フォーム処理
+ */
+export const form = functions.https.onRequest((request, response) => {
+  corsHandler(request, response, async () => {
+    // OPTIONSリクエストに対応
+    if (request.method === 'OPTIONS') {
+      response.status(200).send();
+      return;
+    }
+
+    // POSTメソッドのみ許可
+    if (request.method !== 'POST') {
+      response.status(405).send('Method Not Allowed');
+      return;
+    }
+
+    try {
+      const body: FormRequest = request.body;
+      const { name, email, inquiryType, other, message } = body;
+
+      // バリデーション
+      if (!name || !email || !inquiryType || !message) {
+        response.status(400).json({
+          success: false,
+          message: '必須項目が入力されていません'
+        });
+        return;
+      }
+
+      // お問い合わせ種別の整形
+      const inquiryDetail = inquiryType === 'その他' && other ? 
+        `${inquiryType}: ${other}` : inquiryType;
+
+      // Gmail送信処理
+      const contactData = {
+        name,
+        email,
+        message: `【お問い合わせ種別】\n${inquiryDetail}\n\n【内容】\n${message}`,
+        timestamp: new Date().toISOString(),
+        userAgent: request.headers['user-agent'] || '',
+        ip: request.ip
+      };
+
+      // 自動返信メール送信
+      const autoReplyResult = await sendAutoReply(contactData);
+      
+      // 管理者通知メール送信
+      const adminNotificationResult = await sendAdminNotification(contactData);
+
+      if (autoReplyResult.success && adminNotificationResult.success) {
+        response.json({
+          success: true,
+          message: 'お問い合わせを受け付けました。自動返信メールをご確認ください。'
+        });
+      } else {
+        throw new Error('メール送信に失敗しました');
+      }
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      response.status(500).json({
+        success: false,
+        message: 'エラーが発生しました。しばらく経ってから再度お試しください。'
+      });
+    }
+  });
+});
+
+/**
+ * Instagram フィード取得
+ */
+export const instagram = functions.https.onRequest((request, response) => {
+  corsHandler(request, response, async () => {
+    // OPTIONSリクエストに対応
+    if (request.method === 'OPTIONS') {
+      response.status(200).send();
+      return;
+    }
+
+    // GETメソッドのみ許可
+    if (request.method !== 'GET') {
+      response.status(405).send('Method Not Allowed');
+      return;
+    }
+
+    try {
+      // 環境変数から取得（Firebase Functions v2対応）
+      const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
+      const userId = process.env.INSTAGRAM_USER_ID;
+
+      if (!accessToken || !userId) {
+        response.json({
+          data: [],
+          count: 0,
+          message: 'Instagram configuration missing',
+          timestamp: new Date().toISOString()
+        });
+        return;
+      }
+
+      const axios = require('axios');
+
+      const instagramResponse = await axios.get(
+        `https://graph.instagram.com/v18.0/${userId}/media`,
+        {
+          params: {
+            fields: 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp',
+            access_token: accessToken,
+            limit: 9
+          }
+        }
+      );
+
+      const data = instagramResponse.data;
+
+      if (!data || data.error) {
+        console.error('Instagram API Error:', data.error);
+        response.json({
+          data: [],
+          count: 0,
+          message: 'Failed to fetch Instagram data',
+          timestamp: new Date().toISOString()
+        });
+        return;
+      }
+
+      const mediaPosts = (data.data || []).filter(
+        (post: any) => ['IMAGE', 'VIDEO', 'CAROUSEL_ALBUM'].includes(post.media_type)
+      );
+
+      response.json({
+        data: mediaPosts.slice(0, 6),
+        count: mediaPosts.length,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error) {
+      console.error('Instagram feed error:', error);
+      response.status(500).json({
+        error: 'Internal server error',
+        data: [],
+        count: 0,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+});

@@ -1,0 +1,248 @@
+.footer {
+  background: linear-gradient(135deg, #9b59b6 0%, #ff6bcb 100%);
+  padding: 60px 0 30px;
+  margin-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景装飾 */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.05) 20px
+  );
+  transform: rotate(30deg);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* サイトマップ */
+.sitemap {
+  text-align: center;
+}
+
+.sitemapTitle {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sitemapList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sitemapLink {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.sitemapLink:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+  color: #fff;
+}
+
+/* SNSセクション */
+.socialSection {
+  text-align: center;
+  padding: 30px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.socialTitle {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.socialLinks {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.socialButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.socialButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+}
+
+.socialButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px) scale(1.05);
+  color: #fff;
+}
+
+.socialButton:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+/* 下部情報 */
+.bottomInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.copyright {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.credit {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.creditLink {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.creditLink:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 0 20px;
+    margin-top: 60px;
+  }
+
+  .sitemapTitle,
+  .socialTitle {
+    font-size: 1.3rem;
+  }
+
+  .sitemapList {
+    gap: 15px;
+  }
+
+  .sitemapLink {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .socialSection {
+    padding: 20px 0;
+  }
+
+  .socialLinks {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .socialButton {
+    width: 200px;
+    justify-content: center;
+  }
+
+  .bottomInfo {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .copyright,
+  .credit {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sitemapList {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .sitemapLink {
+    width: 200px;
+    text-align: center;
+  }
+
+  .socialButton {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}

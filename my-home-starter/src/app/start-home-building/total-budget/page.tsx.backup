@@ -1,0 +1,515 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Modal from "react-modal";
+import { db, auth } from "../../../utils/firebaseConfig";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import styles from "./TotalBudgetPage.module.css";
+
+const TotalBudgetPage = () => {
+  const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [annualIncome, setAnnualIncome] = useState("");
+  const [monthlyLoanRepayment, setMonthlyLoanRepayment] = useState("");
+  const [downPayment, setDownPayment] = useState("");
+  const [repaymentRate] = useState(0.003849);
+  const [totalBudget, setTotalBudget] = useState<number | null>(null);
+  const [isInputValid, setIsInputValid] = useState(true);
+  const [isCalculated, setIsCalculated] = useState(false);
+  const [spouseIncome, setSpouseIncome] = useState("");
+  const [spouseLoanRepayment, setSpouseLoanRepayment] = useState("");
+  const [showSpouseFields, setShowSpouseFields] = useState(false);
+  const [showSavePrompt, setShowSavePrompt] = useState(false);
+
+  // モーダル状態管理
+  const [isAnnualIncomeModalOpen, setIsAnnualIncomeModalOpen] = useState(false);
+  const [isLoanRepaymentModalOpen, setIsLoanRepaymentModalOpen] = useState(false);
+  const [isDownPaymentModalOpen, setIsDownPaymentModalOpen] = useState(false);
+  const [isSpouseIncomeModalOpen, setIsSpouseIncomeModalOpen] = useState(false);
+
+  // 認証状態の監視
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setIsAuthenticated(!!user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // 初期データの読み込み（ローカルストレージから）
+  useEffect(() => {
+    const loadExistingData = async () => {
+      // まずローカルストレージから読み込み
+      const localAnnualIncome = localStorage.getItem("annualIncome");
+      const localMonthlyLoanRepayment = localStorage.getItem("monthlyLoanRepayment");
+      const localDownPayment = localStorage.getItem("downPayment");
+      const localSpouseIncome = localStorage.getItem("spouseIncome");
+      const localSpouseLoanRepayment = localStorage.getItem("spouseLoanRepayment");
+      const localTotalBudget = localStorage.getItem("totalBudget");
+
+      if (localAnnualIncome) setAnnualIncome(localAnnualIncome);
+      if (localMonthlyLoanRepayment) setMonthlyLoanRepayment(localMonthlyLoanRepayment);
+      if (localDownPayment) setDownPayment(localDownPayment);
+      if (localSpouseIncome) {
+        setSpouseIncome(localSpouseIncome);
+        if (parseFloat(localSpouseIncome) > 0) setShowSpouseFields(true);
+      }
+      if (localSpouseLoanRepayment) setSpouseLoanRepayment(localSpouseLoanRepayment);
+      if (localTotalBudget) {
+        setTotalBudget(parseFloat(localTotalBudget));
+        setIsCalculated(true);
+      }
+
+      // 認証済みの場合はFirestoreからも読み込み（Firestoreを優先）
+      if (isAuthenticated && currentUser) {
+        try {
+          const userDocRef = doc(db, "users", currentUser.uid);
+          const userDoc = await getDoc(userDocRef);
+          
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+            if (data.annualIncome !== undefined) setAnnualIncome(data.annualIncome.toString());
+            if (data.monthlyLoanRepayment !== undefined) setMonthlyLoanRepayment(data.monthlyLoanRepayment.toString());
+            if (data.downPayment !== undefined) setDownPayment(data.downPayment.toString());
+            if (data.spouseIncome !== undefined) {
+              setSpouseIncome(data.spouseIncome.toString());
+              if (data.spouseIncome > 0) setShowSpouseFields(true);
+            }
+            if (data.spouseLoanRepayment !== undefined) setSpouseLoanRepayment(data.spouseLoanRepayment.toString());
+            if (data.totalBudget !== undefined) {
+              setTotalBudget(data.totalBudget);
+              setIsCalculated(true);
+            }
+          }
+        } catch (error) {
+          console.error("Firestoreからのデータ読み込みエラー:", error);
+        }
+      }
+    };
+
+    loadExistingData();
+  }, [isAuthenticated, currentUser]);
+
+  const saveToLocalStorage = (data: any) => {
+    Object.keys(data).forEach(key => {
+      localStorage.setItem(key, data[key].toString());
+    });
+  };
+
+  const saveToFirestore = async (data: object) => {
+    if (!currentUser) return;
+
+    try {
+      const docRef = doc(db, "users", currentUser.uid);
+      await setDoc(docRef, {
+        ...data,
+        updatedAt: new Date()
+      }, { merge: true });
+      console.log("Firestoreに保存しました");
+    } catch (error) {
+      console.error("Firestoreへの保存エラー:", error);
+    }
+  };
+
+  const calculateTotalBudget = async () => {
+    const annualIncomeNum = parseFloat(annualIncome) || 0;
+    const monthlyLoanRepaymentNum = parseFloat(monthlyLoanRepayment) || 0;
+    const downPaymentNum = parseFloat(downPayment) || 0;
+    const spouseIncomeNum = parseFloat(spouseIncome) || 0;
+    const spouseLoanRepaymentNum = parseFloat(spouseLoanRepayment) || 0;
+
+    const combinedIncome = annualIncomeNum + spouseIncomeNum;
+    const combinedLoanRepayment = monthlyLoanRepaymentNum + spouseLoanRepaymentNum;
+
+    if (annualIncomeNum > 0 && monthlyLoanRepaymentNum >= 0 && downPaymentNum >= 0) {
+      const incomePerMonth = combinedIncome / 12;
+      const adjustedLoanRepayment = combinedLoanRepayment / 10000;
+      const budget = (incomePerMonth * 0.35 - adjustedLoanRepayment) / repaymentRate + downPaymentNum;
+      const roundedBudget = Math.max(0, budget);
+
+      setTotalBudget(roundedBudget);
+      setIsCalculated(true);
+      setIsInputValid(true);
+
+      const budgetData = {
+        annualIncome: annualIncomeNum,
+        monthlyLoanRepayment: monthlyLoanRepaymentNum,
+        downPayment: downPaymentNum,
+        spouseIncome: spouseIncomeNum,
+        spouseLoanRepayment: spouseLoanRepaymentNum,
+        totalBudget: roundedBudget,
+      };
+
+      // ローカルストレージに保存（誰でも使えるように）
+      saveToLocalStorage(budgetData);
+
+      // 認証済みユーザーの場合はFirestoreにも保存
+      if (isAuthenticated && currentUser) {
+        await saveToFirestore(budgetData);
+      } else {
+        // 未認証ユーザーには後で保存を促す
+        setTimeout(() => {
+          setShowSavePrompt(true);
+        }, 2000);
+      }
+    } else {
+      setIsInputValid(false);
+    }
+  };
+
+  const handleInputChange = (setter: (value: string) => void, value: string) => {
+    setter(value);
+    setIsCalculated(false);
+  };
+
+  const formatNumber = (num: number) => {
+    return num.toLocaleString();
+  };
+
+  const handleCreateAccount = () => {
+    router.push("/create-account?from=simulator");
+  };
+
+  const handleLogin = () => {
+    router.push("/login?from=simulator");
+  };
+
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>家づくりの総予算を求める</h1>
+      <p className={styles.description}>あなたの家づくりにかかる総予算を確認しましょう。</p>
+
+      {/* 入力フォーム */}
+      <div className={styles.inputGroup}>
+        <label className={styles.label}>
+          昨年の年収を入力してください
+          <button
+            className={styles.infoButton}
+            onClick={() => setIsAnnualIncomeModalOpen(true)}
+          >
+            説明を見る
+          </button>
+        </label>
+        <input
+          className={styles.input}
+          type="text"
+          value={annualIncome}
+          onChange={(e) => handleInputChange(setAnnualIncome, e.target.value)}
+          placeholder="400（万円）"
+        />
+      </div>
+
+      <div className={styles.inputGroup}>
+        <label className={styles.label}>
+          現在あるローンの毎月返済額を入力してください
+          <button
+            className={styles.infoButton}
+            onClick={() => setIsLoanRepaymentModalOpen(true)}
+          >
+            説明を見る
+          </button>
+        </label>
+        <input
+          className={styles.input}
+          type="text"
+          value={monthlyLoanRepayment}
+          onChange={(e) => handleInputChange(setMonthlyLoanRepayment, e.target.value)}
+          placeholder="10,000（円）"
+        />
+      </div>
+
+      <div className={styles.inputGroup}>
+        <label className={styles.label}>
+          住宅に組み込む頭金の額を入力してください
+          <button
+            className={styles.infoButton}
+            onClick={() => setIsDownPaymentModalOpen(true)}
+          >
+            説明を見る
+          </button>
+        </label>
+        <input
+          className={styles.input}
+          type="text"
+          value={downPayment}
+          onChange={(e) => handleInputChange(setDownPayment, e.target.value)}
+          placeholder="100（万円）"
+        />
+      </div>
+
+      {/* 配偶者の入力欄 */}
+      {showSpouseFields && (
+        <>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>
+              配偶者の年収を入力してください
+              <button
+                className={styles.infoButton}
+                onClick={() => setIsSpouseIncomeModalOpen(true)}
+              >
+                説明を見る
+              </button>
+            </label>
+            <input
+              className={styles.input}
+              type="text"
+              value={spouseIncome}
+              onChange={(e) => handleInputChange(setSpouseIncome, e.target.value)}
+              placeholder="300（万円）"
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>
+              配偶者の現在あるローンの毎月返済額を入力してください
+            </label>
+            <input
+              className={styles.input}
+              type="text"
+              value={spouseLoanRepayment}
+              onChange={(e) => handleInputChange(setSpouseLoanRepayment, e.target.value)}
+              placeholder="5,000（円）"
+            />
+          </div>
+        </>
+      )}
+
+      <div className={styles.buttonGroup}>
+        {!showSpouseFields && (
+          <button
+            className={styles.toggleButton}
+            onClick={() => setShowSpouseFields(true)}
+          >
+            配偶者の年収を入力して総予算を増やす
+          </button>
+        )}
+        <button className={styles.button} onClick={calculateTotalBudget}>
+          計算する
+        </button>
+      </div>
+
+      {/* 計算結果 */}
+      {!isInputValid && (
+        <p className={styles.errorMessage}>すべての入力欄に正しい値を入力してください。</p>
+      )}
+
+      {isCalculated && totalBudget !== null && (
+        <div className={styles.resultContainer}>
+          <h2>家づくり総予算: {formatNumber(Math.round(totalBudget))} 万円</h2>
+          
+          <div className={styles.actionButtons}>
+            <Link href="/start-home-building/house-size">
+              <button className={`${styles.button} ${styles.nextButton}`}>
+                次に進む
+              </button>
+            </Link>
+            
+            {isAuthenticated ? (
+              <Link href="/my-page">
+                <button className={`${styles.button} ${styles.secondaryButton}`}>
+                  マイページで結果を確認
+                </button>
+              </Link>
+            ) : (
+              <button 
+                className={`${styles.button} ${styles.secondaryButton}`}
+                onClick={() => setShowSavePrompt(true)}
+              >
+                結果を保存する
+              </button>
+            )}
+          </div>
+
+          {!isAuthenticated && (
+            <p className={styles.saveNote}>
+              ※ 診断を続けることができます。結果を保存したい場合はアカウントを作成してください。
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 保存促進モーダル */}
+      {showSavePrompt && !isAuthenticated && (
+        <Modal
+          isOpen={showSavePrompt}
+          onRequestClose={() => setShowSavePrompt(false)}
+          contentLabel="診断結果の保存"
+          className={styles.modal}
+          overlayClassName={styles.modalOverlay}
+        >
+          <div className={styles.modalContent}>
+            <button 
+              className={styles.closeButton} 
+              onClick={() => setShowSavePrompt(false)}
+            >
+              ×
+            </button>
+            <h2>診断結果を保存しますか？</h2>
+            <p>
+              マイページを作成すると、以下のメリットがあります：
+            </p>
+            <ul className={styles.benefitsList}>
+              <li>診断結果をいつでも確認できる</li>
+              <li>家づくりの進捗に合わせて情報を更新</li>
+              <li>専門家への無料相談が可能</li>
+              <li>あなたに合った住宅会社の紹介</li>
+            </ul>
+            
+            <div className={styles.modalButtons}>
+              <button 
+                onClick={handleCreateAccount}
+                className={styles.primaryModalButton}
+              >
+                Googleで簡単登録
+              </button>
+              <button 
+                onClick={handleLogin}
+                className={styles.secondaryModalButton}
+              >
+                既にアカウントをお持ちの方
+              </button>
+              <button 
+                onClick={() => setShowSavePrompt(false)}
+                className={styles.skipButton}
+              >
+                今は保存しない
+              </button>
+            </div>
+            
+            <p className={styles.privacyNote}>
+              ※ 個人情報は厳重に管理され、第三者に提供されることはありません
+            </p>
+          </div>
+        </Modal>
+      )}
+
+      {/* 既存のモーダル（説明用） */}
+      <Modal
+        isOpen={isAnnualIncomeModalOpen}
+        onRequestClose={() => setIsAnnualIncomeModalOpen(false)}
+        contentLabel="昨年の年収の説明"
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            transform: "translate(-50%, -50%)",
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          },
+        }}
+      >
+        <h2>昨年の年収について</h2>
+        <p>住宅ローンを借りる方の源泉徴収票に記載の税引前の金額を入力してください。</p>
+        <button onClick={() => setIsAnnualIncomeModalOpen(false)}>閉じる</button>
+      </Modal>
+
+      <Modal
+        isOpen={isLoanRepaymentModalOpen}
+        onRequestClose={() => setIsLoanRepaymentModalOpen(false)}
+        contentLabel="ローン返済額の説明"
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            transform: "translate(-50%, -50%)",
+            width: "90%",
+            maxWidth: "500px",
+            height: "auto",
+            maxHeight: "80vh",
+            overflow: "auto",
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          },
+        }}
+      >
+        <h2>ローン返済額について</h2>
+        <p className={styles.modalText}>
+          下記の借入額に影響があるローンの種類に該当するものがある場合、毎月の支払い額を合算してください。<br /><br />
+          <strong>借入額に影響があるローンの種類</strong><br />
+          ・マイカーローン<br />
+          ・教育ローン<br />
+          ・クレジットカードのリボ払い/分割払い<br />
+          ・消費者金融の借入<br />
+          ・携帯電話等の割賦払い<br />
+          ・旅行費用、結婚式費用の個人ローン 他<br />
+          <br />
+          <strong>借入額に影響がないローンの種類</strong><br />
+          ・公共料金や通信料金（未払いは影響あり）<br />
+          ・家賃の支払い<br />
+          ・一部のリース契約（所有権がない場合）
+        </p>
+        <button onClick={() => setIsLoanRepaymentModalOpen(false)}>閉じる</button>
+      </Modal>
+
+      <Modal
+        isOpen={isDownPaymentModalOpen}
+        onRequestClose={() => setIsDownPaymentModalOpen(false)}
+        contentLabel="頭金の説明"
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            transform: "translate(-50%, -50%)",
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          },
+        }}
+      >
+        <h2>頭金について</h2>
+        <p>住宅購入時に用意できる頭金の額を入力してください。<br />
+        ご両親からの資金援助も頭金に含みます。</p>
+        <button onClick={() => setIsDownPaymentModalOpen(false)}>閉じる</button>
+      </Modal>
+
+      <Modal
+        isOpen={isSpouseIncomeModalOpen}
+        onRequestClose={() => setIsSpouseIncomeModalOpen(false)}
+        contentLabel="配偶者の年収を合算する際の注意点"
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            transform: "translate(-50%, -50%)",
+            width: "90%",
+            maxWidth: "500px",
+            height: "auto",
+            maxHeight: "80vh",
+            overflow: "auto",
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          },
+        }}
+      >
+        <h2>配偶者の年収を合算する際の注意点</h2>
+        <p>
+          配偶者の年収を合算する場合、以下の点に注意してください：
+        </p>
+        <ul>
+          <li>配偶者が安定した収入を持っていること。</li>
+          <li>パートやアルバイトの場合、合算金額が制限される可能性があります。</li>
+          <li>借入先によって収入合算の条件が異なりますので、借入額は参考として下さい。</li>
+        </ul>
+        <button onClick={() => setIsSpouseIncomeModalOpen(false)}>閉じる</button>
+      </Modal>
+    </div>
+  );
+};
+
+export default TotalBudgetPage;

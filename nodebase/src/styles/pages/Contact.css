@@ -1,0 +1,291 @@
+/* Contact.css - お問い合わせページのスタイル */
+
+.contact-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--color-sand) 0%, white 100%);
+  }
+  
+  /* ヒーローセクション */
+  .contact-hero {
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--color-ocean) 0%, var(--color-ocean-dark) 100%);
+  }
+  
+  .hero-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+  
+  /* 波のアニメーション */
+  .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff' fill-opacity='0.3'/%3E%3C/svg%3E") repeat-x;
+    animation: wave 20s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+  }
+  
+  .wave2 {
+    animation-delay: -5s;
+    opacity: 0.5;
+    height: 80px;
+  }
+  
+  .wave3 {
+    animation-delay: -10s;
+    opacity: 0.3;
+    height: 60px;
+  }
+  
+  @keyframes wave {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-1200px);
+    }
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+  }
+  
+  .hero-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+  .hero-subtitle {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    opacity: 0.95;
+  }
+  
+  .hero-description {
+    font-size: 16px;
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  /* コンタクト情報セクション */
+  .contact-info-section {
+    padding: 80px 20px;
+    background: white;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .contact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+  
+  .info-card {
+    text-align: center;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(208, 227, 225, 0.1));
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(168, 196, 199, 0.2);
+  }
+  
+  .info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(168, 196, 199, 0.3);
+  }
+  
+  .info-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-ocean), var(--color-seafoam));
+    border-radius: 50%;
+    color: white;
+  }
+  
+  .info-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .info-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-ocean-dark);
+    margin-bottom: 10px;
+  }
+  
+  .info-card p {
+    font-size: 16px;
+    color: var(--color-text);
+    margin-bottom: 5px;
+  }
+  
+  .response-time {
+    font-size: 14px;
+    color: var(--color-text-light);
+    margin-top: 10px;
+  }
+  
+  /* フォームセクション */
+  .contact-form-section {
+    padding: 0 20px 80px;
+    background: white;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .section-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-ocean-dark);
+    margin-bottom: 15px;
+  }
+  
+  .section-header p {
+    font-size: 16px;
+    color: var(--color-text-light);
+  }
+  
+  /* FAQセクション */
+  .faq-section {
+    padding: 80px 20px;
+    background: linear-gradient(180deg, white 0%, var(--color-sand) 100%);
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-ocean-dark);
+    margin-bottom: 50px;
+  }
+  
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--color-ocean);
+    transition: transform 0.3s ease;
+  }
+  
+  .faq-item:hover {
+    transform: translateX(5px);
+  }
+  
+  .faq-item h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-ocean-dark);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .faq-item p {
+    font-size: 15px;
+    color: var(--color-text);
+    line-height: 1.8;
+    padding-left: 20px;
+  }
+  
+  /* レスポンシブデザイン */
+  @media (max-width: 768px) {
+    .contact-hero {
+      height: 300px;
+    }
+  
+    .hero-title {
+      font-size: 36px;
+    }
+  
+    .hero-subtitle {
+      font-size: 16px;
+    }
+  
+    .contact-info-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  
+    .info-card {
+      padding: 30px 20px;
+    }
+  
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .contact-info-section,
+    .contact-form-section,
+    .faq-section {
+      padding: 60px 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 28px;
+    }
+  
+    .section-header h2,
+    .section-title {
+      font-size: 24px;
+    }
+  
+    .faq-item {
+      padding: 20px;
+    }
+  
+    .faq-item h3 {
+      font-size: 16px;
+    }
+  
+    .faq-item p {
+      font-size: 14px;
+      padding-left: 15px;
+    }
+  }

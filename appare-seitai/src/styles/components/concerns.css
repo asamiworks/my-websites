@@ -1,0 +1,264 @@
+/* こんなお悩みありませんかセクション */
+.concerns {
+    padding: var(--spacing-5xl) 0;
+    background-color: var(--color-bg-primary);
+  }
+  
+  /* お悩みグリッド */
+  .concerns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-4xl);
+  }
+  
+  /* お悩みカード */
+  .concern-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .concern-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-base);
+  }
+  
+  .concern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .concern-card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  /* アイコン */
+  .concern-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(74, 144, 226, 0.05));
+    border-radius: var(--radius-full);
+    color: var(--color-primary);
+    transition: all var(--transition-base);
+  }
+  
+  .concern-card:hover .concern-icon {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: white;
+    transform: scale(1.1);
+  }
+  
+  .concern-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* タイトル */
+  .concern-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.4;
+  }
+  
+  /* 説明文 */
+  .concern-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+  }
+  
+  /* メッセージセクション */
+  .concerns-message {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-3xl);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .concerns-message::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.3;
+    }
+  }
+  
+  .message-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .concerns-message h3 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .concerns-message p {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--spacing-2xl);
+    opacity: 0.95;
+  }
+  
+  /* アクションボタン */
+  .message-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+  }
+  
+  .btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .btn-primary {
+    background: white;
+    color: var(--color-primary);
+    border-color: white;
+  }
+  
+  .btn-primary:hover {
+    background: transparent;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    color: white;
+    border-color: white;
+  }
+  
+  .btn-outline:hover {
+    background: white;
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* タブレット対応 */
+  @media (max-width: 1024px) {
+    .concerns-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--spacing-lg);
+    }
+    
+    .concerns-message {
+      padding: var(--spacing-2xl);
+    }
+  }
+  
+  /* モバイル対応 */
+  @media (max-width: 768px) {
+    .concerns {
+      padding: var(--spacing-3xl) 0;
+    }
+    
+    .concerns-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+    
+    .concern-card {
+      padding: var(--spacing-xl);
+    }
+    
+    .concern-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .concern-title {
+      font-size: var(--font-size-base);
+    }
+    
+    .concerns-message {
+      padding: var(--spacing-xl);
+      border-radius: var(--radius-lg);
+    }
+    
+    .concerns-message h3 {
+      font-size: var(--font-size-xl);
+    }
+    
+    .concerns-message p {
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    .message-actions {
+      flex-direction: column;
+    }
+    
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  /* アクセシビリティ - モーション無効化 */
+  @media (prefers-reduced-motion: reduce) {
+    .concern-card,
+    .concern-card::before,
+    .concern-icon,
+    .concerns-message::before {
+      transition: none;
+      animation: none;
+    }
+  }

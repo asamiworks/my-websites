@@ -1,0 +1,521 @@
+/* src/app/start-home-building/total-budget/TotalBudgetPage.module.css */
+
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+/* ヘッダー */
+.header {
+  background-color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* 進捗バー */
+.progressBar {
+  background-color: #e5e7eb;
+  height: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  background-color: #f59e0b;
+  height: 100%;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+/* メインコンテンツ */
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.formContainer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* 入力グループ */
+.inputGroup {
+  margin-bottom: 28px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.infoButton {
+  margin-left: 8px;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.infoButton:hover {
+  background-color: #d97706;
+}
+
+/* 入力フィールドのラッパー */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  padding-right: 60px; /* 単位表示用のスペース */
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+  background-color: #ffffff;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.unit {
+  position: absolute;
+  right: 16px;
+  color: #6b7280;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* 配偶者収入の切り替え */
+.spouseToggle {
+  margin: 32px 0;
+  text-align: center;
+}
+
+.toggleButton {
+  background-color: #ffffff;
+  color: #f59e0b;
+  border: 2px solid #f59e0b;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggleButton:hover {
+  background-color: #fffbeb;
+}
+
+/* 計算ボタン */
+.calculateButton {
+  width: 100%;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 32px;
+}
+
+.calculateButton:hover {
+  background-color: #d97706;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.calculateButton:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* エラーメッセージ */
+.errorMessage {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 16px;
+  text-align: center;
+  padding: 12px;
+  background-color: #fee2e2;
+  border-radius: 6px;
+}
+
+/* 結果コンテナ */
+.resultContainer {
+  background-color: #fffbeb;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 32px;
+  margin-top: 32px;
+  text-align: center;
+}
+
+.resultTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #92400e;
+  margin-bottom: 16px;
+}
+
+.resultAmount {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.resultNumber {
+  font-size: 48px;
+  font-weight: bold;
+  color: #d97706;
+  line-height: 1;
+}
+
+.resultUnit {
+  font-size: 24px;
+  color: #d97706;
+}
+
+.saveNote {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ナビゲーション */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.backButton {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.backButton:hover {
+  color: #374151;
+}
+
+.backButton::before {
+  content: '←';
+  margin-right: 8px;
+}
+
+.nextButton {
+  background-color: #f59e0b;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  min-width: 150px;
+}
+
+.nextButton:hover {
+  background-color: #d97706;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.nextButton:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.nextButton:disabled:hover {
+  background-color: #e5e7eb;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 保存ボタン関連（house-sizeと統一） */
+.saveButtonContainer {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.saveButton {
+  background-color: white;
+  color: #f59e0b;
+  border: 2px solid #f59e0b;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 200px;
+}
+
+.saveButton:hover {
+  background-color: #fffbeb;
+}
+
+/* ローディング */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.loadingSpinner {
+  font-size: 16px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loadingSpinner::before {
+  content: '';
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* モーダル関連 */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  padding: 32px;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+  background-color: #f3f4f6;
+}
+
+.modalContent h2 {
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 24px;
+  font-weight: bold;
+  padding-right: 32px; /* 閉じるボタンとの重複を避ける */
+}
+
+.modalContent p {
+  margin-bottom: 20px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.modalText {
+  line-height: 1.8;
+  color: #374151;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 24px;
+  }
+  
+  .main {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .formContainer {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .resultNumber {
+    font-size: 36px;
+  }
+
+  .resultUnit {
+    font-size: 18px;
+  }
+
+  .saveButton,
+  .nextButton {
+    width: 100%;
+  }
+
+  .navigation {
+    flex-direction: column-reverse;
+    gap: 16px;
+  }
+
+  .nextButton {
+    width: 100%;
+  }
+
+  .modal {
+    width: 95%;
+    margin: 16px;
+  }
+
+  .modalContent {
+    padding: 24px;
+  }
+  
+  .modalContent h2 {
+    font-size: 20px;
+  }
+}
+
+
+.budgetBreakdown {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+}
+
+.breakdownItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.breakdownValue {
+  font-weight: bold;
+  color: #1f2937;
+}

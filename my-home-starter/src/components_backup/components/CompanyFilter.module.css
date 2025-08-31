@@ -1,0 +1,64 @@
+/* src/components/CompanyFilter.module.css */
+.filterContainer {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f0f4f8;
+    border-radius: 8px;
+  }
+  
+  .title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .filterGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .filterGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+  
+  .filterGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .filterLabel {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .radioGroup {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+  }
+  
+  .select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 1rem;
+  }
+  
+  .resultCount {
+    text-align: center;
+    font-weight: bold;
+    color: #4a90e2;
+  }

@@ -1,0 +1,11 @@
+specVersion: "v1beta"
+serviceId: "myhome-starter"
+location: "asia-northeast1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "myhome-starter"
+      cloudSql:
+        instanceId: "myhome-starter-db"
+connectorDirs: []

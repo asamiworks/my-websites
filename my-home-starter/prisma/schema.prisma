@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id              String             @id @default(cuid())
+  corporateNumber String             @unique
+  name            String
+  nameKana        String?
+  description     String?
+  establishedDate DateTime?
+  capital         BigInt?
+  employees       Int?
+  website         String?
+  gBizLastUpdated DateTime?
+  gBizData        Json?
+  logoUrl         String?
+  coverImageUrl   String?
+  isVerified      Boolean            @default(false)
+  isPremium       Boolean            @default(false)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  prSections      PRSection[]
+  priceRanges     PriceRange[]
+  projects        Project[]
+  reviews         Review[]
+  serviceAreas    ServiceArea[]
+  specialties     Specialty[]
+  companyPriceRange CompanyPriceRange?
+}
+
+model ServiceArea {
+  id         String  @id @default(cuid())
+  companyId  String
+  prefecture String
+  city       String?
+  coverage   String  @default("FULL")
+  remarks    String?
+  company    Company @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, prefecture, city])
+}
+
+model PriceRange {
+  id           String   @id @default(cuid())
+  companyId    String
+  productName  String
+  minPrice     Int
+  maxPrice     Int
+  avgPrice     Int?
+  includeItems String[]
+  remarks      String?
+  company      Company  @relation(fields: [companyId], references: [id])
+}
+
+model Specialty {
+  id        String  @id @default(cuid())
+  companyId String
+  category  String
+  value     String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, category, value])
+}
+
+model Review {
+  id             String        @id @default(cuid())
+  companyId      String
+  userId         String?
+  contractYear   Int
+  completionYear Int?
+  prefecture     String
+  city           String?
+  totalPrice     Int?
+  pricePerTsubo  Int?
+  houseSize      Float?
+  overallRating  Float
+  priceRating    Float?
+  qualityRating  Float?
+  serviceRating  Float?
+  title          String
+  content        String
+  pros           String?
+  cons           String?
+  isVerified     Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  company        Company       @relation(fields: [companyId], references: [id])
+  images         ReviewImage[]
+}
+
+model ReviewImage {
+  id       String  @id @default(cuid())
+  reviewId String
+  url      String
+  caption  String?
+  review   Review  @relation(fields: [reviewId], references: [id])
+}
+
+model Project {
+  id          String         @id @default(cuid())
+  companyId   String
+  title       String
+  description String?
+  prefecture  String
+  city        String?
+  houseType   String
+  structure   String
+  size        Float?
+  priceRange  String?
+  createdAt   DateTime       @default(now())
+  company     Company        @relation(fields: [companyId], references: [id])
+  images      ProjectImage[]
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  projectId String
+  url       String
+  caption   String?
+  order     Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id])
+}
+
+model PRSection {
+  id           String    @id @default(cuid())
+  prefecture   String
+  city         String
+  companyId    String?
+  companyName  String
+  description  String
+  imageUrl     String?
+  contactInfo  String?
+  displayOrder Int       @default(0)
+  isActive     Boolean   @default(true)
+  startDate    DateTime  @default(now())
+  endDate      DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  company      Company?  @relation(fields: [companyId], references: [id])
+
+  @@index([prefecture, city, isActive])
+  @@index([displayOrder])
+}
+
+model CompanyPriceRange {
+  id          String   @id @default(cuid())
+  companyId   String   @unique
+  company     Company  @relation(fields: [companyId], references: [id])
+  minPrice    Int?     // 坪単価下限（万円）
+  maxPrice    Int?     // 坪単価上限（万円）
+  note        String?  // 備考
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// 既存のスキーマの最後に追加
+model AreaStatistics {
+  id            String   @id @default(cuid())
+  prefectureCode String
+  cityCode      String
+  population    Int?
+  households    Int?
+  schools       Int?
+  dataYear      Int
+  lastUpdated   DateTime @default(now())
+  
+  @@unique([prefectureCode, cityCode, dataYear])
+}

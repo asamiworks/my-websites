@@ -1,0 +1,287 @@
+/* Works Section */
+.works {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.preTitle {
+  font-size: 0.875rem;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.sectionTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.highlight {
+  color: #2563eb;
+}
+
+.leadText {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+
+
+/* Works Grid */
+.worksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.workCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.workCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+.workImage {
+  position: relative;
+  height: 240px;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.workImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.workCard:hover .workImage img {
+  transform: scale(1.05);
+}
+
+.workCategory {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 16px;
+  background: rgba(37, 99, 235, 0.9);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(10px);
+}
+
+.workContent {
+  padding: 32px;
+}
+
+.workTitle {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.workIndustry {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: #999;
+  margin-bottom: 16px;
+}
+
+.workDescription {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.workResults {
+  margin-bottom: 20px;
+}
+
+.resultsTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.resultsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resultsList li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.resultsList li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.workFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.featureTag {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  background: #dbeafe;
+  color: #2563eb;
+  border-radius: 16px;
+  font-weight: 500;
+}
+
+.testimonial {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+  font-style: italic;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #2563eb;
+  margin: 20px 0;
+}
+
+.workViewButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 20px;
+  background: #2563eb;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 24px;
+  transition: all 0.3s ease;
+}
+
+.workViewButton:hover {
+  background: #1e40af;
+  gap: 8px;
+}
+
+/* More Works */
+.moreWorks {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 40px;
+}
+
+.moreWorksText {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.moreWorksSubtext {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* CTA */
+.ctaWrapper {
+  text-align: center;
+}
+
+.ctaText {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .works {
+    padding: 60px 0;
+  }
+  
+
+
+  
+  .worksGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .workContent {
+    padding: 24px;
+  }
+  
+  .workTitle {
+    font-size: 1.25rem;
+  }
+  
+  .moreWorks {
+    padding: 32px 24px;
+  }
+}

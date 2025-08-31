@@ -1,0 +1,639 @@
+/* 基本レイアウト */
+.container {
+  padding: 40px 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: sans-serif;
+  line-height: 1.6;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+.header p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+.taxNote {
+  font-size: 0.9rem;
+  color: #005bac;
+  margin-top: 8px !important;
+  font-weight: 500;
+}
+
+/* ローディング状態 */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 16px;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #005bac;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* セクション */
+.section {
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.stepNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #005bac;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* サイトタイプ選択 */
+.siteTypeOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.siteTypeOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  background: white;
+}
+
+.siteTypeOption:hover {
+  border-color: #005bac;
+}
+
+.siteTypeOption.selected {
+  border-color: #005bac;
+  background: #f3faff;
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.siteTypeOption h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recommendedBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #005bac;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 12px;
+  line-height: 1;
+}
+
+.siteTypeOption h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recommendedBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #005bac;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 12px;
+  line-height: 1;
+}
+
+.optionDescription {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.optionPrice {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #005bac;
+}
+
+.radioIndicator {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.siteTypeOption.selected .radioIndicator {
+  border-color: #005bac;
+  background: #005bac;
+}
+
+.siteTypeOption.selected .radioIndicator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* オプション選択 */
+.optionsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.optionItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.optionItem:hover:not(.locked):not(.disabled) {
+  border-color: #005bac;
+  background: #f9f9f9;
+}
+
+.optionItem.selected {
+  border-color: #005bac;
+  background: #f3faff;
+}
+
+.optionItem.locked {
+  background: #f5f5f5;
+  border-color: #ccc;
+  cursor: default;
+}
+
+.optionItem.disabled {
+  background: #f9f9f9;
+  border-color: #ddd;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hiddenCheckbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkboxIndicator {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ddd;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.optionItem.selected .checkboxIndicator {
+  background: #005bac;
+  border-color: #005bac;
+}
+
+.optionItem.locked .checkboxIndicator {
+  background: #ccc;
+  border-color: #ccc;
+}
+
+.optionItem.disabled .checkboxIndicator {
+  background: #eee;
+  border-color: #ddd;
+}
+
+.checkmark {
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.optionDetails {
+  flex-grow: 1;
+}
+
+.optionLabel {
+  font-weight: normal;
+  color: #333;
+}
+
+.optionItem.disabled .optionLabel {
+  color: #aaa;
+}
+
+.optionPriceText {
+  font-size: 0.9rem;
+  color: #666;
+  margin-left: 8px;
+}
+
+.optionItem.locked .optionPriceText {
+  color: #999;
+}
+
+.optionItem.disabled .optionPriceText {
+  color: #aaa;
+}
+
+/* サイトタイプ詳細説明 */
+.siteTypeDetails {
+  margin-top: 24px;
+  padding: 20px;
+  background: #f8faff;
+  border-radius: 8px;
+  border: 1px solid #e1ecf7;
+}
+
+.siteTypeDetails h4 {
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #005bac;
+}
+
+.valueProposition ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.valueProposition li {
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.valueProposition li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #005bac;
+  font-weight: bold;
+}
+
+.valueProposition strong {
+  color: #005bac;
+}
+
+/* ページ数設定 */
+.pageCountSection {
+  padding: 20px;
+  background: #f3faff;
+  border-radius: 6px;
+  border: 1px solid #e1ecf7;
+}
+
+.pageCountInfo {
+  margin-bottom: 16px;
+}
+
+.pageCountInfo p {
+  margin: 0 0 4px 0;
+  color: #333;
+}
+
+.pageCountNote {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inputGroup label {
+  font-weight: normal;
+  color: #333;
+  min-width: 80px;
+}
+
+.pageCountInput {
+  width: 100px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.pageCountInput:focus {
+  outline: none;
+  border-color: #005bac;
+}
+
+/* 結果表示 */
+.result {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f3faff;
+  border-left: 5px solid #005bac;
+  border-radius: 4px;
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.result h2 {
+  margin: 0;
+  color: #005bac;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.totalPrice {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #005bac;
+  text-align: right;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.breakdownItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.breakdownItem:first-child {
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.grantNotice {
+  margin-top: 16px;
+}
+
+/* 進むボタン */
+.button {
+  background-color: #005bac;
+  color: white;
+  padding: 12px 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.button:hover {
+  background-color: #003e7e;
+}
+
+.button:focus {
+  outline: 2px solid #005bac;
+  outline-offset: 2px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+
+  .optionContent h3 {
+    font-size: 1rem;
+  }
+
+  .optionDescription {
+    font-size: 0.85rem;
+  }
+
+  .pageCountSection {
+    padding: 16px;
+  }
+
+  .result {
+    padding: 16px;
+  }
+
+  .resultHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .totalPrice {
+    text-align: left;
+    font-size: 1.3rem;
+  }
+
+  .breakdownItem {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .button {
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px 12px;
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .taxNote {
+    font-size: 0.8rem;
+  }
+
+  .siteTypeOption,
+  .optionItem {
+    padding: 12px;
+  }
+
+  .siteTypeOption h3 {
+    font-size: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .recommendedBadge {
+    font-size: 0.65rem;
+    padding: 1px 6px;
+  }
+
+  .totalPrice {
+    font-size: 1.2rem;
+  }
+
+  .siteTypeDetails h4 {
+    font-size: 1rem;
+  }
+
+  .valueStatement p {
+    font-size: 0.85rem;
+  }
+
+  .inputGroup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .inputGroup label {
+    min-width: auto;
+  }
+}
+
+/* アクセシビリティ */
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .siteTypeOption,
+  .optionItem,
+  .checkboxIndicator,
+  .radioIndicator,
+  .button,
+  .loadingSpinner {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* フォーカス状態 */
+.siteTypeOption:focus-within,
+.optionItem:focus-within:not(.disabled),
+.pageCountInput:focus,
+.button:focus {
+  outline: 2px solid #005bac;
+  outline-offset: 2px;
+}
+
+
+/* オプション活用事例のCTAボタン */
+.exampleCTA {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #005bac;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  width: 100%;
+}
+
+.exampleCTA:hover {
+  background: #004a8f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 91, 172, 0.3);
+}
+
+.exampleCTA:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 91, 172, 0.3);
+}

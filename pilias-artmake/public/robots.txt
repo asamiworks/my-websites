@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Host
+Host: https://pilias-artmake.com
+
+# Sitemaps
+Sitemap: https://pilias-artmake.com/sitemap.xml

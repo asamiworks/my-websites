@@ -1,0 +1,627 @@
+/* === src/styles/Form.module.css 改善版 === */
+
+.section {
+  padding: 60px 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 2rem;
+  color: #005bac;
+  margin-bottom: 40px;
+  text-align: center;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: #005bac;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 必須項目のアスタリスク - 正しいセレクタで赤色表示 */
+.formGroup:has(:required) .label::after {
+  content: ' *';
+  color: #dc3545;
+  font-weight: 700;
+}
+
+.input,
+.select,
+.textarea {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.3s ease;
+  background-color: #fafafa;
+  font-family: inherit;
+  /* ダークモード対応のため追加 */
+  color: #333;
+}
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+  border-color: #b0b0b0;
+  background-color: #ffffff;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #005bac;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 91, 172, 0.1);
+}
+
+/* プレースホルダーのスタイル */
+.input::placeholder,
+.textarea::placeholder {
+  color: #999;
+  font-size: 0.95rem;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+/* セレクトボックスの初期状態（選択してください）のスタイル */
+.select option[value=""][disabled] {
+  color: #999;
+}
+
+.select:has(option[value=""]:checked) {
+  color: #999;
+}
+
+.select:not(:has(option[value=""]:checked)) {
+  color: #333;
+}
+.form > div:has(> iframe) {
+  margin: 10px auto;
+  text-align: center;
+}
+
+/* 送信メッセージ用スタイル */
+.message {
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.success {
+  background-color: #d1f2eb;
+  color: #00695c;
+  border: 1px solid #a5d6ce;
+}
+
+.message.success p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.message.error {
+  background-color: #fde2e4;
+  color: #c62828;
+  border: 1px solid #f5c2c7;
+}
+
+/* 確認テーブルのスタイル */
+.confirmTable {
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  font-size: 1rem;
+  line-height: 1.8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.confirmTable p {
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.confirmTable p:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.confirmTable strong {
+  color: #005bac;
+  font-weight: 600;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+/* ボタン配置 */
+.confirmButtons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* ボタンの基本スタイル */
+.submitButton,
+.backButton {
+  min-width: 150px;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 送信ボタンのスタイル */
+.submitButton {
+  background-color: #005bac;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 91, 172, 0.2);
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #004b8c;
+  box-shadow: 0 6px 12px rgba(0, 91, 172, 0.3);
+  transform: translateY(-2px);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 91, 172, 0.2);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #6c757d;
+  box-shadow: none;
+}
+
+/* 戻るボタンのスタイル */
+.backButton {
+  background-color: #6c757d;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(108, 117, 125, 0.2);
+}
+
+.backButton:hover:not(:disabled) {
+  background-color: #5a6268;
+  box-shadow: 0 6px 12px rgba(108, 117, 125, 0.3);
+  transform: translateY(-2px);
+}
+
+.backButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+.backButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #adb5bd;
+  box-shadow: none;
+}
+
+/* フォームグループの区切り */
+.formGroup + .formGroup {
+  position: relative;
+}
+
+/* オプションフィールドの視覚的区別 */
+.formGroup:has(.input[name="tel"]),
+.formGroup:has(.input[name="company"]),
+.formGroup:has(.select[name="budget"]),
+.formGroup:has(.select[name="deadline"]) {
+  background-color: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 4px 0;
+}
+
+/* エラー状態のスタイル - フォーム送信試行後のみ適用 */
+.formAttempted .input:invalid,
+.formAttempted .select:invalid:required,
+.formAttempted .textarea:invalid {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+/* エラー状態でフォーカス時 */
+.formAttempted .input:invalid:focus,
+.formAttempted .select:invalid:required:focus,
+.formAttempted .textarea:invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+/* 有効な値が入力されたとき（必須フィールドのみ） */
+.formAttempted .input:required:valid,
+.formAttempted .select:required:valid,
+.formAttempted .textarea:required:valid {
+  border-color: #28a745;
+}
+
+/* オプショナルフィールドで値がある場合も通常の色 */
+.formAttempted .input:not(:required),
+.formAttempted .select:not(:required),
+.formAttempted .textarea:not(:required) {
+  border-color: #e0e0e0;
+}
+
+/* オプショナルフィールドでも値が入力されていて、パターンエラーがある場合 */
+.formAttempted .input[pattern]:not(:placeholder-shown):invalid {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+/* 確認ボックス */
+.confirmBox {
+  background-color: #f0f8ff;
+  padding: 24px;
+  border-radius: 10px;
+  border: 2px solid #b8daff;
+  margin-bottom: 20px;
+}
+
+/* ローディング状態 */
+.form.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 15px;
+  }
+  
+  .title {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+  }
+  
+  .form {
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .confirmTable {
+    padding: 20px;
+  }
+  
+  .confirmTable p {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .confirmTable strong {
+    min-width: auto;
+  }
+  
+  .confirmButtons,
+  .buttonGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .submitButton,
+  .backButton {
+    width: 100%;
+    max-width: none;
+  }
+  
+  /* モバイルでのオプションフィールド */
+  .formGroup:has(.input[name="tel"]),
+  .formGroup:has(.input[name="company"]),
+  .formGroup:has(.select[name="budget"]),
+  .formGroup:has(.select[name="deadline"]) {
+    margin-left: -10px;
+    margin-right: -10px;
+    padding: 12px;
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .section {
+    padding: 50px 30px;
+  }
+  
+  .form {
+    padding: 25px;
+  }
+}
+
+/* アクセシビリティ対応 */
+@media (prefers-reduced-motion: reduce) {
+  .submitButton,
+  .backButton,
+  .input,
+  .select,
+  .textarea,
+  .message {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ================== ダークモード対応（改善版） ================== */
+@media (prefers-color-scheme: dark) {
+  /* セクション背景 */
+  .section {
+    background-color: #1a1a1a;
+  }
+
+  /* タイトル */
+  .title {
+    color: #4da3ff;
+  }
+
+  .title::after {
+    background-color: #4da3ff;
+  }
+
+  /* フォーム本体 */
+  .form {
+    background: #2d2d2d;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid #3a3a3a;
+  }
+  
+  /* ラベル */
+  .label {
+    color: #e0e0e0;
+  }
+
+  /* 必須項目のアスタリスク */
+  .formGroup:has(:required) .label::after {
+    color: #ff6b6b;
+  }
+  
+  /* フォーム要素 */
+  .input,
+  .select,
+  .textarea {
+    background-color: #1a1a1a;
+    border-color: #4a4a4a;
+    color: #e0e0e0;
+  }
+
+  /* プレースホルダー */
+  .input::placeholder,
+  .textarea::placeholder {
+    color: #888;
+    opacity: 1;
+  }
+
+  /* セレクトボックスの矢印アイコン */
+  .select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e0e0e0' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  }
+
+  /* セレクトボックスの未選択状態 */
+  .select:has(option[value=""]:checked) {
+    color: #888;
+  }
+
+  .select:not(:has(option[value=""]:checked)) {
+    color: #e0e0e0;
+  }
+  
+  /* ホバー時 */
+  .input:hover,
+  .select:hover,
+  .textarea:hover {
+    border-color: #666;
+    background-color: #222;
+  }
+
+  /* フォーカス時 */
+  .input:focus,
+  .select:focus,
+  .textarea:focus {
+    border-color: #4da3ff;
+    background-color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.2);
+  }
+
+  /* オプションフィールドの背景 */
+  .formGroup:has(.input[name="tel"]),
+  .formGroup:has(.input[name="company"]),
+  .formGroup:has(.select[name="budget"]),
+  .formGroup:has(.select[name="deadline"]) {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid #3a3a3a;
+  }
+
+  /* エラー状態 */
+  .formAttempted .input:invalid,
+  .formAttempted .select:invalid:required,
+  .formAttempted .textarea:invalid {
+    border-color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.1);
+  }
+
+  .formAttempted .input:invalid:focus,
+  .formAttempted .select:invalid:required:focus,
+  .formAttempted .textarea:invalid:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+  }
+
+  /* 有効な値 */
+  .formAttempted .input:required:valid,
+  .formAttempted .select:required:valid,
+  .formAttempted .textarea:required:valid {
+    border-color: #4ade80;
+  }
+
+  /* メッセージ */
+  .message.success {
+    background-color: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.3);
+  }
+
+  .message.error {
+    background-color: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.3);
+  }
+  
+  /* 確認テーブル */
+  .confirmTable {
+    background: #2d2d2d;
+    border-color: #4a4a4a;
+    color: #e0e0e0;
+  }
+  
+  .confirmTable p {
+    border-color: #3a3a3a;
+  }
+
+  .confirmTable strong {
+    color: #4da3ff;
+  }
+
+  /* ボタン */
+  .submitButton {
+    background-color: #0066cc;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 102, 204, 0.3);
+  }
+
+  .submitButton:hover:not(:disabled) {
+    background-color: #0052a3;
+    box-shadow: 0 6px 12px rgba(0, 102, 204, 0.4);
+  }
+
+  .submitButton:disabled {
+    background-color: #4a4a4a;
+    color: #888;
+  }
+
+  .backButton {
+    background-color: #5a5a5a;
+    color: #ffffff;
+  }
+
+  .backButton:hover:not(:disabled) {
+    background-color: #6a6a6a;
+  }
+
+  .backButton:disabled {
+    background-color: #3a3a3a;
+    color: #666;
+  }
+}
+
+/* スマホ + ダークモードの組み合わせ対応 */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  /* フォーム要素のパディングを少し増やして押しやすくする */
+  .input,
+  .select,
+  .textarea {
+    padding: 14px 16px;
+  }
+
+  /* オプションフィールドの背景を調整 */
+  .formGroup:has(.input[name="tel"]),
+  .formGroup:has(.input[name="company"]),
+  .formGroup:has(.select[name="budget"]),
+  .formGroup:has(.select[name="deadline"]) {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid #3a3a3a;
+  }
+
+  /* ボタンを押しやすくする */
+  .submitButton,
+  .backButton {
+    padding: 16px 32px;
+    font-size: 1.05rem;
+  }
+}

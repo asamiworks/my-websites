@@ -1,0 +1,269 @@
+/* ログインページのコンテナ */
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 見出し */
+.container h1 {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.container h2 {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #4a4a4a;
+}
+
+.container h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #2a2a2a;
+}
+
+/* ボタンの基本スタイル */
+.button {
+  width: 100%;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 無効化されたボタン */
+.disabledButton {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #6c757d;
+}
+
+.disabledButton:hover {
+  background-color: #6c757d;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 入力フィールド */
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.input::placeholder {
+  color: #999;
+}
+
+/* エラーメッセージ */
+.error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* 成功メッセージ */
+.success {
+  color: #155724;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 10px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* パスワードリセットリンク */
+.resetPasswordLink {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.resetPasswordLink p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* リンクボタン */
+.linkButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin-left: 4px;
+  transition: color 0.3s ease;
+}
+
+.linkButton:hover {
+  color: #0056b3;
+}
+
+/* パスワードリセットコンテナ */
+.resetPasswordContainer {
+  margin-top: 24px;
+  padding: 24px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.resetPasswordContainer p {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+/* アカウント作成リンク */
+.createAccountLink {
+  text-align: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.createAccountLink p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 通常のリンク */
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+  transition: all 0.3s ease;
+}
+
+.link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .container h1 {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .button {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+
+  .input {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+}
+
+/* ダークモード対応（オプション） */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  .container h1, .container h2, .container h3 {
+    color: #e0e0e0;
+  }
+
+  .input {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: #e0e0e0;
+  }
+
+  .input:focus {
+    background-color: #333;
+    border-color: #4a9eff;
+    box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+  }
+
+  .button {
+    background-color: #0066cc;
+  }
+
+  .button:hover:not(:disabled) {
+    background-color: #0052a3;
+  }
+
+  .resetPasswordContainer {
+    background-color: #2a2a2a;
+    border-color: #444;
+  }
+
+  .error {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+  }
+
+  .success {
+    background-color: rgba(21, 87, 36, 0.1);
+    border-color: #155724;
+  }
+
+  .createAccountLink {
+    border-top-color: #444;
+  }
+}

@@ -1,0 +1,427 @@
+/* ヘッダー全体 */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 内部レイアウト */
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ロゴ */
+.logo a {
+  display: block;
+  line-height: 1;
+}
+
+.logo img {
+  width: 180px;
+  height: auto;
+  display: block;
+}
+
+/* PC用ナビエリア - モバイルでは非表示 */
+.navArea {
+  display: none;
+}
+
+/* ハンバーガーメニュー - モバイルでのみ表示 */
+.hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin: -8px;
+  color: #333;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+.hamburger:hover {
+  background-color: #f0f0f0;
+}
+
+/* モバイルメニューの背景 */
+.mobileMenuBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* モバイルメニューオーバーレイ */
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85%;
+  max-width: 320px;
+  background-color: #ffffff;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 閉じるボタン */
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  color: #333;
+  z-index: 1001;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.closeButton:hover {
+  background-color: #f0f0f0;
+}
+
+/* モバイルナビ */
+.mobileNav {
+  padding: 70px 20px 40px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mobileNavLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobileNavLinks li {
+  margin-bottom: 8px;
+}
+
+.mobileNavLinks li:last-child {
+  margin-top: 8px;
+}
+
+.mobileNavLinks a {
+  display: block;
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  color: #333;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.mobileNavLinks a:hover {
+  background-color: #f0f7ff;
+  color: #005bac;
+  transform: translateX(4px);
+}
+
+.mobileNavLinks li:last-child a {
+  background-color: #005bac;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 91, 172, 0.2);
+  font-size: 0.95rem;
+}
+
+.mobileNavLinks li:last-child a:hover {
+  background-color: #004494;
+  color: #ffffff;
+  transform: translateX(0);
+  box-shadow: 0 4px 12px rgba(0, 91, 172, 0.3);
+}
+
+/* モバイルメニュー内の情報表示 */
+.mobileMenuInfo {
+  margin-top: auto;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.businessHoursDetail {
+  color: #999;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* タブレット対応（768px以上） */
+@media (min-width: 768px) {
+  .inner {
+    padding: 16px 30px;
+  }
+
+  .logo img {
+    width: 220px;
+  }
+}
+
+/* PC対応（1024px以上） */
+@media (min-width: 1024px) {
+  .inner {
+    padding: 16px 40px;
+  }
+
+  .logo img {
+    width: 240px;
+  }
+
+  /* ハンバーガーメニューを非表示 */
+  .hamburger {
+    display: none;
+  }
+
+  /* PC用ナビエリアを表示 */
+  .navArea {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  /* 営業時間情報 */
+  .businessInfo {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 2px;
+    text-align: right;
+  }
+
+  /* ナビゲーション */
+  .navLinks {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+  }
+
+  .navLinks li a {
+    display: block;
+    padding: 12px 24px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  /* ホバー時の下線エフェクト（お問合せボタン以外） */
+  .navLinks li:not(:last-child) a::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 24px;
+    right: 24px;
+    height: 2px;
+    background-color: #005bac;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .navLinks li:not(:last-child) a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .navLinks li:not(:last-child) a:hover {
+    background-color: #f0f7ff;
+    color: #005bac;
+  }
+
+  /* お問合せボタンのスタイル */
+  .navLinks li:last-child a {
+    background-color: #005bac;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 91, 172, 0.2);
+    padding: 12px 32px;
+    font-size: 0.95rem;
+  }
+
+  .navLinks li:last-child a:hover {
+    background-color: #004494;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 91, 172, 0.3);
+  }
+
+  /* モバイルメニューは非表示 */
+  .mobileMenuOverlay {
+    display: none;
+  }
+}
+
+/* 大画面対応（1440px以上） */
+@media (min-width: 1440px) {
+  .inner {
+    padding: 18px 60px;
+    max-width: 1400px;
+  }
+
+  .navLinks {
+    gap: 16px;
+  }
+
+  .navLinks li a {
+    padding: 14px 28px;
+    font-size: 1rem;
+  }
+
+  .navLinks li:last-child a {
+    padding: 14px 40px;
+    font-size: 1rem;
+  }
+}
+
+/* 以下のスタイルを既存のHeader.module.cssファイルに追加してください */
+
+/* PC用SNSリンクのスタイル */
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 8px;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.socialLinks a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.socialLinks a:hover {
+  background-color: #005bac;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* X (Twitter) のホバー色 */
+.socialLinks a:first-child:hover {
+  background-color: #000000;
+}
+
+/* Instagram のホバー色 */
+.socialLinks a:nth-child(2):hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+/* Facebook のホバー色 */
+.socialLinks a:last-child:hover {
+  background-color: #1877f2;
+}
+
+/* モバイル用SNSリンクのスタイル */
+.mobileSocialLinks {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.mobileSocialLinks a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.mobileSocialLinks a:hover {
+  background-color: #005bac;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+/* モバイル用の各SNSアイコンのホバー色 */
+.mobileSocialLinks a:first-child:hover {
+  background-color: #000000;
+}
+
+.mobileSocialLinks a:nth-child(2):hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.mobileSocialLinks a:last-child:hover {
+  background-color: #1877f2;
+}
+
+/* レスポンシブ調整 */
+@media (min-width: 1024px) {
+  .mobileSocialLinks {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .socialLinks {
+    display: none;
+  }
+}

@@ -1,0 +1,260 @@
+/* WhyMe Section */
+.whyme {
+  padding: 80px 0;
+  background: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.preTitle {
+  font-size: 0.875rem;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.sectionTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.highlight {
+  color: #2563eb;
+}
+
+.leadText {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+.spOnly {
+  display: none;
+}
+
+.strengthsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.strengthCard {
+  background: #f8f9fa;
+  padding: 32px;
+  border-radius: 16px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.strengthCard:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #ffffff 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.1);
+}
+
+.strengthTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.strengthDescription {
+  font-size: 0.9375rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.comparison {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.comparisonLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.comparisonText {
+  font-size: 0.8125rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Comparison Section */
+.comparisonSection {
+  background: #f8f9fa;
+  padding: 60px 40px;
+  border-radius: 20px;
+  margin-bottom: 60px;
+}
+
+.comparisonTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.comparisonCard {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.comparisonCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.comparisonCardTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #2563eb;
+}
+
+.comparisonList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+.comparisonList li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  font-size: 0.9375rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.comparisonList li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #059669;
+  font-weight: bold;
+}
+
+.comparisonSummary {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+  padding-top: 16px;
+  border-top: 1px solid #e9ecef;
+}
+
+.comparisonSummary strong {
+  display: block;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Message */
+.message {
+  text-align: center;
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  border-radius: 20px;
+  color: white;
+}
+
+.messageText {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.messageText strong {
+  font-weight: 800;
+  font-size: 1.75rem;
+}
+
+.messageSubtext {
+  font-size: 0.9375rem;
+  opacity: 0.9;
+  line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .whyme {
+    padding: 60px 0;
+  }
+  
+  .spOnly {
+    display: inline;
+  }
+  
+  .strengthsGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .strengthCard {
+    padding: 24px;
+  }
+  
+  .comparisonSection {
+    padding: 40px 24px;
+  }
+  
+  .comparisonGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .comparisonCard {
+    padding: 24px;
+  }
+  
+  .message {
+    padding: 40px 24px;
+  }
+  
+  .messageText {
+    font-size: 1.25rem;
+  }
+  
+  .messageText strong {
+    font-size: 1.5rem;
+  }
+}

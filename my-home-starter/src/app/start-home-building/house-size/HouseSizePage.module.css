@@ -1,0 +1,803 @@
+/* src/app/start-home-building/house-size/HouseSizePage.module.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  min-height: 100vh;
+  overflow-anchor: none;
+}
+
+/* ヘッダー */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+/* 進捗バー */
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #f59e0b;
+  transition: width 0.3s ease;
+}
+
+/* サンプルボタン */
+.sampleButtonContainer {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.sampleButton {
+  background-color: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sampleButton:hover {
+  background-color: #d1d5db;
+}
+
+/* メインコンテンツ */
+.main {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.formContainer {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.infoButton {
+  margin-left: 8px;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoButton:hover {
+  background-color: #d97706;
+}
+
+/* 階数選択オプション */
+.floorOptions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.floorOptionWrapper {
+  flex: 1;
+  min-width: 150px;
+}
+
+.floorRadio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.floorLabel {
+  display: block;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background-color: white;
+  text-align: center;
+}
+
+.floorLabel:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.floorLabelChecked {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.floorLabelChecked .floorText {
+  font-weight: 600;
+  color: #d97706;
+}
+
+.floorLabelChecked .floorDescription {
+  color: #92400e;
+}
+
+.floorText {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: #374151;
+}
+
+.floorDescription {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #f59e0b;
+}
+
+/* 部屋セクション */
+.roomSection {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.roomTitle {
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+/* 部屋タイプセクション */
+.roomTypeSection {
+  margin-bottom: 32px;
+  transition: all 0.3s ease;
+}
+
+.roomTypeTitle {
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+/* 個別の部屋アイテム */
+.roomItem {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: opacity 0.3s ease;
+  scroll-margin: 0;
+  overflow-anchor: none;
+}
+
+/* 新しく追加された部屋のアニメーション（シンプル化） */
+.roomItemNew {
+  animation: fadeIn 0.3s ease-out;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1);
+}
+
+/* 削除中の部屋のアニメーション（シンプル化） */
+.roomItemDeleting {
+  animation: fadeOut 0.3s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+.roomItemTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+/* プリセット選択肢のスタイル */
+.presetOptions {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  scroll-behavior: auto;
+  overflow-anchor: none;
+}
+
+.presetWrapper {
+  position: relative;
+  scroll-behavior: auto;
+}
+
+/* ラジオボタンの非表示 */
+.presetRadio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.presetRadio:focus {
+  outline: none;
+}
+
+.presetLabel {
+  display: block;
+  position: relative;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background-color: white;
+  scroll-margin: 0;
+  scroll-snap-align: none;
+}
+
+.presetLabel:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* チェック状態のスタイル */
+.presetLabelChecked {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.presetLabelChecked .presetText {
+  font-weight: 600;
+  color: #d97706;
+}
+
+.presetLabelChecked .presetDescription {
+  color: #92400e;
+}
+
+.presetText {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: #374151;
+  position: relative;
+}
+
+.presetDescription {
+  display: block;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-left: 1rem;
+}
+
+.recommended {
+  position: relative;
+}
+
+.recommendedBadge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.5rem;
+  background-color: #f59e0b;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 12px;
+  vertical-align: middle;
+}
+
+/* 部屋の制御部分 */
+.roomControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* 入力フィールド */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.input {
+  width: 80px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: white;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #f59e0b;
+}
+
+.input:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.unit {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.multiply {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 4px;
+}
+
+/* 部屋追加ボタン */
+.addRoomButton {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: white;
+  border: 2px dashed #e5e7eb;
+  border-radius: 8px;
+  color: #6b7280;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addRoomButton:hover {
+  border-color: #f59e0b;
+  color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.addRoomButton:active {
+  transform: scale(0.99);
+}
+
+/* 削除ボタン */
+.removeButton {
+  padding: 6px 12px;
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.removeButton:hover {
+  background-color: #4b5563;
+}
+
+.removeButton:active {
+  transform: scale(0.98);
+}
+
+/* 計算ボタン */
+.calculateButton {
+  display: block;
+  margin: 32px auto;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 48px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.calculateButton:hover {
+  background-color: #d97706;
+}
+
+.calculateButton:active {
+  transform: scale(0.98);
+}
+
+/* 結果表示 */
+.resultContainer {
+  background-color: #fffbeb;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 32px;
+  margin-top: 32px;
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.resultTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #d97706;
+  margin-bottom: 16px;
+}
+
+.resultValue {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.resultNumber {
+  font-size: 48px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.resultUnit {
+  font-size: 24px;
+  color: #6b7280;
+}
+
+.resultNote {
+  font-size: 14px;
+  color: #92400e;
+  margin-bottom: 0.5rem;
+}
+
+.resultDetail {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* 保存ボタン関連 */
+.saveButtonContainer {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.saveButton {
+  background-color: white;
+  color: #f59e0b;
+  border: 2px solid #f59e0b;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 200px;
+}
+
+.saveButton:hover {
+  background-color: #fffbeb;
+}
+
+.saveNote {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ナビゲーション */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  gap: 16px;
+}
+
+.backButton {
+  padding: 12px 24px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: all 0.2s;
+  background-color: white;
+}
+
+.backButton:hover {
+  border-color: #d1d5db;
+  color: #4b5563;
+}
+
+.nextButton {
+  padding: 12px 32px;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nextButton:hover:not(:disabled) {
+  background-color: #d97706;
+}
+
+.nextButton:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* ローディング */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.loadingSpinner {
+  font-size: 18px;
+  color: #6b7280;
+}
+
+/* モーダル */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal h2 {
+  margin-bottom: 16px;
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.modal p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.modal ul {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.modal ul li {
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+.sampleList {
+  margin-bottom: 24px;
+}
+
+.sampleList p {
+  margin-bottom: 8px;
+  padding: 8px;
+  background-color: #f9fafb;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.modalCloseButton {
+  display: block;
+  margin: 0 auto;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.modalCloseButton:hover {
+  background-color: #d97706;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 640px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .main {
+    padding: 20px;
+  }
+
+  .roomSection {
+    padding: 16px;
+  }
+
+  .roomItem {
+    padding: 16px;
+  }
+
+  .roomTypeTitle {
+    font-size: 16px;
+  }
+
+  /* 階数選択のレスポンシブ対応 */
+  .floorOptions {
+    flex-direction: column;
+  }
+
+  .floorOptionWrapper {
+    width: 100%;
+  }
+
+  .floorLabel {
+    padding: 12px;
+  }
+
+  /* プリセット選択肢のレスポンシブ対応 */
+  .presetLabel {
+    padding: 0.5rem;
+  }
+
+  .presetText {
+    font-size: 0.875rem;
+  }
+
+  .presetDescription {
+    font-size: 0.75rem;
+    margin-left: 0.75rem;
+  }
+
+  .roomControls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .inputWrapper {
+    justify-content: center;
+  }
+
+  .multiply {
+    text-align: center;
+  }
+
+  .removeButton {
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .calculateButton {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .resultNumber {
+    font-size: 36px;
+  }
+
+  .resultUnit {
+    font-size: 20px;
+  }
+
+  .navigation {
+    flex-direction: column;
+  }
+
+  .backButton,
+  .nextButton {
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal {
+    padding: 24px;
+    width: 95%;
+  }
+}

@@ -1,0 +1,270 @@
+/* HowItWorks.module.css */
+
+.section {
+    padding: 5rem 0;
+    background-color: #fcfcfc;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .title {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .subtitle {
+    color: #374151;
+    max-width: 42rem;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  /* ステップラッパー */
+  .stepsWrapper {
+    position: relative;
+  }
+  
+  /* 接続線（デスクトップのみ） */
+  .connectionLine {
+    display: none;
+  }
+  
+  @media (min-width: 1024px) {
+    .connectionLine {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background-color: #f59e0b;
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+  }
+  
+  /* ステップグリッド */
+  .stepsGrid {
+    display: grid;
+    gap: 2rem;
+    position: relative;
+    z-index: 10;
+    grid-template-columns: 1fr;
+  }
+  
+  @media (min-width: 768px) {
+    .stepsGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .stepsGrid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  /* 各ステップ */
+  .stepItem {
+    text-align: center;
+  }
+  
+  /* ステップの円 */
+  .stepCircle {
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 6rem;
+    height: 6rem;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 3px solid #fffbeb;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* グラデーションボーダー（ホバー時） */
+  .stepCircle::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #f59e0b, #d97706);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .stepCircle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background-color: #ffffff;
+    z-index: -1;
+  }
+  
+  .stepItem:hover .stepCircle {
+    border-color: transparent;
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .stepItem:hover .stepCircle::before {
+    opacity: 1;
+  }
+  
+  .stepItem:hover .stepCircle::before {
+    opacity: 1;
+  }
+  
+  .stepItem:hover .stepCircle {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* ステップ番号 */
+  .stepNumber {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f59e0b;
+  }
+  
+  /* ステップラベル */
+  .stepLabel {
+    color: #f59e0b;
+    font-weight: bold;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* ステップタイトル */
+  .stepTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* ステップ説明 */
+  .stepDescription {
+    color: #374151;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  /* CTAセクション */
+  .ctaSection {
+    text-align: center;
+    margin-top: 3rem;
+  }
+  
+  .ctaButton {
+    display: inline-block;
+    background-color: #f59e0b;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+  }
+  
+  .ctaButton:hover {
+    background-color: #d97706;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(245, 158, 11, 0.3);
+  }
+  
+  /* アニメーション */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .stepItem {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+  
+  .stepItem:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  
+  .stepItem:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .stepItem:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  
+  .stepItem:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  
+  /* レスポンシブ調整 */
+  @media (max-width: 640px) {
+    .section {
+      padding: 3rem 0;
+    }
+    
+    .header {
+      margin-bottom: 2rem;
+    }
+    
+    .title {
+      font-size: 1.75rem;
+    }
+    
+    .stepsGrid {
+      gap: 1.5rem;
+    }
+    
+    .stepCircle {
+      width: 5rem;
+      height: 5rem;
+    }
+    
+    .stepNumber {
+      font-size: 1.25rem;
+    }
+    
+    .stepTitle {
+      font-size: 1.125rem;
+    }
+  }

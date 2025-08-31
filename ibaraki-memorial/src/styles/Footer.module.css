@@ -1,0 +1,94 @@
+/* Footer.module.css */
+
+.footer {
+  background-color: #f8f8f8;
+  padding: 24px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  border-top: 1px solid #e0e0e0;
+}
+
+.inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.copy {
+  margin-bottom: 8px;
+}
+
+.links {
+  margin-bottom: 16px;
+}
+
+.links a {
+  margin: 0 12px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  text-decoration: underline;
+  color: #00bf63;
+}
+
+/* クレジット部分のスタイル */
+.credit {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.credit p {
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.creditLink {
+  color: #00bf63;
+  text-decoration: none;
+  margin-left: 4px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.creditLink:hover {
+  color: #00d470;
+  text-decoration: underline;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 767px) {
+  .links a {
+    display: inline-block;
+    margin: 4px 8px;
+  }
+  
+  .credit p {
+    font-size: 0.7rem;
+  }
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .footer {
+    padding: 32px 24px;
+  }
+  
+  .copy {
+    margin-bottom: 12px;
+  }
+  
+  .links {
+    margin-bottom: 20px;
+  }
+  
+  .credit {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+}

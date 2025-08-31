@@ -1,0 +1,220 @@
+/* TrustIndicators.module.css */
+
+.section {
+  padding: 3.5rem 0;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .sectionTitle {
+    font-size: 2rem;
+  }
+}
+
+/* インジケーターグリッド */
+.indicatorsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .indicatorsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* インジケーターカード */
+.indicatorCard {
+  text-align: center;
+  padding: 1.75rem 1.25rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.indicatorCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.indicatorCard:hover::before {
+  transform: scaleX(1);
+}
+
+.indicatorCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 値 */
+.value {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #f59e0b;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .value {
+    font-size: 2rem;
+  }
+}
+
+/* 特定のカードを強調 */
+.indicatorCard:nth-child(1) .value {
+  font-size: 2.5rem;
+}
+
+  
+.indicatorCard:nth-child(3) .value {
+  font-size: 1.25rem;
+}
+
+.indicatorCard:nth-child(4) .value {
+  font-size: 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .indicatorCard:nth-child(1) .value {
+    font-size: 3rem;
+  }
+  
+  .indicatorCard:nth-child(2) .value {
+    font-size: 1.5rem;
+  }
+  
+  .indicatorCard:nth-child(3) .value {
+    font-size: 1.25rem;
+  }
+  
+  .indicatorCard:nth-child(4) .value {
+    font-size: 2.25rem;
+  }
+}
+
+/* ラベル */
+.label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  opacity: 0.8;
+}
+
+/* サブテキスト */
+.subtext {
+  font-size: 0.875rem;
+  color: #1f2937;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* アニメーション */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.indicatorCard {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.indicatorCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.indicatorCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.indicatorCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 640px) {
+  .section {
+    padding: 2rem 0;
+  }
+  
+  .header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.25rem;
+  }
+  
+  .indicatorCard {
+    padding: 1.5rem 1rem;
+  }
+  
+  .value {
+    font-size: 1.125rem;
+  }
+  
+  .indicatorCard:nth-child(1) .value {
+    font-size: 1.375rem;
+  }
+  
+  .indicatorCard:nth-child(2) .value {
+    font-size: 1.375rem;
+  }
+  
+  .indicatorCard:nth-child(3) .value {
+    font-size: 1rem;
+  }
+  
+  .label {
+    font-size: 0.8rem;
+  }
+  
+  .subtext {
+    font-size: 0.7rem;
+  }
+}

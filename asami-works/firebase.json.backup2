@@ -1,0 +1,25 @@
+{
+  "hosting": {
+    "site": "asamiworks-679b3",
+    "public": "out",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/api/contact",
+        "function": "contact"
+      },
+      {
+        "source": "/api/form", 
+        "function": "form"
+      },
+      {
+        "source": "/api/instagram",
+        "function": "instagram"
+      }
+    ]
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20"
+  }
+}

@@ -1,0 +1,521 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 20px 40px;
+  background-color: #fff;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  min-height: 100vh;
+}
+
+/* メインタイトル */
+.title {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #005bac;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #005bac, #0066cc);
+  border-radius: 2px;
+}
+
+/* フォームセクション */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #f8fafc;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 91, 172, 0.08);
+  margin-bottom: 40px;
+  border: 1px solid #e8f0f7;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 0.95rem;
+  gap: 8px;
+  color: #2c3e50;
+}
+
+.label::after {
+  content: attr(data-required);
+  color: #e74c3c;
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+
+.input,
+.textarea,
+.select {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  font-family: inherit;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: #005bac;
+  box-shadow: 0 0 0 3px rgba(0, 91, 172, 0.1);
+  transform: translateY(-1px);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+/* ボタンスタイル */
+.submitButton,
+.cancelButton {
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: inline-block;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #005bac, #0066cc);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 91, 172, 0.3);
+  width: 100%;
+  max-width: 320px;
+  margin: 12px auto 0;
+  display: block;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #004590, #0052a3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 91, 172, 0.4);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 91, 172, 0.3);
+}
+
+.cancelButton {
+  background-color: #e9ecef;
+  color: #495057;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #dee2e6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* 確認画面 */
+.confirmBox {
+  background: linear-gradient(135deg, #f8fafc, #fff);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 91, 172, 0.08);
+  margin-bottom: 40px;
+  border: 1px solid #e8f0f7;
+}
+
+.confirmBox h2 {
+  margin: 0 0 24px 0;
+  color: #005bac;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.confirmBox p {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  border-left: 3px solid #005bac;
+}
+
+.confirmBox p strong {
+  min-width: 140px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.confirmBox .submitButton,
+.confirmBox .cancelButton {
+  margin: 16px 8px 0;
+  display: inline-block;
+  width: auto;
+  min-width: 160px;
+}
+
+.confirmBox .submitButton {
+  margin-right: 12px;
+}
+
+/* 見積もりボックス */
+.estimateBox {
+  background: linear-gradient(135deg, #f3faff, #f8fcff);
+  padding: 32px;
+  border-left: 5px solid #005bac;
+  margin-top: 60px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 91, 172, 0.08);
+  position: relative;
+}
+
+.estimateBox::before {
+  content: '概算見積もり内容';
+  position: absolute;
+  top: -16px;
+  left: 24px;
+  background: #005bac;
+  color: white;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.estimateBox h2 {
+  margin: 0 0 24px 0;
+  color: #005bac;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* 総額表示 */
+.totalPrice {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #005bac;
+  text-align: center;
+  margin: 24px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: inset 0 2px 8px rgba(0, 91, 172, 0.08);
+  position: relative;
+}
+
+.totalPrice::before {
+  content: '合計金額';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 0 12px;
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: normal;
+}
+
+/* 内訳表示 */
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.breakdownItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0, 91, 172, 0.08);
+}
+
+.breakdownItem:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 91, 172, 0.1);
+}
+
+.breakdownItem:first-child {
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 91, 172, 0.15);
+}
+
+/* プレミアム保守プラン注意書き */
+.premiumNotice {
+  margin: 24px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff9e6, #fffbf0);
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+}
+
+.premiumNotice p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d97706;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* 価値提案文 */
+.valueStatement {
+  margin: 24px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
+  border-radius: 8px;
+  border: 1px solid #e1ecf7;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 91, 172, 0.05);
+}
+
+.valueStatement p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+.valueStatement strong {
+  color: #005bac;
+  font-weight: 600;
+}
+
+/* 編集リンク */
+.editLink {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #666;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+}
+
+.linkButton {
+  color: #005bac;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: pointer;
+  font-size: inherit;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.linkButton::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #005bac;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.linkButton:hover {
+  color: #003e7e;
+}
+
+.linkButton:hover::after {
+  transform: scaleX(1);
+}
+
+/* エラーメッセージ */
+.error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.error::before {
+  content: '⚠';
+  margin-right: 6px;
+}
+
+/* 送信メッセージ */
+.message {
+  padding: 20px;
+  margin-bottom: 32px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.05rem;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.success {
+  background: linear-gradient(135deg, #d4edda, #e7f5eb);
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+}
+
+.message.error {
+  background: linear-gradient(135deg, #f8d7da, #fbe5e7);
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+}
+
+/* ボタンの無効化状態 */
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .container {
+    padding: 40px 16px 32px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .form {
+    padding: 24px;
+  }
+
+  .estimateBox {
+    padding: 24px;
+    margin-top: 40px;
+  }
+
+  .totalPrice {
+    font-size: 1.6rem;
+    padding: 16px;
+  }
+
+  .confirmBox {
+    padding: 24px;
+  }
+
+  .confirmBox p strong {
+    min-width: 120px;
+  }
+
+  .confirmBox .submitButton,
+  .confirmBox .cancelButton {
+    width: 100%;
+    margin: 8px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 32px 12px 24px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 32px;
+  }
+
+  .form {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .estimateBox {
+    padding: 20px;
+    margin-top: 32px;
+  }
+
+  .estimateBox h2 {
+    font-size: 1.2rem;
+  }
+
+  .totalPrice {
+    font-size: 1.4rem;
+    padding: 14px;
+  }
+
+  .breakdownItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+
+  .breakdownItem:hover {
+    transform: none;
+  }
+
+  .valueStatement p {
+    font-size: 0.85rem;
+  }
+
+  .premiumNotice p {
+    font-size: 0.85rem;
+  }
+
+  .confirmBox p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .confirmBox p strong {
+    min-width: auto;
+  }
+
+  .message {
+    font-size: 0.95rem;
+    padding: 16px;
+  }
+}

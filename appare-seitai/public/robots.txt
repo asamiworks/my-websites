@@ -1,0 +1,71 @@
+# 天晴れ整体院 robots.txt
+# https://appare-seitai.com
+
+# すべての検索エンジンに対して
+User-agent: *
+Allow: /
+Allow: /images/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.woff$
+Allow: /*.woff2$
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.git/
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /vite.config.js
+Disallow: /*.ts$
+Disallow: /*.map$
+Disallow: /private/
+Disallow: /admin/
+
+# Googlebot専用の設定
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Googlebot-Image
+User-agent: Googlebot-Image
+Allow: /images/
+Disallow: /private/
+
+# サイトマップの場所
+Sitemap: https://appare-seitai.com/sitemap.xml
+
+# クロール速度の制限（一般的なボット向け）
+Crawl-delay: 1
+
+# AIクローラーへの制限を緩和
+# GPTBot - OpenAIのクローラー（コンテンツの理解を許可）
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Crawl-delay: 2
+
+# ChatGPT-User - ChatGPTのブラウジング機能
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+# CCBot - Common Crawl（データセット用）
+User-agent: CCBot
+Allow: /
+Crawl-delay: 5
+
+# Anthropic AI - Claude
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin/
+Disallow: /private/

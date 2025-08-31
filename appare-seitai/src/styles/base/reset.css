@@ -1,0 +1,134 @@
+/* モダンCSS Reset */
+
+/* ボックスサイジングの統一 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* デフォルトマージンのリセット */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* リストスタイルのリセット */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* コアボディのデフォルト設定 */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* 見出しとインタラクティブ要素のバランス調整 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+/* リンクの下線を削除 */
+a {
+  text-decoration-skip-ink: auto;
+}
+
+/* 画像とメディア要素の設定 */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* フォーム要素のフォント継承 */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* テキストオーバーフローの処理 */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* ルート要素の設定 */
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* ボタンのリセット */
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+/* テーブルのリセット */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* フォーカスアウトラインのカスタマイズ */
+:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* モーション設定を尊重 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

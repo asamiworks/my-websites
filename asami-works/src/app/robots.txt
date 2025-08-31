@@ -1,0 +1,73 @@
+# robots.txt for AsamiWorks
+# https://asami-works.com
+
+# 全てのクローラーに対する設定
+User-agent: *
+Allow: /
+Crawl-delay: 1
+
+# サイトマップの場所
+Sitemap: https://asami-works.com/sitemap.xml
+
+# クロール不要なディレクトリ・ファイル
+Disallow: /api/
+Disallow: /_next/
+Disallow: /backup/
+Disallow: /form/confirm
+Disallow: /*.json$
+Disallow: /*?*
+Disallow: /*.backup
+Disallow: /Form.backup/
+
+# リソースファイル（CDNから配信されるため）
+Disallow: /*.woff
+Disallow: /*.woff2
+Disallow: /*.ttf
+Disallow: /*.eot
+
+# 重要なページへの明示的な許可
+Allow: /
+Allow: /about
+Allow: /services
+Allow: /services/grant
+Allow: /services/appsheet
+Allow: /services/corporate
+Allow: /services/lp
+Allow: /services/package
+Allow: /services/original
+Allow: /subsidy
+Allow: /estimate
+Allow: /form
+Allow: /contact
+
+# デモページは低優先度（クロールは許可するが頻度を下げる）
+Allow: /services/package/demo/
+
+# 画像検索エンジン用
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.png
+Allow: /*.webp
+
+# Google Adsボット用
+User-agent: AdsBot-Google
+Allow: /
+Disallow: /services/package/demo/
+
+# 悪質なボットのブロック
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /

@@ -1,0 +1,18 @@
+{
+  "name": "AsamiWorks - 補助金対応ホームページ制作",
+  "short_name": "AsamiWorks",
+  "description": "茨城・千葉の小規模事業者持続化補助金対応ホームページ制作",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "lang": "ja",
+  "dir": "ltr"
+}

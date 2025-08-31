@@ -1,0 +1,321 @@
+/* CostBreakdown.module.css */
+
+.section {
+  padding: 5rem 0;
+  background-color: #fcfcfc;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.subtitle {
+  color: #374151;
+  max-width: 48rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* チャートセクション */
+.chartSection {
+  max-width: 56rem;
+  margin: 0 auto 3rem;
+}
+
+.chartCard {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+}
+
+.chartTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* プログレスバー */
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.progressItem {
+  margin-bottom: 0.5rem;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.progressLabel {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.progressAmount {
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.progressBarBg {
+  width: 100%;
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+  height: 2rem;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
+  transition: width 1s ease-out;
+  animation: progressGrow 1s ease-out;
+}
+
+@keyframes progressGrow {
+  from {
+    width: 0 !important;
+  }
+}
+
+.progressPercentage {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* カラークラス */
+.colorMain {
+  background-color: #f59e0b;
+}
+
+.colorSub1 {
+  background-color: #374151;
+}
+
+.colorSub2 {
+  background-color: #fffbeb;
+  color: #d97706 !important;
+}
+
+.colorSub2 .progressPercentage {
+  color: #d97706 !important;
+}
+
+.colorSub3 {
+  background-color: #d97706;
+}
+
+/* 詳細グリッド */
+.detailGrid {
+  max-width: 56rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .detailGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.detailCard {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.detailCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.detailTitle {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #fffbeb;
+}
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detailItem {
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 0.75rem;
+}
+
+.detailItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.detailItemName {
+  font-weight: 500;
+  color: #1f2937;
+  font-size: 0.875rem;
+}
+
+.detailItemAmount {
+  font-weight: bold;
+  color: #f59e0b;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+
+.detailDescription {
+  font-size: 0.75rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* 注意事項セクション */
+.cautionSection {
+  max-width: 56rem;
+  margin: 3rem auto 0;
+  background-color: #fffbeb;
+  border: 2px solid #f59e0b;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.cautionTitle {
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+}
+
+.cautionList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cautionItem {
+  display: flex;
+  align-items: flex-start;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.cautionItem:last-child {
+  margin-bottom: 0;
+}
+
+.cautionNumber {
+  color: #f59e0b;
+  margin-right: 0.5rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* CTAセクション */
+.ctaSection {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.ctaText {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #f59e0b;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.ctaButton:hover {
+  background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(245, 158, 11, 0.3);
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 640px) {
+  .section {
+    padding: 3rem 0;
+  }
+  
+  .header {
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .chartCard {
+    padding: 1.5rem;
+  }
+  
+  .detailCard {
+    padding: 1.25rem;
+  }
+  
+  .cautionSection {
+    padding: 1.25rem;
+  }
+  
+  .cautionItem {
+    font-size: 0.875rem;
+  }
+}

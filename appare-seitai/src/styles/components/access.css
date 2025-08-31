@@ -1,0 +1,235 @@
+/* アクセスセクションのスタイル */
+
+.access {
+  padding: var(--spacing-5xl) 0;
+  background-color: var(--color-bg-secondary);
+  /* margin-bottom は main.css で管理するため削除 */
+}
+
+.access-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4xl);
+  margin-top: var(--spacing-3xl);
+  align-items: stretch; /* 高さを揃える */
+}
+
+/* 左側：店舗情報 */
+.access-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.access-section {
+  background: var(--color-bg-primary);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.access-section:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.access-section h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.access-section h3::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+}
+
+/* 営業時間 */
+.access-hours {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hours-row:last-of-type {
+  border-bottom: none;
+}
+
+.hours-day {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.hours-time {
+  color: var(--color-text-secondary);
+}
+
+.access-note {
+  margin-top: var(--spacing-sm);
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* 住所 */
+.access-address {
+  font-style: normal;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* 連絡先 */
+.access-contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.access-tel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.access-tel:hover {
+  transform: scale(1.05);
+}
+
+.access-tel svg {
+  width: 28px;
+  height: 28px;
+}
+
+.access-buttons {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.access-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-base);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+  color: white;
+}
+
+.access-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.access-button.line {
+  background-color: #00B900;
+}
+
+.access-button.line:hover {
+  background-color: #009900;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 185, 0, 0.3);
+}
+
+.access-button.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.access-button.instagram:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 39, 67, 0.3);
+  filter: brightness(1.1);
+}
+
+/* 右側：地図 */
+.access-map {
+  position: relative;
+  min-height: 500px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.access-map iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+  .access-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-3xl);
+    /* タブレットでも地図を最初に表示 */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .access-map {
+    order: -1;
+    height: 400px;
+  }
+  
+  .access-info {
+    order: 1;
+  }
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .access {
+    padding: var(--spacing-3xl) 0;
+    /* margin-bottom の設定を削除（main.cssで管理） */
+  }
+  
+  /* モバイルで地図の高さだけ調整 */
+  .access-map {
+    height: 300px;
+  }
+
+  .access-section {
+    padding: var(--spacing-lg);
+  }
+
+  .hours-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .access-tel {
+    font-size: var(--font-size-lg);
+  }
+
+  .access-buttons {
+    flex-direction: column;
+  }
+}

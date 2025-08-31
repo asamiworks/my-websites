@@ -1,0 +1,243 @@
+.safetySection {
+    padding: 80px 0;
+    background: #fff;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  /* 特徴グリッド */
+  .featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+  
+  .featureCard {
+    background: linear-gradient(135deg, #f5f7ff, #fff);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .featureCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+  
+  .iconWrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  .featureCard:hover .iconWrapper {
+    transform: scale(1.1);
+  }
+  
+  .iconWrapper svg {
+    width: 40px;
+    height: 40px;
+    color: #fff;
+  }
+  
+  .featureCard h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .featureCard p {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  /* 区切り線 */
+  .divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+    margin: 60px 0;
+  }
+  
+  /* 利用規約 */
+  .rulesSection {
+    background: #f8f9ff;
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .rulesTitle {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 40px;
+  }
+  
+  .rulesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .ruleItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .ruleItem:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+  
+  .ruleNumber {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #ff6bcb, #9b59b6);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  .ruleItem p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+    padding-top: 8px;
+  }
+  
+  /* 緊急連絡先 */
+  .emergencyBox {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 5px 20px rgba(255, 152, 0, 0.1);
+    margin-top: 40px;
+  }
+  
+  .emergencyIcon {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    background: #ff6b00;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .emergencyIcon svg {
+    width: 40px;
+    height: 40px;
+    color: #fff;
+  }
+  
+  .emergencyInfo h4 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .emergencyInfo p {
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .phoneNumber {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff6b00;
+    margin: 0;
+  }
+  
+  /* アニメーション */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .safetySection {
+      padding: 60px 0;
+    }
+  
+    .featuresGrid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  
+    .rulesSection {
+      padding: 30px 20px;
+    }
+  
+    .rulesGrid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+  
+    .ruleItem {
+      padding: 12px;
+    }
+  
+    .emergencyBox {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px;
+    }
+  
+    .phoneNumber {
+      font-size: 1.5rem;
+    }
+  }

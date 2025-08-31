@@ -1,0 +1,285 @@
+import fs from 'fs';
+import path from 'path';
+import { parse } from 'csv-parse/sync';
+
+// CSVから全市区町村データを読み込む（ビルド時用）
+export async function loadAllMunicipalitiesForBuild() {
+  try {
+    // ビルド時はファイルシステムから直接読み込む
+    const csvPath = path.join(process.cwd(), 'public', 'municipalities.csv');
+    const fileContent = fs.readFileSync(csvPath, 'utf-8');
+    
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true,
+    });
+    
+    const municipalities: Array<{
+      code: string;
+      prefecture: string;
+      city: string;
+      prefectureSlug: string;
+      citySlug: string;
+    }> = [];
+    
+    records.forEach((record: any) => {
+      const code = record['標準地域コード'];
+      const prefecture = record['都道府県'];
+      const district = record['政令市･郡･支庁･振興局等'] || '';
+      const city = record['市区町村'] || '';
+      
+      if (!code || !prefecture) return;
+      
+      // 市区町村名の決定
+      let cityName = '';
+      if (city && district) {
+        // 政令指定都市の区（例：札幌市中央区）
+        cityName = `${district}${city}`;
+      } else if (city) {
+        // 通常の市町村
+        cityName = city;
+      } else if (district && code.length === 5) {
+        // 政令指定都市本体（例：札幌市）
+        cityName = district;
+      } else {
+        return;
+      }
+      
+      municipalities.push({
+        code,
+        prefecture,
+        city: cityName,
+        prefectureSlug: prefectureToSlug(prefecture),
+        citySlug: cityToSlug(cityName),
+      });
+    });
+    
+    return municipalities;
+  } catch (error) {
+    console.error('Failed to load municipalities for build:', error);
+    return [];
+  }
+}
+
+// 都道府県名をスラッグに変換
+export function prefectureToSlug(prefecture: string): string {
+  const slugMap: Record<string, string> = {
+    '北海道': 'hokkaido',
+    '青森県': 'aomori',
+    '岩手県': 'iwate',
+    '宮城県': 'miyagi',
+    '秋田県': 'akita',
+    '山形県': 'yamagata',
+    '福島県': 'fukushima',
+    '茨城県': 'ibaraki',
+    '栃木県': 'tochigi',
+    '群馬県': 'gunma',
+    '埼玉県': 'saitama',
+    '千葉県': 'chiba',
+    '東京都': 'tokyo',
+    '神奈川県': 'kanagawa',
+    '新潟県': 'niigata',
+    '富山県': 'toyama',
+    '石川県': 'ishikawa',
+    '福井県': 'fukui',
+    '山梨県': 'yamanashi',
+    '長野県': 'nagano',
+    '岐阜県': 'gifu',
+    '静岡県': 'shizuoka',
+    '愛知県': 'aichi',
+    '三重県': 'mie',
+    '滋賀県': 'shiga',
+    '京都府': 'kyoto',
+    '大阪府': 'osaka',
+    '兵庫県': 'hyogo',
+    '奈良県': 'nara',
+    '和歌山県': 'wakayama',
+    '鳥取県': 'tottori',
+    '島根県': 'shimane',
+    '岡山県': 'okayama',
+    '広島県': 'hiroshima',
+    '山口県': 'yamaguchi',
+    '徳島県': 'tokushima',
+    '香川県': 'kagawa',
+    '愛媛県': 'ehime',
+    '高知県': 'kochi',
+    '福岡県': 'fukuoka',
+    '佐賀県': 'saga',
+    '長崎県': 'nagasaki',
+    '熊本県': 'kumamoto',
+    '大分県': 'oita',
+    '宮崎県': 'miyazaki',
+    '鹿児島県': 'kagoshima',
+    '沖縄県': 'okinawa',
+  };
+  
+  return slugMap[prefecture] || prefecture.toLowerCase();
+}
+
+// 市区町村名をスラッグに変換（簡易版）
+export function cityToSlug(city: string): string {
+  // よく使われる市区町村の変換マップ
+  const commonCityMap: Record<string, string> = {
+    // 東京23区
+    '千代田区': 'chiyoda',
+    '中央区': 'chuo',
+    '港区': 'minato',
+    '新宿区': 'shinjuku',
+    '文京区': 'bunkyo',
+    '台東区': 'taito',
+    '墨田区': 'sumida',
+    '江東区': 'koto',
+    '品川区': 'shinagawa',
+    '目黒区': 'meguro',
+    '大田区': 'ota',
+    '世田谷区': 'setagaya',
+    '渋谷区': 'shibuya',
+    '中野区': 'nakano',
+    '杉並区': 'suginami',
+    '豊島区': 'toshima',
+    '北区': 'kita',
+    '荒川区': 'arakawa',
+    '板橋区': 'itabashi',
+    '練馬区': 'nerima',
+    '足立区': 'adachi',
+    '葛飾区': 'katsushika',
+    '江戸川区': 'edogawa',
+    // 政令指定都市
+    '札幌市': 'sapporo',
+    '仙台市': 'sendai',
+    'さいたま市': 'saitama-city',
+    '千葉市': 'chiba-city',
+    '横浜市': 'yokohama',
+    '川崎市': 'kawasaki',
+    '相模原市': 'sagamihara',
+    '新潟市': 'niigata-city',
+    '静岡市': 'shizuoka-city',
+    '浜松市': 'hamamatsu',
+    '名古屋市': 'nagoya',
+    '京都市': 'kyoto-city',
+    '大阪市': 'osaka-city',
+    '堺市': 'sakai',
+    '神戸市': 'kobe',
+    '岡山市': 'okayama-city',
+    '広島市': 'hiroshima-city',
+    '北九州市': 'kitakyushu',
+    '福岡市': 'fukuoka-city',
+    '熊本市': 'kumamoto-city',
+    // 茨城県の主要都市
+    '水戸市': 'mito',
+    'つくば市': 'tsukuba',
+    '日立市': 'hitachi',
+    '土浦市': 'tsuchiura',
+    '古河市': 'koga',
+    '取手市': 'toride',
+    '筑西市': 'chikusei',
+    'ひたちなか市': 'hitachinaka',
+    '鹿嶋市': 'kashima',
+    '守谷市': 'moriya',
+    '牛久市': 'ushiku',
+  };
+  
+  // マップにある場合はそれを使用
+  if (commonCityMap[city]) {
+    return commonCityMap[city];
+  }
+  
+  // 政令指定都市の区の場合（例：札幌市中央区）
+  const cityDistrictMatch = city.match(/^(.+市)(.+区)$/);
+  if (cityDistrictMatch && cityDistrictMatch[1] && cityDistrictMatch[2]) {
+    const cityPart = cityDistrictMatch[1];
+    const districtPart = cityDistrictMatch[2];
+    const citySlug = commonCityMap[cityPart] || cityPart.replace(/市$/, '').toLowerCase();
+    const districtSlug = commonCityMap[districtPart] || districtPart.replace(/区$/, '').toLowerCase();
+    return `${citySlug}-${districtSlug}`;
+  }
+  
+  // その他の場合は、市区町村を削除してローマ字風に変換
+  const cleanedCity = city
+    .replace(/[市区町村]$/, '')
+    .toLowerCase()
+    .replace(/[ぁ-ん]/g, '') // ひらがなを削除（簡易的）
+    .replace(/[ァ-ン]/g, '') // カタカナを削除（簡易的）
+    .replace(/[^\w\s-]/g, '') // 特殊文字を削除
+    .replace(/\s+/g, '-'); // スペースをハイフンに
+    
+  return cleanedCity || `city-${Math.random().toString(36).substr(2, 9)}`; // フォールバック
+}
+
+// 都道府県ごとの市区町村を取得
+export async function getMunicipalitiesByPrefecture() {
+  const allMunicipalities = await loadAllMunicipalitiesForBuild();
+  const grouped: Record<string, typeof allMunicipalities> = {};
+  
+  allMunicipalities.forEach(municipality => {
+    const prefecture = municipality.prefecture;
+    if (!grouped[prefecture]) {
+      grouped[prefecture] = [];
+    }
+    grouped[prefecture].push(municipality);
+  });
+  
+  return grouped;
+}
+
+// ユニークな都道府県リストを取得
+export async function getUniquePrefectures() {
+  const municipalities = await loadAllMunicipalitiesForBuild();
+  const prefectures = new Set(municipalities.map(m => m.prefecture));
+  return Array.from(prefectures).sort();
+}
+
+// スラッグから都道府県名を取得
+export function getPrefectureFromSlug(slug: string): string | null {
+  const slugMap: Record<string, string> = {
+    'hokkaido': '北海道',
+    'aomori': '青森県',
+    'iwate': '岩手県',
+    'miyagi': '宮城県',
+    'akita': '秋田県',
+    'yamagata': '山形県',
+    'fukushima': '福島県',
+    'ibaraki': '茨城県',
+    'tochigi': '栃木県',
+    'gunma': '群馬県',
+    'saitama': '埼玉県',
+    'chiba': '千葉県',
+    'tokyo': '東京都',
+    'kanagawa': '神奈川県',
+    'niigata': '新潟県',
+    'toyama': '富山県',
+    'ishikawa': '石川県',
+    'fukui': '福井県',
+    'yamanashi': '山梨県',
+    'nagano': '長野県',
+    'gifu': '岐阜県',
+    'shizuoka': '静岡県',
+    'aichi': '愛知県',
+    'mie': '三重県',
+    'shiga': '滋賀県',
+    'kyoto': '京都府',
+    'osaka': '大阪府',
+    'hyogo': '兵庫県',
+    'nara': '奈良県',
+    'wakayama': '和歌山県',
+    'tottori': '鳥取県',
+    'shimane': '島根県',
+    'okayama': '岡山県',
+    'hiroshima': '広島県',
+    'yamaguchi': '山口県',
+    'tokushima': '徳島県',
+    'kagawa': '香川県',
+    'ehime': '愛媛県',
+    'kochi': '高知県',
+    'fukuoka': '福岡県',
+    'saga': '佐賀県',
+    'nagasaki': '長崎県',
+    'kumamoto': '熊本県',
+    'oita': '大分県',
+    'miyazaki': '宮崎県',
+    'kagoshima': '鹿児島県',
+    'okinawa': '沖縄県',
+  };
+  
+  return slugMap[slug] || null;
+}

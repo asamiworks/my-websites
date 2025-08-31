@@ -1,0 +1,306 @@
+<?php
+/**
+ * 問い合わせフォーム処理
+ * NodeBase Contact Form Handler
+ */
+
+require_once 'config.php';
+
+// OPTIONSリクエストの処理（CORS対応）
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit(0);
+}
+
+// POSTリクエストのみ受け付け
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Method not allowed'
+    ]);
+    exit;
+}
+
+// セッション開始（レート制限用）
+session_start();
+
+// レート制限チェック
+function check_rate_limit() {
+    $ip = get_client_ip();
+    $session_key = 'contact_submissions_' . $ip;
+    $current_time = time();
+    
+    if (!isset($_SESSION[$session_key])) {
+        $_SESSION[$session_key] = [];
+    }
+    
+    // 古いエントリを削除
+    $_SESSION[$session_key] = array_filter($_SESSION[$session_key], function($time) use ($current_time) {
+        return ($current_time - $time) < (RATE_LIMIT_MINUTES * 60);
+    });
+    
+    if (count($_SESSION[$session_key]) >= RATE_LIMIT_COUNT) {
+        return false;
+    }
+    
+    $_SESSION[$session_key][] = $current_time;
+    return true;
+}
+
+// レート制限チェック
+if (!check_rate_limit()) {
+    http_response_code(429);
+    echo json_encode([
+        'success' => false,
+        'message' => '送信回数が制限を超えました。しばらくしてから再度お試しください。'
+    ]);
+    write_log('Rate limit exceeded', 'WARNING');
+    exit;
+}
+
+// JSONデータの取得
+$input = json_decode(file_get_contents('php://input'), true);
+
+if (!$input) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => '無効なリクエストです'
+    ]);
+    exit;
+}
+
+// 入力値の検証とサニタイズ
+function validate_and_sanitize($input) {
+    $errors = [];
+    $data = [];
+    
+    // お名前
+    if (empty($input['name'])) {
+        $errors[] = 'お名前を入力してください';
+    } elseif (mb_strlen($input['name']) > MAX_NAME_LENGTH) {
+        $errors[] = 'お名前が長すぎます';
+    } else {
+        $data['name'] = htmlspecialchars(trim($input['name']), ENT_QUOTES, 'UTF-8');
+    }
+    
+    // メールアドレス
+    if (empty($input['email'])) {
+        $errors[] = 'メールアドレスを入力してください';
+    } elseif (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors[] = '有効なメールアドレスを入力してください';
+    } elseif (mb_strlen($input['email']) > MAX_EMAIL_LENGTH) {
+        $errors[] = 'メールアドレスが長すぎます';
+    } else {
+        $data['email'] = filter_var(trim($input['email']), FILTER_SANITIZE_EMAIL);
+    }
+    
+    // 電話番号（任意）
+    $data['phone'] = '';
+    if (!empty($input['phone'])) {
+        if (mb_strlen($input['phone']) > MAX_PHONE_LENGTH) {
+            $errors[] = '電話番号が長すぎます';
+        } else {
+            $data['phone'] = htmlspecialchars(trim($input['phone']), ENT_QUOTES, 'UTF-8');
+        }
+    }
+    
+    // 会社名（任意）
+    $data['company'] = '';
+    if (!empty($input['company'])) {
+        if (mb_strlen($input['company']) > MAX_COMPANY_LENGTH) {
+            $errors[] = '会社名が長すぎます';
+        } else {
+            $data['company'] = htmlspecialchars(trim($input['company']), ENT_QUOTES, 'UTF-8');
+        }
+    }
+    
+    // 件名（任意）
+    $data['subject'] = 'お問い合わせ';
+    if (!empty($input['subject'])) {
+        if (mb_strlen($input['subject']) > MAX_SUBJECT_LENGTH) {
+            $errors[] = '件名が長すぎます';
+        } else {
+            $data['subject'] = htmlspecialchars(trim($input['subject']), ENT_QUOTES, 'UTF-8');
+        }
+    }
+    
+    // お問い合わせ内容
+    if (empty($input['message'])) {
+        $errors[] = 'お問い合わせ内容を入力してください';
+    } elseif (mb_strlen($input['message']) < 10) {
+        $errors[] = 'お問い合わせ内容は10文字以上で入力してください';
+    } elseif (mb_strlen($input['message']) > MAX_MESSAGE_LENGTH) {
+        $errors[] = 'お問い合わせ内容が長すぎます';
+    } else {
+        $data['message'] = htmlspecialchars(trim($input['message']), ENT_QUOTES, 'UTF-8');
+    }
+    
+    return ['errors' => $errors, 'data' => $data];
+}
+
+// 入力値の検証
+$result = validate_and_sanitize($input);
+$errors = $result['errors'];
+$data = $result['data'];
+
+// エラーがある場合
+if (!empty($errors)) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => implode(' ', $errors)
+    ]);
+    write_log('Validation error: ' . implode(', ', $errors), 'ERROR');
+    exit;
+}
+
+// メール本文の作成
+function create_admin_email_body($data) {
+    $ip = get_client_ip();
+    $timestamp = date('Y年m月d日 H:i:s');
+    
+    $body = <<<EOD
+NodeBaseウェブサイトからお問い合わせを受信しました。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■ お問い合わせ内容
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【お名前】
+{$data['name']}
+
+【メールアドレス】
+{$data['email']}
+
+【電話番号】
+{$data['phone']}
+
+【会社名・組織名】
+{$data['company']}
+
+【件名】
+{$data['subject']}
+
+【お問い合わせ内容】
+{$data['message']}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+【送信情報】
+送信日時: {$timestamp}
+IPアドレス: {$ip}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+このメールは自動送信されています。
+返信の際は、お客様のメールアドレス宛に直接ご連絡ください。
+
+EOD;
+    
+    return $body;
+}
+
+function create_user_email_body($data) {
+    $body = <<<EOD
+{$data['name']} 様
+
+この度はNodeBaseへお問い合わせいただき、誠にありがとうございます。
+以下の内容でお問い合わせを受け付けました。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■ お問い合わせ内容確認
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【お名前】
+{$data['name']}
+
+【メールアドレス】
+{$data['email']}
+
+【電話番号】
+{$data['phone']}
+
+【会社名・組織名】
+{$data['company']}
+
+【件名】
+{$data['subject']}
+
+【お問い合わせ内容】
+{$data['message']}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+内容を確認の上、担当者より2営業日以内にご連絡させていただきます。
+今しばらくお待ちくださいませ。
+
+なお、このメールは自動送信されています。
+このメールに返信されても対応できませんのでご了承ください。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NodeBase
+Email: info@nodebase.jp
+URL: https://nodebase.jp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOD;
+    
+    return $body;
+}
+
+// メール送信
+try {
+    // 管理者宛メール
+    $admin_body = create_admin_email_body($data);
+    $admin_headers = [
+        'From: ' . mb_encode_mimeheader(MAIL_FROM_NAME) . ' <' . MAIL_FROM . '>',
+        'Reply-To: ' . $data['email'],
+        'X-Mailer: PHP/' . phpversion(),
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: 8bit'
+    ];
+    
+    $admin_mail_sent = mb_send_mail(
+        MAIL_TO,
+        MAIL_ADMIN_SUBJECT,
+        $admin_body,
+        implode("\r\n", $admin_headers)
+    );
+    
+    // 自動返信メール
+    $user_body = create_user_email_body($data);
+    $user_headers = [
+        'From: ' . mb_encode_mimeheader(MAIL_FROM_NAME) . ' <' . MAIL_FROM . '>',
+        'Reply-To: ' . MAIL_TO,
+        'X-Mailer: PHP/' . phpversion(),
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: 8bit'
+    ];
+    
+    $user_mail_sent = mb_send_mail(
+        $data['email'],
+        MAIL_USER_SUBJECT,
+        $user_body,
+        implode("\r\n", $user_headers)
+    );
+    
+    // 送信結果
+    if ($admin_mail_sent && $user_mail_sent) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'お問い合わせを送信しました。確認メールをご確認ください。'
+        ]);
+        write_log('Contact form submitted successfully from ' . $data['email'], 'INFO');
+    } else {
+        throw new Exception('Mail sending failed');
+    }
+    
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'メールの送信に失敗しました。お手数ですが、直接 info@nodebase.jp までご連絡ください。'
+    ]);
+    write_log('Mail sending error: ' . $e->getMessage(), 'ERROR');
+}
+?>

@@ -1,0 +1,171 @@
+/* SuccessStories.module.css */
+
+.section {
+  padding: 5rem 0;
+  background-color: #fcfcfc;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.25rem;
+  }
+}
+
+.subtitle {
+  color: #4b5563;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.storiesContainer {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.storyCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  border: 1px solid #f3f4f6;
+  transition: all 0.3s ease;
+}
+
+.storyCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.storyWrapper {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .storyWrapper {
+    display: flex;
+  }
+}
+
+.storyInfo {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  color: #374151;
+}
+
+@media (min-width: 768px) {
+  .storyInfo {
+    width: 33.333333%;
+    border-right: 1px solid #f3f4f6;
+  }
+}
+
+.familyName {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+  color: #1f2937;
+}
+
+.infoList {
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.infoList p {
+  margin-bottom: 0.5rem;
+}
+
+.storyContent {
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .storyContent {
+    width: 66.666667%;
+  }
+}
+
+.challenge,
+.solution {
+  margin-bottom: 1rem;
+}
+
+.challengeTitle {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.solutionTitle {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.challengeText,
+.solutionText,
+.resultText {
+  color: #374151;
+}
+
+.result {
+  background-color: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 1rem;
+}
+
+.resultTitle {
+  font-weight: 600;
+  color: #d97706;
+  margin-bottom: 0.25rem;
+}
+
+.cta {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.ctaText {
+  color: #374151;
+  margin-bottom: 1.5rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #f59e0b;
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

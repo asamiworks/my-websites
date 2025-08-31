@@ -1,0 +1,346 @@
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  .requirements {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 40px;
+    border-left: 4px solid #0066cc;
+  }
+  
+  .requirements h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+  }
+  
+  .requirements ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .requirements li {
+    padding: 8px 0;
+    padding-left: 25px;
+    position: relative;
+    color: #555;
+    font-size: 1.05rem;
+  }
+  
+  .requirements li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #0066cc;
+    font-weight: bold;
+  }
+  
+  .form {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 35px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .form h3 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.4rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 25px;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  
+  .required {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-left: 8px;
+    font-weight: normal;
+  }
+  
+  .input,
+  .select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  
+  .input:focus,
+  .select:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  }
+  
+  .formGroup small {
+    display: block;
+    margin-top: 5px;
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .submitButton {
+    background: #0066cc;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: block;
+    margin: 30px auto 0;
+  }
+  
+  .submitButton:hover {
+    background: #0052a3;
+  }
+  
+  .configSection {
+    background: #fff;
+    border: 2px solid #0066cc;
+    border-radius: 10px;
+    padding: 35px;
+    margin-bottom: 40px;
+    animation: fadeIn 0.5s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .configSection h3 {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.4rem;
+  }
+  
+  .configBox {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .configItem {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .configItem .label {
+    font-weight: 600;
+    color: #555;
+    min-width: 150px;
+    font-size: 1.05rem;
+  }
+  
+  .configItem .value {
+    color: #e74c3c;
+    font-weight: 500;
+    font-size: 1.05rem;
+  }
+  
+  .serverConfig {
+    margin-bottom: 30px;
+  }
+  
+  .serverConfig h4 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  
+  .configGrid {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .configRow {
+    display: flex;
+    padding: 10px 0;
+    align-items: center;
+  }
+  
+  .configLabel {
+    min-width: 140px;
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .configValue {
+    color: #333;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .notice {
+    background: #fff4e6;
+    border-left: 4px solid #ff9800;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  .notice p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 0.95rem;
+  }
+  
+  .instructions {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .instructions h4 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+  }
+  
+  .instructions ol {
+    padding-left: 20px;
+    color: #555;
+  }
+  
+  .instructions li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    font-size: 1.05rem;
+  }
+  
+  .instructions ul {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  
+  .instructions ul li {
+    margin-bottom: 8px;
+    list-style-type: disc;
+  }
+  
+  .support {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .support h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+  }
+  
+  .supportButtons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .supportButton {
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s;
+    display: inline-block;
+  }
+  
+  .supportButton:hover {
+    background: #5a6268;
+  }
+  
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .container {
+      padding: 20px 15px;
+    }
+  
+    .header h1 {
+      font-size: 2rem;
+    }
+  
+    .form,
+    .configSection,
+    .instructions,
+    .support,
+    .requirements {
+      padding: 20px;
+    }
+  
+    .configRow {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .configLabel {
+      margin-bottom: 5px;
+    }
+  
+    .supportButtons {
+      flex-direction: column;
+    }
+  
+    .supportButton {
+      width: 100%;
+    }
+  }

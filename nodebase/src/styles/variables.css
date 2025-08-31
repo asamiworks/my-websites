@@ -1,0 +1,112 @@
+:root {
+  /* ===== みさきの一軒家 カラーパレット ===== */
+  /* メインカラー - みさきのターコイズブルー */
+  --misaki-lightest: #E6F2F3;         /* 最も薄い青緑（背景用） */
+  --misaki-light: #B8D4D5;            /* 薄い青緑 */
+  --misaki-base: #7FB5B7;             /* みさきの基本色 */
+  --misaki-primary: #5A9A9C;          /* みさきのメインカラー */
+  --misaki-deep: #4A8A8C;             /* 深い青緑 */
+  --misaki-darkest: #3A7A7C;          /* 最も深い青緑 */
+  
+  /* サブカラー - 和の色調 */
+  --washi-white: #FEFEFE;             /* 和紙の白 */
+  --washi-cream: #FAF8F3;             /* クリーム色の和紙 */
+  --washi-beige: #F5F2E8;             /* ベージュの和紙 */
+  --sumi-gray: #5D5D5D;               /* 墨色 */
+  --sumi-light: #8B8B8B;              /* 薄墨色 */
+  
+  /* アクセントカラー - 日本の自然色 */
+  --wakakusa: #C7DC68;                /* 若草色 */
+  --sakura: #FFDBED;                  /* 桜色 */
+  --yamabuki: #F8B500;                /* 山吹色 */
+  --fuji: #A59ACA;                    /* 藤色 */
+  --asagi: #72B9D1;                   /* 浅葱色 */
+  
+  /* ===== テキストカラー ===== */
+  --text-primary: #3C3C3C;            /* メインテキスト（濃い目） */
+  --text-secondary: #5A5A5A;          /* サブテキスト */
+  --text-light: #7A7A7A;              /* 薄いテキスト */
+  --text-heading: #2C2C2C;            /* 見出し用 */
+  
+  /* ===== UI用カラー設定 ===== */
+  --color-primary: var(--misaki-primary);       /* #5A9A9C */
+  --color-secondary: var(--misaki-base);        /* #7FB5B7 */
+  --color-accent: var(--sakura);                /* #FFDBED */
+  --color-background: var(--washi-cream);       /* #FAF8F3 */
+  --color-background-alt: var(--misaki-lightest); /* #E6F2F3 */
+  --color-border: rgba(90, 154, 156, 0.2);
+  
+  /* ===== グラデーション - みさきの海 ===== */
+  --gradient-misaki: linear-gradient(180deg, 
+    rgba(127, 181, 183, 0.3) 0%, 
+    rgba(90, 154, 156, 0.5) 50%, 
+    rgba(74, 138, 140, 0.3) 100%);
+  --gradient-horizon: linear-gradient(180deg, 
+    #FEFEFE 0%, 
+    #E6F2F3 40%, 
+    #7FB5B7 100%);
+  --gradient-morning: linear-gradient(135deg, 
+    #FAF8F3 0%, 
+    #E6F2F3 50%, 
+    #B8D4D5 100%);
+  
+  /* ===== フォント - 和風タイポグラフィ ===== */
+  --font-mincho: 'Noto Serif JP', '游明朝', 'Yu Mincho', serif;  /* 明朝体 */
+  --font-gothic: 'Noto Sans JP', '游ゴシック', 'Yu Gothic', sans-serif;  /* ゴシック体 */
+  --font-handwrite: 'Klee One', 'さわらび明朝', 'Sawarabi Mincho', serif;  /* 手書き風 */
+  
+  /* エイリアス */
+  --font-primary: var(--font-gothic);
+  --font-heading: var(--font-handwrite);
+  --font-body: var(--font-mincho);
+  --font-accent: var(--font-handwrite);
+  
+  /* ===== 日本的な余白設計 ===== */
+  --spacing-xs: 0.75rem;   /* 12px */
+  --spacing-sm: 1.5rem;    /* 24px */
+  --spacing-md: 3rem;      /* 48px */
+  --spacing-lg: 4.5rem;    /* 72px */
+  --spacing-xl: 6rem;      /* 96px */
+  --spacing-xxl: 9rem;     /* 144px */
+  
+  /* ===== アニメーション - 静かで優しい ===== */
+  --transition-gentle: 0.4s ease-out;
+  --transition-slow: 0.8s ease-in-out;
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ===== レイアウト ===== */
+  --max-width: 1200px;
+  --header-height: 80px;
+  --line-height-relaxed: 1.8;  /* ゆったりとした行間 */
+  
+  /* ===== 和風シャドウ ===== */
+  --shadow-subtle: 0 2px 8px rgba(90, 154, 156, 0.08);
+  --shadow-soft: 0 4px 16px rgba(90, 154, 156, 0.12);
+  --shadow-medium: 0 8px 24px rgba(90, 154, 156, 0.16);
+  --shadow-large: 0 16px 40px rgba(90, 154, 156, 0.20);
+  
+  /* ===== 旧変数との互換性（段階的移行用） ===== */
+  --color-ocean-lightest: var(--misaki-lightest);
+  --color-ocean-light: var(--misaki-light);
+  --color-ocean-soft: var(--misaki-base);
+  --color-ocean: var(--misaki-primary);
+  --color-ocean-deep: var(--misaki-deep);
+  --color-ocean-darkest: var(--misaki-darkest);
+  
+  --color-sand-white: var(--washi-white);
+  --color-sand-light: var(--washi-cream);
+  --color-sand: var(--washi-beige);
+  
+  --color-text: var(--text-secondary);
+  --color-text-light: var(--text-light);
+  --color-text-dark: var(--text-heading);
+  
+  /* ===== ダークモード用 ===== */
+  --color-dark: var(--sumi-gray);
+  --color-light: var(--washi-cream);
+  
+  /* ===== 第2階層事業別カラー ===== */
+  --education-primary: #2E5090;       /* 教育：信頼の青 */
+  --photography-primary: var(--misaki-primary);  /* 写真：みさきカラー継承 */
+  --marriage-primary: #E4A5A0;        /* 結婚相談：優しいピンク */
+}

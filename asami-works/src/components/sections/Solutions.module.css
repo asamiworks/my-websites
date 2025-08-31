@@ -1,0 +1,179 @@
+/* Solutions Section */
+.solutions {
+  padding: 80px 0;
+  background: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.preTitle {
+  font-size: 0.875rem;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.sectionTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.highlight {
+  color: #2563eb;
+  position: relative;
+}
+
+.leadText {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+.pcOnly {
+  display: inline;
+}
+
+.solutionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.solutionCard {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.solutionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.1);
+  border-color: #2563eb;
+}
+
+.problemLabel {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #dc2626;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.problemText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #dee2e6;
+}
+
+.solutionContent {
+  position: relative;
+}
+
+.solutionLabel {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #059669;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.solutionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.solutionDetails {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.7;
+}
+
+.summary {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  border-radius: 20px;
+  color: white;
+}
+
+.summaryText {
+  font-size: 1.25rem;
+  line-height: 1.8;
+}
+
+.summaryText strong {
+  font-weight: 700;
+  font-size: 1.375rem;
+}
+
+.spOnly {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .solutions {
+    padding: 60px 0;
+  }
+  
+  .pcOnly {
+    display: none;
+  }
+  
+  .spOnly {
+    display: inline;
+  }
+  
+  .solutionsGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .solutionCard {
+    padding: 24px;
+  }
+  
+  .solutionTitle {
+    font-size: 1.125rem;
+  }
+  
+  .summary {
+    padding: 32px 24px;
+  }
+  
+  .summaryText {
+    font-size: 1.125rem;
+  }
+  
+  .summaryText strong {
+    font-size: 1.25rem;
+  }
+}

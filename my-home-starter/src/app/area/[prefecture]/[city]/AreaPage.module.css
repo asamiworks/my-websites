@@ -1,0 +1,741 @@
+/* ==============================================
+   Design Tokens
+============================================== */
+.container {
+  /* Colors */
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-accent-light: #eff6ff;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-surface: #f9fafb;
+  --color-surface-hover: #f3f4f6;
+  
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Typography */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: 1.5rem;
+  --font-3xl: 2rem;
+  --font-4xl: 2.5rem;
+  
+  /* Effects */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius-sm: 0.375rem;
+  --radius-base: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+}
+
+/* ==============================================
+   Base Layout
+============================================== */
+.container {
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ==============================================
+   Header Section
+============================================== */
+.header {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+  padding: var(--space-xl);
+  background: var(--color-secondary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.h1 {
+  font-size: clamp(var(--font-2xl), 5vw, var(--font-4xl));
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-lg);
+  letter-spacing: -0.025em;
+}
+
+.leadText {
+  font-size: var(--font-lg);
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ==============================================
+   Content Sections
+============================================== */
+.section {
+  margin-bottom: var(--space-2xl);
+  padding: var(--space-xl);
+  background: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.section h2 {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  margin-bottom: var(--space-lg);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  letter-spacing: -0.02em;
+}
+
+.section h2::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
+.section p {
+  font-size: var(--font-base);
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+/* ==============================================
+   Area Info Section
+============================================== */
+.areaInfoSection {
+  margin: var(--space-xl) 0;
+  padding: var(--space-lg);
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.areaInfoSection h2 {
+  color: #0c4a6e;
+  margin-bottom: var(--space-lg);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-md);
+}
+
+.statItem {
+  text-align: center;
+  padding: var(--space-md);
+  background: var(--color-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.statItem:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.statLabel {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+  font-weight: 500;
+}
+
+.statValue {
+  display: block;
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.statChange {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin-left: var(--space-xs);
+}
+
+.statChange[data-positive="true"] {
+  color: #10b981;
+}
+
+.statChange[data-negative="true"] {
+  color: #ef4444;
+}
+
+/* ==============================================
+   Company List
+============================================== */
+.companyList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.companyCard {
+  position: relative;
+  padding: var(--space-lg);
+  background: var(--color-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  overflow: hidden;
+}
+
+.companyCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+
+.companyCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-accent);
+}
+
+.companyCard:hover::before {
+  transform: scaleX(1);
+}
+
+.companyCard h3 {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  color: var(--color-text-primary);
+}
+
+.companyCard p {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-sm);
+}
+
+/* Premium Cards */
+.premiumCard {
+  border-color: #ffd700;
+  background: #fffef5;
+}
+
+.premiumCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  transform: rotate(45deg) translate(30px, -30px);
+  opacity: 0.1;
+}
+
+.premiumCard:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.premiumBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #854d0e;
+  font-size: var(--font-xs);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Company Info */
+.distance,
+.address,
+.tel,
+.serviceAreaInfo {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin: var(--space-xs) 0;
+}
+
+.priceRange {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: var(--space-sm) 0;
+}
+
+.websiteLink {
+  display: inline-block;
+  margin-top: var(--space-sm);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: var(--font-sm);
+  transition: color var(--transition-fast);
+}
+
+.websiteLink:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.contactButton {
+  width: 100%;
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  color: var(--color-secondary);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-base);
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.contactButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* No Companies */
+.noCompanies {
+  padding: var(--space-2xl);
+  text-align: center;
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+}
+
+/* ==============================================
+   PR Section
+============================================== */
+.prSection {
+  margin: var(--space-2xl) 0;
+  padding: var(--space-xl);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+}
+
+.prTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.prBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #ef4444;
+  color: var(--color-secondary);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+}
+
+.prCompanyList {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.prCompanyCard {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  background: var(--color-secondary);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-base);
+  transition: box-shadow var(--transition-base);
+}
+
+.prCompanyCard:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.prCompanyImage {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.prCompanyContent h3 {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.prDescription {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+}
+
+.prContact {
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+
+/* ==============================================
+   Responsive Design
+============================================== */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-lg) var(--space-md);
+  }
+  
+  .header {
+    padding: var(--space-lg);
+  }
+  
+  .h1 {
+    font-size: var(--font-3xl);
+  }
+  
+  .leadText {
+    font-size: var(--font-base);
+  }
+  
+  .section {
+    padding: var(--space-lg);
+  }
+  
+  .companyList {
+    grid-template-columns: 1fr;
+  }
+  
+  .prCompanyCard {
+    grid-template-columns: 1fr;
+  }
+  
+  .prCompanyImage {
+    height: 200px;
+  }
+  
+  .premiumBadge {
+    position: static;
+    display: inline-block;
+    margin-bottom: var(--space-sm);
+  }
+}
+
+/* ==============================================
+   Dark Mode Support
+============================================== */
+@media (prefers-color-scheme: dark) {
+  .container {
+    --color-primary: #ffffff;
+    --color-secondary: #111827;
+    --color-accent: #3b82f6;
+    --color-accent-hover: #2563eb;
+    --color-accent-light: #1e3a8a;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    --color-border: #374151;
+    --color-surface: #1f2937;
+    --color-surface-hover: #374151;
+  }
+  
+  .section,
+  .companyCard,
+  .statItem {
+    background: #1f2937;
+  }
+  
+  .areaInfoSection {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  }
+}
+
+/* ==============================================
+   Print Styles
+============================================== */
+@media print {
+  .container {
+    background: white;
+    color: black;
+  }
+  
+  .prSection {
+    display: none;
+  }
+  
+  .section,
+  .companyCard {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+}
+
+/* ==============================================
+   Reduced Motion
+============================================== */
+@media (prefers-reduced-motion: reduce) {
+  .statItem,
+  .companyCard,
+  .companyCard::before,
+  .contactButton,
+  .websiteLink,
+  .prCompanyCard {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* ==============================================
+   統合データ表示用の追加スタイル
+============================================== */
+
+/* 統計情報の注釈 */
+.statNote {
+  display: block;
+  font-size: var(--font-xs);
+  color: var(--color-text-tertiary);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* 地価情報グリッド */
+.priceInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  margin: var(--space-xl) 0;
+}
+
+.priceCard {
+  background: var(--color-accent-light);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  text-align: center;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.priceCard::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.priceCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
+  border-color: var(--color-accent-hover);
+}
+
+.priceCard h3 {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 1;
+}
+
+.priceValue {
+  font-size: clamp(var(--font-2xl), 3vw, var(--font-3xl));
+  font-weight: 800;
+  color: var(--color-accent);
+  margin: var(--space-sm) 0;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.priceUp {
+  color: #10b981;
+}
+
+.priceUp::before {
+  content: '▲ ';
+  font-size: 0.8em;
+}
+
+.priceDown {
+  color: #ef4444;
+}
+
+.priceDown::before {
+  content: '▼ ';
+  font-size: 0.8em;
+}
+
+/* グラフコンテナ */
+.chartContainer {
+  background: var(--color-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  margin-top: var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+}
+
+.chartContainer h3 {
+  font-size: var(--font-lg);
+  margin-bottom: var(--space-lg);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.chartContainer h3::before {
+  content: '📊';
+  font-size: 1.2em;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .priceInfoGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .priceCard {
+    padding: var(--space-lg);
+  }
+  
+  .priceValue {
+    font-size: var(--font-2xl);
+  }
+  
+  .chartContainer {
+    padding: var(--space-lg);
+    margin-top: var(--space-lg);
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .priceCard {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.5);
+  }
+  
+  .priceCard:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+  }
+  
+  .chartContainer {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .statNote {
+    color: #9ca3af;
+  }
+}
+
+
+
+
+/* 都道府県へ戻るリンク（上部） */
+.backToPrefecture {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* 都道府県へ戻るリンク（下部） */
+.bottomNavigation {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  text-align: center;
+  border-top: 1px solid #e5e7eb;
+}
+
+.bottomBackLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #f3f4f6;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.bottomBackLink:hover {
+  background-color: #3b82f6;
+  color: white;
+}

@@ -1,0 +1,78 @@
+.breadcrumb {
+  background-color: #f8f9fa;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+  /* margin-top削除 - ヘッダーとの間隔は不要 */
+}
+
+.breadcrumbContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.breadcrumbList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbLink {
+  color: #0066cc;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.breadcrumbLink:hover {
+  background-color: rgba(0, 102, 204, 0.1);
+  text-decoration: underline;
+}
+
+.breadcrumbLink:focus {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+.breadcrumbSeparator {
+  color: #6c757d;
+  margin: 0 8px;
+  font-size: 0.75rem;
+}
+
+.breadcrumbCurrent {
+  color: #495057;
+  padding: 4px 8px;
+  font-weight: 500;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .breadcrumb {
+    /* margin-top削除 - モバイルでも不要 */
+    padding: 8px 0;
+  }
+  
+  .breadcrumbList {
+    font-size: 0.75rem;
+  }
+  
+  .breadcrumbSeparator {
+    margin: 0 4px;
+  }
+  
+  .breadcrumbLink,
+  .breadcrumbCurrent {
+    padding: 2px 4px;
+  }
+}

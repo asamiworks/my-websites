@@ -1,0 +1,116 @@
+/* 全体のコンテナ */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+/* タイトル */
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* フォーム */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 350px;
+  background: #fff;
+  padding: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* 入力欄 */
+.input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0070f3;
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.3);
+}
+
+/* ボタン */
+.button {
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: none;
+  background-color: #0070f3;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #005bb5;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* エラーメッセージとパスワード確認 */
+.error {
+  color: red;
+  font-size: 14px;
+  text-align: left;
+  margin: 5px 0;
+}
+
+.success {
+  color: green;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* フォームフィードバック */
+.input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 3px rgba(0, 112, 243, 0.4);
+}
+
+.disabledButton {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+.linkContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.link {
+  color: #0070f3;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,31 @@
+# PHPのバージョン指定（さくらサーバー）
+AddHandler php8.2-script .php
+
+# 文字コード設定
+php_value default_charset UTF-8
+php_value mbstring.language Japanese
+php_value mbstring.internal_encoding UTF-8
+php_value mbstring.http_output UTF-8
+
+# エラー表示設定（本番環境）
+php_flag display_errors Off
+php_flag log_errors On
+
+# CORS設定
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "POST, GET, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+</IfModule>
+
+# セキュリティ設定
+<Files "contact.php">
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+# ディレクトリ一覧の非表示
+Options -Indexes
+
+# DirectoryIndexの設定
+DirectoryIndex index.php index.html

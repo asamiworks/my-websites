@@ -1,0 +1,11 @@
+{
+  "projects": {
+    "default": "myhome-starter"
+  },
+  "targets": {},
+  "etags": {
+    "myhome-starter": {
+      "extensionInstances": {}
+    }
+  }
+}

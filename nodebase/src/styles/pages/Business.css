@@ -1,0 +1,435 @@
+/* Business.css - 事業紹介ページのスタイル */
+
+/* ===============================
+   Base Styles
+   =============================== */
+   .business-page {
+    padding-top: 80px; /* ヘッダーの高さ分 */
+    min-height: 100vh;
+    background: var(--color-light, #f8fafb);
+  }
+  
+  /* ===============================
+     Section Styles
+     =============================== */
+  .business-page .section {
+    padding: 5rem 0;
+  }
+  
+  .business-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  /* ===============================
+     Header Section
+     =============================== */
+  .business-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  
+  .business-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--color-dark, #1a1a1a);
+    margin-bottom: 1rem;
+  }
+  
+  .business-header .lead-text {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-gray, #6a6a6a);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* ===============================
+     Business Grid
+     =============================== */
+  .business-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* ===============================
+     Business Card - 修正版
+     =============================== */
+  .business-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* グリッドアイテムの高さを100%に */
+    min-height: 520px; /* 最小高さを設定 */
+  }
+  
+  .business-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* ===============================
+     Business Card Image
+     =============================== */
+  .business-card-image {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    background: white;
+    flex-shrink: 0; /* 画像エリアは縮まないように */
+  }
+  
+  .business-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .business-card:hover .business-card-image img {
+    transform: scale(1.05);
+  }
+  
+  /* Status Badge */
+  .business-status-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    z-index: 2;
+  }
+  
+  .business-status-badge.active {
+    background: rgba(90, 154, 156, 0.95);
+    color: white;
+  }
+  
+  .business-status-badge.coming-soon {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--color-gray, #6a6a6a);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  /* ===============================
+     Business Card Content - 修正版
+     =============================== */
+  .business-card-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* 残りのスペースを使用 */
+  }
+  
+  .business-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--color-dark, #1a1a1a);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.02em;
+  }
+  
+  .business-catchphrase {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--misaki-primary, #5A9A9C);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .business-description {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--color-gray, #6a6a6a);
+    margin-bottom: 2rem; /* マージンを増やして統一 */
+    min-height: 100px; /* 最小高さを増やす */
+    flex: 1; /* 説明文で残りのスペースを埋める */
+  }
+  
+  /* ===============================
+     Business Card Actions - 修正版
+     =============================== */
+  .business-action {
+    display: flex;
+    justify-content: flex-end; /* 右寄せ */
+    align-items: center;
+    margin-top: auto; /* 下部に配置 */
+  }
+  
+  .business-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--misaki-primary, #5A9A9C);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .business-link:hover {
+    background: var(--misaki-primary-dark, #4A8A8C);
+    gap: 1rem;
+    transform: translateX(2px);
+  }
+  
+  .business-link-arrow {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .business-link:hover .business-link-arrow {
+    transform: translateX(3px);
+  }
+  
+  .business-status-text {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.875rem;
+    color: #999;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.5rem; /* リンクと同じパディング */
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  /* ===============================
+     Contact Section
+     =============================== */
+  .business-contact {
+    background: linear-gradient(
+      180deg,
+      var(--misaki-lightest, #E6F2F3) 0%,
+      var(--washi-cream, #FAF8F3) 100%
+    );
+    padding: 6rem 0;
+    text-align: center;
+  }
+  
+  .business-contact h2 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--text-heading, #2C2C2C);
+  }
+  
+  .business-contact .contact-description {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-secondary, #5A5A5A);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 2rem;
+    background: transparent;
+    color: var(--misaki-primary, #5A9A9C);
+    text-decoration: none;
+    border: 1px solid var(--misaki-primary, #5A9A9C);
+    border-radius: 4px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+  }
+  
+  .contact-button:hover {
+    background: var(--misaki-primary, #5A9A9C);
+    color: white;
+    gap: 1.25rem;
+  }
+  
+  .contact-button-arrow {
+    transition: transform 0.3s ease;
+  }
+  
+  .contact-button:hover .contact-button-arrow {
+    transform: translateX(3px);
+  }
+  
+  /* ===============================
+     Responsive Design
+     =============================== */
+  @media (min-width: 1200px) {
+    .business-card {
+      min-height: 540px; /* 大画面での高さ調整 */
+    }
+    
+    .business-card-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .business-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .business-card {
+      min-height: 500px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .business-page {
+      padding-top: 60px;
+    }
+  
+    .business-page .section {
+      padding: 3rem 0;
+    }
+  
+    .business-header h1 {
+      font-size: 2rem;
+    }
+  
+    .business-header .lead-text {
+      font-size: 1rem;
+    }
+  
+    .business-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .business-card {
+      min-height: 480px;
+    }
+  
+    .business-card-image {
+      height: 280px;
+    }
+  
+    .business-card h3 {
+      font-size: 1.5rem;
+    }
+    
+    .business-description {
+      min-height: 80px; /* モバイルでは少し低く */
+    }
+  
+    .business-contact h2 {
+      font-size: 2rem;
+    }
+  
+    .business-contact .contact-description {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .business-page .container {
+      padding: 0 1rem;
+    }
+  
+    .business-page .section {
+      padding: 2.5rem 0;
+    }
+  
+    .business-header {
+      margin-bottom: 3rem;
+    }
+  
+    .business-header h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+  
+    .business-header .lead-text {
+      font-size: 0.95rem;
+    }
+    
+    .business-card {
+      min-height: 450px;
+    }
+  
+    .business-card-image {
+      height: 250px;
+    }
+  
+    .business-card-content {
+      padding: 1.5rem;
+    }
+  
+    .business-card h3 {
+      font-size: 1.25rem;
+    }
+  
+    .business-catchphrase {
+      font-size: 0.875rem;
+    }
+  
+    .business-description {
+      font-size: 0.875rem;
+      min-height: auto;
+    }
+  
+    .business-status-badge {
+      font-size: 0.65rem;
+      padding: 4px 8px;
+      top: 8px;
+      right: 8px;
+    }
+    
+    .business-link {
+      font-size: 0.8rem;
+      padding: 0.65rem 1.25rem;
+    }
+    
+    .business-status-text {
+      font-size: 0.8rem;
+      padding: 0.65rem 1.25rem;
+    }
+  
+    .business-contact {
+      padding: 4rem 0;
+    }
+  
+    .business-contact h2 {
+      font-size: 1.75rem;
+    }
+  
+    .business-contact .contact-description {
+      font-size: 0.95rem;
+    }
+  
+    .contact-button {
+      padding: 0.75rem 1.75rem;
+      font-size: 0.875rem;
+    }
+  }

@@ -1,0 +1,508 @@
+/* ヘッダー全体のスタイル */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100vw;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+/* Hero上では透明、スクロール後は白背景 */
+.header.scrolled {
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* TOPページのHero上での透明ヘッダー（削除済み - 常時表示のため） */
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* モバイル画面でのヘッダー高さ調整 */
+@media (max-width: 767px) {
+  .headerContent {
+    height: 60px;
+    padding: 0 16px;
+  }
+}
+
+/* ロゴ */
+.logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: translateY(-2px);
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.logoTagline {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* モバイル画面でのロゴサイズ調整 */
+@media (max-width: 767px) {
+  .logoText {
+    font-size: 1.25rem;
+  }
+  
+  .logoTagline {
+    font-size: 0.65rem;
+  }
+}
+
+/* デスクトップナビゲーション */
+.desktopNav {
+  display: none;
+}
+
+@media (min-width: 968px) {
+  .desktopNav {
+    display: block;
+  }
+}
+
+/* モバイルでは非表示 */
+@media (max-width: 967px) {
+  .desktopNav {
+    display: none;
+  }
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 5px;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  background-color: #f0f7ff;
+  color: #007bff;
+}
+
+.navLink.active {
+  color: #007bff;
+  background-color: #f0f7ff;
+}
+
+.dropdownArrow {
+  margin-left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.navItem:hover .dropdownArrow {
+  transform: rotate(180deg);
+}
+
+/* ドロップダウンメニュー */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 250px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+
+.dropdownOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdownContent {
+  padding: 8px;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f7ff;
+  color: #007bff;
+  transform: translateX(5px);
+}
+
+.dropdownText {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.dropdownBadge {
+  background-color: #ff6b6b;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+/* CTAボタン */
+.headerActions {
+  display: none;
+  gap: 12px;
+}
+
+@media (min-width: 968px) {
+  .headerActions {
+    display: flex;
+  }
+}
+
+/* モバイルでは非表示 */
+@media (max-width: 967px) {
+  .headerActions {
+    display: none;
+  }
+}
+
+.estimateButton,
+.ctaButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.estimateButton {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.estimateButton:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ctaButton {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+.buttonText {
+  display: inline;
+}
+
+/* モバイルメニューボタン */
+.mobileMenuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 101;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* デスクトップでは非表示 */
+@media (min-width: 968px) {
+  .mobileMenuButton {
+    display: none;
+  }
+}
+
+/* モバイルでは表示 */
+@media (max-width: 967px) {
+  .mobileMenuButton {
+    display: flex;
+  }
+}
+
+.hamburger {
+  width: 24px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #333;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.menuOpen .hamburger span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.menuOpen .hamburger span:nth-child(2) {
+  opacity: 0;
+}
+
+.menuOpen .hamburger span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* モバイルメニュー */
+.mobileMenu {
+  position: fixed;
+  top: 70px;
+  right: -100%;
+  width: 80%;
+  max-width: 320px;
+  height: calc(100vh - 70px);
+  background-color: #ffffff;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  z-index: 99;
+}
+
+/* モバイルメニューが開いた状態 */
+.mobileMenuOpen {
+  right: 0 !important;
+}
+
+/* モバイル画面でのメニュー位置調整 */
+@media (max-width: 767px) {
+  .mobileMenu {
+    top: 60px;
+    height: calc(100vh - 60px);
+  }
+}
+
+/* デスクトップサイズでモバイルメニューを完全に非表示 */
+@media (min-width: 968px) {
+  .mobileMenu {
+    display: none !important;
+  }
+  
+  /* オーバーレイも非表示 */
+  .overlay {
+    display: none !important;
+  }
+}
+
+.mobileNav {
+  padding: 20px;
+}
+
+.mobileNavList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobileNavItem {
+  margin-bottom: 5px;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 20px;
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.mobileNavLink:hover {
+  background-color: #f0f7ff;
+  color: #007bff;
+}
+
+.mobileDropdownArrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.mobileDropdownArrow.rotated {
+  transform: rotate(90deg);
+}
+
+.mobileDropdown {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 10px 0;
+}
+
+.mobileDropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px 12px 40px;
+  color: #666;
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobileDropdownItem:hover {
+  background-color: #f0f7ff;
+  color: #007bff;
+}
+
+.mobileBadge {
+  background-color: #ff6b6b;
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: auto;
+  font-weight: 600;
+}
+
+/* モバイルCTA */
+.mobileCta {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileEstimateButton,
+.mobileCtaButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.mobileEstimateButton {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.mobileCtaButton {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+/* オーバーレイ */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 98;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* アクセシビリティ */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .header *,
+  .dropdown,
+  .mobileMenu,
+  .overlay {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # APIリクエストはそのまま通す
+  RewriteCond %{REQUEST_URI} ^/api/
+  RewriteRule ^ - [L]
+  
+  # 実際のファイルやディレクトリは直接アクセス
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # それ以外はindex.htmlにリダイレクト
+  RewriteRule ^ /index.html [L]
+</IfModule>
+
+# PHPの設定（念のため）
+AddType application/x-httpd-php .php

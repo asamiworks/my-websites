@@ -1,0 +1,440 @@
+/* コンテナ */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  min-height: 100vh;
+}
+
+/* タイトル */
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+/* フォーム */
+.form {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  border: 1px solid #f0f0f0;
+}
+
+.formGroup {
+  margin-bottom: 2rem;
+}
+
+.label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.required {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-left: 0.25rem;
+}
+
+.hint {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+/* 入力フィールド */
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #4F46E5;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+/* エラー状態 */
+.inputError {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.inputError:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.errorMessage {
+  display: block;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* ラジオボタングループ */
+.radioGroup {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #374151;
+  transition: color 0.2s ease;
+}
+
+.radioLabel:hover {
+  color: #4F46E5;
+}
+
+.radioInput {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: #4F46E5;
+}
+
+/* チェックボックスグループ */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #374151;
+  transition: all 0.2s ease;
+  padding: 0.5rem 0;
+}
+
+.checkboxLabel:hover {
+  color: #4F46E5;
+}
+
+.checkboxInput {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  accent-color: #4F46E5;
+  flex-shrink: 0;
+}
+
+/* ボタン */
+.formActions {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton {
+  background-color: #4F46E5;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* 確認画面 */
+.confirmBox {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.confirmItem {
+  padding: 1rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.confirmItem:last-child {
+  border-bottom: none;
+}
+
+.confirmItem strong {
+  color: #4b5563;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.confirmItem span {
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.messagePreview {
+  color: #1f2937;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+/* ボタングループ */
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.backButton {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover:not(:disabled) {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.backButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 送信完了画面 */
+.successMessage {
+  text-align: center;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  border: 1px solid #f0f0f0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  background-color: #10b981;
+  color: white;
+  font-size: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #4b5563;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.redirectNote {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .container {
+    padding: 40px 16px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .form {
+    padding: 1.5rem;
+  }
+
+  .radioGroup {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .confirmItem {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .confirmItem strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .submitButton,
+  .backButton {
+    width: 100%;
+  }
+
+  .successMessage {
+    padding: 2rem;
+  }
+
+  .successIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+}
+
+/* ダークモード対応（オプション） */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #0a0a0a;
+  }
+
+  .title {
+    color: #f9fafb;
+  }
+
+  .subtitle {
+    color: #d1d5db;
+  }
+
+  .form,
+  .confirmBox,
+  .successMessage {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .label,
+  .confirmItem strong {
+    color: #e5e7eb;
+  }
+
+  .input,
+  .textarea {
+    background-color: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .input:focus,
+  .textarea:focus {
+    background-color: #1f2937;
+    border-color: #6366f1;
+  }
+
+  .radioLabel,
+  .checkboxLabel,
+  .confirmItem span {
+    color: #e5e7eb;
+  }
+
+  .messagePreview {
+    background-color: #111827;
+    color: #f9fafb;
+  }
+
+  .backButton {
+    background-color: #374151;
+    color: #f3f4f6;
+    border-color: #4b5563;
+  }
+
+  .backButton:hover:not(:disabled) {
+    background-color: #4b5563;
+    border-color: #6b7280;
+  }
+
+  .description {
+    color: #d1d5db;
+  }
+
+  .redirectNote {
+    color: #9ca3af;
+    border-top-color: #374151;
+  }
+}

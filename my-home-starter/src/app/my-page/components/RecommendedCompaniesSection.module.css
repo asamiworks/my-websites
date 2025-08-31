@@ -1,0 +1,329 @@
+/* コンテナ */
+.container {
+  margin-top: 2rem;
+}
+
+/* タイトル */
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1f2937;
+}
+
+/* 会社リスト */
+.companiesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.companyCard {
+  background-color: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.companyCard:hover {
+  border-color: #06c755;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.companyCard h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.companyCard p {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* 条件サマリー */
+.summary {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summaryTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #374151;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summaryLabel {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.summaryValue {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* LINE CTA */
+.lineCta {
+  background: linear-gradient(135deg, #06c755 0%, #00b900 100%);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.lineCta::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.lineHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.lineIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: white;
+}
+
+.lineTitle {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+.lineDescription {
+  color: white;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+
+.lineFeatures {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.lineFeature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  font-size: 1rem;
+}
+
+.checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.lineButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: white;
+  color: #06c755;
+  font-size: 1.125rem;
+  font-weight: bold;
+  padding: 1rem 3rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.lineButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+.lineButtonIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: #06c755;
+}
+
+.lineNote {
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+}
+
+/* ご相談の流れ */
+.flow {
+  text-align: center;
+}
+
+.flowTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #1f2937;
+}
+
+.flowSteps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.flowStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.flowNumber {
+  width: 3rem;
+  height: 3rem;
+  background-color: #06c755;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.flowStepTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.flowStepDesc {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .summaryItem {
+    padding: 0.75rem 0;
+  }
+
+  .lineCta {
+    padding: 2rem 1.5rem;
+  }
+
+  .lineHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .lineIcon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .lineTitle {
+    font-size: 1.375rem;
+  }
+
+  .lineDescription {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lineButton {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+
+  .flowSteps {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .flowStep {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .flowNumber {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .flowStepTitle {
+    font-size: 0.875rem;
+  }
+
+  .flowStepDesc {
+    font-size: 0.75rem;
+  }
+}

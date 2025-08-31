@@ -1,0 +1,130 @@
+/* グローバルスタイル */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  scroll-padding-top: 70px; /* ヘッダー分のオフセット */
+}
+
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: 60px; /* モバイル時のヘッダー分のオフセット */
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
+  color: #333;
+  overflow-x: hidden;
+  max-width: 100vw;
+  line-height: 1.6;
+  position: relative; /* 明示的に初期状態を設定 */
+}
+
+/* メインコンテンツの幅制限 */
+main {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* リンクのデフォルトスタイルをリセット */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* リストのデフォルトスタイルをリセット */
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 見出しのマージンリセット */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* 段落のマージン調整 */
+p {
+  margin: 0;
+}
+
+/* 画像の最大幅設定 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ボタンのデフォルトスタイルをリセット */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+/* フォーカススタイル */
+:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* フォーカスが見えない場合のスタイル */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* フォーカスが見える場合のスタイル */
+:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* セクション間のデフォルトマージン */
+section {
+  padding: 60px 0;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 80px 0;
+  }
+}
+
+/* コンテナの最大幅設定 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ユーティリティクラス */
+.text-center {
+  text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

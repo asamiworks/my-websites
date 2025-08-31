@@ -1,0 +1,92 @@
+{
+  "siteName": "天晴れ整体院",
+  "siteUrl": "https://appare-seitai.com",
+  "defaultTitle": "天晴れ整体院 | 龍ケ崎市白羽の整体・骨盤矯正 | 院長 岩崎智英",
+  "titleTemplate": "%s | 天晴れ整体院",
+  "defaultDescription": "不調の根本から、あなたの笑顔を取り戻す。龍ケ崎市白羽の隠れ家整体院「天晴れ整体院」。完全予約制で待ち時間なし。肩こり・腰痛・骨盤矯正・リンパドレナージュ・ヘッドスパなど、お客様の症状に合わせた施術を提供。",
+  "keywords": [
+    "龍ヶ崎",
+    "龍ケ崎",
+    "白羽",
+    "整体",
+    "天晴れ",
+    "あっぱれ",
+    "肩こり",
+    "腰痛",
+    "骨盤矯正",
+    "リンパドレナージュ",
+    "ヘッドスパ",
+    "産後骨盤矯正",
+    "茨城県",
+    "岩崎智英",
+    "いわさきともひで"
+  ],
+  "ogImage": "/images/og/default.jpg",
+  "favicon": "/favicon.ico",
+  "themeColor": "#4A90E2",
+  "owner": {
+    "name": "岩崎智英",
+    "nameKana": "いわさきともひで",
+    "nameRomaji": "Iwasaki Tomohide",
+    "title": "院長",
+    "qualification": "整体師",
+    "image": "/images/director/director-main.jpg",
+    "description": "天晴れ整体院の院長。豊富な経験と確かな技術で、お客様一人ひとりに合わせた施術を提供しています。"
+  },
+  "contact": {
+    "tel": "0297-64-8008",
+    "telDisplay": "0297-64-8008",
+    "lineId": "@rjx1276z",
+    "lineUrl": "https://line.me/R/ti/p/@rjx1276z",
+    "instagramId": "APPARE.8008",
+    "instagramUrl": "https://www.instagram.com/appare.8008/"
+  },
+  "business": {
+    "name": "天晴れ整体院",
+    "type": "LocalBusiness",
+    "priceRange": "¥¥",
+    "address": {
+      "postalCode": "301-0841",
+      "addressCountry": "JP",
+      "addressRegion": "茨城県",
+      "addressLocality": "龍ケ崎市",
+      "streetAddress": "白羽4-2-1"
+    },
+    "geo": {
+      "latitude": 35.9117,
+      "longitude": 140.1814
+    },
+    "openingHours": [
+      "Mo 09:00-12:00,14:00-20:00",
+      "Tu 09:00-12:00,14:00-20:00",
+      "Th 09:00-12:00,14:00-20:00",
+      "Fr 09:00-12:00,14:00-20:00",
+      "Sa 09:00-12:00,14:00-20:00"
+    ],
+    "closedDays": ["水曜日", "日曜日", "祝日"],
+    "telephone": "+81-297-64-8008",
+    "paymentAccepted": ["現金", "PayPay"],
+    "amenityFeature": [
+      {
+        "name": "駐車場",
+        "value": "あり"
+      },
+      {
+        "name": "予約",
+        "value": "完全予約制"
+      }
+    ],
+    "founder": "岩崎智英"
+  },
+  "seo": {
+    "canonicalUrl": "https://appare-seitai.com",
+    "locale": "ja_JP",
+    "robots": "index, follow",
+    "googleSiteVerification": "",
+    "bingSiteVerification": ""
+  },
+  "developer": {
+    "name": "AsamiWorks",
+    "url": "https://asami-works.com/"
+  }
+}

@@ -1,0 +1,385 @@
+/* CTAセクションのスタイル */
+
+.cta {
+  /* margin-top は main.css で管理するため削除 */
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--color-primary);
+  color: white;
+  text-align: center;
+}
+
+.cta-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-sm);
+}
+
+.cta-subtitle {
+  font-size: var(--font-size-lg);
+  opacity: 0.9;
+  margin-bottom: var(--spacing-3xl);
+}
+
+/* CTAボタングループ */
+.cta-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.cta-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  background-color: white;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.cta-button:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* アイコン部分 */
+.cta-button-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.cta-button-icon svg {
+  width: 32px;
+  height: 32px;
+  transition: transform var(--transition-fast);
+}
+
+.cta-button:hover .cta-button-icon svg {
+  transform: scale(1.1);
+}
+
+/* コンテンツ部分 */
+.cta-button-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.cta-button-label {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.cta-button-info {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 各ボタンのカラー設定 */
+.cta-line .cta-button-icon {
+  background-color: #00B900;
+  color: white;
+}
+
+.cta-line:hover .cta-button-icon {
+  background-color: #009900;
+}
+
+.cta-instagram .cta-button-icon {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: white;
+}
+
+.cta-instagram:hover .cta-button-icon {
+  filter: brightness(1.1);
+}
+
+.cta-phone .cta-button-icon {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.cta-phone:hover .cta-button-icon {
+  background-color: var(--color-primary-dark);
+}
+
+/* 注記 */
+.cta-note {
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+  margin-top: var(--spacing-2xl);
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .cta {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .cta-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .cta-subtitle {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .cta-buttons {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .cta-button {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: var(--spacing-lg);
+  }
+
+  .cta-button-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .cta-button-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .cta-button-content {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* CTAバッジのスタイル */
+
+/* CTAセクションのスタイル */
+
+.cta {
+  /* margin-top は main.css で管理するため削除 */
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--color-primary);
+  color: white;
+  text-align: center;
+}
+
+.cta-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-sm);
+}
+
+.cta-subtitle {
+  font-size: var(--font-size-lg);
+  opacity: 0.9;
+  margin-bottom: var(--spacing-3xl);
+}
+
+/* CTAボタングループ */
+.cta-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.cta-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  background-color: white;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.cta-button:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* アイコン部分 */
+.cta-button-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.cta-button-icon svg {
+  width: 32px;
+  height: 32px;
+  transition: transform var(--transition-fast);
+}
+
+.cta-button:hover .cta-button-icon svg {
+  transform: scale(1.1);
+}
+
+/* コンテンツ部分 */
+.cta-button-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.cta-button-label {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.cta-button-info {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 各ボタンのカラー設定 */
+.cta-line .cta-button-icon {
+  background-color: #00B900;
+  color: white;
+}
+
+.cta-line:hover .cta-button-icon {
+  background-color: #009900;
+}
+
+.cta-instagram .cta-button-icon {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: white;
+}
+
+.cta-instagram:hover .cta-button-icon {
+  filter: brightness(1.1);
+}
+
+.cta-phone .cta-button-icon {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.cta-phone:hover .cta-button-icon {
+  background-color: var(--color-primary-dark);
+}
+
+/* バッジスタイル（旧.cta-noteを置き換え） */
+.cta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: white;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-fast);
+}
+
+.cta-badge:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.cta-badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .cta {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .cta-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .cta-subtitle {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .cta-buttons {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .cta-button {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: var(--spacing-lg);
+  }
+
+  .cta-button-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .cta-button-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .cta-button-content {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .cta-badge {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+  
+  .cta-badge-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+}

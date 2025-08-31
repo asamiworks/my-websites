@@ -1,0 +1,228 @@
+/* Footer全体のスタイル */
+.footer {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 60px 0 20px;
+  margin-top: auto;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* サイトマップセクション */
+.siteMapSection {
+  border-bottom: 1px solid #333;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+}
+
+.siteMapGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.siteMapColumn {
+  min-width: 200px;
+}
+
+.siteMapTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.siteMapTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background-color: #007bff;
+}
+
+.siteMapList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.siteMapList li {
+  margin-bottom: 10px;
+}
+
+.siteMapLink {
+  color: #b0b0b0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  display: inline-block;
+  position: relative;
+}
+
+.siteMapLink:hover {
+  color: #ffffff;
+}
+
+.siteMapLink::before {
+  content: '▸';
+  position: absolute;
+  left: -15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.siteMapLink:hover::before {
+  opacity: 1;
+}
+
+/* 会社情報セクション */
+.companyInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 20px;
+}
+
+.companyDetails {
+  flex: 1;
+  min-width: 300px;
+}
+
+.companyName {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+  margin-bottom: 20px;
+}
+
+.contactInfo {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.contactInfo p {
+  margin: 5px 0;
+}
+
+/* CTAボタン */
+.footerCta {
+  display: flex;
+  align-items: center;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #007bff;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+/* コピーライトセクション */
+.copyright {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.legalLinks {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.legalLink {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.legalLink:hover {
+  color: #999;
+}
+
+.separator {
+  color: #444;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 0 20px;
+  }
+
+  .siteMapGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
+  .companyInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footerCta {
+    width: 100%;
+  }
+
+  .ctaButton {
+    width: 100%;
+    text-align: center;
+  }
+
+  .copyright {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .siteMapGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .companyName {
+    font-size: 1.5rem;
+  }
+
+  .siteMapTitle {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,475 @@
+.courseSection {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #f8f9ff 0%, #fff 100%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* コースセレクター */
+.courseSelector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.courseButton {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.courseButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  transition: all 0.3s ease;
+}
+
+.courseButton.green::before { background: #4caf50; }
+.courseButton.yellow::before { background: #ffc107; }
+.courseButton.purple::before { background: #9c27b0; }
+.courseButton.pink::before { background: #e91e63; }
+
+.courseButton:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.courseButton.active {
+  border-color: transparent;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.courseButton.active.green { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+.courseButton.active.yellow { background: linear-gradient(135deg, #fff8e1, #ffecb3); }
+.courseButton.active.purple { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+.courseButton.active.pink { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+
+.courseName {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* 難易度バー */
+.difficultyBar {
+  display: flex;
+  gap: 4px;
+}
+
+.bar {
+  width: 30px;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.bar.filled {
+  background: #ffd700;
+}
+
+/* コース詳細 */
+.courseDetail {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  animation: fadeIn 0.5s ease;
+}
+
+.detailContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* ビジュアルセクション */
+.visualSection {
+  display: flex;
+  justify-content: center;
+}
+
+.courseVisual {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.courseVisual.green { background: linear-gradient(135deg, #4caf50, #81c784); }
+.courseVisual.yellow { background: linear-gradient(135deg, #ffc107, #ffd54f); }
+.courseVisual.purple { background: linear-gradient(135deg, #9c27b0, #ba68c8); }
+.courseVisual.pink { background: linear-gradient(135deg, #e91e63, #f06292); }
+
+/* カルーセルコンテナ */
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: pan-y; /* 横スワイプのみ許可 */
+}
+
+/* コース画像 */
+.courseImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  user-select: none; /* 画像の選択を防ぐ */
+  -webkit-user-drag: none; /* ドラッグを防ぐ */
+}
+
+/* カルーセルボタン */
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  z-index: 2;
+}
+
+.carouselContainer:hover .carouselButton {
+  opacity: 1;
+}
+
+.carouselButton:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carouselButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+.prevButton {
+  left: 10px;
+}
+
+.nextButton {
+  right: 10px;
+}
+
+/* インジケーター */
+.carouselIndicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
+}
+
+.indicator.active {
+  background: rgba(255, 255, 255, 0.9);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* トラックパターン */
+.trackPattern {
+  position: relative;
+  width: 80%;
+  height: 80%;
+}
+
+.jump, .hill, .flat, .curve, .corner, .straight, .gentle, .wide {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+
+.jump {
+  width: 60px;
+  height: 60px;
+  top: 20%;
+  left: 30%;
+}
+
+.jump:nth-child(2) {
+  top: 50%;
+  left: 60%;
+}
+
+.hill {
+  width: 120px;
+  height: 80px;
+  bottom: 20%;
+  left: 25%;
+  border-radius: 50% 50% 0 0;
+}
+
+.flat {
+  width: 200px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 100px;
+}
+
+.curve {
+  width: 150px;
+  height: 150px;
+  top: 10%;
+  right: 10%;
+  border-radius: 50%;
+  border: 20px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+}
+
+.corner {
+  width: 80px;
+  height: 80px;
+  top: 20%;
+  left: 20%;
+  transform: rotate(45deg);
+  border-radius: 20%;
+}
+
+.corner:nth-child(2) {
+  top: auto;
+  bottom: 20%;
+  right: 20%;
+  left: auto;
+}
+
+.straight {
+  width: 150px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+}
+
+.gentle {
+  width: 180px;
+  height: 120px;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+}
+
+.wide {
+  width: 220px;
+  height: 60px;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 30px;
+}
+
+/* 情報セクション */
+.infoSection {
+  padding-left: 20px;
+}
+
+.courseDescription {
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.difficulty {
+  margin-bottom: 30px;
+}
+
+.difficulty h4 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 5px;
+}
+
+.star {
+  width: 24px;
+  height: 24px;
+  color: #e0e0e0;
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.features h4 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.features svg {
+  width: 20px;
+  height: 20px;
+  color: #4caf50;
+  flex-shrink: 0;
+}
+
+.note {
+  text-align: center;
+  color: #999;
+  font-size: 0.9rem;
+  margin-top: 40px;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .courseSection {
+    padding: 60px 0;
+  }
+
+  .courseSelector {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .detailContent {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .courseDetail {
+    padding: 30px 20px;
+  }
+
+  .infoSection {
+    padding-left: 0;
+  }
+
+  .courseVisual {
+    max-width: 300px;
+  }
+
+  /* モバイルではカルーセルボタンを常に表示 */
+  .carouselButton {
+    opacity: 0.7;
+    width: 35px;
+    height: 35px;
+  }
+
+  .carouselButton:hover {
+    transform: translateY(-50%); /* モバイルではスケールしない */
+  }
+
+  .prevButton {
+    left: 5px;
+  }
+
+  .nextButton {
+    right: 5px;
+  }
+}
+
+/* タッチデバイス向けのスタイル */
+@media (hover: none) and (pointer: coarse) {
+  .carouselButton {
+    opacity: 0.7;
+  }
+
+  .carouselButton:hover {
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+  }
+}

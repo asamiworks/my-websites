@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- メインページ -->
+  <url>
+    <loc>https://appare-seitai.com/</loc>
+    <lastmod>2025-07-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://appare-seitai.com/images/hero/hero1.jpg</image:loc>
+      <image:title>天晴れ整体院 - 龍ケ崎市白羽の整体・骨盤矯正</image:title>
+      <image:caption>天晴れ整体院の外観。龍ケ崎市白羽で肩こり・腰痛・骨盤矯正・リンパドレナージュの施術を提供しています。</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://appare-seitai.com/images/director/director-main.jpg</image:loc>
+      <image:title>院長 岩崎智英（いわさきともひで）</image:title>
+      <image:caption>天晴れ整体院の院長。豊富な経験と確かな技術で、お客様一人ひとりに合わせた施術を提供しています。</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://appare-seitai.com/images/hero/hero2.jpg</image:loc>
+      <image:title>天晴れ整体院の施術室</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://appare-seitai.com/images/hero/hero3.jpg</image:loc>
+      <image:title>リラックスできる施術環境</image:title>
+    </image:image>
+  </url>
+</urlset>

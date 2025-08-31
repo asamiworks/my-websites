@@ -1,0 +1,65 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  .intro {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+  
+  .section {
+    margin-bottom: 30px;
+  }
+  
+  .section h2 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-bottom: 10px;
+  }
+  
+  .section p {
+    margin-bottom: 10px;
+  }
+  
+  .section ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  .footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  
+  .footer address {
+    font-style: normal;
+    line-height: 1.4;
+  }
+  
+  .contactLink {
+    display: inline-block;
+    margin-top: 10px;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .contactLink:hover {
+    text-decoration: underline;
+  }
+  

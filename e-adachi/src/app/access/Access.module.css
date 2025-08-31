@@ -1,0 +1,320 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ヒーローセクション（メッセージページと統一） */
+.hero {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 60%;
+  height: 200%;
+  background: rgba(0, 91, 172, 0.03);
+  transform: rotate(45deg);
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.titleDecoration {
+  width: 80px;
+  height: 4px;
+  background: #005bac;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.infoBlock {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  color: #005bac;
+  font-weight: 600;
+}
+
+.address,
+.businessHours {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* 地図セクション */
+.mapSection {
+  width: 100%;
+}
+
+.mapContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 70%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 8px;
+}
+
+/* アクセス情報 */
+.accessInfo {
+  background: #f8f9fa;
+  padding: 60px 20px;
+  max-width: 100%;
+  margin: 60px 0 0;
+}
+
+.accessInfo .sectionTitle {
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto 40px;
+}
+
+.accessList {
+  display: grid;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.accessItem {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  border-left: 4px solid #005bac;
+}
+
+.accessMethod {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.accessItem p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* CTAセクション */
+.ctaSection {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #005bac 0%, #004494 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 80%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.05);
+  transform: rotate(-45deg);
+}
+
+.ctaText {
+  font-size: 1.15rem;
+  margin-bottom: 32px;
+  line-height: 1.8;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 18px 48px;
+  background-color: #fff;
+  color: #005bac;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background-color: #f8f9fa;
+}
+
+/* モバイル対応 */
+@media (max-width: 767px) {
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .content {
+    padding: 40px 20px;
+  }
+
+  .accessInfo {
+    padding: 40px 20px;
+    margin-top: 40px;
+  }
+
+  .accessInfo .sectionTitle {
+    margin-bottom: 30px;
+  }
+
+  .ctaSection {
+    margin-top: 60px;
+  }
+
+  .ctaText {
+    font-size: 1rem;
+  }
+
+  .ctaButton {
+    padding: 16px 32px;
+    font-size: 1rem;
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 768px) {
+  .hero {
+    padding: 80px 40px;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    padding: 80px 40px;
+  }
+
+  .mapContainer {
+    padding-bottom: 56.25%;
+  }
+
+  .accessInfo {
+    padding: 80px 40px;
+    margin-top: 80px;
+  }
+
+  .accessList {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .ctaSection {
+    padding: 80px 40px;
+    margin-top: 100px;
+  }
+}
+
+/* PC対応 */
+@media (min-width: 1024px) {
+  .hero {
+    padding: 100px 40px;
+  }
+
+  .content {
+    padding: 100px 40px;
+  }
+
+  .infoBlock {
+    padding: 32px;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
+  .address,
+  .businessHours {
+    font-size: 1.1rem;
+  }
+
+  .accessItem {
+    padding: 28px;
+  }
+
+  .accessInfo {
+    padding: 100px 40px;
+    margin-top: 100px;
+  }
+
+  .ctaSection {
+    padding: 100px 40px;
+  }
+
+  .ctaText {
+    font-size: 1.2rem;
+  }
+}
+
+/* 大画面対応 */
+@media (min-width: 1440px) {
+  .ctaSection {
+    margin-top: 120px;
+  }
+}

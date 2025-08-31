@@ -1,0 +1,227 @@
+.accessSection {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #f8f9ff 0%, #fff 100%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ヘッダー */
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #333;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6bcb, #9b59b6);
+  border-radius: 2px;
+}
+
+
+
+/* コンテンツ */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+  margin-bottom: 60px;
+}
+
+/* マップ */
+.mapWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.mapContainer {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  background: #f0f0f0;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* 情報カード */
+.infoWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.infoCard {
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.infoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.infoIcon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 15px;
+  background: linear-gradient(135deg, #ff6bcb, #9b59b6);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoIcon svg {
+  width: 25px;
+  height: 25px;
+  color: #fff;
+}
+
+.infoCard h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.infoCard p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* お知らせ */
+.notice {
+  background: linear-gradient(135deg, #fff3e0, #ffebee);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 40px;
+  box-shadow: 0 5px 20px rgba(255, 107, 203, 0.1);
+}
+
+.notice p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* 経路案内ボタン */
+.directions {
+  text-align: center;
+}
+
+.directionsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ff6bcb, #9b59b6);
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 5px 20px rgba(155, 89, 182, 0.3);
+  transition: all 0.3s ease;
+}
+
+.directionsButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(155, 89, 182, 0.4);
+}
+
+.directionsButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* レスポンシブ */
+@media (max-width: 968px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .mapContainer {
+    max-width: 100%;
+  }
+
+  .infoWrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .accessSection {
+    padding: 60px 0;
+  }
+
+  .infoWrapper {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .infoCard {
+    padding: 20px;
+  }
+
+  .notice {
+    padding: 25px 20px;
+  }
+
+  .notice p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8rem;
+  }
+
+
+  .directionsButton {
+    font-size: 1rem;
+    padding: 12px 25px;
+  }
+
+  .directionsButton svg {
+    width: 20px;
+    height: 20px;
+  }
+}

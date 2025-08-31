@@ -1,0 +1,513 @@
+/* ヒーローセクション */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+/* メインコンテナ */
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* スライダー */
+.hero-slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 各スライド */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 画像の上部中央を優先的に表示（施術風景が見えやすい位置） */
+  object-position: center 30%;
+}
+
+/* オーバーレイ - より洗練されたグラデーション */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  z-index: 2;
+}
+
+/* コンテンツエリア */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+}
+
+/* タイトル */
+.hero-title {
+  margin: 0 0 2rem;
+}
+
+.hero-title-main {
+  display: inline-block;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  
+  /* フォントファミリーを追加 */
+  font-family: "Shippori Mincho", "Noto Serif JP", serif;
+  
+  /* モダンなテキストエフェクト */
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+  
+  /* アニメーション */
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroFadeIn 1.2s ease-out 0.3s forwards;
+}
+
+/* 説明文 */
+.hero-description {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  max-width: 700px;
+  margin: 0 auto;
+  
+  /* フォントファミリーを追加 */
+  font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  text-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.3);
+  
+  /* アニメーション */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeIn 1.2s ease-out 0.6s forwards;
+}
+
+/* インジケーター */
+.hero-indicators {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.hero-indicator {
+  width: 60px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: none; /* アニメーション時の干渉を防ぐ */
+}
+
+/* 白い塗りつぶし層（常に表示） */
+.hero-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: #ffffff;
+  transition: none;
+}
+
+/* 1周目：塗りつぶしアニメーション */
+.hero-indicator.active.fill::before {
+  animation: fillProgress 5s linear forwards;
+}
+
+/* 1周目完了：白く保持 */
+.hero-indicator.completed::before {
+  width: 100% !important;
+}
+
+/* 2周目：clip-pathで左から右へ消去 */
+.hero-indicator.completed.active.clear::before {
+  width: 100% !important;
+  animation: clearWithClipPath 5s linear forwards;
+}
+
+/* アニメーション定義 */
+@keyframes fillProgress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes clearWithClipPath {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+/* ホバー効果 */
+.hero-indicator:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* スクロールヒント */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  color: #ffffff;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
+}
+
+/* アニメーション定義 */
+@keyframes heroFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0.3;
+  }
+}
+
+/* 大画面対応（1440px以上） */
+@media (min-width: 1440px) {
+  .hero-title-main {
+    font-size: 3.5rem;
+  }
+  
+  .hero-description {
+    font-size: 1.25rem;
+  }
+}
+
+/* ワイド画面対応（1920px以上） */
+@media (min-width: 1920px) {
+  .hero-slide img {
+    /* 超ワイド画面では画像の中央を表示 */
+    object-position: center center;
+  }
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+  .hero-slide img {
+    object-position: center 40%;
+  }
+  
+  .hero-title-main {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+  }
+  
+  .hero-description {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+  }
+}
+
+/* モバイル対応 - 高さに合わせて画像を表示 */
+@media (max-width: 768px) {
+  .hero {
+    height: 70vh;
+    min-height: 500px;
+  }
+  
+  /* 背景画像として表示（モバイル） */
+  .hero-slide {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  
+  .hero-slide img {
+    /* モバイルではimg要素は使わないが、念のため設定 */
+    display: none;
+  }
+  
+  /* オーバーレイはそのまま維持 */
+  .hero-overlay {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+  
+  .hero-content {
+    width: 85%;
+    top: 50%;
+  }
+  
+  .hero-title {
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-title-main {
+    font-size: clamp(2rem, 8vw, 3rem);
+    letter-spacing: 0.05em;
+  }
+  
+  .hero-description {
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    line-height: 1.6;
+  }
+  
+  .hero-indicators {
+    bottom: 2rem;
+    gap: 0.75rem;
+  }
+  
+  .hero-indicator {
+    width: 40px;
+    height: 2px;
+  }
+  
+  .hero-scroll-hint {
+    display: none;
+  }
+}
+
+/* 小型モバイル対応 */
+@media (max-width: 480px) {
+  .hero {
+    height: 60vh;
+    min-height: 400px;
+  }
+  
+  /* 背景画像として表示（小型モバイル） */
+  .hero-slide {
+    background-size: cover;
+    background-position: center center;
+  }
+  
+  .hero-slide img {
+    display: none;
+  }
+  
+  .hero-title-main {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
+  
+  .hero-description {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+  
+  .hero-indicators {
+    bottom: 1.5rem;
+  }
+}
+
+/* 横長画面の対応（ランドスケープ） */
+@media (orientation: landscape) and (max-height: 600px) {
+  .hero {
+    min-height: 100vh;
+  }
+  
+  .hero-content {
+    top: 45%;
+  }
+  
+  .hero-title {
+    margin-bottom: 1rem;
+  }
+  
+  .hero-title-main {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  
+  .hero-description {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  }
+  
+  .hero-scroll-hint {
+    display: none;
+  }
+}
+
+/* アクセシビリティ - モーション無効化 */
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide {
+    transition: none;
+  }
+  
+  .hero-title-main,
+  .hero-description {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .hero-scroll-hint {
+    animation: none;
+  }
+  
+  .hero-indicator::before {
+    animation: none !important;
+  }
+  
+  /* モーション無効時は即座に状態を変更 */
+  .hero-indicator.active.fill::before {
+    width: 100% !important;
+  }
+  
+  .hero-indicator.completed::before {
+    width: 100% !important;
+  }
+  
+  .hero-indicator.completed.active.clear::before {
+    width: 100% !important;
+    clip-path: inset(0 0 0 100%) !important;
+  }
+}
+
+
+/* ============================================
+   完全予約制バッジ - 追加するスタイル
+   ============================================ */
+   .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    animation: pulse 2s infinite;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .hero-badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: white;
+    color: var(--color-primary);
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.875rem;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+    }
+  }
+  
+  /* モバイル対応 */
+  @media (max-width: 768px) {
+    .hero-badge {
+      font-size: 0.875rem;
+      padding: 0.625rem 1.25rem;
+      margin-top: 1rem;
+    }
+    
+    .hero-badge-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 0.75rem;
+    }
+  }
+  
+  /* タブレット対応 */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .hero-badge {
+      font-size: 0.9375rem;
+      padding: 0.7rem 1.4rem;
+    }
+  }
+  
+  /* ダークモード対応（もし実装されている場合） */
+  @media (prefers-color-scheme: dark) {
+    .hero-badge {
+      background: var(--color-primary-light, #5BA0F2);
+      color: var(--color-text-dark, #1a1a1a);
+    }
+    
+    .hero-badge-icon {
+      background: var(--color-text-dark, #1a1a1a);
+      color: var(--color-primary-light, #5BA0F2);
+    }
+  }

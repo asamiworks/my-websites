@@ -1,0 +1,599 @@
+/* CorporateService.module.css */
+
+.container {
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+/* ヒーローセクション */
+.hero {
+  background: linear-gradient(135deg, #0066cc 0%, #3b82f6 100%);
+  color: white;
+  padding: 80px 24px;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.heroDescription {
+  font-size: 1.25rem;
+  margin-bottom: 32px;
+  opacity: 0.9;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.primaryButton {
+  background: white;
+  color: #0066cc;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.primaryButton:hover {
+  background: #f3f4f6;
+}
+
+.secondaryButton {
+  border: 2px solid white;
+  color: white;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.secondaryButton:hover {
+  background: white;
+  color: #0066cc;
+}
+
+/* 価格セクション */
+.priceSection {
+  padding: 64px 24px;
+  background: white;
+}
+
+.sectionContent {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 48px;
+  color: #111827;
+}
+
+.priceCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.priceAmount {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #0066cc;
+  margin-bottom: 8px;
+}
+
+.priceNote {
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.priceDivider {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
+  margin-bottom: 16px;
+}
+
+.priceIncludes {
+  font-size: 1.125rem;
+  color: #374151;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.includesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.includesList {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.includesList li {
+  margin-bottom: 8px;
+  color: #4b5563;
+  padding-left: 20px;
+  position: relative;
+}
+
+.includesList li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #0066cc;
+  font-weight: bold;
+}
+
+/* ターゲットセクション */
+.targetSection {
+  padding: 64px 24px;
+  background: #f9fafb;
+}
+
+.targetGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.targetItem {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s;
+}
+
+.targetItem:hover {
+  border-color: #0066cc;
+  box-shadow: 0 4px 20px rgba(0, 102, 204, 0.1);
+}
+
+.targetTitle {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.targetDescription {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* 特徴セクション */
+.featuresSection {
+  padding: 64px 24px;
+  background: white;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featureItem {
+  background: #f9fafb;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.featureDescription {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* 構成例セクション */
+.structureSection {
+  padding: 64px 24px;
+  background: #f9fafb;
+}
+
+.structureCard {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.structureTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.structureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.structureItem {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.structureItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.structureNumber {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0066cc;
+  flex-shrink: 0;
+}
+
+.structureContent {
+  flex: 1;
+}
+
+.structurePageTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.structurePageDescription {
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 0.875rem;
+}
+
+/* オプション活用事例セクション */
+.exampleSection {
+  padding: 64px 24px;
+  background: white;
+}
+
+.exampleSubtitle {
+  color: #6b7280;
+  font-size: 1.125rem;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.exampleGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.exampleCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.exampleHeader {
+  background: linear-gradient(135deg, #0066cc 0%, #3b82f6 100%);
+  color: white;
+  padding: 24px;
+}
+
+.exampleTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.exampleTarget {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.exampleContent {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.exampleDescription {
+  color: #374151;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.exampleBreakdown {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.breakdownTitle {
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 12px 0;
+}
+
+.breakdownList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.breakdownList li {
+  color: #4b5563;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.breakdownList li::before {
+  content: "・";
+  position: absolute;
+  left: 0;
+  color: #0066cc;
+}
+
+.monthlyNote {
+  margin: 16px 0 8px 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.exampleTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  margin: 0;
+}
+
+.exampleTotal span:first-child {
+  font-weight: 600;
+  color: #111827;
+}
+
+.totalPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0066cc;
+}
+
+/* CTAボタン（この内容でサイト制作を依頼する） */
+.exampleCTA {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.exampleButton {
+  display: inline-block;
+  background: #0066cc;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.2);
+}
+
+.exampleButton:hover {
+  background: #005bac;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+/* CTAセクション */
+.ctaSection {
+  padding: 64px 24px;
+  background: #0066cc;
+  color: white;
+  text-align: center;
+}
+
+.ctaContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.ctaDescription {
+  font-size: 1.25rem;
+  margin-bottom: 32px;
+  opacity: 0.9;
+  line-height: 1.8;
+}
+
+.ctaButton {
+  background: white;
+  color: #0066cc;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.ctaButton:hover {
+  background: #f3f4f6;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 639px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+  
+  .heroDescription {
+    font-size: 1.125rem;
+  }
+  
+  .priceAmount {
+    font-size: 2.5rem;
+  }
+  
+  .exampleGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .totalPrice {
+    font-size: 1.25rem;
+  }
+  
+  .exampleTitle {
+    font-size: 1.25rem;
+  }
+  
+  .breakdownList li {
+    font-size: 0.8rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+  
+  .ctaTitle {
+    font-size: 1.75rem;
+  }
+  
+  .structureCard {
+    padding: 24px;
+  }
+  
+  .structureNumber {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .includesGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .exampleGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .targetGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+  
+  .priceAmount {
+    font-size: 3.5rem;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .sectionTitle {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroTitle {
+    font-size: 3.5rem;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .exampleGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  
+  .exampleTitle {
+    font-size: 1.25rem;
+  }
+  
+  .sectionTitle {
+    font-size: 3rem;
+  }
+  
+  /* 3カラムレイアウトでカードの高さを揃える */
+  .exampleCard {
+    height: 100%;
+  }
+  
+  .exampleContent {
+    min-height: 450px;
+  }
+  
+  .targetGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

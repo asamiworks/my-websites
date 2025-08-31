@@ -1,0 +1,188 @@
+.conceptSection {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #fff 0%, #f8f9ff 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* ヘッダー */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: #333;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6bcb, #9b59b6);
+    border-radius: 2px;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  /* コンセプトグリッド */
+  .conceptGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  /* コンセプトカード */
+  .conceptCard {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .conceptCard:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* カラーバリエーション */
+  .conceptCard.purple {
+    border-top: 4px solid #9b59b6;
+  }
+  
+  .conceptCard.purple .iconWrapper {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  }
+  
+  .conceptCard.pink {
+    border-top: 4px solid #ff6bcb;
+  }
+  
+  .conceptCard.pink .iconWrapper {
+    background: linear-gradient(135deg, #ff6bcb, #ff5eb3);
+  }
+  
+  .conceptCard.orange {
+    border-top: 4px solid #ff9a00;
+  }
+  
+  .conceptCard.orange .iconWrapper {
+    background: linear-gradient(135deg, #ff9a00, #ff7700);
+  }
+  
+  /* アイコン */
+  .iconWrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    position: relative;
+    transform: rotate(-5deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .conceptCard:hover .iconWrapper {
+    transform: rotate(0deg) scale(1.1);
+  }
+  
+  .iconWrapper svg {
+    width: 40px;
+    height: 40px;
+    color: #fff;
+  }
+  
+  /* テキスト */
+  .conceptTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .conceptDescription {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.7;
+  }
+  
+  /* 装飾要素 */
+  .decorativeElement {
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(155, 89, 182, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  
+  /* アニメーション */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .conceptSection {
+      padding: 60px 0;
+    }
+    
+    .conceptGrid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    
+    .conceptCard {
+      padding: 30px 25px;
+    }
+    
+    .iconWrapper {
+      width: 70px;
+      height: 70px;
+    }
+    
+    .iconWrapper svg {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .conceptTitle {
+      font-size: 1.3rem;
+    }
+  }

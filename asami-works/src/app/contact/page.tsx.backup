@@ -1,0 +1,426 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import styles from "../../styles/Contact.module.css";
+
+// 型定義
+type EstimateData = {
+  siteType: string;
+  options?: string[];
+  pageCount?: number;
+  totalPrice: number;
+};
+
+type FormData = {
+  company: string;
+  name: string;
+  email: string;
+  tel: string;
+  message: string;
+};
+
+type SubmitMessage = {
+  type: 'success' | 'error';
+  text: string;
+};
+
+// ラベルマップ
+const siteTypeLabelMap: Record<string, string> = {
+  lp: "ランディングページ",
+  corporate: "コーポレートサイト",
+  grant: "補助金・助成金対応型",
+};
+
+const optionLabelMap: Record<string, string> = {
+  responsive: "レスポンシブデザイン最適化",
+  internal_seo: "内部SEO最適化",
+  form: "お問合せフォーム",
+  wordpress: "WordPress導入",
+  mypage: "マイページ機能 & 管理者ページ",
+  chat: "チャット機能（マイページ実装も必須となります）",
+  seo: "SEO対策・最適化（ライティング代行10ページ分含む）",
+  analytics: "Google Analytics・サーチコンソール設定",
+  backup: "自動バックアップ設定（初期設定）",
+  security: "セキュリティ強化対策（初期設定）",
+};
+
+const optionPrices: Record<string, number> = {
+  responsive: 77000,
+  internal_seo: 0,
+  form: 30000,
+  wordpress: 110000,
+  mypage: 330000,
+  chat: 495000,
+  seo: 121000,
+  analytics: 22000,
+  backup: 22000,
+  security: 33000,
+};
+
+export default function ContactPage() {
+  const router = useRouter();
+  const [estimate, setEstimate] = useState<EstimateData | null>(null);
+  const [formData, setFormData] = useState<FormData>({
+    company: "",
+    name: "",
+    email: "",
+    tel: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [confirmed, setConfirmed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<SubmitMessage | null>(null);
+
+  // 標準仕様の判定
+  const getLockedOptions = (siteType: string): string[] => {
+    const baseOptions = ["responsive", "internal_seo"];
+    if (siteType === "grant") return [...baseOptions, "form", "wordpress"];
+    if (siteType === "corporate") return [...baseOptions, "form"];
+    return baseOptions;
+  };
+
+  // 基本料金の取得
+  const getBasePrice = (siteType: string): number => {
+    switch (siteType) {
+      case "lp": return 220000;
+      case "corporate": return 385000;
+      case "grant": return 770000;
+      default: return 0;
+    }
+  };
+
+  // 詳細なメッセージを作成する関数
+  const createDetailedMessage = (): string => {
+    let message = formData.message || '';
+    
+    if (estimate) {
+      message += '\n\n【概算見積もり内容】\n';
+      message += `サイトタイプ: ${siteTypeLabelMap[estimate.siteType]}\n`;
+      message += `概算金額: ${estimate.totalPrice.toLocaleString()}円（税込）\n`;
+      
+      if (estimate.options && estimate.options.length > 0) {
+        message += '\n選択オプション:\n';
+        estimate.options.forEach(opt => {
+          const isLocked = getLockedOptions(estimate.siteType).includes(opt);
+          message += `- ${optionLabelMap[opt] || opt}${isLocked ? '（標準仕様）' : ''}\n`;
+        });
+      }
+      
+      if (estimate.pageCount) {
+        message += `\nページ数: ${estimate.pageCount}ページ\n`;
+      }
+
+      // プレミアム保守プラン必須かどうかの判定
+      const requiresPremiumMaintenance = estimate.siteType === "grant" || 
+        (estimate.options && (
+          estimate.options.includes("seo") || 
+          estimate.options.includes("security") || 
+          estimate.options.includes("backup")
+        ));
+
+      if (requiresPremiumMaintenance) {
+        message += '\n※プレミアム保守プラン（月額55,000円）への加入が必須となります。\n';
+      }
+    }
+    
+    return message;
+  };
+
+  useEffect(() => {
+    const stored = localStorage.getItem("estimateData");
+    if (stored) setEstimate(JSON.parse(stored));
+
+    const savedForm = sessionStorage.getItem("contactForm");
+    if (savedForm) setFormData(JSON.parse(savedForm));
+
+    const beforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "このページを離れると、入力内容が失われる可能性があります。";
+    };
+    window.addEventListener("beforeunload", beforeUnload);
+    return () => window.removeEventListener("beforeunload", beforeUnload);
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: "" }));
+    setSubmitMessage(null); // メッセージをクリア
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.company) newErrors.company = "会社名を入力してください";
+    if (!formData.name) newErrors.name = "担当者名を入力してください";
+    if (!formData.email) {
+      newErrors.email = "メールアドレスを入力してください";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "正しいメールアドレスを入力してください";
+    }
+    return newErrors;
+  };
+
+  const handleConfirm = (e: React.FormEvent) => {
+    e.preventDefault();
+    const validation = validate();
+    if (Object.keys(validation).length > 0) {
+      setErrors(validation);
+    } else {
+      sessionStorage.setItem("contactForm", JSON.stringify(formData));
+      setConfirmed(true);
+      setSubmitMessage(null);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setIsSubmitting(true);
+      setSubmitMessage(null);
+
+      // 詳細なメッセージを作成
+      const detailedMessage = createDetailedMessage();
+
+      // Next.js APIルートに送信するデータ
+      const submitData = {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        phone: formData.tel,
+        message: detailedMessage
+      };
+
+      console.log('送信開始:', submitData);
+
+      // Cloud FunctionsのAPIを使用
+      const API_URL = process.env.NODE_ENV === 'production'
+        ? 'https://asia-northeast1-asamiworks-679b3.cloudfunctions.net/contactApi'
+        : 'http://localhost:5001/asamiworks-679b3/asia-northeast1/contactApi';
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contactApi`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submitData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // 送信成功
+        setSubmitMessage({
+          type: 'success',
+          text: data.message || 'お問い合わせを受け付けました。自動返信メールをご確認ください。'
+        });
+        
+        // フォームをリセット
+        localStorage.removeItem("estimateData");
+        sessionStorage.removeItem("contactForm");
+        setConfirmed(false);
+        setFormData({ company: "", name: "", email: "", tel: "", message: "" });
+        setEstimate(null);
+        
+        // 3秒後にトップページにリダイレクト
+        setTimeout(() => {
+          router.push('/');
+        }, 3000);
+        
+      } else {
+        // 送信失敗
+        throw new Error(data.message || 'システムエラーが発生しました');
+      }
+
+    } catch (error) {
+      console.error('送信エラー:', error);
+      setSubmitMessage({
+        type: 'error',
+        text: error instanceof Error ? error.message : 'ネットワークエラーが発生しました。時間をおいて再度お試しください。'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // 見積もり内容の表示コンポーネント
+  const renderEstimateDetails = () => {
+    if (!estimate) return null;
+
+    const basePrice = getBasePrice(estimate.siteType);
+    const lockedOptions = getLockedOptions(estimate.siteType);
+    const options = estimate.options || [];
+    
+    // 追加ページ料金の計算
+    const pagePrice = estimate.siteType === "corporate" && estimate.pageCount && estimate.pageCount > 4
+      ? (estimate.pageCount - 4) * 11000
+      : estimate.siteType === "grant" && estimate.pageCount && estimate.pageCount > 5
+      ? (estimate.pageCount - 5) * 11000
+      : 0;
+
+    // プレミアム保守プラン必須かどうかの判定
+    const requiresPremiumMaintenance = estimate.siteType === "grant" || 
+      options.includes("seo") || 
+      options.includes("security") || 
+      options.includes("backup");
+
+    return (
+      <div className={styles.estimateBox}>
+        <h2>概算見積もり</h2>
+        <div className={styles.totalPrice}>
+          {estimate.totalPrice.toLocaleString()}円（税込）
+        </div>
+        
+        <div className={styles.breakdown}>
+          <div className={styles.breakdownItem}>
+            <span>{siteTypeLabelMap[estimate.siteType]} 基本料金</span>
+            <span>{basePrice.toLocaleString()}円</span>
+          </div>
+          
+          {options.map(opt => {
+            const isLocked = lockedOptions.includes(opt);
+            const price = optionPrices[opt] || 0;
+            return (
+              <div key={opt} className={styles.breakdownItem}>
+                <span>{optionLabelMap[opt] || opt}</span>
+                <span>{isLocked ? "標準仕様" : `+${price.toLocaleString()}円`}</span>
+              </div>
+            );
+          })}
+          
+          {pagePrice > 0 && (
+            <div className={styles.breakdownItem}>
+              <span>追加ページ ({estimate.pageCount! - (estimate.siteType === "grant" ? 5 : 4)}ページ)</span>
+              <span>+{pagePrice.toLocaleString()}円</span>
+            </div>
+          )}
+        </div>
+
+        {requiresPremiumMaintenance && (
+          <div className={styles.premiumNotice}>
+            <p>
+              ※プレミアム保守プラン（月額55,000円）への加入が必須となります。
+              <br />
+              <span style={{ fontSize: "0.8rem", color: "#666" }}>
+                理由：
+                {(() => {
+                  const reasons = [];
+                  if (estimate.siteType === "grant") reasons.push("補助金・助成金対応型サイト");
+                  if (options.includes("seo")) reasons.push("SEO対策・最適化");
+                  if (options.includes("security")) reasons.push("セキュリティ強化対策");
+                  if (options.includes("backup")) reasons.push("自動バックアップ設定");
+                  return reasons.join("・") + "が選択されているため";
+                })()}
+              </span>
+              {estimate.siteType === "grant" && (
+                <>
+                  <br />
+                  ※補助金申請はお客様ご自身で行っていただきますが、準備は丁寧にサポートいたします。
+                </>
+              )}
+              {(options.includes("security") || options.includes("backup")) && (
+                <>
+                  <br />
+                  ※継続的な監視・保守サービスがプレミアム保守プランに含まれます。
+                </>
+              )}
+            </p>
+          </div>
+        )}
+
+        <div className={styles.valueStatement}>
+          <p>
+            <strong>高品質なデザイン・SEO最適化・継続的な保守サポート・充実したアフターケア</strong>
+            により、長期的なROI（投資対効果）を実現します。
+          </p>
+        </div>
+
+        <p className={styles.editLink}>
+          内容を変更したい場合は{" "}
+          <button
+            type="button"
+            onClick={() => router.push("/estimate")}
+            className={styles.linkButton}
+          >
+            簡易見積もりフォームに戻る
+          </button>{" "}
+          ことができます。
+        </p>
+      </div>
+    );
+  };
+
+  return (
+    <div className={styles.container}>
+      {/* 送信メッセージ */}
+      {submitMessage && (
+        <div className={`${styles.message} ${styles[submitMessage.type]}`}>
+          {submitMessage.text}
+          {submitMessage.type === 'success' && (
+            <p style={{ marginTop: '10px', fontSize: '0.9rem' }}>
+              3秒後にトップページに移動します...
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 見積もり情報表示 */}
+      {estimate && renderEstimateDetails()}
+
+      {/* 入力フォーム（確認前のみ） */}
+      {!confirmed && !submitMessage && (
+        <>
+          <h1 className={styles.title}>依頼フォーム</h1>
+          <form onSubmit={handleConfirm} className={styles.form}>
+            <label className={styles.label}>会社名（または屋号）
+              <input name="company" value={formData.company} onChange={handleChange} className={styles.input} />
+              {errors.company && <p className={styles.error}>{errors.company}</p>}
+            </label>
+            <label className={styles.label}>担当者名
+              <input name="name" value={formData.name} onChange={handleChange} className={styles.input} />
+              {errors.name && <p className={styles.error}>{errors.name}</p>}
+            </label>
+            <label className={styles.label}>メールアドレス
+              <input name="email" value={formData.email} onChange={handleChange} className={styles.input} />
+              {errors.email && <p className={styles.error}>{errors.email}</p>}
+            </label>
+            <label className={styles.label}>電話番号（任意）
+              <input name="tel" value={formData.tel} onChange={handleChange} className={styles.input} />
+            </label>
+            <label className={styles.label}>その他・ご要望など（任意）
+              <textarea name="message" value={formData.message} onChange={handleChange} className={styles.textarea} rows={4} />
+            </label>
+            <button type="submit" className={styles.submitButton}>入力内容を確認する</button>
+          </form>
+        </>
+      )}
+
+      {/* 確認画面 */}
+      {confirmed && !submitMessage && (
+        <div className={styles.confirmBox}>
+          <h2>入力内容の確認</h2>
+          <p><strong>会社名：</strong>{formData.company}</p>
+          <p><strong>担当者名：</strong>{formData.name}</p>
+          <p><strong>メールアドレス：</strong>{formData.email}</p>
+          <p><strong>電話番号：</strong>{formData.tel || "（未入力）"}</p>
+          <p><strong>メッセージ：</strong>{formData.message || "（未入力）"}</p>
+          
+          <button 
+            onClick={handleSubmit} 
+            className={styles.submitButton}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? '送信中...' : 'この内容で送信する'}
+          </button>
+          <button 
+            onClick={() => setConfirmed(false)} 
+            className={styles.cancelButton}
+            disabled={isSubmitting}
+          >
+            修正する
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}

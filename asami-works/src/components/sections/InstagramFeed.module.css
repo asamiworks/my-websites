@@ -1,0 +1,204 @@
+/* components/sections/InstagramFeed.module.css */
+
+.instagramSection {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .sectionTitle {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #202124;
+  }
+  
+  .subtitle {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #5f6368;
+    margin-top: 5px;
+  }
+  
+  .feedGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 40px 0;
+  }
+  
+  @media (max-width: 768px) {
+    .feedGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .feedGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .postItem {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    aspect-ratio: 1;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .postItem:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .postImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+  }
+  
+  .postItem:hover .overlay {
+    opacity: 1;
+  }
+  
+  .postItem:hover .postImage {
+    transform: scale(1.05);
+  }
+  
+  .viewPost {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  .followCta {
+    text-align: center;
+    margin-top: 60px;
+  }
+  
+  .followButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(221, 42, 123, 0.3);
+  }
+  
+  .followButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(221, 42, 123, 0.4);
+  }
+  
+  .instagramIcon,
+  .buttonIcon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .followText {
+    margin-top: 16px;
+    color: #5f6368;
+    font-size: 0.95rem;
+  }
+  
+  /* スケルトンローディング */
+  .skeletonItem {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    aspect-ratio: 1;
+    background: #e0e0e0;
+  }
+  
+  .skeletonShimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      #e0e0e0 0%,
+      #f0f0f0 50%,
+      #e0e0e0 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  /* エラー状態 */
+  .errorContainer {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .errorMessage {
+    color: #d32f2f;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .retryButton {
+    background: #1a73e8;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .retryButton:hover {
+    background: #1557b0;
+  }

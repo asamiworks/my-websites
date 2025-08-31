@@ -1,0 +1,134 @@
+.relatedLinks {
+    padding: 80px 24px;
+    background-color: #f8f9fa;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 48px;
+    color: #111827;
+  }
+  
+  .linksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+  
+  .linkCard {
+    background: white;
+    padding: 32px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s;
+    border: 1px solid #e5e7eb;
+    display: block;
+  }
+  
+  .linkCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border-color: #0066cc;
+  }
+  
+  .linkTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #111827;
+  }
+  
+  .linkDescription {
+    color: #6b7280;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  
+  .linkArrow {
+    color: #0066cc;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  
+  .additionalLinks {
+    padding-top: 48px;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .additionalTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 32px;
+    color: #111827;
+  }
+  
+  .additionalGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .additionalLink {
+    background: white;
+    padding: 20px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #111827;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .additionalLink:hover {
+    background: #0066cc;
+    color: white;
+    transform: translateX(4px);
+  }
+  
+  .additionalLinkText {
+    font-weight: 500;
+  }
+  
+  .additionalArrow {
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  
+  .additionalLink:hover .additionalArrow {
+    opacity: 1;
+  }
+  
+  /* モバイル対応 */
+  @media (max-width: 768px) {
+    .relatedLinks {
+      padding: 60px 16px;
+    }
+    
+    .sectionTitle {
+      font-size: 1.75rem;
+      margin-bottom: 32px;
+    }
+    
+    .linksGrid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    
+    .additionalGrid {
+      grid-template-columns: 1fr;
+    }
+  }

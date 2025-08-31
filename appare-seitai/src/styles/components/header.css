@@ -1,0 +1,554 @@
+/* ヘッダーコンポーネントのスタイル */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-sm);
+  z-index: var(--z-header);
+  transition: transform var(--transition-base);
+}
+
+/* スクロール時も常に表示 */
+.header.hidden {
+  transform: translateY(0);
+}
+
+.header-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+}
+
+/* ヘッダー内の全てのリンクの下線を無効化 */
+.header a {
+  text-decoration: none !important;
+}
+
+/* ロゴ */
+.header-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.header-logo:hover {
+  opacity: 0.8;
+}
+
+.header-logo:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-base);
+}
+
+.header-logo-icon {
+  height: 50px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+}
+
+/* ナビゲーション */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  gap: var(--spacing-xl);
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: var(--color-text-primary);
+  text-decoration: none !important; /* 確実にデフォルトの下線を無効化 */
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: all var(--transition-fast);
+  position: relative;
+  padding: 0.25rem 0;
+  display: inline-block; /* インラインブロックで下線の制御を確実に */
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: width var(--transition-fast);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+  text-decoration: none !important; /* ホバー時も確実に下線を無効化 */
+}
+
+.nav-link.active {
+  color: var(--color-primary);
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* CTAボタン */
+.header-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* CTAグループ（予約制テキストと電話ボタン） */
+.header-cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+/* CTAボタンエリア（SNSアイコンと電話ボタンを横並び） */
+.header-cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* タブレット用SNSアイコン（デフォルトは非表示） */
+.header-social-tablet {
+  display: none;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* 予約制テキスト */
+.header-reservation-text {
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* SNSリンク */
+.header-social {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  color: var(--color-text-secondary);
+}
+
+.social-link:hover {
+  transform: translateY(-2px);
+}
+
+.social-link:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* LINE用のカラー */
+.social-link[aria-label="LINE"] {
+  color: #00B900;
+}
+
+.social-link[aria-label="LINE"]:hover {
+  color: #00C300;
+  background-color: rgba(0, 185, 0, 0.1);
+}
+
+/* Instagram用のカラー */
+.social-link[aria-label="Instagram"] {
+  color: #E4405F;
+}
+
+.social-link[aria-label="Instagram"]:hover {
+  color: #C13584;
+  background-color: rgba(225, 64, 95, 0.1);
+}
+
+.social-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 電話CTAボタン - より具体的なセレクタで優先度を上げる */
+a.header-cta-button,
+a.header-cta-button:link,
+a.header-cta-button:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse, #ffffff) !important;  /* フォールバック値付きで強制的に白文字 */
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-cta-button:hover {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-inverse);  /* ホバー時も白文字を維持 */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+a.header-cta-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  color: var(--color-text-inverse, #ffffff) !important;
+}
+
+a.header-cta-button:active {
+  color: var(--color-text-inverse, #ffffff) !important;
+  transform: translateY(0);
+}
+
+.header-cta-button svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-inverse, #ffffff);
+}
+
+/* モバイルメニューボタン */
+.mobile-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-menu-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.mobile-menu-button span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-text-primary);
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+  transform-origin: center;
+}
+
+.mobile-menu-button.active span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.mobile-menu-button.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.mobile-menu-button.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* モバイルメニュー */
+.mobile-menu {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+  max-height: calc(100vh - 70px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-menu.active {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-lg) 0;
+}
+
+.mobile-nav-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobile-nav-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.mobile-nav-link:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-primary);
+}
+
+.mobile-nav-link.active {
+  color: var(--color-primary);
+  background-color: var(--color-bg-secondary);
+}
+
+.mobile-nav-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--color-primary);
+}
+
+.mobile-nav-link:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* モバイルCTA */
+.mobile-cta {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+/* モバイルメニューの予約制テキスト */
+.mobile-reservation-text {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 0.02em;
+}
+
+/* モバイルCTA - より具体的なセレクタで優先度を上げる */
+a.mobile-cta-button,
+a.mobile-cta-button:link,
+a.mobile-cta-button:visited {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse, #ffffff) !important;  /* フォールバック値付きで強制的に白文字 */
+  border-radius: var(--radius-base);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-cta-button svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-inverse, #ffffff);
+}
+
+a.mobile-cta-button:hover {
+  color: var(--color-text-inverse, #ffffff) !important;  /* フォールバック値付きでホバー時も白文字を維持 */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+a.mobile-cta-button:focus {
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: -4px;
+  color: var(--color-text-inverse, #ffffff) !important;
+}
+
+a.mobile-cta-button:active {
+  color: var(--color-text-inverse, #ffffff) !important;
+  transform: translateY(0);
+}
+
+/* 電話ボタン */
+a.mobile-cta-button:first-child {
+  background-color: var(--color-primary);
+}
+
+a.mobile-cta-button:first-child:hover {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-inverse, #ffffff) !important;
+}
+
+/* LINEボタン */
+a.mobile-cta-button.secondary {
+  background-color: #00B900;
+}
+
+a.mobile-cta-button.secondary:hover {
+  background-color: #00C300;
+  color: var(--color-text-inverse, #ffffff) !important;
+}
+
+/* レスポンシブ */
+
+/* タブレット・小さいデスクトップ対応 (1200px以下) */
+@media (max-width: 1200px) {
+  /* ナビゲーションを非表示 */
+  .header-nav {
+    display: none;
+  }
+  
+  /* デスクトップ用ソーシャルリンクを非表示 */
+  .header-social {
+    display: none;
+  }
+  
+  /* タブレット用ソーシャルリンクを表示 */
+  .header-social-tablet {
+    display: flex;
+  }
+  
+  /* ハンバーガーメニューを表示 */
+  .mobile-menu-button {
+    display: flex;
+  }
+  
+  /* CTAボタンのスタイル調整 */
+  .header-cta {
+    margin-left: auto;
+    margin-right: var(--spacing-md);
+  }
+  
+  /* 予約制テキストのサイズ調整 */
+  .header-reservation-text {
+    font-size: 10px;
+  }
+  
+  .header-cta-button {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.9rem;
+  }
+  
+  .header-cta-button svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* タブレット用SNSアイコンのサイズ調整 */
+  .header-social-tablet .social-link {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .header-social-tablet .social-link svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* スマートフォン対応 (768px以下) */
+@media (max-width: 768px) {
+  .header {
+    height: 60px;
+  }
+  
+  .mobile-menu {
+    top: 60px;
+    max-height: calc(100vh - 60px);
+  }
+  
+  .header-nav {
+    display: none;
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+  }
+
+  .header-container {
+    padding: 0 var(--spacing-sm);
+  }
+
+  .header-logo-icon {
+    height: 40px;
+    max-width: 104px;
+  }
+}
+
+/* アニメーション最適化 */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu,
+  .mobile-menu-button span,
+  .nav-link::after,
+  .header-cta-button,
+  .mobile-cta-button,
+  .social-link {
+    transition: none;
+  }
+}

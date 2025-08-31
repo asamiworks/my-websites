@@ -1,0 +1,750 @@
+/* ===================================
+   コーポレートサイト デモハブページ専用スタイル
+   LPデザインを適用したバージョン
+   /services/package/demo/corporate/page.tsx
+=================================== */
+
+/* ===================================
+   メインラッパー
+=================================== */
+.hubWrapper {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif;
+}
+
+/* ===================================
+   ヘッダーセクション
+=================================== */
+.hubHeader {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  padding: 2rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hubHeader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.hubHeaderInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.backLink:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-4px);
+}
+
+.hubHero {
+  text-align: center;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.hubTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hubTitleSub {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.05em;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.hubTitleSub::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b 0%, #ff8787 100%);
+  border-radius: 2px;
+}
+
+.hubDescription {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 800px;
+  margin: 2rem auto 0;
+  animation: fadeIn 1s ease-out 0.2s both;
+}
+
+/* ===================================
+   業界選択セクション
+=================================== */
+.industrySection {
+  padding: 4rem 0;
+}
+
+.industryGrid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.industryCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.industryCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: #f0f0f0;
+}
+
+.industryCard:hover .industryButton {
+  background: #1a252f;
+  transform: translateX(0);
+}
+
+.industryCard:hover .industryButton::after {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* 業界カードヘッダー */
+.industryCardHeader {
+  padding: 2rem 1.5rem;
+  color: white;
+  text-align: center;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.industryCardHeader::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.industryTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.industrySubtitle {
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.95;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* 業界カードコンテンツ */
+.industryCardContent {
+  padding: 1.8rem 1.5rem;
+}
+
+.industryDescription {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #666;
+  margin-bottom: 1.8rem;
+  min-height: 60px;
+}
+
+/* 業種リスト */
+.businessList,
+.featureList {
+  margin-bottom: 1.8rem;
+}
+
+.businessListTitle,
+.featureListTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #999;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.businessList ul,
+.featureList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.businessItem,
+.featureItem {
+  font-size: 0.9rem;
+  color: #333;
+  padding: 0.4rem 0;
+  padding-left: 1.2rem;
+  position: relative;
+  border-left: 2px solid #e0e0e0;
+  margin-left: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+/* 業界ごとの色分け */
+.industryCard:nth-child(1) .businessItem,
+.industryCard:nth-child(1) .featureItem {
+  border-left-color: #764ba2;
+}
+
+.industryCard:nth-child(2) .businessItem,
+.industryCard:nth-child(2) .featureItem {
+  border-left-color: #f5576c;
+}
+
+.industryCard:nth-child(3) .businessItem,
+.industryCard:nth-child(3) .featureItem {
+  border-left-color: #00f2fe;
+}
+
+.industryCard:nth-child(4) .businessItem,
+.industryCard:nth-child(4) .featureItem {
+  border-left-color: #fee140;
+}
+
+/* デモボタン */
+.industryButton {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.industryButton::after {
+  content: "→";
+  position: absolute;
+  right: 1.5rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+/* ===================================
+   フッター情報セクション
+=================================== */
+.hubFooter {
+  background: white;
+  padding: 5rem 0;
+  border-top: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.hubFooter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #2c3e50 0%, #3498db 100%);
+}
+
+.hubInfo {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.hubInfo h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 3.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.hubInfo h3::after {
+  content: "";
+  position: absolute;
+  bottom: -0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: #ff6b6b;
+  border-radius: 2px;
+}
+
+/* 特徴グリッド */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2.5rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.infoItem {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.infoItem::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b 0%, #ff8787 100%);
+  border-radius: 0 0 3px 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.infoItem:hover {
+  transform: translateY(-4px);
+  background: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.infoItem:hover::before {
+  opacity: 1;
+}
+
+.infoItem h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.8rem;
+}
+
+.infoItem p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.7;
+}
+
+/* CTAセクション */
+.ctaSection {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+  padding: 5rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.ctaSectionInner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.ctaSubtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  opacity: 0.9;
+}
+
+.ctaDescription {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 3rem;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.ctaPrimaryButton,
+.ctaSecondaryButton {
+  padding: 1.2rem 2.5rem;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaPrimaryButton {
+  background: white;
+  color: #ff6b6b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ctaPrimaryButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.ctaSecondaryButton {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.ctaSecondaryButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+.ctaFootnote {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+/* フッターセクション */
+.footerSection {
+  background: #2c3e50;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.footerInner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footerText {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* ===================================
+   レスポンシブ対応
+=================================== */
+
+/* 大画面対応 */
+@media (min-width: 1600px) {
+  .industryGrid {
+    max-width: 1500px;
+    gap: 2.5rem;
+    padding: 0 4rem;
+  }
+  
+  .hubInfo {
+    max-width: 1500px;
+    padding: 0 4rem;
+  }
+}
+
+/* デスクトップ - 確実に4列表示 */
+@media (min-width: 1200px) {
+  .industryGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 0 3rem;
+  }
+  
+  .infoGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .hubInfo {
+    padding: 0 3rem;
+  }
+}
+
+/* タブレット */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .industryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* モバイル */
+@media (max-width: 767px) {
+  .hubHeader {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .hubTitle {
+    font-size: 2.2rem;
+  }
+
+  .hubTitleSub {
+    font-size: 1rem;
+  }
+
+  .hubDescription {
+    font-size: 1rem;
+    padding: 0 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .industrySection {
+    padding: 3rem 0;
+  }
+
+  .industryGrid {
+    padding: 0 1rem;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  .industryCardHeader {
+    padding: 1.8rem 1.2rem;
+    min-height: 120px;
+  }
+
+  .industryTitle {
+    font-size: 1.6rem;
+  }
+
+  .industrySubtitle {
+    font-size: 0.8rem;
+  }
+
+  .industryCardContent {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .industryDescription {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .businessItem,
+  .featureItem {
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+    padding-left: 1rem;
+  }
+
+  .industryButton {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .hubFooter {
+    padding: 3rem 0;
+  }
+
+  .hubInfo h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .infoGrid {
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    margin-top: 3rem;
+  }
+
+  .infoItem {
+    padding: 1.2rem;
+  }
+
+  .infoItem h4 {
+    font-size: 1.1rem;
+  }
+
+  .infoItem p {
+    font-size: 0.85rem;
+  }
+
+  .ctaButton {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+
+  /* CTAセクション */
+  .ctaTitle {
+    font-size: 2rem;
+  }
+
+  .ctaSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .ctaDescription {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ctaPrimaryButton,
+  .ctaSecondaryButton {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* ===================================
+   アニメーション定義
+=================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* ===================================
+   印刷対応
+=================================== */
+@media print {
+  .hubWrapper {
+    background: white;
+  }
+  
+  .industryCard {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  
+  .industryButton {
+    display: none;
+  }
+}

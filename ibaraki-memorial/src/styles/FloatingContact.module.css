@@ -1,0 +1,26 @@
+.floating {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: none;
+  }
+  
+  .button {
+    background-color: #00bf63;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* スマホ表示のみ有効化 */
+  @media (max-width: 768px) {
+    .floating {
+      display: block;
+    }
+  }
+  

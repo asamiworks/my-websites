@@ -1,0 +1,102 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between; /* ← 空きすぎる場合は space-around に変更してもOK */
+  align-items: center;
+  background-color: #ffffff;
+  padding: 16px 40px; /* 左右余白をやや増やすと中心に寄る */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  max-width: 1200px;
+  margin: 0 auto; /* 中央寄せ */
+}
+
+.headerWrapper {
+  width: 100%;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+
+.logo {
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.left {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.infoAndButton {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.contactInfo {
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.4;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.contactButton {
+  background-color: #00bf63;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.contactButton:hover {
+  background-color: #00a954;
+}
+
+/* モバイル時：非表示に */
+@media (max-width: 768px) {
+  .contactButton,
+  .right,
+  .infoAndButton,
+  .contactInfo {
+    display: none;
+  }
+  .header {
+    justify-content: center; /* ロゴを中央寄せ */
+    padding: 16px 20px; /* スマホ用に左右余白を調整 */
+  }
+
+  .left {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .logo {
+    margin: 0 auto;
+  }
+}

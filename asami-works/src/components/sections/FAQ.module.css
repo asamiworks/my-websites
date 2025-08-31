@@ -1,0 +1,239 @@
+/* components/sections/FAQ.module.css */
+
+.faqSection {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #202124;
+}
+
+.subtitle {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #5f6368;
+  margin-top: 5px;
+}
+
+.sectionDescription {
+  text-align: center;
+  color: #5f6368;
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+  line-height: 1.6;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faqItem {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faqItem:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.faqItem.open {
+  box-shadow: 0 4px 20px rgba(26, 115, 232, 0.15);
+}
+
+/* AppSheetカテゴリーの質問が開いた時の特別なスタイル */
+.faqItem:has(.category:contains("AppSheet")).open {
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+}
+
+.faqQuestion {
+  width: 100%;
+  padding: 24px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.faqQuestion:hover {
+  background-color: #f8f9fa;
+}
+
+.category {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #e8f0fe;
+  color: #1a73e8;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* AppSheetカテゴリー用の特別なスタイル */
+.faqItem:nth-child(n+7) .category {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.faqQuestion h3 {
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #202124;
+  line-height: 1.5;
+  margin: 0;
+  padding-right: 40px;
+}
+
+.icon {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 300;
+  color: #5f6368;
+  transition: all 0.3s ease;
+}
+
+.faqItem.open .icon {
+  background: #1a73e8;
+  color: white;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* AppSheetカテゴリーの質問が開いた時のアイコンカラー */
+.faqItem:nth-child(n+7).open .icon {
+  background: #10b981;
+}
+
+.faqAnswer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.faqItem.open .faqAnswer {
+  max-height: 1000px;
+  transition: max-height 0.5s ease-in;
+}
+
+.answerContent {
+  padding: 0 24px 24px 24px;
+}
+
+.answerContent p {
+  color: #5f6368;
+  line-height: 1.8;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* CTAセクション */
+.ctaSection {
+  text-align: center;
+  margin-top: 60px;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+}
+
+.ctaText {
+  font-size: 1.1rem;
+  color: #5f6368;
+  margin-bottom: 24px;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 14px 32px;
+  background: #1a73e8;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.25);
+}
+
+.ctaButton:hover {
+  background: #1557b0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 115, 232, 0.35);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .sectionDescription {
+    font-size: 1rem;
+  }
+
+  .faqQuestion {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .category {
+    margin-bottom: 8px;
+  }
+
+  .faqQuestion h3 {
+    font-size: 1rem;
+    padding-right: 32px;
+  }
+
+  .icon {
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  .answerContent {
+    padding: 0 20px 20px 20px;
+  }
+
+  .ctaSection {
+    padding: 30px 20px;
+  }
+  
+  .faqItem.open .faqAnswer {
+    max-height: 2000px;
+  }
+}

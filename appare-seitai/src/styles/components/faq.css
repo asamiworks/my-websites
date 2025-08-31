@@ -1,0 +1,171 @@
+/* FAQセクション */
+.faq {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .faq-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .faq-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .faq-question:hover {
+    background-color: #f0f7ff;
+  }
+  
+  .faq-question:focus {
+    outline: 2px solid #4A90E2;
+    outline-offset: -2px;
+  }
+  
+  .faq-icon {
+    flex-shrink: 0;
+    color: #4A90E2;
+    transition: transform 0.3s ease;
+  }
+  
+  .faq-icon.rotate {
+    transform: rotate(180deg);
+  }
+  
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .faq-answer.active {
+    max-height: 500px;
+  }
+  
+  .faq-answer-content {
+    padding: 0 24px 20px;
+    color: #666;
+    line-height: 1.7;
+  }
+  
+  /* FAQのCTA部分 */
+  .faq-cta {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 48px;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .faq-cta-text {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+  
+  .faq-cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* ボタンスタイル（共通） */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .button-primary {
+    background-color: #4A90E2;
+    color: white;
+    border: 2px solid #4A90E2;
+  }
+  
+  .button-primary:hover {
+    background-color: #357ABD;
+    border-color: #357ABD;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  }
+  
+  .button-secondary {
+    background-color: white;
+    color: #4A90E2;
+    border: 2px solid #4A90E2;
+  }
+  
+  .button-secondary:hover {
+    background-color: #f0f7ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+  }
+  
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .faq {
+      padding: 60px 0;
+    }
+    
+    .faq-header {
+      margin-bottom: 32px;
+    }
+    
+    .faq-question {
+      padding: 16px 20px;
+      font-size: 15px;
+    }
+    
+    .faq-answer-content {
+      padding: 0 20px 16px;
+      font-size: 14px;
+    }
+    
+    .faq-cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .button {
+      width: 100%;
+      max-width: 300px;
+      justify-content: center;
+    }
+  }

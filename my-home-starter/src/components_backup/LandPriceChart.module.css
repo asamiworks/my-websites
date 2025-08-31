@@ -1,0 +1,306 @@
+/* src/components/LandPriceChart.module.css */
+.chartContainer {
+  margin: 2rem 0;
+  background: transparent;
+  padding: 0;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title::before {
+  content: '📊';
+  font-size: 1.4rem;
+}
+
+.chartWrapper {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+@media (min-width: 1024px) {
+  .chartWrapper {
+    padding: 2rem;
+  }
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.gridLine {
+  stroke: #f0f0f0;
+  stroke-width: 1;
+}
+
+.axisLine {
+  stroke: #d1d5db;
+  stroke-width: 2;
+}
+
+.priceLine {
+  stroke: #3b82f6;
+  stroke-width: 3;
+  filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.2));
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.dataPoint {
+  fill: #3b82f6;
+  stroke: white;
+  stroke-width: 3;
+  filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dataPoint:hover {
+  r: 8;
+  fill: #2563eb;
+}
+
+.dataLabel {
+  font-size: 13px;
+  font-weight: 600;
+  fill: #1f2937;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  text-shadow: 
+    1px 1px 0 white,
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    0 1px 0 white,
+    0 -1px 0 white,
+    1px 0 0 white,
+    -1px 0 0 white;
+}
+
+.dataPoint:hover + .dataLabel,
+.chartWrapper:hover .dataLabel {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.yLabel {
+  font-size: 12px;
+  fill: #6b7280;
+  font-weight: 500;
+}
+
+.xLabel {
+  font-size: 12px;
+  fill: #6b7280;
+  font-weight: 500;
+}
+
+.latestChange {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1.5rem 0;
+  padding: 0.75rem 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.latestChange::before {
+  content: '📈';
+  font-size: 1.2rem;
+}
+
+.latestChange[data-positive="true"] {
+  color: #10b981;
+  border: 2px solid #d1fae5;
+}
+
+.latestChange[data-positive="false"] {
+  color: #ef4444;
+  border: 2px solid #fee2e2;
+}
+
+.latestChange[data-positive="false"]::before {
+  content: '📉';
+}
+
+.additionalInfo {
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid #3b82f6;
+}
+
+.additionalInfo h4 {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.additionalInfo ul {
+  margin: 0.5rem 0 0 0;
+  list-style: none;
+  padding: 0;
+}
+
+.additionalInfo li {
+  margin: 0.5rem 0;
+  color: #4b5563;
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+.additionalInfo li::before {
+  content: '•';
+  position: absolute;
+  left: 0.5rem;
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  font-style: italic;
+}
+
+/* レイアウト */
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chartSection {
+  width: 100%;
+  text-align: center;
+}
+
+/* レスポンシブ対応 */
+@media (min-width: 1024px) {
+  .chartContainer {
+    padding: 3rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .chartWrapper {
+    padding: 2rem;
+  }
+  
+  .svg {
+    margin: 0 auto;
+  }
+  
+  .dataLabel {
+    font-size: 14px;
+  }
+  
+  .yLabel,
+  .xLabel {
+    font-size: 14px;
+  }
+  
+  .additionalInfo {
+    max-width: 700px;
+    margin: 2rem auto 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .chartContainer {
+    padding: 1rem;
+    margin: 1rem -0.5rem;
+  }
+  
+  .chartWrapper {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.1rem;
+  }
+  
+  .latestChange {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .chartContainer {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  }
+  
+  .chartWrapper {
+    background: #1f2937;
+  }
+  
+  .gridLine {
+    stroke: #374151;
+  }
+  
+  .axisLine {
+    stroke: #4b5563;
+  }
+  
+  .dataLabel {
+    fill: #f9fafb;
+    text-shadow: 0 0 3px #111827, 0 0 3px #111827, 0 0 3px #111827;
+  }
+  
+  .yLabel,
+  .xLabel {
+    fill: #d1d5db;
+  }
+  
+  .latestChange {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .additionalInfo {
+    background: #1f2937;
+  }
+  
+  .additionalInfo h4 {
+    color: #f9fafb;
+  }
+  
+  .additionalInfo li {
+    color: #d1d5db;
+  }
+}

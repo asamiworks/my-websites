@@ -1,0 +1,1039 @@
+/* フォームセクション共通 */
+.formSection {
+  padding: 80px 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  min-height: 600px;
+}
+
+/* フォームタイトル */
+.formTitle {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.formTitle::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #00bf63;
+  margin: 15px auto 0;
+  border-radius: 2px;
+}
+
+/* フォーム説明文 */
+.formDescription {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* フォーム本体 */
+.form {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* フォームグループ */
+.formGroup {
+  margin-bottom: 30px;
+}
+
+/* ラベル */
+.label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* 必須・任意表示 */
+.required {
+  display: inline-block;
+  background: #ff4444;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.optional {
+  display: inline-block;
+  background: #999;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+/* 入力フィールド（電話番号を追加） */
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="tel"],
+.form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form input[type="text"]:focus,
+.form input[type="email"]:focus,
+.form input[type="tel"]:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: #00bf63;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 191, 99, 0.1);
+}
+
+.form input::placeholder,
+.form textarea::placeholder {
+  color: #999;
+}
+
+/* 電話番号入力欄の幅調整 */
+.form input[type="tel"] {
+  max-width: 300px;
+}
+
+/* エラー時の入力フィールド */
+.errorInput {
+  border-color: #ff4444 !important;
+  background: #fff5f5 !important;
+}
+
+.errorInput:focus {
+  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1) !important;
+}
+
+/* テキストエリア */
+.form textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+/* チェックボックスグループ */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.checkboxGroup:hover {
+  border-color: #e0e0e0;
+}
+
+/* チェックボックスアイテム */
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.checkboxItem:hover {
+  background: #fff;
+}
+
+.checkboxItem input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  margin-right: 12px;
+  cursor: pointer;
+  accent-color: #00bf63;
+}
+
+.checkboxItem span {
+  font-size: 1rem;
+  color: #333;
+  user-select: none;
+}
+
+/* エラーメッセージ */
+.error {
+  color: #ff4444;
+  font-size: 0.875rem;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.error::before {
+  content: "⚠";
+  font-size: 1rem;
+}
+
+/* 送信ボタン */
+.submitButton {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, #00bf63, #00a855);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 191, 99, 0.3);
+  margin-top: 40px;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 191, 99, 0.4);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* 確認画面 */
+.confirmDescription {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.confirmBox {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.confirmList {
+  margin: 0;
+}
+
+.confirmItem {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.confirmItem:last-child {
+  border-bottom: none;
+}
+
+.confirmItem dt {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.confirmItem dd {
+  margin: 0;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.messageContent {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 確認画面のアクション */
+.confirmActions {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.backButton {
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+}
+
+.backButton:hover:not(:disabled) {
+  background: #d0d0d0;
+  transform: translateY(-1px);
+}
+
+/* サンクスページ */
+.thanksContainer {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.thanksIcon {
+  margin-bottom: 30px;
+  animation: checkmark 0.6s ease-out;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(-45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+.thanksTitle {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.thanksMessage {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.thanksMessage p {
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.thanksMessage p:last-child {
+  margin-bottom: 0;
+}
+
+.thanksContact {
+  background: white;
+  border: 2px solid #00bf63;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.phoneNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00bf63;
+  margin-bottom: 8px;
+}
+
+.businessHours {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.thanksActions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.newInquiryButton {
+  background: white;
+  color: #00bf63;
+  border: 2px solid #00bf63;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.newInquiryButton:hover {
+  background: #00bf63;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.homeButton {
+  background: #00bf63;
+  color: white;
+  border: 2px solid #00bf63;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.homeButton:hover {
+  background: #00a855;
+  border-color: #00a855;
+  transform: translateY(-2px);
+}
+
+/* ヘルプテキスト */
+.formHelp {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* ラジオボタングループ */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.radioItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radioItem input[type="radio"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+/* 電話番号の補足説明 */
+.phoneNumberHelp {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* 見学日時グループ */
+.visitDateTimeGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.visitDateTimeItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.visitDateTimeItem > label {
+  min-width: 80px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.dateTimeInputs {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.dateTimeInputs input[type="date"] {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  flex: 1;
+  max-width: 200px;
+}
+
+.dateTimeInputs select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  min-width: 120px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.dateTimeInputs select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ローディング状態 */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* フォーカス時のアクセシビリティ */
+.form input:focus-visible,
+.form textarea:focus-visible,
+.form button:focus-visible,
+.checkboxItem input:focus-visible {
+  outline: 2px solid #00bf63;
+  outline-offset: 2px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .formSection {
+    padding: 60px 16px;
+  }
+  
+  .form {
+    padding: 24px;
+  }
+  
+  .formTitle {
+    font-size: 1.6rem;
+  }
+  
+  /* 電話番号入力欄のモバイル対応 */
+  .form input[type="tel"] {
+    max-width: 100%;
+    font-size: 16px; /* iOSのズーム防止 */
+  }
+  
+  .confirmItem {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 16px 0;
+  }
+  
+  .confirmItem dt {
+    font-size: 0.9rem;
+  }
+  
+  .confirmActions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .backButton,
+  .submitButton {
+    width: 100%;
+  }
+  
+  .thanksTitle {
+    font-size: 1.6rem;
+  }
+  
+  .phoneNumber {
+    font-size: 1.3rem;
+  }
+  
+  .thanksActions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .newInquiryButton,
+  .homeButton {
+    width: 100%;
+  }
+}
+
+/* レスポンシブ対応（小画面） */
+@media (max-width: 640px) {
+  .visitDateTimeItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .dateTimeInputs {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .dateTimeInputs input[type="date"],
+  .dateTimeInputs select {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* 印刷時のスタイル */
+@media print {
+  .formSection {
+    padding: 20px;
+  }
+  
+  .form {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  
+  .submitButton,
+  .backButton,
+  .newInquiryButton,
+  .homeButton {
+    display: none;
+  }
+}
+
+/* ==================== モバイル最適化 + ダークモード対応 ==================== */
+@media (prefers-color-scheme: dark) {
+  /* フォームセクション全体 */
+  .formSection {
+    background-color: #000000;
+    color: #ffffff;
+    min-height: 100vh;
+  }
+  
+  /* タイトルと説明 */
+  .formTitle {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .formTitle::after {
+    background: #00e573;
+  }
+  
+  .formDescription {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .confirmDescription {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* フォームの背景 */
+  .form {
+    background: #1c1c1e;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* ラベル */
+  .label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+  }
+  
+  /* 必須マーク - より目立つように */
+  .required {
+    color: #ffffff;
+    background: #ff4757;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .optional {
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+  }
+  
+  /* 入力フィールド */
+  .form input[type="text"],
+  .form input[type="email"],
+  .form input[type="tel"],
+  .form textarea {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+  
+  .form input[type="text"]:focus,
+  .form input[type="email"]:focus,
+  .form input[type="tel"]:focus,
+  .form textarea:focus {
+    border-color: #0a84ff;
+    background-color: rgba(10, 132, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
+  }
+  
+  /* プレースホルダー */
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  
+  /* チェックボックスグループ */
+  .checkboxGroup {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .checkboxGroup:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* チェックボックス・ラジオボタンの項目 */
+  .checkboxItem,
+  .radioItem {
+    background: transparent;
+  }
+  
+  .checkboxItem:hover,
+  .radioItem:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .checkboxItem input[type="checkbox"],
+  .radioItem input[type="radio"] {
+    accent-color: #0a84ff;
+  }
+  
+  .checkboxItem span,
+  .radioItem span {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* 日付入力の特別対応 */
+  .dateTimeInputs input[type="date"] {
+    background-color: #2c2c2e;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+  
+  .dateTimeInputs input[type="date"]::-webkit-date-and-time-value {
+    color: #ffffff;
+  }
+  
+  .dateTimeInputs input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.6;
+  }
+  
+  /* Select要素 */
+  .dateTimeInputs select {
+    background-color: #2c2c2e;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+  }
+  
+  .dateTimeInputs select:disabled {
+    background-color: #1c1c1e;
+    color: rgba(255, 255, 255, 0.3);
+    opacity: 0.6;
+  }
+  
+  /* 訪問日時アイテム */
+  .visitDateTimeItem > label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* エラーメッセージ */
+  .error {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.15);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-left: 3px solid #ff6b6b;
+    margin-top: 8px;
+  }
+  
+  .errorInput {
+    border-color: #ff6b6b !important;
+    background-color: rgba(255, 107, 107, 0.1) !important;
+  }
+  
+  /* ヘルプテキスト */
+  .formHelp {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  /* 送信ボタン */
+  .submitButton {
+    background: linear-gradient(135deg, #0a84ff 0%, #0051d5 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(10, 132, 255, 0.3);
+  }
+  
+  .submitButton:hover:not(:disabled) {
+    background: linear-gradient(135deg, #409cff 0%, #0066ff 100%);
+    box-shadow: 0 6px 25px rgba(10, 132, 255, 0.4);
+  }
+  
+  .submitButton:disabled {
+    background: #48484a;
+    color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+  }
+  
+  /* 戻るボタン */
+  .backButton {
+    background: transparent;
+    color: #0a84ff;
+    border: 2px solid #0a84ff;
+  }
+  
+  .backButton:hover:not(:disabled) {
+    background: rgba(10, 132, 255, 0.1);
+    border-color: #409cff;
+    color: #409cff;
+  }
+  
+  /* 確認画面 */
+  .confirmBox {
+    background: #1c1c1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .confirmItem {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .confirmItem dt {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .confirmItem dd {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* サンクスページ */
+  .thanksTitle {
+    color: #ffffff;
+  }
+  
+  .thanksMessage {
+    background: #1c1c1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .thanksMessage p {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .thanksContact {
+    background: rgba(10, 132, 255, 0.1);
+    border: 2px solid #0a84ff;
+  }
+  
+  .phoneNumber {
+    color: #0a84ff;
+  }
+  
+  .businessHours {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  /* アイコンの色 */
+  .thanksIcon svg {
+    fill: #0a84ff;
+  }
+  
+  /* 新規問い合わせボタン */
+  .newInquiryButton {
+    background: transparent;
+    color: #0a84ff;
+    border-color: #0a84ff;
+  }
+  
+  .newInquiryButton:hover {
+    background: #0a84ff;
+    color: #ffffff;
+  }
+  
+  /* ホームボタン */
+  .homeButton {
+    background: #0a84ff;
+    color: #ffffff;
+    border-color: #0a84ff;
+  }
+  
+  .homeButton:hover {
+    background: #0066ff;
+    border-color: #0066ff;
+  }
+}
+
+/* モバイル + ダークモード特有の調整 */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .formSection {
+    padding: 20px 16px 80px;
+  }
+  
+  .form {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  
+  .formGroup {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* モバイルでの入力フィールド高さ調整 */
+  .form input[type="text"],
+  .form input[type="email"],
+  .form input[type="tel"],
+  .form input[type="date"],
+  .dateTimeInputs select {
+    height: 52px;
+    font-size: 16px;
+    padding: 16px;
+  }
+  
+  .form textarea {
+    font-size: 16px;
+    padding: 16px;
+  }
+  
+  /* チェックボックス・ラジオボタンをタッチ最適化 */
+  .checkboxItem,
+  .radioItem {
+    min-height: 56px;
+    padding: 16px;
+  }
+  
+  .checkboxItem input[type="checkbox"],
+  .radioItem input[type="radio"] {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+  }
+  
+  /* 送信ボタンを大きく */
+  .submitButton {
+    min-height: 56px;
+    font-size: 17px;
+    padding: 18px 32px;
+  }
+  
+  /* 確認画面のアクション固定 */
+  .confirmActions {
+    position: sticky;
+    bottom: 0;
+    background: #000000;
+    padding: 20px 0;
+    margin-top: 32px;
+  }
+}
+
+
+/* 既存のForm.module.cssの最後に以下を追加 */
+/* 日付セレクトボックスの基本スタイル */
+.visitLabel {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.dateSelect,
+.timeSelect {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.dateSelect:focus,
+.timeSelect:focus {
+  border-color: #00bf63;
+  outline: none;
+}
+
+.timeSelect:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .visitLabel {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .dateSelect,
+  .timeSelect {
+    background-color: #2c2c2e;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+  
+  .dateSelect:focus,
+  .timeSelect:focus {
+    border-color: #0a84ff;
+  }
+  
+  .timeSelect:disabled {
+    background-color: #1c1c1e;
+    color: rgba(255, 255, 255, 0.3);
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false, // 将来的にtrueにする
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    
+    // 段階的に厳格化するための設定
+    "strictNullChecks": true, // 既に有効
+    "noImplicitAny": true, // 暗黙的なany型を禁止
+    "noUnusedLocals": true, // 未使用のローカル変数を警告
+    "noUnusedParameters": true, // 未使用のパラメータを警告
+    "noImplicitReturns": true, // すべてのコードパスで値を返すことを強制
+    "noFallthroughCasesInSwitch": true, // switchのcase文でbreakを強制
+    "noUncheckedIndexedAccess": true, // インデックスアクセスでundefinedチェックを強制
+    
+    // パスエイリアス設定
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@types/*": ["src/types/*"],
+      "@app/*": ["src/app/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out",
+    "build",
+    "dist",
+    "scripts"
+  ]
+}
+
+
+
+

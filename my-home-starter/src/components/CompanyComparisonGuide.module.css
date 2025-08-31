@@ -1,0 +1,296 @@
+/* CompanyComparisonGuide.module.css */
+
+.section {
+  padding: 5rem 0;
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.subtitle {
+  color: #374151;
+  max-width: 48rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* 会社タイプ別比較セクション */
+.comparisonSection {
+  max-width: 72rem;
+  margin: 0 auto 4rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.companyGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .companyGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 会社カード */
+.companyCard {
+  background-color: #fcfcfc;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border: 2px solid #f3f4f6;
+  transition: all 0.3s ease;
+}
+
+.companyCard:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.companyType {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.priceRange {
+  color: #f59e0b;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+/* 特徴セクション */
+.characteristics {
+  margin-bottom: 1rem;
+}
+
+.prosTitle,
+.consTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.prosTitle {
+  color: #f59e0b;
+}
+
+.consTitle {
+  color: #374151;
+}
+
+.prosList,
+.consList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prosItem,
+.consItem {
+  font-size: 0.875rem;
+  color: #374151;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.prosIcon {
+  color: #f59e0b;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.consIcon {
+  color: #374151;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* おすすめセクション */
+.recommendation {
+  border-top: 1px solid #f3f4f6;
+  padding-top: 1rem;
+}
+
+.recommendationTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.recommendationText {
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.exampleTag {
+  font-size: 0.75rem;
+  background-color: #fffbeb;
+  color: #d97706;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+/* 比較ポイントセクション */
+.pointsSection {
+  max-width: 56rem;
+  margin: 0 auto;
+  background-color: #fffbeb;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  border: 1px solid #f59e0b;
+}
+
+.pointsTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.pointsGrid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pointsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pointItem {
+  display: flex;
+  align-items: flex-start;
+}
+
+.pointNumber {
+  background-color: #f59e0b;
+  color: #ffffff;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.pointContent {
+  margin-left: 1rem;
+}
+
+.pointTitle {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.pointDescription {
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* CTAセクション */
+.ctaSection {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.ctaText {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #f59e0b;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.ctaButton:hover {
+  background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(245, 158, 11, 0.3);
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 640px) {
+  .section {
+    padding: 3rem 0;
+  }
+  
+  .header {
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.25rem;
+  }
+  
+  .companyCard {
+    padding: 1.25rem;
+  }
+  
+  .pointsSection {
+    padding: 1.5rem;
+  }
+}
