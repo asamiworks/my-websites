@@ -11,3 +11,7 @@ out/
 .env.local
 .env.production
 .env.staging
+service-account-key.json
+get-token.js
+*.env
+*.env.local
