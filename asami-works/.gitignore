@@ -57,3 +57,10 @@ gmail-token.json
 # APIキーなどの機密情報
 *.key
 *.pem
+
+# バックアップファイル
+*.bak
+*.backup
+*.old
+*.orig
+*~

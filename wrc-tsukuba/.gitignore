@@ -40,3 +40,9 @@ next-env.d.ts
 .firebase/
 .firebaserc
 firebase-debug.log
+# バックアップファイル
+*.bak
+*.backup
+*.old
+*.orig
+*~
