@@ -66,14 +66,20 @@ function Works() {
     position: 'relative',
     overflow: 'hidden',
     backgroundColor: '#fafafa',
-    aspectRatio: '3/4',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    // aspectRatio を削除して画像の自然な比率を保つ
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: isMobile ? '250px' : '300px',
+    maxHeight: isMobile ? '400px' : '500px'
   }
 
   const imageStyle = (isHovered) => ({
     width: '100%',
-    height: '100%',
-    objectFit: 'cover',
+    height: 'auto',
+    maxHeight: '100%',
+    objectFit: 'contain', // coverからcontainに変更して比率を保つ
     transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
     transform: isHovered ? 'scale(1.03)' : 'scale(1)',
     filter: isHovered ? 'brightness(0.95)' : 'brightness(1)'
