@@ -15,3 +15,8 @@ service-account-key.json
 get-token.js
 *.env
 *.env.local
+
+# ビルドファイルとキャッシュ
+.firebase/
+lib/
+node_modules/.cache/
