@@ -48,3 +48,12 @@ firebase-debug.log
 backup/
 *.log
 gmail-token.json
+# 環境変数ファイル
+.env
+.env.local
+.env.production
+.env.development
+
+# APIキーなどの機密情報
+*.key
+*.pem
