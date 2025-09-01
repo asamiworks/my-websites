@@ -20,3 +20,4 @@ get-token.js
 .firebase/
 lib/
 node_modules/.cache/
+.next/
