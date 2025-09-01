@@ -39,3 +39,10 @@ next-env.d.ts
 apphosting.local.yaml
 
 /generated/prisma
+
+# バックアップファイル
+*.bak
+*.backup
+*.old
+*.orig
+*~
