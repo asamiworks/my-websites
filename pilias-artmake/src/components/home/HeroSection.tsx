@@ -204,7 +204,7 @@ export default function HeroSection() {
               fill
               className="object-contain"
               style={{
-                filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1))',
+                filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))',
               }}
               priority
             />
@@ -225,7 +225,7 @@ export default function HeroSection() {
               fill
               className="object-contain"
               style={{
-                filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1))',
+                filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))',
               }}
               priority
             />
