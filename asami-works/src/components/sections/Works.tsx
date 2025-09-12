@@ -6,6 +6,22 @@ import Image from "next/image";
 export default function Works() {
   const works = [
     {
+      id: "nodebase",
+      title: "株式会社ノードベース",
+      category: "コーポレートサイト",
+      industry: "教育・写真・結婚相談",
+      image: "/images/works/nodebase.jpg",
+      url: "https://nodebase.jp",
+      description: "「つながる、ひろがる」をコンセプトに、教育・写真・結婚相談の3事業を展開。将来の事業拡張を見据えた拡張性の高い設計で、React + Viteによるモダンな技術スタックを採用。",
+      results: [
+        "React + Viteによる高速なサイト構築",
+        "3事業を統合した分かりやすい構成",
+        "将来の事業拡張に対応する拡張性の高い設計"
+      ],
+      features: ["React開発", "コーポレートサイト", "モダン技術スタック"],
+      testimonial: "技術力の高さと柔軟な対応力で、理想のサイトを実現していただきました。"
+    },
+    {
       id: "pilias-artmake",
       title: "PILIAS ARTMAKE",
       category: "医療系サイト",
@@ -53,22 +69,7 @@ export default function Works() {
       features: ["コーポレートサイト", "SEO対策", "オリジナルデザイン"],
       testimonial: "プロフェッショナルなデザインで、会社の信頼性が伝わるサイトになりました。"
     },
-    {
-      id: "members-club-zen",
-      title: "メンバーズクラブ善",
-      category: "WordPress",
-      industry: "高級クラブ",
-      image: "/images/works/members-club-zen.jpg",
-      url: "https://club-zen.jp/",
-      description: "茨城県つくば市にある会員制高級クラブ。WordPressを利用しているため、スタッフがブログ投稿も可能。",
-      results: [
-        "WordPressでスタッフが自由に更新可能",
-        "高級感のあるデザインで店格を表現",
-        "Instagram連携で最新情報を自動表示"
-      ],
-      features: ["WordPress", "Instagram連携", ],
-      testimonial: "スタッフが簡単にブログを更新できるようになり、情報発信が楽になりました。"
-    },
+    
     {
       id: "ibaraki-memorial",
       title: "茨城メモリアルパーク",

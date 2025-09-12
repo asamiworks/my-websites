@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Hero from "../components/sections/Hero";
 import Problems from "../components/sections/Problems";
 import Solutions from "../components/sections/Solutions";
-import Benefits from "../components/sections/Benefits";
 import WhyMe from "../components/sections/WhyMe";
 import Works from "../components/sections/Works";
 import Strengths from "../components/sections/Strengths";
@@ -176,8 +175,6 @@ export default function HomePage() {
       {/* ソリューション - 解決策の提示 */}
       <Solutions />
       
-      {/* ベネフィット - 導入後の明るい未来 */}
-      <Benefits />
       
       {/* 個人事業主の強み - 大手との差別化 */}
       <WhyMe />

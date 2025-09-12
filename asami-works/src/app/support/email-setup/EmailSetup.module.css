@@ -1,346 +1,649 @@
 .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.requirements {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+  border-left: 4px solid #0066cc;
+}
+
+.requirements h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.requirements > ul {
+  list-style: none;
+  padding: 0;
+}
+
+.requirements > ul > li {
+  padding: 10px 0;
+  padding-left: 30px;
+  position: relative;
+  color: #555;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.requirements > ul > li:before {
+  content: "•";
+  position: absolute;
+  left: 10px;
+  color: #0066cc;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* ネストされたリストのスタイル */
+.requirements ul ul {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.requirements ul ul li {
+  padding: 5px 0;
+  color: #666;
+  font-size: 0.95rem;
+  position: relative;
+  padding-left: 20px;
+}
+
+.requirements ul ul li:before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: #999;
+}
+
+.form {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 35px;
+  margin-bottom: 40px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.form h3 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.formGroup {
+  margin-bottom: 25px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.required {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-left: 8px;
+  font-weight: normal;
+  background: #ffebee;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.formGroup small {
+  display: block;
+  margin-top: 5px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.submitButton {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 30px auto 0;
+  box-shadow: 0 2px 4px rgba(0, 102, 204, 0.2);
+}
+
+.submitButton:hover {
+  background: #0052a3;
+  box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
+  transform: translateY(-1px);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 102, 204, 0.2);
+}
+
+.configSection {
+  background: #fff;
+  border: 2px solid #0066cc;
+  border-radius: 10px;
+  padding: 35px;
+  margin-bottom: 40px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 50px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}
+
+.configSection h3 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.configBox {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.configItem {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.configItem .label {
+  font-weight: 600;
+  color: #555;
+  min-width: 150px;
+  font-size: 1.05rem;
+}
+
+.configItem .value {
+  color: #e74c3c;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.serverConfig {
+  margin-bottom: 30px;
+}
+
+.serverConfig h4 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ヘルプボタンのスタイル */
+.helpButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.helpButton:hover {
+  background: #0052a3;
+  transform: scale(1.1);
+}
+
+.helpButton:active {
+  transform: scale(0.95);
+}
+
+.configGrid {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.configRow {
+  display: flex;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.configLabel {
+  min-width: 140px;
+  color: #666;
+  font-weight: 500;
+}
+
+.configValue {
+  color: #333;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  background: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.notice {
+  background: #fff4e6;
+  border-left: 4px solid #ff9800;
+  padding: 15px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.notice p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.instructions {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+}
+
+.instructions h4 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.instructions ol {
+  padding-left: 20px;
+  color: #555;
+}
+
+.instructions li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.instructions ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.instructions ul li {
+  margin-bottom: 8px;
+  list-style-type: disc;
+}
+
+.instructions strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* モーダルのスタイル */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeInModal 0.3s ease;
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  background: white;
+  border-radius: 10px;
+  padding: 40px;
+  max-width: 700px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideInModal 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideInModal {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modalClose {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.modalClose:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.modalContent h3 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.modalContent h4 {
+  color: #0066cc;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.protocolSection {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #0066cc;
+}
+
+.protocolSection p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.protocolFeatures {
+  margin: 15px 0;
+}
+
+.protocolFeatures strong {
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.protocolFeatures ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.protocolFeatures li {
+  color: #666;
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+.protocolUsage {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.protocolUsage strong {
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.protocolUsage p {
+  color: #666;
+  margin: 0;
+}
+
+.protocolRecommendation {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  border-left: 3px solid #0066cc;
+}
+
+.protocolRecommendation p {
+  margin: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.support {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+}
+
+.support h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.supportButtons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.supportButton {
+  background: #6c757d;
+  color: white;
+  text-decoration: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.supportButton:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
+}
+
+.troubleshooting {
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.troubleshooting h4 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.troubleshooting ul {
+  padding-left: 20px;
+}
+
+.troubleshooting li {
+  color: #666;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 15px;
+  }
+
   .header h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 15px;
-    font-weight: 700;
+    font-size: 2rem;
   }
-  
-  .subtitle {
-    font-size: 1.1rem;
-    color: #666;
-  }
-  
+
+  .form,
+  .configSection,
+  .instructions,
+  .support,
   .requirements {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 30px;
-    margin-bottom: 40px;
-    border-left: 4px solid #0066cc;
-  }
-  
-  .requirements h3 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-  }
-  
-  .requirements ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .requirements li {
-    padding: 8px 0;
-    padding-left: 25px;
-    position: relative;
-    color: #555;
-    font-size: 1.05rem;
-  }
-  
-  .requirements li:before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: #0066cc;
-    font-weight: bold;
-  }
-  
-  .form {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 35px;
-    margin-bottom: 40px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  }
-  
-  .form h3 {
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 1.4rem;
-  }
-  
-  .formGroup {
-    margin-bottom: 25px;
-  }
-  
-  .formGroup label {
-    display: block;
-    margin-bottom: 10px;
-    color: #333;
-    font-weight: 600;
-    font-size: 1.05rem;
-  }
-  
-  .required {
-    color: #e74c3c;
-    font-size: 0.85rem;
-    margin-left: 8px;
-    font-weight: normal;
-  }
-  
-  .input,
-  .select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
-  }
-  
-  .input:focus,
-  .select:focus {
-    outline: none;
-    border-color: #0066cc;
-    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-  }
-  
-  .formGroup small {
-    display: block;
-    margin-top: 5px;
-    color: #888;
-    font-size: 0.9rem;
-  }
-  
-  .submitButton {
-    background: #0066cc;
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s;
-    display: block;
-    margin: 30px auto 0;
-  }
-  
-  .submitButton:hover {
-    background: #0052a3;
-  }
-  
-  .configSection {
-    background: #fff;
-    border: 2px solid #0066cc;
-    border-radius: 10px;
-    padding: 35px;
-    margin-bottom: 40px;
-    animation: fadeIn 0.5s ease-in;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .configSection h3 {
-    color: #333;
-    margin-bottom: 25px;
-    font-size: 1.4rem;
-  }
-  
-  .configBox {
-    background: #f8f9fa;
     padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
   }
-  
-  .configItem {
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-  }
-  
-  .configItem .label {
-    font-weight: 600;
-    color: #555;
-    min-width: 150px;
-    font-size: 1.05rem;
-  }
-  
-  .configItem .value {
-    color: #e74c3c;
-    font-weight: 500;
-    font-size: 1.05rem;
-  }
-  
-  .serverConfig {
-    margin-bottom: 30px;
-  }
-  
-  .serverConfig h4 {
-    color: #333;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #e0e0e0;
-  }
-  
-  .configGrid {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-  }
-  
+
   .configRow {
-    display: flex;
-    padding: 10px 0;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+
   .configLabel {
-    min-width: 140px;
-    color: #666;
-    font-weight: 500;
+    margin-bottom: 5px;
   }
-  
+
   .configValue {
-    color: #333;
-    font-weight: 600;
-    font-family: 'Courier New', monospace;
-    background: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
+    width: 100%;
+    word-break: break-all;
   }
-  
-  .notice {
-    background: #fff4e6;
-    border-left: 4px solid #ff9800;
-    padding: 15px 20px;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
-  
-  .notice p {
-    margin: 5px 0;
-    color: #666;
-    font-size: 0.95rem;
-  }
-  
-  .instructions {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 30px;
-    margin-bottom: 40px;
-  }
-  
-  .instructions h4 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-  }
-  
-  .instructions ol {
-    padding-left: 20px;
-    color: #555;
-  }
-  
-  .instructions li {
-    margin-bottom: 12px;
-    line-height: 1.6;
-    font-size: 1.05rem;
-  }
-  
-  .instructions ul {
-    margin-top: 10px;
-    padding-left: 20px;
-  }
-  
-  .instructions ul li {
-    margin-bottom: 8px;
-    list-style-type: disc;
-  }
-  
-  .support {
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 30px;
-    text-align: center;
-  }
-  
-  .support h3 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-  }
-  
+
   .supportButtons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: column;
   }
-  
+
   .supportButton {
-    background: #6c757d;
-    color: white;
-    text-decoration: none;
-    padding: 12px 30px;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: background 0.3s;
-    display: inline-block;
+    width: 100%;
+  }
+
+  .modalContent {
+    padding: 25px;
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .modalContent h3 {
+    font-size: 1.3rem;
+  }
+
+  .serverConfig h4 {
+    font-size: 1.1rem;
+  }
+
+  .helpButton {
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+  }
+}
+
+/* アクセシビリティ改善 */
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container :global(*) {
+    animation: none !important;
+    transition: none !important;
   }
   
-  .supportButton:hover {
-    background: #5a6268;
+  .modalOverlay,
+  .modalContent,
+  .submitButton,
+  .helpButton,
+  .supportButton,
+  .configSection {
+    animation: none !important;
+    transition: none !important;
   }
-  
-  /* レスポンシブ対応 */
-  @media (max-width: 768px) {
-    .container {
-      padding: 20px 15px;
-    }
-  
-    .header h1 {
-      font-size: 2rem;
-    }
-  
-    .form,
-    .configSection,
-    .instructions,
-    .support,
-    .requirements {
-      padding: 20px;
-    }
-  
-    .configRow {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .configLabel {
-      margin-bottom: 5px;
-    }
-  
-    .supportButtons {
-      flex-direction: column;
-    }
-  
-    .supportButton {
-      width: 100%;
-    }
-  }
+}
+
+/* ダークモード対応（オプション） */
+@media (prefers-color-scheme: dark) {
+  /* ダークモードが必要な場合はここに追記 */
+}

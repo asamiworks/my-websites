@@ -207,35 +207,7 @@ export default function AboutPage() {
               </div>
             </article>
 
-            <article className={styles.workCard}>
-              <div className={styles.workImageWrapper}>
-                <img
-                  src="/images/works/members-club-zen.jpg"
-                  alt="メンバーズクラブ善 ホームページ"
-                  className={styles.workImage}
-                />
-                <div className={styles.workOverlay}>
-                  <Link 
-                    href="https://club-zen.jp/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className={styles.workViewButton}
-                  >
-                    サイトを見る →
-                  </Link>
-                </div>
-              </div>
-              <div className={styles.workInfo}>
-                <h3 className={styles.workTitle}>メンバーズクラブ善</h3>
-                <p className={styles.workDescription}>
-                  茨城県つくば市にある会員制高級クラブ。WordPressを利用しているため、スタッフがブログ投稿も可能。
-                </p>
-                <div className={styles.workTags}>
-                  <span className={styles.workTag}>WordPress</span>
-                  <span className={styles.workTag}>Instagram連携</span>
-                </div>
-              </div>
-            </article>
+            
 
             <article className={styles.workCard}>
               <div className={styles.workImageWrapper}>
