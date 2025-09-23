@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouthWorks - 学習ルーム</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/chat-room.css">
+</head>
+<body>
+    <div class="room-chat-container">
+        <!-- ヘッダー -->
+        <div class="room-header">
+            <div class="header-left">
+                <button class="back-btn" onclick="backToRoomSelect()">←</button>
+                <div class="room-info">
+                    <h2 id="room-title">📐 算数・数学ルーム</h2>
+                    <span class="premium-indicator">⭐ プレミアム</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="room-switch-btn" onclick="switchRoom()">ルーム変更</button>
+                <button class="logout-btn" onclick="logout()">ログアウト</button>
+            </div>
+        </div>
+
+        <!-- 悩み相談の警告（条件付き表示） -->
+        <div id="counseling-notice" class="counseling-notice" style="display: none;">
+            <span>🔔 このルームでの会話は保護者の方と共有される場合があります</span>
+        </div>
+
+        <!-- メッセージエリア -->
+        <div id="messages" class="messages-container">
+            <div class="room-welcome">
+                <div id="room-icon" class="room-icon-large">📐</div>
+                <h3 id="welcome-title">算数・数学ルームへようこそ！</h3>
+                <p id="welcome-message">計算や図形について、なんでも質問してね！</p>
+            </div>
+        </div>
+
+        <!-- クイックヒント -->
+        <div class="quick-hints">
+            <div class="hints-title">💡 こんな質問ができるよ</div>
+            <div id="hint-buttons" class="hint-buttons">
+                <!-- 動的に生成 -->
+            </div>
+        </div>
+
+        <!-- 入力エリア -->
+        <div class="input-container premium">
+            <div class="input-wrapper">
+                <textarea 
+                    id="message-input" 
+                    placeholder="質問を入力してね..."
+                    rows="1"
+                    maxlength="1000"
+                ></textarea>
+                <button id="send-btn" class="send-btn premium-send">
+                    <span>送信</span>
+                    <span class="unlimited-badge">∞</span>
+                </button>
+            </div>
+            <div class="input-status">
+                <span id="char-count">0/1000</span>
+                <span class="premium-status">無制限で質問できます</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI思考中の表示 -->
+    <div id="thinking-indicator" class="thinking-indicator" style="display: none;">
+        <div class="thinking-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span>Claude先生が考えています...</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/chat-room.js"></script>
+</body>
+</html>

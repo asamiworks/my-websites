@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouthWorks - チャット</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- ヘッダー -->
+        <div class="chat-header">
+            <div class="header-left">
+                <h2>🤖 YouthWorks AI先生</h2>
+                <span id="user-age" class="age-badge">9-12歳</span>
+            </div>
+            <div class="header-right">
+                <button id="logout-btn" class="logout-btn">ログアウト</button>
+            </div>
+        </div>
+
+        <!-- メッセージエリア -->
+        <div id="messages" class="messages-container">
+            <!-- ウェルカムメッセージ -->
+            <div class="message ai-message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <p>こんにちは！YouthWorks AI先生です。</p>
+                    <p>宿題でわからないことや、勉強の質問、なんでも聞いてくださいね。一緒に考えましょう！</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 入力エリア -->
+        <div class="input-container">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    id="message-input" 
+                    placeholder="質問を入力してね..."
+                    maxlength="500"
+                >
+                <button id="send-btn" class="send-btn" title="送信">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+            <div class="input-hints">
+                例: 「分数の計算を教えて」「英語で挨拶を練習したい」
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>

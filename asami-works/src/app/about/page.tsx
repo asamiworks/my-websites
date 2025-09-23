@@ -218,7 +218,7 @@ export default function AboutPage() {
                 />
                 <div className={styles.workOverlay}>
                   <Link 
-                    href="https://ibaraki-memorial-park.com" 
+                    href="https://ibaraki-memorial.com" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={styles.workViewButton}

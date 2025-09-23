@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouthWorks - 学習ルーム選択</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/room-select.css">
+</head>
+<body>
+    <div class="select-container">
+        <div class="premium-header">
+            <div class="premium-badge">⭐ プレミアムプラン</div>
+            <h1>学習ルームを選ぼう</h1>
+            <p>今日は何を勉強する？</p>
+        </div>
+
+        <div class="room-grid">
+            <!-- 算数・数学 -->
+            <div class="room-card" onclick="enterRoom('math')" data-room="math">
+                <div class="room-icon">📐</div>
+                <h3>算数・数学</h3>
+                <p>計算や図形の質問</p>
+                <div class="room-stats">
+                    <span id="math-count">今日: 0回</span>
+                </div>
+            </div>
+
+            <!-- 英語 -->
+            <div class="room-card" onclick="enterRoom('english')" data-room="english">
+                <div class="room-icon">🌍</div>
+                <h3>英語</h3>
+                <p>英単語や文法、会話練習</p>
+                <div class="room-stats">
+                    <span id="english-count">今日: 0回</span>
+                </div>
+            </div>
+
+            <!-- 国語 -->
+            <div class="room-card" onclick="enterRoom('japanese')" data-room="japanese">
+                <div class="room-icon">📖</div>
+                <h3>国語</h3>
+                <p>漢字や読解問題</p>
+                <div class="room-stats">
+                    <span id="japanese-count">今日: 0回</span>
+                </div>
+            </div>
+
+            <!-- 理科 -->
+            <div class="room-card" onclick="enterRoom('science')" data-room="science">
+                <div class="room-icon">🔬</div>
+                <h3>理科</h3>
+                <p>実験や自然の仕組み</p>
+                <div class="room-stats">
+                    <span id="science-count">今日: 0回</span>
+                </div>
+            </div>
+
+            <!-- 社会 -->
+            <div class="room-card" onclick="enterRoom('social')" data-room="social">
+                <div class="room-icon">🗺️</div>
+                <h3>社会</h3>
+                <p>歴史や地理</p>
+                <div class="room-stats">
+                    <span id="social-count">今日: 0回</span>
+                </div>
+            </div>
+
+            <!-- 悩み相談 -->
+            <div class="room-card special" onclick="enterRoom('counseling')" data-room="counseling">
+                <div class="room-icon">💭</div>
+                <h3>悩み相談</h3>
+                <p>学校や友達のこと</p>
+                <div class="alert-badge">🔔 保護者に共有</div>
+                <div class="room-stats">
+                    <span id="counseling-count">今日: 0回</span>
+                </div>
+            </div>
+
+            <!-- 宿題ヘルプ -->
+            <div class="room-card" onclick="enterRoom('homework')" data-room="homework">
+                <div class="room-icon">📝</div>
+                <h3>宿題ヘルプ</h3>
+                <p>今日の宿題を一緒に</p>
+                <div class="room-stats">
+                    <span id="homework-count">今日: 0回</span>
+                </div>
+            </div>
+
+            <!-- フリートーク -->
+            <div class="room-card" onclick="enterRoom('free')" data-room="free">
+                <div class="room-icon">💬</div>
+                <h3>フリートーク</h3>
+                <p>なんでも話そう</p>
+                <div class="room-stats">
+                    <span id="free-count">今日: 0回</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-actions">
+            <button onclick="viewHistory()" class="history-btn">📚 学習履歴</button>
+            <button onclick="logout()" class="logout-btn">ログアウト</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/room-select.js"></script>
+</body>
+</html>
