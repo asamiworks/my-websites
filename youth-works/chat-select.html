@@ -3,107 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="YouthWorks - 学習ルーム選択">
     <title>YouthWorks - 学習ルーム選択</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/room-select.css">
 </head>
 <body>
-    <div class="select-container">
-        <div class="premium-header">
-            <div class="premium-badge">⭐ プレミアムプラン</div>
-            <h1>学習ルームを選ぼう</h1>
-            <p>今日は何を勉強する？</p>
+    <!-- プロファイル選択画面 -->
+    <div id="profile-selector" class="profile-selector-container">
+        <div class="profile-header">
+            <h1>だれが勉強する？</h1>
+            <p>自分のアイコンをタップしてね</p>
         </div>
-
-        <div class="room-grid">
-            <!-- 算数・数学 -->
-            <div class="room-card" onclick="enterRoom('math')" data-room="math">
-                <div class="room-icon">📐</div>
-                <h3>算数・数学</h3>
-                <p>計算や図形の質問</p>
-                <div class="room-stats">
-                    <span id="math-count">今日: 0回</span>
-                </div>
-            </div>
-
-            <!-- 英語 -->
-            <div class="room-card" onclick="enterRoom('english')" data-room="english">
-                <div class="room-icon">🌍</div>
-                <h3>英語</h3>
-                <p>英単語や文法、会話練習</p>
-                <div class="room-stats">
-                    <span id="english-count">今日: 0回</span>
-                </div>
-            </div>
-
-            <!-- 国語 -->
-            <div class="room-card" onclick="enterRoom('japanese')" data-room="japanese">
-                <div class="room-icon">📖</div>
-                <h3>国語</h3>
-                <p>漢字や読解問題</p>
-                <div class="room-stats">
-                    <span id="japanese-count">今日: 0回</span>
-                </div>
-            </div>
-
-            <!-- 理科 -->
-            <div class="room-card" onclick="enterRoom('science')" data-room="science">
-                <div class="room-icon">🔬</div>
-                <h3>理科</h3>
-                <p>実験や自然の仕組み</p>
-                <div class="room-stats">
-                    <span id="science-count">今日: 0回</span>
-                </div>
-            </div>
-
-            <!-- 社会 -->
-            <div class="room-card" onclick="enterRoom('social')" data-room="social">
-                <div class="room-icon">🗺️</div>
-                <h3>社会</h3>
-                <p>歴史や地理</p>
-                <div class="room-stats">
-                    <span id="social-count">今日: 0回</span>
-                </div>
-            </div>
-
-            <!-- 悩み相談 -->
-            <div class="room-card special" onclick="enterRoom('counseling')" data-room="counseling">
-                <div class="room-icon">💭</div>
-                <h3>悩み相談</h3>
-                <p>学校や友達のこと</p>
-                <div class="alert-badge">🔔 保護者に共有</div>
-                <div class="room-stats">
-                    <span id="counseling-count">今日: 0回</span>
-                </div>
-            </div>
-
-            <!-- 宿題ヘルプ -->
-            <div class="room-card" onclick="enterRoom('homework')" data-room="homework">
-                <div class="room-icon">📝</div>
-                <h3>宿題ヘルプ</h3>
-                <p>今日の宿題を一緒に</p>
-                <div class="room-stats">
-                    <span id="homework-count">今日: 0回</span>
-                </div>
-            </div>
-
-            <!-- フリートーク -->
-            <div class="room-card" onclick="enterRoom('free')" data-room="free">
-                <div class="room-icon">💬</div>
-                <h3>フリートーク</h3>
-                <p>なんでも話そう</p>
-                <div class="room-stats">
-                    <span id="free-count">今日: 0回</span>
-                </div>
-            </div>
+        
+        <div class="profile-grid" id="profile-grid">
+            <!-- プロファイルカードは動的に生成 -->
         </div>
-
-        <div class="footer-actions">
-            <button onclick="viewHistory()" class="history-btn">📚 学習履歴</button>
-            <button onclick="logout()" class="logout-btn">ログアウト</button>
+        
+        <div class="profile-footer">
+            <button class="add-profile-btn" onclick="showAddProfileModal()">
+                <span class="plus-icon">+</span>
+                <span>新しい子どもを追加</span>
+            </button>
+            <button class="parent-settings-btn" onclick="openParentSettings()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                保護者設定
+            </button>
         </div>
     </div>
 
+    <!-- PINコード入力画面 -->
+    <div id="pin-input" class="pin-container" style="display: none;">
+        <div class="pin-content">
+            <div class="avatar-display">
+                <div id="selected-avatar" class="large-avatar"></div>
+                <h2 id="selected-name"></h2>
+            </div>
+            
+            <div class="pin-instruction">
+                <p id="pin-message">ひみつの番号を入力してね</p>
+            </div>
+            
+            <div class="pin-inputs">
+                <input type="text" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+                <input type="text" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+                <input type="text" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+                <input type="text" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+            </div>
+            
+            <div class="pin-actions">
+                <button class="back-btn" onclick="backToProfiles()">
+                    ← もどる
+                </button>
+                <button class="submit-pin-btn" onclick="verifyPIN()" disabled>
+                    はじめる
+                </button>
+            </div>
+            
+            <div class="pin-error" id="pin-error" style="display: none;">
+                番号がちがうよ。もう一度入力してね
+            </div>
+        </div>
+    </div>
+
+    <!-- メインルーム選択画面 -->
+    <div class="select-container" id="select-container" style="display: none;">
+        <!-- ユーザー情報ヘッダー -->
+        <div class="user-header">
+            <div class="user-profile">
+                <div id="user-avatar" class="small-avatar"></div>
+                <div class="user-details">
+                    <h2 id="user-nickname"></h2>
+                    <div class="user-meta">
+                        <span class="age-display" id="age-display"></span>
+                        <span class="plan-badge" id="plan-badge">
+                            <span class="infinity">∞</span> プレミアム
+                        </span>
+                    </div>
+                </div>
+                <button class="switch-user-btn" onclick="switchUser()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <path d="M20 8v6M23 11h-6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- 今日の目標（オプション） -->
+        <div class="daily-goal" id="daily-goal">
+            <h3>今日の目標</h3>
+            <div class="goal-content">
+                <span id="goal-text">3つのルームで勉強しよう！</span>
+                <div class="goal-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="goal-progress" style="width: 0%"></div>
+                    </div>
+                    <span class="goal-count" id="goal-count">0/3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ルームグリッド -->
+        <div class="room-section">
+            <h3 id="room-title">学習ルームを選ぼう</h3>
+            <div class="room-grid" id="room-grid">
+                <!-- ルームカードは動的に生成 -->
+            </div>
+        </div>
+
+        <!-- 学習統計 -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-info">
+                    <span class="stat-label">今日の学習</span>
+                    <span class="stat-value" id="today-count">0回</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-info">
+                    <span class="stat-label">連続記録</span>
+                    <span class="stat-value" id="streak-count">0日</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-info">
+                    <span class="stat-label">総学習回数</span>
+                    <span class="stat-value" id="total-count">0回</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- フッターメニュー -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showRooms()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                <span>ホーム</span>
+            </button>
+            <button class="nav-item" onclick="showHistory()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>履歴</span>
+            </button>
+            <button class="nav-item" onclick="showRewards()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 15l3.5-3.5a1.414 1.414 0 00-2-2L12 11l-1.5-1.5a1.414 1.414 0 00-2 2L12 15zm0 0v6M12 3v3"/>
+                </svg>
+                <span>ごほうび</span>
+            </button>
+            <button class="nav-item" onclick="showSettings()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span>設定</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 新規プロファイル追加モーダル -->
+    <div id="add-profile-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>新しい子どもを追加</h2>
+                <button class="modal-close" onclick="closeModal('add-profile-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-profile-form" onsubmit="addNewProfile(event)">
+                    <div class="form-group">
+                        <label for="child-nickname">ニックネーム</label>
+                        <input type="text" id="child-nickname" required maxlength="10" 
+                               placeholder="例：たろう">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="child-birthdate">生年月日</label>
+                        <input type="date" id="child-birthdate" required 
+                               max="" min="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>アバター選択</label>
+                        <div class="avatar-selection">
+                            <input type="radio" name="avatar" value="🦁" id="avatar-1" checked>
+                            <label for="avatar-1" class="avatar-option">🦁</label>
+                            
+                            <input type="radio" name="avatar" value="🐰" id="avatar-2">
+                            <label for="avatar-2" class="avatar-option">🐰</label>
+                            
+                            <input type="radio" name="avatar" value="🐻" id="avatar-3">
+                            <label for="avatar-3" class="avatar-option">🐻</label>
+                            
+                            <input type="radio" name="avatar" value="🦊" id="avatar-4">
+                            <label for="avatar-4" class="avatar-option">🦊</label>
+                            
+                            <input type="radio" name="avatar" value="🐸" id="avatar-5">
+                            <label for="avatar-5" class="avatar-option">🐸</label>
+                            
+                            <input type="radio" name="avatar" value="🦄" id="avatar-6">
+                            <label for="avatar-6" class="avatar-option">🦄</label>
+                            
+                            <input type="radio" name="avatar" value="🐧" id="avatar-7">
+                            <label for="avatar-7" class="avatar-option">🐧</label>
+                            
+                            <input type="radio" name="avatar" value="🐙" id="avatar-8">
+                            <label for="avatar-8" class="avatar-option">🐙</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="child-pin">PINコード（4桁の数字）</label>
+                        <input type="text" id="child-pin" required pattern="[0-9]{4}" 
+                               maxlength="4" inputmode="numeric"
+                               placeholder="例：1234">
+                        <small>子どもが覚えやすい4桁の数字を設定してください</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" onclick="closeModal('add-profile-modal')" class="btn-secondary">
+                            キャンセル
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            追加する
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ローディングスピナー -->
+    <div id="loading" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p class="loading-text">読み込み中...</p>
+    </div>
+
+    <!-- Scripts -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>

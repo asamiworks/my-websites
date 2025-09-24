@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i-manabee（あいまなびー）- 子どもの学びをAIでサポート</title>
+    <meta name="description" content="まなびー先生と一緒に楽しく学習！6-18歳向けの安心・安全な学習AI">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico">
+    
+    <!-- CSS -->
+    <style>
+        :root {
+            --primary: #FFB300;
+            --secondary: #FF6B6B;
+            --success: #4CAF50;
+            --text: #212121;
+            --bg-light: #FFF8E1;
+            --white: #FFFFFF;
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFFEF7 100%);
+            min-height: 100vh;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .bee-mascot {
+            font-size: 5rem;
+            animation: fly 3s ease-in-out infinite;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fly {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(10px, -10px) rotate(5deg); }
+            50% { transform: translate(-10px, -5px) rotate(-5deg); }
+            75% { transform: translate(5px, 5px) rotate(3deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #FFA000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 179, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+        }
+
+        .features {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 50px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .pricing {
+            background: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .pricing h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 50px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border: 2px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 179, 0, 0.2);
+        }
+
+        .pricing-card.featured::before {
+            content: '人気！';
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .price small {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        footer {
+            background: var(--text);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+
+        .trial-banner {
+            background: linear-gradient(90deg, var(--primary), #FFC947);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .bee-mascot {
+                font-size: 4rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- お試しバナー -->
+    <div class="trial-banner">
+        🎉 今すぐ無料でお試し！登録なしで2回まで使えます 🎉
+    </div>
+
+    <!-- ヒーローセクション -->
+    <section class="hero">
+        <div class="bee-mascot">🐝</div>
+        <h1>i-manabee（あいまなびー）</h1>
+        <p class="subtitle">まなびー先生と一緒に、楽しく学ぼう！</p>
+        <p style="font-size: 1.1rem; margin: 20px 0;">
+            6歳から18歳までのお子様の学習を<br>
+            AIがやさしくサポートします
+        </p>
+        
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="startTrial()">
+                まなびーを試してみる
+            </button>
+            <a href="/signup.html" class="btn btn-secondary">
+                無料で登録する
+            </a>
+        </div>
+    </section>
+
+    <!-- 特徴セクション -->
+    <section class="features">
+        <h2>まなびーの特徴 🌟</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3 class="feature-title">安心・安全</h3>
+                <p>個人情報不要！お子様が安心して使える設計</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">年齢別対応</h3>
+                <p>小学1年生から高校3年生まで、年齢に合わせた最適な学習サポート</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">全教科対応</h3>
+                <p>算数・国語・英語・理科・社会、プログラミングまで幅広くカバー</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎤</div>
+                <h3 class="feature-title">音声入力OK</h3>
+                <p>タイピングが苦手でも大丈夫！声で質問できます</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                <h3 class="feature-title">複数の子ども対応</h3>
+                <p>一つのアカウントで兄弟姉妹みんなが使えます</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💝</div>
+                <h3 class="feature-title">悩み相談も</h3>
+                <p>勉強以外の悩みも、まなびー先生が優しく聞いてくれます</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 料金プラン -->
+    <section class="pricing">
+        <h2>料金プラン 💰</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>無料プラン</h3>
+                <div class="price">
+                    0<small>円/月</small>
+                </div>
+                <ul style="list-style: none; padding: 0; text-align: left;">
+                    <li>✅ 1日3回まで質問OK</li>
+                    <li>✅ 1人のお子様</li>
+                    <li>✅ 基本的な学習サポート</li>
+                    <li>❌ 会話履歴保存なし</li>
+                </ul>
+                <button class="btn btn-secondary" style="margin-top: 20px; width: 100%;">
+                    無料で始める
+                </button>
+            </div>
+            
+            <div class="pricing-card featured">
+                <h3>まなびープレミアム</h3>
+                <div class="price">
+                    500<small>円/月</small>
+                </div>
+                <ul style="list-style: none; padding: 0; text-align: left;">
+                    <li>✅ 無制限に質問OK</li>
+                    <li>✅ 3人までのお子様</li>
+                    <li>✅ 教科別最適AI</li>
+                    <li>✅ 会話履歴永久保存</li>
+                </ul>
+                <button class="btn btn-primary" style="margin-top: 20px; width: 100%;">
+                    プレミアムで始める
+                </button>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>まなびーファミリー</h3>
+                <div class="price">
+                    800<small>円/月</small>
+                </div>
+                <ul style="list-style: none; padding: 0; text-align: left;">
+                    <li>✅ 無制限に質問OK</li>
+                    <li>✅ 5人までのお子様</li>
+                    <li>✅ 教科別最適AI</li>
+                    <li>✅ 週次レポート付き</li>
+                </ul>
+                <button class="btn btn-secondary" style="margin-top: 20px; width: 100%;">
+                    ファミリーで始める
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <p>© 2025 AsamiWorks. All rights reserved.</p>
+        <p>i-manabee（あいまなびー）</p>
+        <div style="margin-top: 20px;">
+            <a href="/terms.html" style="color: white; margin: 0 10px;">利用規約</a>
+            <a href="/privacy.html" style="color: white; margin: 0 10px;">プライバシーポリシー</a>
+            <a href="mailto:support@i-manabee.com" style="color: white; margin: 0 10px;">お問い合わせ</a>
+        </div>
+    </footer>
+
+    <script>
+        function startTrial() {
+            // お試し版へ遷移
+            window.location.href = '/chat.html?mode=trial';
+        }
+
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // アニメーション on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .pricing-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
