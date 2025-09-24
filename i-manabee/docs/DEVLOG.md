@@ -40,7 +40,7 @@ C:.
   - 国語/社会/悩み相談: Claude 3 Haiku
   - 英語: GPT-4o mini
 - **認証**: PINコード（4桁）による子ども切り替え
-- **データ保持**: 無料21日間、有料無期限
+- **データ保持**: 無料有料　無期限
 
 ### 📂 作成ファイル一覧
 public/ (7 HTML, 5 CSS, 7 JS)
@@ -88,10 +88,12 @@ npm run dev  # 開発サーバー起動
 
 テストアカウント（予定）
 
-お試し: アカウント不要
+
 無料: free@test.com
+キッズ: kiz@test.com
+フレンズ: friends@test.com
 プレミアム: premium@test.com
-ファミリー: family@test.com
+
 
 APIキー状況
 

@@ -1,0 +1,308 @@
+/* ========================================
+   Senior Theme (高校生向け) - 16-18歳
+   PRIMARY: フレンズパープル (#9C27B0)
+   SECONDARY: ハニーイエロー (#FFB300)
+======================================== */
+
+.theme {
+  --theme-primary: #9C27B0;
+  --theme-secondary: #FFB300;
+  --theme-bg: #F3E5F5;
+  --theme-surface: #FFFFFF;
+  --theme-text: #4A148C;
+  --theme-text-light: #7B1FA2;
+  --theme-border: #CE93D8;
+  --theme-accent: #E1BEE7;
+  --theme-shadow: rgba(156, 39, 176, 0.2);
+}
+
+/* コンテナ */
+.container {
+  background: linear-gradient(135deg, var(--theme-bg) 0%, #FFF3E0 100%);
+  min-height: 100vh;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ヘッダー */
+.header {
+  background: linear-gradient(90deg, var(--theme-primary) 0%, #7B1FA2 100%);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px var(--theme-shadow);
+  position: relative;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--theme-secondary) 0%, #FF8F00 100%);
+}
+
+/* カード */
+.card {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 10px;
+  box-shadow: 0 1px 6px var(--theme-shadow);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--theme-shadow);
+}
+
+/* ボタン */
+.button {
+  background: linear-gradient(135deg, var(--theme-primary) 0%, #7B1FA2 100%);
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 1px 3px var(--theme-shadow);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.button:hover {
+  background: linear-gradient(135deg, #7B1FA2 0%, var(--theme-primary) 100%);
+  box-shadow: 0 2px 6px var(--theme-shadow);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.buttonOutline {
+  background: transparent;
+  color: var(--theme-primary);
+  border: 1px solid var(--theme-primary);
+}
+
+.buttonOutline:hover {
+  background: var(--theme-primary);
+  color: white;
+}
+
+/* 入力フィールド */
+.input {
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  border-color: var(--theme-primary);
+  box-shadow: 0 0 0 1px var(--theme-shadow);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--theme-text-light);
+  opacity: 0.7;
+}
+
+/* テキスト */
+.title {
+  color: var(--theme-text);
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.text {
+  color: var(--theme-text);
+  line-height: 1.5;
+}
+
+.textLight {
+  color: var(--theme-text-light);
+}
+
+.textMuted {
+  color: rgba(74, 20, 140, 0.6);
+  font-size: 13px;
+}
+
+/* アイコン */
+.icon {
+  color: var(--theme-primary);
+  transition: all 0.15s ease;
+}
+
+.icon:hover {
+  color: var(--theme-text);
+  transform: scale(1.05);
+}
+
+/* チャット */
+.chatBubbleUser {
+  background: linear-gradient(135deg, var(--theme-primary) 0%, #7B1FA2 100%);
+  color: white;
+  border-radius: 14px 14px 2px 14px;
+  box-shadow: 0 1px 4px var(--theme-shadow);
+  border: none;
+}
+
+.chatBubbleBot {
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  border: 1px solid var(--theme-accent);
+  border-radius: 14px 14px 14px 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* ナビゲーション */
+.nav {
+  display: flex;
+  gap: 8px;
+  padding: 4px;
+  background: var(--theme-accent);
+  border-radius: 8px;
+}
+
+.navItem {
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--theme-text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.navItem:hover {
+  background: rgba(156, 39, 176, 0.1);
+  color: var(--theme-text);
+}
+
+.navItemActive {
+  background: var(--theme-primary);
+  color: white;
+}
+
+/* タブ */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--theme-border);
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding: 8px 16px;
+  color: var(--theme-text-light);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tab:hover {
+  color: var(--theme-text);
+  background: rgba(156, 39, 176, 0.05);
+}
+
+.tabActive {
+  color: var(--theme-primary);
+  border-bottom-color: var(--theme-primary);
+}
+
+/* アニメーション */
+.smooth {
+  animation: seniorSmooth 0.4s ease-out;
+}
+
+.subtle {
+  animation: seniorSubtle 0.3s ease-out;
+}
+
+@keyframes seniorSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes seniorSubtle {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ステータス */
+.statusOnline {
+  color: #4CAF50;
+}
+
+.statusOffline {
+  color: #9E9E9E;
+}
+
+.statusBusy {
+  color: #FF9800;
+}
+
+.statusError {
+  color: #F44336;
+}
+
+/* マイクロインタラクション */
+.clickable {
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.clickable:active {
+  transform: scale(0.98);
+}
+
+/* ダークモード準備 */
+@media (prefers-color-scheme: dark) {
+  .theme {
+    --theme-bg: #1A0E27;
+    --theme-surface: #2D1B3D;
+    --theme-text: #E1BEE7;
+    --theme-text-light: #CE93D8;
+    --theme-border: #4A148C;
+  }
+}

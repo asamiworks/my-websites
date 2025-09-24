@@ -1,0 +1,279 @@
+/* ========================================
+   i-manabee Design System Variables
+   PROJECT.md仕様に基づく統一的な変数定義
+======================================== */
+
+:root {
+  /* ========================================
+     ブランドカラー - PROJECT.md仕様
+  ======================================== */
+
+  /* Primary Colors */
+  --manabee-honey-yellow: #FFB300;
+  --manabee-heart-pink: #FF6B6B;
+  --manabee-safe-green: #4CAF50;
+
+  /* Plan Colors */
+  --manabee-free-gray: #9E9E9E;
+  --manabee-kids-blue: #2196F3;
+  --manabee-friends-purple: #9C27B0;
+  --manabee-premium-gold: #FFB300;
+
+  /* System Colors */
+  --manabee-error-red: #FF5252;
+  --manabee-warning-yellow: #FFC107;
+  --manabee-info-blue: #2196F3;
+  --manabee-bg-cream: #FFF8E1;
+  --manabee-text-main: #212121;
+  --manabee-text-sub: #757575;
+
+  /* ========================================
+     Neutral Colors
+  ======================================== */
+
+  --manabee-white: #FFFFFF;
+  --manabee-gray-50: #FAFAFA;
+  --manabee-gray-100: #F5F5F5;
+  --manabee-gray-200: #EEEEEE;
+  --manabee-gray-300: #E0E0E0;
+  --manabee-gray-400: #BDBDBD;
+  --manabee-gray-500: #9E9E9E;
+  --manabee-gray-600: #757575;
+  --manabee-gray-700: #616161;
+  --manabee-gray-800: #424242;
+  --manabee-gray-900: #212121;
+
+  /* ========================================
+     Shadows - PROJECT.md仕様
+  ======================================== */
+
+  --manabee-shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --manabee-shadow-md: 0 4px 6px rgba(0,0,0,0.16);
+  --manabee-shadow-lg: 0 10px 20px rgba(0,0,0,0.19);
+  --manabee-shadow-xl: 0 15px 30px rgba(0,0,0,0.25);
+
+  /* Color-specific shadows */
+  --manabee-shadow-yellow: 0 4px 12px rgba(255, 179, 0, 0.3);
+  --manabee-shadow-pink: 0 4px 12px rgba(255, 107, 107, 0.3);
+  --manabee-shadow-green: 0 4px 12px rgba(76, 175, 80, 0.3);
+  --manabee-shadow-blue: 0 4px 12px rgba(33, 150, 243, 0.3);
+  --manabee-shadow-purple: 0 4px 12px rgba(156, 39, 176, 0.3);
+
+  /* ========================================
+     Border Radius
+  ======================================== */
+
+  --manabee-radius-xs: 2px;
+  --manabee-radius-sm: 4px;
+  --manabee-radius-md: 8px;
+  --manabee-radius-lg: 12px;
+  --manabee-radius-xl: 16px;
+  --manabee-radius-2xl: 20px;
+  --manabee-radius-full: 9999px;
+
+  /* Age-group specific radius */
+  --manabee-radius-junior: 16px;  /* より丸みを帯びた */
+  --manabee-radius-middle: 12px;  /* 適度な丸み */
+  --manabee-radius-senior: 8px;   /* シャープな印象 */
+
+  /* ========================================
+     Spacing System
+  ======================================== */
+
+  --manabee-space-0: 0px;
+  --manabee-space-1: 4px;
+  --manabee-space-2: 8px;
+  --manabee-space-3: 12px;
+  --manabee-space-4: 16px;
+  --manabee-space-5: 20px;
+  --manabee-space-6: 24px;
+  --manabee-space-8: 32px;
+  --manabee-space-10: 40px;
+  --manabee-space-12: 48px;
+  --manabee-space-16: 64px;
+  --manabee-space-20: 80px;
+  --manabee-space-24: 96px;
+
+  /* ========================================
+     Typography
+  ======================================== */
+
+  /* Font Families */
+  --manabee-font-primary: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'Meiryo', 'メイリオ', sans-serif;
+  --manabee-font-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
+
+  /* Font Sizes */
+  --manabee-text-xs: 12px;
+  --manabee-text-sm: 14px;
+  --manabee-text-base: 16px;
+  --manabee-text-lg: 18px;
+  --manabee-text-xl: 20px;
+  --manabee-text-2xl: 24px;
+  --manabee-text-3xl: 30px;
+  --manabee-text-4xl: 36px;
+  --manabee-text-5xl: 48px;
+
+  /* Font Weights */
+  --manabee-font-light: 300;
+  --manabee-font-normal: 400;
+  --manabee-font-medium: 500;
+  --manabee-font-semibold: 600;
+  --manabee-font-bold: 700;
+  --manabee-font-extrabold: 800;
+
+  /* Line Heights */
+  --manabee-leading-tight: 1.25;
+  --manabee-leading-snug: 1.375;
+  --manabee-leading-normal: 1.5;
+  --manabee-leading-relaxed: 1.625;
+  --manabee-leading-loose: 2;
+
+  /* ========================================
+     Animation & Transitions
+  ======================================== */
+
+  /* Timing Functions */
+  --manabee-ease-linear: linear;
+  --manabee-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --manabee-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --manabee-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --manabee-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Duration */
+  --manabee-duration-fast: 150ms;
+  --manabee-duration-base: 200ms;
+  --manabee-duration-slow: 300ms;
+  --manabee-duration-slower: 500ms;
+
+  /* ========================================
+     Z-Index System
+  ======================================== */
+
+  --manabee-z-dropdown: 1000;
+  --manabee-z-sticky: 1020;
+  --manabee-z-fixed: 1030;
+  --manabee-z-modal-backdrop: 1040;
+  --manabee-z-modal: 1050;
+  --manabee-z-popover: 1060;
+  --manabee-z-tooltip: 1070;
+  --manabee-z-toast: 1080;
+
+  /* ========================================
+     Component Specific Variables
+  ======================================== */
+
+  /* Button */
+  --manabee-btn-height-sm: 32px;
+  --manabee-btn-height-md: 40px;
+  --manabee-btn-height-lg: 48px;
+  --manabee-btn-padding-x-sm: 12px;
+  --manabee-btn-padding-x-md: 16px;
+  --manabee-btn-padding-x-lg: 24px;
+
+  /* Input */
+  --manabee-input-height-sm: 32px;
+  --manabee-input-height-md: 40px;
+  --manabee-input-height-lg: 48px;
+  --manabee-input-padding-x: 12px;
+
+  /* Card */
+  --manabee-card-padding-sm: 16px;
+  --manabee-card-padding-md: 24px;
+  --manabee-card-padding-lg: 32px;
+
+  /* Header */
+  --manabee-header-height: 64px;
+  --manabee-header-height-sm: 56px;
+
+  /* Sidebar */
+  --manabee-sidebar-width: 280px;
+  --manabee-sidebar-width-collapsed: 64px;
+
+  /* ========================================
+     Breakpoints (for reference in JS)
+  ======================================== */
+
+  --manabee-breakpoint-xs: 475px;
+  --manabee-breakpoint-sm: 640px;
+  --manabee-breakpoint-md: 768px;
+  --manabee-breakpoint-lg: 1024px;
+  --manabee-breakpoint-xl: 1280px;
+  --manabee-breakpoint-2xl: 1536px;
+
+  /* ========================================
+     Age Group Specific Overrides
+  ======================================== */
+
+  /* Junior (小学生) - より大きく、カラフルに */
+  --manabee-junior-text-base: 18px;
+  --manabee-junior-btn-height: 48px;
+  --manabee-junior-card-padding: 24px;
+
+  /* Middle (中学生) - 標準サイズ */
+  --manabee-middle-text-base: 16px;
+  --manabee-middle-btn-height: 40px;
+  --manabee-middle-card-padding: 20px;
+
+  /* Senior (高校生) - よりコンパクトに */
+  --manabee-senior-text-base: 15px;
+  --manabee-senior-btn-height: 36px;
+  --manabee-senior-card-padding: 16px;
+}
+
+/* ========================================
+   Responsive Typography
+======================================== */
+
+/* Mobile First - 小さい画面では文字サイズを調整 */
+@media (max-width: 640px) {
+  :root {
+    --manabee-text-base: 14px;
+    --manabee-text-lg: 16px;
+    --manabee-text-xl: 18px;
+    --manabee-text-2xl: 20px;
+    --manabee-text-3xl: 24px;
+    --manabee-text-4xl: 28px;
+    --manabee-text-5xl: 32px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --manabee-sidebar-width: 240px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  :root {
+    --manabee-text-base: 16px;
+    --manabee-sidebar-width: 320px;
+  }
+}
+
+/* ========================================
+   Print Styles
+======================================== */
+
+@media print {
+  :root {
+    --manabee-shadow-sm: none;
+    --manabee-shadow-md: none;
+    --manabee-shadow-lg: none;
+    --manabee-shadow-xl: none;
+  }
+}
+
+/* ========================================
+   Reduced Motion Preferences
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --manabee-duration-fast: 0ms;
+    --manabee-duration-base: 0ms;
+    --manabee-duration-slow: 0ms;
+    --manabee-duration-slower: 0ms;
+  }
+}

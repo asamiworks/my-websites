@@ -1,0 +1,24 @@
+{
+  "projects": {
+    "default": "i-manabee",
+    "staging": "i-manabee-staging",
+    "production": "i-manabee"
+  },
+  "targets": {
+    "i-manabee": {
+      "hosting": {
+        "production": [
+          "i-manabee"
+        ]
+      }
+    },
+    "i-manabee-staging": {
+      "hosting": {
+        "staging": [
+          "i-manabee-staging"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
