@@ -1,37 +1,65 @@
 // Next.js ミドルウェア - 基本的なルート保護とセキュリティ
 import { NextRequest, NextResponse } from 'next/server';
 
-// セキュリティヘッダー設定
-const SECURITY_HEADERS = {
-  'X-DNS-Prefetch-Control': 'on',
-  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
-  'X-XSS-Protection': '1; mode=block',
-  'X-Frame-Options': 'DENY',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Permissions-Policy': [
-    'camera=()',
-    'microphone=()',
-    'geolocation=()',
-    'payment=()',
-    'usb=()',
-    'magnetometer=()',
-    'gyroscope=()',
-    'accelerometer=()'
-  ].join(', '),
-  'Content-Security-Policy': [
-    "default-src 'self'",
-    "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com https://www.googletagmanager.com",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "img-src 'self' data: https: blob:",
-    "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://api.openai.com https://*.firebaseapp.com https://*.googleapis.com https://www.google-analytics.com",
-    "frame-src 'none'",
-    "object-src 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-    "upgrade-insecure-requests"
-  ].join('; ')
+// 開発環境の判定
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+// セキュリティヘッダー設定（環境に応じて動的に設定）
+const getSecurityHeaders = () => {
+  // connect-srcの設定を環境に応じて変更
+  const connectSources = [
+    "'self'",
+    "https://api.openai.com",
+    "https://*.firebaseapp.com",
+    "https://*.googleapis.com",
+    "https://www.google-analytics.com"
+  ];
+
+  // 開発環境の場合、エミュレータのURLを追加
+  if (isDevelopment) {
+    connectSources.push(
+      "http://localhost:9099",      // Auth Emulator
+      "http://127.0.0.1:9099",      // Auth Emulator (別形式)
+      "http://localhost:8080",      // Firestore Emulator
+      "http://127.0.0.1:8080",      // Firestore Emulator (別形式)
+      "http://localhost:5000",      // Hosting Emulator
+      "http://127.0.0.1:5000",      // Hosting Emulator (別形式)
+      "http://localhost:4000",      // Emulator UI
+      "http://127.0.0.1:4000"       // Emulator UI (別形式)
+    );
+  }
+
+  return {
+    'X-DNS-Prefetch-Control': 'on',
+    'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+    'X-XSS-Protection': '1; mode=block',
+    'X-Frame-Options': 'DENY',
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': [
+      'camera=()',
+      'microphone=()',
+      'geolocation=()',
+      'payment=()',
+      'usb=()',
+      'magnetometer=()',
+      'gyroscope=()',
+      'accelerometer=()'
+    ].join(', '),
+    'Content-Security-Policy': [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com https://www.googletagmanager.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: https: blob:",
+      "font-src 'self' https://fonts.gstatic.com",
+      `connect-src ${connectSources.join(' ')}`,
+      "frame-src 'none'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "upgrade-insecure-requests"
+    ].join('; ')
+  };
 };
 
 // IP許可リスト（管理者API用）
@@ -73,8 +101,9 @@ export async function middleware(request: NextRequest) {
   const ip = getClientIP(request);
 
   try {
-    // 1. セキュリティヘッダーの設定
-    Object.entries(SECURITY_HEADERS).forEach(([key, value]) => {
+    // 1. セキュリティヘッダーの設定（環境に応じて動的に設定）
+    const securityHeaders = getSecurityHeaders();
+    Object.entries(securityHeaders).forEach(([key, value]) => {
       response.headers.set(key, value);
     });
 
@@ -145,7 +174,7 @@ export async function middleware(request: NextRequest) {
       // セッションから年齢グループを取得してCSPを調整
       const ageGroup = getAgeGroupFromRequest(request);
       if (ageGroup === 'junior') {
-        // より厳格なCSPを適用
+        // より厳格なCSPを適用（開発環境を考慮）
         response.headers.set('Content-Security-Policy', getStrictCSP());
       }
     }
@@ -249,13 +278,28 @@ function getAgeGroupFromRequest(request: NextRequest): 'junior' | 'middle' | 'se
 
 // 厳格なCSP（小学生向け）
 function getStrictCSP(): string {
+  // 開発環境の場合はエミュレータURLを追加
+  const connectSources = [
+    "'self'",
+    "https://*.firebaseapp.com"
+  ];
+
+  if (isDevelopment) {
+    connectSources.push(
+      "http://localhost:9099",
+      "http://127.0.0.1:9099",
+      "http://localhost:8080",
+      "http://127.0.0.1:8080"
+    );
+  }
+
   return [
     "default-src 'self'",
     "script-src 'self'", // unsafe-evalとunsafe-inlineを除去
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data:",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://*.firebaseapp.com",
+    `connect-src ${connectSources.join(' ')}`,
     "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'self'",

@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
           agreedAt: new Date(),
           childAge: parseInt(childAge || '0'),
           version: '1.0'
-        } : undefined,
+        } : null,
         ageConfirm: {
           confirmed: ageConfirm,
           confirmedAt: new Date()

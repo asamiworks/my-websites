@@ -1,8 +1,9 @@
 {
   "projects": {
-    "default": "i-manabee",
+    "default": "i-manabee-eba5c",
     "staging": "i-manabee-staging",
-    "production": "i-manabee"
+    "production": "i-manabee",
+    "dev": "i-manabee-eba5c"
   },
   "targets": {
     "i-manabee": {
