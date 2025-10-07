@@ -2,16 +2,23 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 import { useChildren } from '@/hooks/useChildren';
+import { useProfileStore } from '@/stores/profileStore';
 import { ChildCard } from '@/components/profile/ChildCard';
+import { DeleteConfirmModal } from '@/components/profile/DeleteConfirmModal';
 import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/ui/Alert';
+import type { Child } from '@/types/children';
 
 export function ChildrenList() {
+  const router = useRouter();
   const { user } = useAuthStore();
-  const { children, loading, error, deleteChild } = useChildren();
+  const { children, loading, error } = useChildren();
+  const { verifyPin, removeChild } = useProfileStore();
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Child | null>(null);
 
   if (!user) {
     return (
@@ -45,25 +52,35 @@ export function ChildrenList() {
   const maxChildren = getMaxChildren(user.plan);
   const canAddMore = children.length < maxChildren;
 
-  const handleDelete = async (childId: string) => {
-    if (!confirm('この子どもプロファイルを削除しますか？この操作は元に戻せません。')) {
-      return;
-    }
+  const handleDeleteClick = (child: Child) => {
+    setDeleteTarget(child);
+  };
+
+  const handleDeleteConfirm = async (pin: string) => {
+    if (!deleteTarget) return;
 
     try {
-      setDeletingId(childId);
-      await deleteChild(childId);
-    } catch (error) {
-      console.error('Delete error:', error);
-      alert('削除に失敗しました。再度お試しください。');
+      setDeletingId(deleteTarget.id);
+
+      // PIN認証
+      const isValidPin = await verifyPin(deleteTarget.id, pin);
+      if (!isValidPin) {
+        throw new Error('PINが正しくありません。');
+      }
+
+      // 削除実行
+      await removeChild(deleteTarget.id);
+      setDeleteTarget(null);
+    } catch (error: any) {
+      console.error('[ChildrenList] Delete error:', error);
+      throw error; // DeleteConfirmModalでエラーハンドリング
     } finally {
       setDeletingId(null);
     }
   };
 
   const handleEdit = (childId: string) => {
-    // Day 20で実装予定
-    alert('編集機能は実装予定です。');
+    router.push(`/children/${childId}/edit`);
   };
 
   return (
@@ -130,7 +147,7 @@ export function ChildrenList() {
               child={child}
               onSelect={() => {}}
               onEdit={() => handleEdit(child.id)}
-              onDelete={() => handleDelete(child.id)}
+              onDelete={() => handleDeleteClick(child)}
               showActions={true}
             />
           ))}
@@ -153,6 +170,17 @@ export function ChildrenList() {
             </div>
           )}
         </div>
+      )}
+
+      {/* 削除確認モーダル */}
+      {deleteTarget && (
+        <DeleteConfirmModal
+          child={deleteTarget}
+          isOpen={!!deleteTarget}
+          onClose={() => setDeleteTarget(null)}
+          onConfirm={handleDeleteConfirm}
+          loading={deletingId === deleteTarget.id}
+        />
       )}
     </div>
   );
