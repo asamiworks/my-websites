@@ -1,4 +1,4 @@
-import type { AvatarType } from '@/types';
+import type { AvatarType } from '@/types/children';
 
 const AVATARS: { type: AvatarType; emoji: string; label: string }[] = [
   { type: 'bear', emoji: '🐻', label: 'くま' },
@@ -12,24 +12,24 @@ const AVATARS: { type: AvatarType; emoji: string; label: string }[] = [
 ];
 
 interface AvatarSelectorProps {
-  selected: AvatarType;
-  onChange: (avatar: AvatarType) => void;
+  selectedAvatar: AvatarType;
+  onAvatarSelect: (avatar: AvatarType) => void;
   disabled?: boolean;
 }
 
-export function AvatarSelector({ selected, onChange, disabled }: AvatarSelectorProps) {
+export function AvatarSelector({ selectedAvatar, onAvatarSelect, disabled }: AvatarSelectorProps) {
   return (
     <div className="grid grid-cols-4 gap-3">
       {AVATARS.map((avatar) => (
         <button
           key={avatar.type}
           type="button"
-          onClick={() => onChange(avatar.type)}
+          onClick={() => onAvatarSelect(avatar.type)}
           disabled={disabled}
           className={`
             p-4 rounded-lg border-2 transition-all
             hover:scale-105 active:scale-95
-            ${selected === avatar.type
+            ${selectedAvatar === avatar.type
               ? 'border-yellow-400 bg-yellow-50'
               : 'border-gray-200 hover:border-gray-300'
             }
