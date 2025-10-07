@@ -34,6 +34,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
 
             <div className="flex items-center space-x-4">
+              <Link
+                href="/child-select"
+                className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
+              >
+                🎓 学習を始める
+              </Link>
               <span className="text-sm text-gray-600">
                 {user?.displayName || user?.email}
               </span>
