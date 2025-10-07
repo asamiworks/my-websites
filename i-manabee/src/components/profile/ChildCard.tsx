@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { getAvatarEmoji } from '@/lib/firebase/children';
-import type { Child } from '@/types';
+import type { Child } from '@/types/children';
 
 interface ChildCardProps {
   child: Child;
