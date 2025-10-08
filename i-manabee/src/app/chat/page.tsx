@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Card, Alert } from '@/components/ui';
 import { ChatMessage } from '@/components/chat/ChatMessage';
 import { ChatInput } from '@/components/chat/ChatInput';
+import { MessageSuggestions } from '@/components/chat/MessageSuggestions';
 import { UsageIndicator } from '@/components/chat/UsageIndicator';
 import { useAuth } from '@/hooks/useAuth';
 import { useSession } from '@/hooks/useSession';
@@ -350,6 +351,14 @@ export default function ChatPage() {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* メッセージ候補 */}
+          <MessageSuggestions
+            subject="general" // TODO: 実際の教科を設定
+            ageGroup={ageGroup}
+            conversationHistory={chat.messages}
+            onSelect={handleSendMessage}
+          />
+
           {/* 入力エリア */}
           <div className="border-t bg-white px-4 py-4">
             <ChatInput
@@ -358,7 +367,7 @@ export default function ChatPage() {
               isLoading={chat.isLoading}
               ageGroup={ageGroup}
               maxLength={auth.userData?.plan ? 1500 : 500}
-              suggestions={suggestions}
+              suggestions={[]} // 新しいMessageSuggestionsを使うので空にする
             />
           </div>
         </div>

@@ -27,6 +27,16 @@ export {
   type CardFooterProps
 } from './Card';
 
+// Card Components (shadcn-style)
+export {
+  Card as CardShadcn,
+  CardHeader as CardHeaderShadcn,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter as CardFooterShadcn
+} from './card';
+
 // Modal Components
 export {
   Modal,
@@ -58,6 +68,12 @@ export {
   type SafetyAlertProps
 } from './Alert';
 
+// Alert Components (shadcn-style)
+export {
+  Alert as AlertShadcn,
+  AlertDescription
+} from './alert';
+
 // Loading Components
 export {
   Loading,
@@ -76,7 +92,25 @@ export {
   type PinInputProps
 } from './PinInput';
 
+export { Input } from './input';
+
 // Chat Components
 export { ChatMessage } from '../chat/ChatMessage';
 export { ChatInput } from '../chat/ChatInput';
 export { UsageIndicator } from '../chat/UsageIndicator';
+
+// Additional UI Components
+export { Badge } from './badge';
+export {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem
+} from './select';
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
+} from './dropdown-menu';

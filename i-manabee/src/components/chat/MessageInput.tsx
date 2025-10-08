@@ -4,11 +4,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui';
 import { Send, Loader2 } from 'lucide-react';
-import {
-  validateMessageLengthClient,
-  getMessageLengthVisualization,
-  estimateTokensFromText
-} from '@/lib/ai/clientTokenEstimator';
+// TODO: Create clientTokenEstimator or remove these features
+// import {
+//   validateMessageLengthClient,
+//   getMessageLengthVisualization,
+//   estimateTokensFromText
+// } from '@/lib/ai/clientTokenEstimator';
 import type { UsageStats } from '@/lib/ai/tokenCounter';
 
 interface MessageInputProps {
@@ -47,8 +48,12 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   }, [message]);
 
   // メッセージ長チェック
-  const lengthValidation = validateMessageLengthClient(message, plan);
-  const lengthVisualization = getMessageLengthVisualization(message, plan);
+  // Simplified validation for now
+  const lengthValidation = { isValid: message.length <= maxLength, maxLength };
+  const lengthVisualization = {
+    remainingChars: maxLength - message.length,
+    isOverLimit: message.length > maxLength
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -3,6 +3,8 @@ export * from './user';
 export * from './chat';
 export * from './safety';
 export * from './subscription';
+export * from './usage';
+export * from './suggestions';
 
 // 共通の型定義
 export interface ApiResponse<T = any> {
