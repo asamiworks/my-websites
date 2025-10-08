@@ -355,9 +355,12 @@ export default function ConversationDetailPage() {
           <div className="border-t bg-white px-4 py-4">
             <MessageInput
               onSend={handleSendMessage}
+              isLoading={isSending}
               disabled={isSending}
               placeholder="メッセージを入力..."
               maxLength={1000}
+              plan={user?.planType || 'free'}
+              ageGroup={child?.ageGroup || 'middle'}
             />
           </div>
         </div>

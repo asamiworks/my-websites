@@ -9,8 +9,8 @@ import { useProfileStore } from '@/stores/profileStore';
 import { ChildCard } from '@/components/profile/ChildCard';
 import { DeleteConfirmModal } from '@/components/profile/DeleteConfirmModal';
 import { Button } from '@/components/ui/button';
-import { Alert } from '@/components/ui/Alert';
-import type { Child } from '@/types/children';
+import { Alert } from '@/components/ui';
+import type { Child } from '@/types';
 
 export function ChildrenList() {
   const router = useRouter();

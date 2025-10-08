@@ -5,7 +5,11 @@
       "Bash(cat:*)",
       "Bash(npm install:*)",
       "Bash(npm run typecheck:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(awk:*)",
+      "Bash(find:*)",
+      "Bash(git checkout:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

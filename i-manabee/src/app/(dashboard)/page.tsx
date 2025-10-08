@@ -58,7 +58,7 @@ export default function DashboardPage() {
       </div>
 
       {/* 重要な通知 */}
-      <Alert variant="info" title="📢 お知らせ">
+      <Alert variant="default" title="📢 お知らせ">
         新しい機能「音声入力」が追加されました！チャット画面で音声でも質問できるようになりました。
       </Alert>
 

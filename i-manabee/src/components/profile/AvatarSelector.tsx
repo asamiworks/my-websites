@@ -1,4 +1,4 @@
-import type { AvatarType } from '@/types/children';
+import type { AvatarType } from '@/types';
 
 const AVATARS: { type: AvatarType; emoji: string; label: string }[] = [
   { type: 'bear', emoji: '🐻', label: 'くま' },

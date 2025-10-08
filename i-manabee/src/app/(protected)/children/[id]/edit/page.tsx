@@ -6,8 +6,8 @@ import { Metadata } from 'next';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ChildForm } from '@/components/profile/ChildForm';
 import { useChildren } from '@/hooks/useChildren';
-import { Alert } from '@/components/ui/Alert';
-import type { Child } from '@/types/children';
+import { Alert } from '@/components/ui';
+import type { Child } from '@/types';
 
 export default function EditChildPage() {
   const router = useRouter();

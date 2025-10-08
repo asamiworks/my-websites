@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui';
 import { useChildren } from '@/hooks/useChildren';
 import { getAvatarEmoji } from '@/lib/firebase/children';
 

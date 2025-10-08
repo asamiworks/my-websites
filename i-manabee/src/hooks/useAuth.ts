@@ -199,9 +199,10 @@ export function useAuth(): UseAuthReturn {
     try {
       actions.setLoading(true);
       actions.setError(null);
-      const user = await loginUser(email, password);
-      const userData = await getUserData(user.uid);
-      actions.setUser(user, userData);
+      const userData = await loginUser(email, password);
+      // loginUser already returns full user data, no need to call getUserData again
+      console.log('🟢 [useAuth] Login successful, user data:', userData);
+      actions.setUser(userData, userData);
       router.push('/dashboard');
     } catch (error: any) {
       console.error('ログインエラー:', error);

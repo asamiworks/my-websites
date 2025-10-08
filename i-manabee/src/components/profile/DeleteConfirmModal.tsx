@@ -6,9 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui';
 import { getAvatarEmoji } from '@/lib/firebase/children';
-import type { Child } from '@/types/children';
+import type { Child } from '@/types';
 
 // PIN確認フォームのスキーマ
 const pinConfirmSchema = z.object({

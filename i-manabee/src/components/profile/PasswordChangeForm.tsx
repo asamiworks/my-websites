@@ -8,7 +8,7 @@ import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui';
 import { useAuthStore } from '@/stores/authStore';
 import { getFirebaseAuth } from '@/lib/firebase/config';
 

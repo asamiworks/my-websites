@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useProfileStore } from '@/stores/profileStore';
 import { getAvatarEmoji } from '@/lib/firebase/children';
 import { Button } from '@/components/ui/button';
-import type { Child } from '@/types/children';
+import type { Child } from '@/types';
 
 interface PinInputModalProps {
   child: Child;

@@ -6,8 +6,8 @@ import { useAuthStore } from '@/stores/authStore';
 import { useChildren } from '@/hooks/useChildren';
 import { ChildCard } from '@/components/profile/ChildCard';
 import { PinInputModal } from '@/components/profile/PinInputModal';
-import { Alert } from '@/components/ui/Alert';
-import type { Child } from '@/types/children';
+import { Alert } from '@/components/ui';
+import type { Child } from '@/types';
 
 export default function ChildSelectPage() {
   const router = useRouter();

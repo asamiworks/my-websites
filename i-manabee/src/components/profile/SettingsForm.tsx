@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { doc, updateDoc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui';
 import { useAuthStore } from '@/stores/authStore';
 import { getFirebaseFirestore } from '@/lib/firebase/config';
 

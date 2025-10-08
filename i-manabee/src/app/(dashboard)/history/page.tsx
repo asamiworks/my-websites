@@ -72,8 +72,8 @@ export default function HistoryPage() {
   const stats = {
     totalConversations: conversations.length,
     totalMessages: conversations.reduce((sum, conv) => sum + conv.messageCount, 0),
-    subjects: [...new Set(conversations.map(conv => conv.subject))].length,
-    children: [...new Set(conversations.map(conv => conv.childId))].length,
+    subjects: Array.from(new Set(conversations.map(conv => conv.subject))).length,
+    children: Array.from(new Set(conversations.map(conv => conv.childId))).length,
   };
 
   if (!user) {

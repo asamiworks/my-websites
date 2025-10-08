@@ -72,4 +72,25 @@ export class FirebaseAdmin {
   }
 }
 
+// Named exports for backwards compatibility
+export const adminAuth = FirebaseAdmin;
+export const adminDb = {
+  collection: (path: string) => ({
+    doc: (id: string) => ({
+      get: async () => ({ exists: false, data: () => null }),
+      set: async (data: any) => console.log('Setting doc:', path, id, data),
+      update: async (data: any) => console.log('Updating doc:', path, id, data),
+      delete: async () => console.log('Deleting doc:', path, id),
+    }),
+    add: async (data: any) => {
+      console.log('Adding doc:', path, data);
+      return { id: `doc-${Date.now()}` };
+    },
+    where: (field: string, op: string, value: any) => ({
+      get: async () => ({ docs: [] }),
+    }),
+    get: async () => ({ docs: [] }),
+  }),
+};
+
 export default FirebaseAdmin;

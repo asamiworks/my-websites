@@ -1,10 +1,26 @@
 // 共通型定義とAPIレスポンス
 export * from './user';
-export * from './chat';
 export * from './safety';
-export * from './subscription';
-export * from './usage';
 export * from './suggestions';
+
+// Export specific types to avoid conflicts
+export { ChatMessage, Chat, ChatMetadata } from './chat';
+export {
+  Plan as SubscriptionPlanInterface,
+  PlanFeatures,
+  PlanLimits,
+  Subscription,
+  Invoice as BillingHistory
+} from './subscription';
+export {
+  UsageStats,
+  TokenUsage,
+  UsageLimit,
+  DailyUsage,
+  MonthlyUsage,
+  Plan as PlanType,
+  AIModel as AIModelType
+} from './usage';
 
 // 共通の型定義
 export interface ApiResponse<T = any> {

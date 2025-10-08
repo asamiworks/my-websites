@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useProfileStore } from '@/stores/profileStore';
 import { getAvatarEmoji } from '@/lib/firebase/children';
 import { Button } from '@/components/ui/button';
-import type { Child } from '@/types/children';
+import type { Child } from '@/types';
 
 export default function LearningPage() {
   const router = useRouter();

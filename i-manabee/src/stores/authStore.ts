@@ -13,6 +13,7 @@ interface AuthState {
   firebaseUser: FirebaseUser | null;
   userData: User | null;
   currentChild: Child | null;
+  user: FirebaseUser | null; // Legacy support
 
   // エラー状態
   error: string | null;
@@ -24,6 +25,7 @@ interface AuthState {
   setError: (error: string | null) => void;
   clearAuth: () => void;
   updateUserData: (updates: Partial<User>) => void;
+  logout: () => void; // Legacy support
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -35,6 +37,7 @@ export const useAuthStore = create<AuthState>()(
       firebaseUser: null,
       userData: null,
       currentChild: null,
+      user: null,
       error: null,
 
       // ローディング状態の設定
@@ -45,6 +48,7 @@ export const useAuthStore = create<AuthState>()(
       setUser: (firebaseUser: FirebaseUser | null, userData?: User | null) =>
         set({
           firebaseUser,
+          user: firebaseUser, // Legacy support
           userData: userData ?? null,
           isAuthenticated: !!firebaseUser,
           isLoading: false,
@@ -70,10 +74,16 @@ export const useAuthStore = create<AuthState>()(
           isLoading: false,
           isAuthenticated: false,
           firebaseUser: null,
+          user: null,
           userData: null,
           currentChild: null,
           error: null
         }),
+
+      // ログアウト (Legacy support)
+      logout: () => {
+        get().clearAuth();
+      },
 
       // ユーザーデータ更新
       updateUserData: (updates: Partial<User>) =>

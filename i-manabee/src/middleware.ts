@@ -258,6 +258,11 @@ function getPathType(pathname: string): string {
 
 // 認証が必要なページの判定
 function requiresAuthentication(pathname: string): boolean {
+  // 開発環境では認証チェックを無効化（Firebase クライアント認証に依存）
+  if (process.env.NODE_ENV === 'development') {
+    return false;
+  }
+
   const protectedPaths = [
     '/dashboard',
     '/chat',

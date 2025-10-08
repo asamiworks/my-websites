@@ -17,6 +17,7 @@ interface MessageInputProps {
   isLoading: boolean;
   disabled?: boolean;
   placeholder?: string;
+  maxLength?: number;
   plan: string;
   ageGroup: 'junior' | 'middle' | 'senior';
   usageStats?: UsageStats | null;
@@ -28,6 +29,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   isLoading,
   disabled = false,
   placeholder,
+  maxLength = 1000,
   plan,
   ageGroup,
   usageStats,

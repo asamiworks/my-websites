@@ -9,7 +9,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui';
 import { useAuthStore } from '@/stores/authStore';
 import { getFirebaseAuth, getFirebaseFirestore } from '@/lib/firebase/config';
 

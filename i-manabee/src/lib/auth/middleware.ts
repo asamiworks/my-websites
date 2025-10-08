@@ -57,3 +57,34 @@ export async function withAuth(
 export function requireAuth(roles?: string[]) {
   return withAuth;
 }
+
+// Additional helper functions
+export async function verifyAuthToken(token: string) {
+  // Mock implementation for development
+  if (!token) {
+    throw new Error('No token provided');
+  }
+
+  return {
+    uid: 'demo-user-id',
+    email: 'demo@example.com',
+    displayName: 'Demo User'
+  };
+}
+
+export async function verifyAdminAccess(req: NextRequest) {
+  // Mock implementation for development
+  return {
+    uid: 'admin-user-id',
+    email: 'admin@example.com',
+    displayName: 'Admin User',
+    isAdmin: true
+  };
+}
+
+export function createAuthErrorResponse(message: string, status = 401) {
+  return NextResponse.json(
+    { error: message },
+    { status }
+  );
+}

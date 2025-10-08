@@ -9,9 +9,9 @@ import { useAuthStore } from '@/stores/authStore';
 import { useChildren } from '@/hooks/useChildren';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Alert } from '@/components/ui/Alert';
+import { Alert } from '@/components/ui';
 import { AvatarSelector } from '@/components/profile/AvatarSelector';
-import type { Child, AvatarType, CreateChildData, UpdateChildData } from '@/types/children';
+import type { Child, AvatarType, CreateChildData, UpdateChildData } from '@/types';
 
 // バリデーションスキーマ
 const childFormSchema = z.object({

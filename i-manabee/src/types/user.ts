@@ -2,9 +2,11 @@
 export interface User {
   id: string;
   email: string;
+  displayName?: string;
   plan: 'free' | 'kids' | 'friends' | 'premium';
-  createdAt: string;
-  lastLogin: string;
+  planType?: 'free' | 'kids' | 'friends' | 'premium'; // Alias for backward compatibility
+  createdAt: string | any; // Firestore Timestamp or string
+  lastLogin: string | any; // Firestore Timestamp or string
   consents: UserConsents;
   settings: UserSettings;
   payment?: PaymentInfo;
@@ -13,20 +15,24 @@ export interface User {
 export interface UserConsents {
   terms: {
     accepted: boolean;
-    timestamp: string;
+    timestamp: string | any; // Firestore Timestamp or string
+    version?: string;
   };
   privacy: {
     accepted: boolean;
-    timestamp: string;
+    timestamp: string | any; // Firestore Timestamp or string
+    version?: string;
   };
   coppa?: {
     accepted: boolean;
-    timestamp: string;
-    parentEmail: string;
+    timestamp: string | any; // Firestore Timestamp or string
+    parentEmail?: string;
+    version?: string;
   };
   voiceInput?: {
     accepted: boolean;
-    timestamp: string;
+    timestamp: string | any; // Firestore Timestamp or string
+    version?: string;
   };
 }
 
@@ -35,6 +41,7 @@ export interface UserSettings {
   weeklyReports: boolean;
   safetyAlerts: boolean;
   emergencyContact?: string;
+  language?: 'ja' | 'en'; // 将来の多言語対応
 }
 
 export interface PaymentInfo {
