@@ -114,3 +114,4 @@ export {
   DropdownMenuContent,
   DropdownMenuItem
 } from './dropdown-menu';
+export { Progress } from './progress';
