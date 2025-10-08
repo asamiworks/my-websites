@@ -31,14 +31,46 @@ export interface PlanLimits {
 export interface Subscription {
   id: string;
   userId: string;
-  planId: string;
-  status: 'active' | 'canceled' | 'past_due' | 'unpaid';
-  currentPeriodStart: string;
-  currentPeriodEnd: string;
+  planId?: string;
+  plan?: 'free' | 'kids' | 'friends' | 'premium';
+  status: 'active' | 'canceled' | 'past_due' | 'unpaid' | 'trialing' | 'incomplete';
+  currentPeriodStart: {
+    seconds: number;
+    nanoseconds: number;
+  } | string;
+  currentPeriodEnd: {
+    seconds: number;
+    nanoseconds: number;
+  } | string;
   cancelAtPeriodEnd: boolean;
   stripeSubscriptionId?: string;
-  createdAt: string;
-  updatedAt: string;
+  stripeCustomerId?: string;
+  stripePriceId?: string;
+  createdAt: string | {
+    seconds: number;
+    nanoseconds: number;
+  };
+  updatedAt: string | {
+    seconds: number;
+    nanoseconds: number;
+  };
+}
+
+export interface Invoice {
+  id: string;
+  userId: string;
+  stripeInvoiceId: string;
+  amount: number;
+  currency: string;
+  status: 'draft' | 'open' | 'paid' | 'uncollectible' | 'void';
+  period: {
+    start: Date;
+    end: Date;
+  };
+  paidAt?: Date;
+  dueDate: Date;
+  url?: string;
+  createdAt: Date;
 }
 
 export interface UsageStats {
