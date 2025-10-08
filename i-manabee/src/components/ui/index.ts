@@ -11,30 +11,14 @@ export {
   type ButtonProps
 } from './Button';
 
-// Card Components
+// Card Components (shadcn-style)
 export {
   Card,
   CardHeader,
-  CardBody,
-  CardFooter,
-  JuniorCard,
-  MiddleCard,
-  SeniorCard,
-  PlanCard,
-  type CardProps,
-  type CardHeaderProps,
-  type CardBodyProps,
-  type CardFooterProps
-} from './Card';
-
-// Card Components (shadcn-style)
-export {
-  Card as CardShadcn,
-  CardHeader as CardHeaderShadcn,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter as CardFooterShadcn
+  CardFooter
 } from './card';
 
 // Modal Components
@@ -56,21 +40,9 @@ export {
   type AlertModalProps
 } from './Modal';
 
-// Alert Components
-export {
-  Alert,
-  ManabeeAlert,
-  JuniorAlert,
-  MiddleAlert,
-  SeniorAlert,
-  SafetyAlert,
-  type AlertProps,
-  type SafetyAlertProps
-} from './Alert';
-
 // Alert Components (shadcn-style)
 export {
-  Alert as AlertShadcn,
+  Alert,
   AlertDescription
 } from './alert';
 
