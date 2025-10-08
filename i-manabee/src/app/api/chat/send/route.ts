@@ -2,14 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminAuth, adminDb } from '@/lib/firebase/admin';
 import { generateAIResponse, getModelConfig } from '@/lib/ai/openai';
-import {
-  checkUsageLimit,
-  calculateCost,
-  validateMessageLength,
-  generateLimitWarning,
-  PLAN_LIMITS
-} from '@/lib/ai/tokenCounter';
-import { countTokensAccurate } from '@/lib/ai/serverTokenCounter';
+import { checkUsageLimits } from '@/lib/usage/limiter';
+import { recordUsage } from '@/lib/usage/tracker';
+import { countMessageTokens } from '@/lib/usage/tokenCounter';
 import { authenticateWithRateLimit, createAuthErrorResponse } from '@/lib/auth/middleware';
 import { z } from 'zod';
 
@@ -101,35 +96,24 @@ export async function POST(request: NextRequest) {
     const userData = userDoc.data();
     const plan = userData?.plan || 'free';
 
-    // メッセージ長さチェック
-    const lengthCheck = validateMessageLength(message, plan);
-    if (!lengthCheck.valid) {
-      return NextResponse.json(
-        { error: lengthCheck.error },
-        { status: 400 }
-      );
-    }
+    // AIモデル選択（プランベース）
+    const modelConfig = getModelConfig(childData.ageGroup, plan);
+    const aiModel = modelConfig.model || 'gpt-4o-mini';
 
-    // 現在の使用状況を取得
-    const usageStats = await getCurrentUsageStats(userId);
+    // 使用制限チェック（新しいシステム）
+    const limitCheck = await checkUsageLimits(
+      userId,
+      message,
+      aiModel,
+      plan
+    );
 
-    // 使用制限チェック（サーバーサイドで正確にカウント）
-    const inputTokens = countTokensAccurate(message, 'gpt-3.5-turbo');
-    const estimatedTokens = inputTokens * 2; // レスポンス分も考慮
-    const limitCheck = checkUsageLimit(usageStats, plan, estimatedTokens);
-
-    if (!limitCheck.canProceed) {
-      const warningMessage = generateLimitWarning(
-        limitCheck.limitType || 'daily_tokens',
-        plan,
-        childData.ageGroup
-      );
-
+    if (!limitCheck.allowed) {
       return NextResponse.json(
         {
-          error: warningMessage,
-          limitType: limitCheck.limitType,
-          remaining: limitCheck.remaining,
+          error: limitCheck.reason,
+          remainingMessages: limitCheck.remainingMessages,
+          remainingTokens: limitCheck.remainingTokens,
           resetTime: limitCheck.resetTime
         },
         { status: 429 }
@@ -149,9 +133,8 @@ export async function POST(request: NextRequest) {
       .reverse(); // 古い順に並び替え
 
     // AI設定の構築
-    const modelConfig = getModelConfig(childData.ageGroup, plan);
     const aiConfig = {
-      model: modelConfig.model || 'gpt-3.5-turbo',
+      model: aiModel,
       maxTokens: modelConfig.maxTokens || 500,
       temperature: modelConfig.temperature || 0.7,
       ageGroup: childData.ageGroup,
@@ -178,11 +161,13 @@ export async function POST(request: NextRequest) {
     // AI応答の生成
     const aiResponse = await generateAIResponse(messages, aiConfig);
 
-    // トークン使用量とコストの計算
+    // トークン使用量の計算
     const promptTokens = aiResponse.tokens.prompt;
     const completionTokens = aiResponse.tokens.completion;
     const totalTokens = aiResponse.tokens.total;
-    const cost = calculateCost(promptTokens, completionTokens, aiResponse.model);
+
+    // コスト計算（簡易版）
+    const cost = totalTokens * 0.001; // 仮の計算式
 
     // データベースに保存
     const timestamp = new Date();
@@ -198,7 +183,7 @@ export async function POST(request: NextRequest) {
       role: 'user',
       content: message,
       timestamp,
-      tokens: lengthCheck.tokensUsed,
+      tokens: countMessageTokens(message, aiModel),
       metadata: {
         ageGroup: childData.ageGroup,
         safetyLevel: childData.settings?.safetyLevel
@@ -227,30 +212,9 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // 使用状況の更新
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const month = new Date(today.getFullYear(), today.getMonth(), 1);
-
-    // 日次使用状況
-    const dailyUsageRef = adminDb.collection('usage_daily').doc(`${userId}_${today.toISOString().split('T')[0]}`);
-    batch.set(dailyUsageRef, {
-      userId,
-      date: today,
-      tokens: (usageStats.todayTokens || 0) + totalTokens,
-      messages: (usageStats.todayMessages || 0) + 1,
-      cost: (usageStats.costToday || 0) + cost
-    }, { merge: true });
-
-    // 月次使用状況
-    const monthlyUsageRef = adminDb.collection('usage_monthly').doc(`${userId}_${month.toISOString().split('T')[0]}`);
-    batch.set(monthlyUsageRef, {
-      userId,
-      month,
-      tokens: (usageStats.monthlyTokens || 0) + totalTokens,
-      messages: (usageStats.monthlyMessages || 0) + 1,
-      cost: (usageStats.costMonthly || 0) + cost
-    }, { merge: true });
+    // 新しい使用量記録システムで記録
+    const subject = 'general'; // TODO: 教科判定ロジックを追加
+    await recordUsage(userId, message, aiModel, subject, cost);
 
     // 子どもプロファイルの統計更新
     batch.update(adminDb.collection('child_profiles').doc(childId), {
@@ -316,15 +280,12 @@ export async function POST(request: NextRequest) {
       safetyScore: aiResponse.safetyScore,
       suggestions: aiResponse.suggestions || [],
       usage: {
-        todayTokens: (usageStats.todayTokens || 0) + totalTokens,
-        todayMessages: (usageStats.todayMessages || 0) + 1,
-        monthlyTokens: (usageStats.monthlyTokens || 0) + totalTokens,
-        monthlyMessages: (usageStats.monthlyMessages || 0) + 1
+        remainingMessages: limitCheck.remainingMessages,
+        remainingTokens: limitCheck.remainingTokens,
+        resetTime: limitCheck.resetTime
       },
       cost: {
-        thisMessage: cost,
-        today: (usageStats.costToday || 0) + cost,
-        monthly: (usageStats.costMonthly || 0) + cost
+        thisMessage: cost
       }
     });
 
@@ -375,33 +336,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// 現在の使用状況を取得する関数
-async function getCurrentUsageStats(userId: string) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const month = new Date(today.getFullYear(), today.getMonth(), 1);
-
-  // 日次使用状況
-  const dailyUsageDoc = await adminDb.collection('usage_daily')
-    .doc(`${userId}_${today.toISOString().split('T')[0]}`)
-    .get();
-
-  // 月次使用状況
-  const monthlyUsageDoc = await adminDb.collection('usage_monthly')
-    .doc(`${userId}_${month.toISOString().split('T')[0]}`)
-    .get();
-
-  const dailyData = dailyUsageDoc.data() || {};
-  const monthlyData = monthlyUsageDoc.data() || {};
-
-  return {
-    todayTokens: dailyData.tokens || 0,
-    monthlyTokens: monthlyData.tokens || 0,
-    todayMessages: dailyData.messages || 0,
-    monthlyMessages: monthlyData.messages || 0,
-    remainingTokens: 0, // 計算は呼び出し側で
-    remainingMessages: 0, // 計算は呼び出し側で
-    costToday: dailyData.cost || 0,
-    costMonthly: monthlyData.cost || 0
-  };
-}

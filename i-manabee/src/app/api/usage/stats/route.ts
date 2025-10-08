@@ -1,7 +1,7 @@
 // 使用状況統計API
 import { NextRequest, NextResponse } from 'next/server';
 import { adminAuth, adminDb } from '@/lib/firebase/admin';
-import { PLAN_LIMITS } from '@/lib/ai/tokenCounter';
+import { getUserUsageStats } from '@/lib/usage/limiter';
 
 export async function GET(request: NextRequest) {
   try {
@@ -29,50 +29,9 @@ export async function GET(request: NextRequest) {
 
     const userData = userDoc.data();
     const plan = userData?.plan || 'free';
-    const limits = PLAN_LIMITS[plan];
 
-    // 今日と今月の日付を計算
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const month = new Date(today.getFullYear(), today.getMonth(), 1);
-
-    // 日次使用状況を取得
-    const dailyUsageDoc = await adminDb.collection('usage_daily')
-      .doc(`${userId}_${today.toISOString().split('T')[0]}`)
-      .get();
-
-    // 月次使用状況を取得
-    const monthlyUsageDoc = await adminDb.collection('usage_monthly')
-      .doc(`${userId}_${month.toISOString().split('T')[0]}`)
-      .get();
-
-    const dailyData = dailyUsageDoc.data() || {};
-    const monthlyData = monthlyUsageDoc.data() || {};
-
-    // 使用状況統計を構築
-    const stats = {
-      todayTokens: dailyData.tokens || 0,
-      monthlyTokens: monthlyData.tokens || 0,
-      todayMessages: dailyData.messages || 0,
-      monthlyMessages: monthlyData.messages || 0,
-      remainingTokens: Math.max(0, limits.dailyTokens - (dailyData.tokens || 0)),
-      remainingMessages: Math.max(0, limits.dailyMessages - (dailyData.messages || 0)),
-      costToday: dailyData.cost || 0,
-      costMonthly: monthlyData.cost || 0,
-      limits: {
-        dailyTokens: limits.dailyTokens,
-        monthlyTokens: limits.monthlyTokens,
-        dailyMessages: limits.dailyMessages,
-        monthlyMessages: limits.monthlyMessages
-      },
-      plan,
-      percentages: {
-        dailyTokens: Math.round(((dailyData.tokens || 0) / limits.dailyTokens) * 100),
-        monthlyTokens: Math.round(((monthlyData.tokens || 0) / limits.monthlyTokens) * 100),
-        dailyMessages: Math.round(((dailyData.messages || 0) / limits.dailyMessages) * 100),
-        monthlyMessages: Math.round(((monthlyData.messages || 0) / limits.monthlyMessages) * 100)
-      }
-    };
+    // 新しい使用量システムから統計取得
+    const stats = await getUserUsageStats(userId, plan);
 
     return NextResponse.json(stats);
 
