@@ -90,13 +90,29 @@ export function MenuCard({
       {price && (
         <div className="mt-auto pt-4 border-t border-greige-100">
           {price.monitor && (
-            <p className="text-sm text-amber-600 mb-1">
-              モニター価格: ¥{price.monitor.toLocaleString()}
-            </p>
+            <div className="mb-2">
+              <p className="text-xs text-greige-500 mb-1">モニター価格（2回セット）</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-greige-400 line-through">
+                  ¥{price.regular?.toLocaleString()}
+                </p>
+                <p className="text-lg font-medium text-amber-600">
+                  ¥{price.monitor.toLocaleString()}
+                </p>
+              </div>
+            </div>
           )}
-          {price.regular && (
-            <p className="text-lg font-medium text-greige-800">
-              ¥{price.regular.toLocaleString()}
+          {price.regular && !price.monitor && (
+            <div>
+              <p className="text-xs text-greige-500 mb-1">通常価格</p>
+              <p className="text-lg font-medium text-greige-800">
+                ¥{price.regular.toLocaleString()}
+              </p>
+            </div>
+          )}
+          {price.regular && price.monitor && (
+            <p className="text-xs text-greige-500 mt-2">
+              通常価格: ¥{price.regular.toLocaleString()}
             </p>
           )}
         </div>

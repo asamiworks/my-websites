@@ -4,67 +4,12 @@ import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import { LineButton } from '@/components/ui/Button'
 import { ChevronRight, Info, Gift, Calendar, CreditCard, AlertCircle } from 'lucide-react'
+import { pricingData, monitorConditions } from '@/data/pricingData'
 
 export default function PricingPage() {
-  const beautyMenus = [
-    {
-      name: '眉毛アートメイク',
-      description: '自然な毛並みを再現し、理想の眉を実現',
-      prices: {
-        regular: 55000,
-        monitor: 44000,
-        retouch: 40000,
-        retouchWithinYear: 38000,
-      },
-      note: 'リタッチは3回目以降の料金です',
-    },
-    {
-      name: 'リップアートメイク',
-      description: '血色感のある美しい唇を演出',
-      prices: {
-        regular: 55000,
-        monitor: 44000,
-        retouch: 40000,
-        retouchWithinYear: 38000,
-      },
-      note: 'リタッチは3回目以降の料金です',
-    },
-  ]
+  const beautyMenus = pricingData.filter(item => item.category === 'beauty')
 
-  const paramedicalMenus = [
-    {
-      name: '傷痕',
-      description: '事故や手術による傷痕を目立たなくします',
-      prices: [
-        { size: '1×1cm', price: 12000 },
-        { size: '2×2cm', price: 22000 },
-        { size: '3×3cm', price: 30000 },
-      ],
-    },
-    {
-      name: '白斑',
-      description: '白斑部分を自然な肌色でカバー',
-      prices: [
-        { size: '5×5cm', price: 30000 },
-        { size: 'リタッチ（2ヶ月以内）', price: 14000 },
-      ],
-    },
-    {
-      name: '口唇口蓋裂',
-      description: '口唇口蓋裂の手術痕を自然にカバー',
-      prices: [
-        { size: '1回', price: 30000 },
-      ],
-    },
-    {
-      name: 'ストレッチマーク',
-      description: '妊娠線や肉割れを目立たなくします',
-      prices: [
-        { size: '5×9cm（名刺サイズ）', price: 15000 },
-        { size: '10×15cm（ハガキサイズ）', price: 33000 },
-      ],
-    },
-  ]
+  const paramedicalMenus = pricingData.filter(item => item.category === 'paramedical')
 
   const paymentMethods = ['現金', 'クレジットカード']
 
@@ -123,69 +68,66 @@ export default function PricingPage() {
               {beautyMenus.map((menu) => (
                 <Card key={menu.name} hover className="relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-greige-50 rounded-full -translate-y-16 translate-x-16 opacity-50" />
-                  
-                  <h3 className="text-xl font-medium text-greige-800 mb-2">{menu.name}</h3>
-                  <p className="text-sm text-greige-600 mb-6">{menu.description}</p>
-                  
+
+                  <h3 className="text-xl font-medium text-greige-800 mb-6">{menu.name}</h3>
+
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-greige-100">
-                      <span className="text-greige-700">通常価格（1回）</span>
-                      <span className="text-xl font-medium text-greige-800">
-                        ¥{menu.prices.regular.toLocaleString()}
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b border-greige-100">
-                      <span className="text-greige-700 flex items-center">
-                        モニター価格（1回）
-                        <Gift className="w-4 h-4 ml-1 text-amber-500" />
-                      </span>
-                      <span className="text-xl font-medium text-amber-600">
-                        ¥{menu.prices.monitor.toLocaleString()}
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b border-greige-100">
-                      <span className="text-greige-700">リタッチ（3回目〜）</span>
-                      <span className="text-lg text-greige-700">
-                        ¥{menu.prices.retouch.toLocaleString()}
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-greige-700">リタッチ（1年以内）</span>
-                      <span className="text-lg text-greige-700">
-                        ¥{menu.prices.retouchWithinYear.toLocaleString()}
-                      </span>
-                    </div>
+                    {menu.prices.map((priceItem, index) => (
+                      <div key={index} className="flex justify-between items-center py-2 border-b border-greige-100 last:border-0">
+                        <span className="text-greige-700">
+                          {priceItem.size}
+                          {priceItem.monitor && (
+                            <Gift className="w-4 h-4 ml-1 text-amber-500 inline" />
+                          )}
+                        </span>
+                        <div className="text-right">
+                          {priceItem.monitor ? (
+                            <div className="space-y-1">
+                              <div className="text-sm text-greige-400 line-through">
+                                ¥{priceItem.regular?.toLocaleString()}
+                              </div>
+                              <div className="text-xl font-medium text-amber-600">
+                                ¥{priceItem.monitor.toLocaleString()}
+                              </div>
+                            </div>
+                          ) : (
+                            <span className="text-lg font-medium text-greige-800">
+                              ¥{priceItem.regular?.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  
-                  {menu.note && (
-                    <p className="mt-4 text-xs text-greige-500 flex items-start">
-                      <Info className="w-3 h-3 mr-1 mt-0.5 flex-shrink-0" />
-                      {menu.note}
-                    </p>
-                  )}
                 </Card>
               ))}
             </div>
 
             {/* モニター条件 */}
-            <div className="mt-8 bg-amber-50 rounded-2xl p-6 lg:p-8">
-              <h3 className="text-lg font-medium text-greige-800 mb-4 flex items-center">
-                <Gift className="w-5 h-5 text-amber-500 mr-2" />
-                モニター条件
-              </h3>
-              <ul className="space-y-2 text-sm text-greige-600">
-                <li className="flex items-start">
-                  <span className="text-amber-500 mr-2">①</span>
-                  全顔お写真のSNS掲載にご協力いただける方
-                </li>
-                <li className="flex items-start">
-                  <span className="text-amber-500 mr-2">②</span>
-                  2回目施術にご来院いただける方
-                </li>
-              </ul>
+            <div className="mt-8 bg-gradient-to-br from-amber-50 via-cream to-greige-50 rounded-2xl p-6 lg:p-8 border border-amber-100 shadow-sm">
+              <div className="flex items-center mb-6">
+                <div className="bg-amber-500 text-white rounded-full p-2 mr-3">
+                  <Gift className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-medium text-greige-800">
+                  モニター価格適用条件
+                </h3>
+              </div>
+              <div className="bg-white/60 rounded-xl p-4 lg:p-5 backdrop-blur-sm">
+                <ul className="space-y-3">
+                  {monitorConditions.map((condition, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="flex-shrink-0 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
+                        {index + 1}
+                      </span>
+                      <span className="text-greige-700 leading-relaxed">{condition}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <p className="mt-4 text-xs text-greige-500 text-center">
+                ※モニター条件を満たさない場合は、通常価格となります
+              </p>
             </div>
           </div>
         </div>
@@ -202,15 +144,14 @@ export default function PricingPage() {
             <div className="grid md:grid-cols-2 gap-6">
               {paramedicalMenus.map((menu) => (
                 <Card key={menu.name} className="bg-white">
-                  <h3 className="text-xl font-medium text-greige-800 mb-2">{menu.name}</h3>
-                  <p className="text-sm text-greige-600 mb-4">{menu.description}</p>
-                  
+                  <h3 className="text-xl font-medium text-greige-800 mb-4">{menu.name}</h3>
+
                   <div className="space-y-2">
                     {menu.prices.map((item, index) => (
                       <div key={index} className="flex justify-between items-center py-2 border-b border-greige-100 last:border-0">
                         <span className="text-greige-700 text-sm">{item.size}</span>
                         <span className="text-lg font-medium text-greige-800">
-                          ¥{item.price.toLocaleString()}
+                          ¥{item.regular?.toLocaleString()}
                         </span>
                       </div>
                     ))}

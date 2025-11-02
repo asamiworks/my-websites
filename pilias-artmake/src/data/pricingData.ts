@@ -20,13 +20,27 @@ export interface PriceItem {
       name: '眉毛アートメイク',
       prices: [
         {
-          regular: 55000,
-          monitor: 44000,
-          retouch: 40000,
-          retouchWithinYear: 38000,
+          size: '2回セット',
+          regular: 98000,
+        },
+        {
+          size: '1回',
+          regular: 54000,
+        },
+        {
+          size: 'モニター料金（2回セット）',
+          regular: 98000,
+          monitor: 88000,
+        },
+        {
+          size: '3回目以降のリタッチ',
+          regular: 40000,
+        },
+        {
+          size: '3回目以降のリタッチ（1年以内）',
+          regular: 35000,
         },
       ],
-      note: 'リタッチは3回目以降の料金です',
     },
     {
       id: 'lip',
@@ -34,13 +48,27 @@ export interface PriceItem {
       name: 'リップアートメイク',
       prices: [
         {
-          regular: 55000,
-          monitor: 44000,
-          retouch: 40000,
-          retouchWithinYear: 38000,
+          size: '2回セット',
+          regular: 98000,
+        },
+        {
+          size: '1回',
+          regular: 54000,
+        },
+        {
+          size: 'モニター料金（2回セット）',
+          regular: 98000,
+          monitor: 88000,
+        },
+        {
+          size: '3回目以降のリタッチ',
+          regular: 40000,
+        },
+        {
+          size: '3回目以降のリタッチ（1年以内）',
+          regular: 35000,
         },
       ],
-      note: 'リタッチは3回目以降の料金です',
     },
   
     // パラメディカルアートメイク
@@ -84,8 +112,8 @@ export interface PriceItem {
   
   // モニター条件
   export const monitorConditions = [
-    '全顔お写真のSNS掲載にご協力いただける方',
-    '2回目施術にご来院いただける方',
+    '全顔お写真掲載OK',
+    '3ヶ月以内に2回目施術でご来院',
   ]
   
   // パラメディカルアートメイクの注意事項

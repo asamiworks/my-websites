@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { MenuCard } from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
-import { ArrowRight, Heart, Shield } from 'lucide-react'
+import { ArrowRight, Heart, Shield, Gift, AlertCircle } from 'lucide-react'
 
 // メニューアイテムの型定義
 interface MenuItem {
@@ -87,10 +87,10 @@ export default function MenuCards() {
       title: '眉毛アートメイク',
       description: '自然な毛並みを1本1本手彫りで描き、理想の眉を24時間キープ。朝のメイク時間を大幅に短縮できます。',
       price: {
-        regular: 55000,
-        monitor: 44000,
+        regular: 98000,
+        monitor: 88000,
         retouch: 40000,
-        retouchWithinYear: 38000,
+        retouchWithinYear: 35000,
       },
       href: '/artmake-features/eyebrow',
     },
@@ -98,10 +98,10 @@ export default function MenuCards() {
       title: 'リップアートメイク',
       description: '唇の色と形を美しく整え、血色感のある魅力的な唇を演出。自然で健康的な唇の色を保ちます。',
       price: {
-        regular: 55000,
-        monitor: 44000,
+        regular: 98000,
+        monitor: 88000,
         retouch: 40000,
-        retouchWithinYear: 38000,
+        retouchWithinYear: 35000,
       },
       href: '/artmake-features/lip',
     },
@@ -215,26 +215,36 @@ export default function MenuCards() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
           {activeTab === 'beauty' ? (
-            <div className="bg-gradient-to-br from-greige-50 to-white rounded-2xl p-6 lg:p-8 shadow-md">
-              <h3 className="text-lg font-medium text-greige-800 mb-4 flex items-center">
-                <span className="w-2 h-2 bg-greige-400 rounded-full mr-3" />
-                モニター条件
-              </h3>
-              <ul className="space-y-2 text-sm text-greige-600 mb-4">
-                <li className="flex items-start">
-                  <span className="text-greige-400 mr-2">①</span>
-                  全顔お写真のSNS掲載にご協力いただける方
-                </li>
-                <li className="flex items-start">
-                  <span className="text-greige-400 mr-2">②</span>
-                  2回目施術にご来院いただける方
-                </li>
-              </ul>
-              <div className="mt-4 pt-4 border-t border-greige-100">
-                <p className="text-sm text-greige-600">
-                  <span className="font-medium">リタッチ料金：</span>
-                  3回目以降 ¥40,000 / 1年以内なら ¥38,000
-                </p>
+            <div className="bg-gradient-to-br from-amber-50 via-cream to-greige-50 rounded-2xl p-6 lg:p-8 border border-amber-100 shadow-md">
+              <div className="flex items-center mb-6">
+                <div className="bg-amber-500 text-white rounded-full p-2 mr-3">
+                  <Gift className="w-5 h-5" />
+                </div>
+                <h3 className="text-lg font-medium text-greige-800">
+                  モニター価格適用条件
+                </h3>
+              </div>
+              <div className="bg-white/60 rounded-xl p-4 lg:p-5 backdrop-blur-sm">
+                <ul className="space-y-3 mb-4">
+                  <li className="flex items-start">
+                    <span className="flex-shrink-0 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
+                      1
+                    </span>
+                    <span className="text-greige-700 leading-relaxed">全顔お写真掲載OK</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="flex-shrink-0 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
+                      2
+                    </span>
+                    <span className="text-greige-700 leading-relaxed">3ヶ月以内に2回目施術でご来院</span>
+                  </li>
+                </ul>
+                <div className="mt-4 pt-4 border-t border-greige-200">
+                  <p className="text-sm text-greige-700">
+                    <span className="font-medium">リタッチ料金：</span>
+                    3回目以降 ¥40,000 / 3回目以降（1年以内）¥35,000
+                  </p>
+                </div>
               </div>
             </div>
           ) : (
