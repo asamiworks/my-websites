@@ -16,7 +16,7 @@ export default function AccessPage() {
             <div className={styles.infoBlock}>
               <h2 className={styles.sectionTitle}>所在地</h2>
               <p className={styles.address}>
-                〒301-0847<br />
+                〒301-0853<br />
                 茨城県龍ケ崎市松ヶ丘4丁目4番1号
               </p>
             </div>

@@ -77,7 +77,7 @@ const jsonLd = {
     streetAddress: '松ヶ丘4丁目4番1号',
     addressLocality: '龍ケ崎市',
     addressRegion: '茨城県',
-    postalCode: '301-0847',
+    postalCode: '301-0853',
     addressCountry: 'JP'
   },
   geo: {

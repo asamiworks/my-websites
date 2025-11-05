@@ -20,7 +20,7 @@ export default function AboutPage() {
             </div>
             <div className={styles.infoItem}>
               <span className={styles.label}>所在地</span>
-              <span className={styles.value}>〒301-0847 茨城県龍ケ崎市松ヶ丘4丁目4番1号</span>
+              <span className={styles.value}>〒301-0853 茨城県龍ケ崎市松ヶ丘4丁目4番1号</span>
             </div>
             <div className={styles.infoItem}>
               <span className={styles.label}>創業</span>
@@ -32,7 +32,7 @@ export default function AboutPage() {
             </div>
             <div className={styles.infoItem}>
               <span className={styles.label}>資本金</span>
-              <span className={styles.value}>3,000万円</span>
+              <span className={styles.value}>2,000万円</span>
             </div>
             <div className={styles.infoItem}>
               <span className={styles.label}>従業員数</span>
