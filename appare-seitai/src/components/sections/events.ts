@@ -53,7 +53,7 @@ export function initEvents(): void {
   const campaignTitle = '冬の特別キャンペーン';
 
   // キャンペーン期間
-  const campaignStartDate = new Date('2025-11-01T00:00:00');  // 開始日時
+  const campaignStartDate = new Date('2025-11-10T00:00:00');  // 開始日時
   const campaignEndDate = new Date('2026-02-28T23:59:59');    // 終了日時
 
   // キャンペーン画像のパス（1076×1522px）
