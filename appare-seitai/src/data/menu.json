@@ -10,7 +10,7 @@
           "id": "chiro-45",
           "name": "45分＋矯正",
           "duration": 45,
-          "price": 4300,
+          "price": 4500,
           "description": "基本的な施術と矯正のセット",
           "popular": true
         },
@@ -18,48 +18,29 @@
           "id": "chiro-60",
           "name": "60分＋矯正",
           "duration": 60,
-          "price": 5500,
+          "price": 5800,
           "description": "じっくりと体をほぐしてから矯正を行います"
         }
       ]
     },
     {
       "id": "massage",
-      "name": "ほぐしのみ",
+      "name": "全身ほぐし",
       "description": "疲れた体をしっかりとほぐします",
       "items": [
         {
           "id": "massage-45",
           "name": "45分",
           "duration": 45,
-          "price": 3300,
+          "price": 4000,
           "description": "気になる部分を中心にほぐします"
         },
         {
           "id": "massage-60",
           "name": "60分",
           "duration": 60,
-          "price": 4400,
+          "price": 4800,
           "description": "全身をしっかりとほぐします"
-        }
-      ]
-    },
-    {
-      "id": "adjustment",
-      "name": "矯正",
-      "description": "体の歪みを整えます",
-      "items": [
-        {
-          "id": "adjustment-partial",
-          "name": "部分",
-          "price": 700,
-          "description": "気になる部分のみの矯正"
-        },
-        {
-          "id": "adjustment-full",
-          "name": "全身",
-          "price": 1200,
-          "description": "全身の矯正を行います"
         }
       ]
     },
@@ -71,9 +52,16 @@
         {
           "id": "postnatal-care",
           "name": "産後骨盤矯正",
-          "price": 3500,
+          "price": 4000,
           "description": "産後の骨盤の歪みを整え、体型の回復をサポートします",
           "note": "産後2ヶ月〜9ヶ月まで"
+        },
+        {
+          "id": "postnatal-childcare",
+          "name": "子どもお預かり",
+          "price": 1000,
+          "description": "産後骨盤矯正施術中のお子様のお預かり",
+          "note": "産後骨盤矯正に追加"
         }
       ]
     },
@@ -86,42 +74,36 @@
           "id": "student-elementary",
           "name": "小中高生",
           "duration": "30-40",
-          "price": 2500,
+          "price": 3000,
           "description": "小学生・中学生・高校生対象"
-        },
-        {
-          "id": "student-college",
-          "name": "大学・専門生",
-          "duration": "30-40",
-          "price": 3500,
-          "description": "大学生・専門学生対象（学生証をご提示ください）"
         },
         {
           "id": "senior",
           "name": "シニア（70歳以上）",
           "duration": "30-40",
-          "price": 3100,
+          "price": 3500,
           "description": "70歳以上の方対象"
         }
       ]
     },
     {
       "id": "lymph",
-      "name": "リンパドレナージュ",
+      "name": "リンパ整体",
       "description": "リンパの流れを促進し、むくみや疲労を改善します",
-      "discount": {
-        "first": "初回20%割引",
-        "birthday": "お誕生日月20%割引"
-      },
       "items": [
+        {
+          "id": "lymph-45",
+          "name": "45分",
+          "duration": 45,
+          "price": 4500,
+          "description": "基本的なリンパ整体"
+        },
         {
           "id": "lymph-60",
           "name": "60分",
           "duration": 60,
           "price": 6000,
-          "description": "基本的なリンパドレナージュ",
-          "discountPrice": 4800,
-          "discountNote": "初回20%割引"
+          "description": "全身のリンパをしっかりケア"
         },
         {
           "id": "lymph-90",
@@ -132,7 +114,7 @@
         },
         {
           "id": "lymph-120",
-          "name": "120分（フルコース）",
+          "name": "120分",
           "duration": 120,
           "price": 11000,
           "description": "全身をくまなくケアする贅沢コース"
@@ -141,12 +123,12 @@
     },
     {
       "id": "headspa",
-      "name": "ヘッド&フェイシャルマッサージ",
+      "name": "ヘッド整顔",
       "description": "頭痛・首こりに悩んでいる方におすすめ",
       "items": [
         {
           "id": "headspa-30",
-          "name": "30分",
+          "name": "ヘッドのみ（30分）",
           "duration": 30,
           "price": 3500,
           "description": "頭部を中心にリラックス"
@@ -155,37 +137,15 @@
           "id": "headspa-combo-60",
           "name": "ほぐし30分＋ヘッド",
           "duration": 60,
-          "price": 5500,
+          "price": 6000,
           "description": "体をほぐしてからヘッドスパ"
         },
         {
           "id": "headspa-combo-adjustment",
           "name": "ほぐし30分＋ヘッド＋全身矯正",
           "duration": 60,
-          "price": 6800,
+          "price": 7200,
           "description": "ほぐし、ヘッドスパ、矯正のフルセット"
-        }
-      ]
-    },
-    {
-      "id": "home-visit",
-      "name": "出張整体・産後骨盤矯正",
-      "description": "ご自宅でゆったり施術を受けられます",
-      "badge": "出張サービス",
-      "note": "ご予約はお電話にて承ります",
-      "items": [
-        {
-          "id": "home-visit-massage",
-          "name": "出張整体",
-          "price": 7000,
-          "description": "ご自宅で受けられる整体施術"
-        },
-        {
-          "id": "home-visit-postnatal",
-          "name": "出張産後骨盤矯正",
-          "price": 7000,
-          "description": "ご自宅で受けられる産後骨盤矯正",
-          "note": "女性の先生が担当します"
         }
       ]
     }

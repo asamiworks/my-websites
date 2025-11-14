@@ -6,7 +6,7 @@
 
 /* イベントコンテナ */
 .event-container {
-  max-width: 400px; /* 画像サイズを小さく */
+  max-width: 500px; /* 画像サイズを調整 */
   margin: 0 auto var(--spacing-3xl);
 }
 
@@ -44,8 +44,8 @@
   cursor: pointer;
   overflow: hidden;
   background-color: #f8f9fa;
-  aspect-ratio: 1414 / 2000;
-  max-width: 300px; /* デスクトップでの最大幅 */
+  aspect-ratio: 1076 / 1522;
+  max-width: 400px; /* デスクトップでの最大幅 */
   margin: 0 auto;
 }
 
@@ -402,13 +402,13 @@
 /* タブレット対応 */
 @media (max-width: 1024px) {
   .event-container {
+    max-width: 450px;
+  }
+
+  .event-image-wrapper {
     max-width: 350px;
   }
-  
-  .event-image-wrapper {
-    max-width: 250px;
-  }
-  
+
   .events-sns-links {
     flex-wrap: wrap;
   }
@@ -421,11 +421,11 @@
   }
 
   .event-container {
-    max-width: 320px;
+    max-width: 400px;
   }
 
   .event-image-wrapper {
-    max-width: 220px;
+    max-width: 300px;
   }
 
   .event-header {
@@ -524,7 +524,7 @@
   }
 
   .event-image-wrapper {
-    max-width: 200px;
+    max-width: 280px;
   }
 
   .event-title {

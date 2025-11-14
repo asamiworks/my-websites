@@ -50,15 +50,15 @@ export function initEvents(): void {
   // キャンペーン設定エリア（ここを編集してください）
   // ========================================
   // キャンペーンタイトル
-  const campaignTitle = '夏の特別キャンペーン';
-  
+  const campaignTitle = '冬の特別キャンペーン';
+
   // キャンペーン期間
-  const campaignStartDate = new Date('2025-07-01T00:00:00');  // 開始日時
-  const campaignEndDate = new Date('2025-08-31T23:59:59');    // 終了日時
-  
-  // キャンペーン画像のパス（1414×2000px）
-  const campaignImageUrl = '/images/events/campaign-summer-2025.jpg';
-  
+  const campaignStartDate = new Date('2025-11-01T00:00:00');  // 開始日時
+  const campaignEndDate = new Date('2026-02-28T23:59:59');    // 終了日時
+
+  // キャンペーン画像のパス（1076×1522px）
+  const campaignImageUrl = '/images/events/campaign-winter-2025.jpg';
+
   // 季節（'夏' または '冬'）
   const campaignSeason: '夏' | '冬' = '冬';
   // ========================================
@@ -95,13 +95,13 @@ export function initEvents(): void {
             </div>
             
             <div class="event-image-wrapper" tabindex="0" role="button" aria-label="画像を拡大">
-              <img 
-                src="${currentEvent.imageUrl}" 
-                alt="${currentEvent.title}" 
+              <img
+                src="${currentEvent.imageUrl}"
+                alt="${currentEvent.title}"
                 class="event-image"
                 loading="lazy"
-                width="1414"
-                height="2000"
+                width="1076"
+                height="1522"
               >
               <div class="event-image-overlay">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -120,7 +120,7 @@ export function initEvents(): void {
                 <line x1="8" y1="2" x2="8" y2="6"/>
                 <line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
-              <span>開催期間: ${currentEvent.startDate.toLocaleDateString('ja-JP')} 〜 ${currentEvent.endDate.toLocaleDateString('ja-JP')}</span>
+              <span>開始: ${currentEvent.startDate.toLocaleDateString('ja-JP')}</span>
             </div>
             
             <div class="event-cta-section">
@@ -224,7 +224,7 @@ export function initEvents(): void {
     if (eventImage) {
       eventImage.onerror = function() {
         console.error('イベント画像の読み込みに失敗しました:', currentEvent.imageUrl);
-        this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQxNCIgaGVpZ2h0PSIyMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQ4IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7nlLvlg4/jgpLoqq3jgb/ovrzjgoHjgb7jgZvjgpM8L3RleHQ+PC9zdmc+';
+        this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA3NiIgaGVpZ2h0PSIxNTIyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQ4IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7nlLvlg4/jgpLoqq3jgb/ovrzjgoHjgb7jgZvjgpM8L3RleHQ+PC9zdmc+';
         this.alt = '画像を読み込めませんでした';
       };
     }
