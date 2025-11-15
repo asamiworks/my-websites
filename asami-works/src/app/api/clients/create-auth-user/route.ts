@@ -1,21 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuth } from 'firebase-admin/auth';
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
-
-// Firebase Admin初期化
-if (!getApps().length) {
-  try {
-    const serviceAccount = JSON.parse(
-      process.env.FIREBASE_SERVICE_ACCOUNT_KEY || '{}'
-    );
-
-    initializeApp({
-      credential: cert(serviceAccount),
-    });
-  } catch (error) {
-    console.error('Firebase Admin initialization error:', error);
-  }
-}
+import { auth } from '@/lib/firebase-admin';
 
 // ランダムパスワード生成
 function generatePassword(length: number = 12): string {
@@ -44,7 +28,6 @@ export async function POST(request: NextRequest) {
     const initialPassword = generatePassword(12);
 
     // Firebase Authenticationユーザーを作成
-    const auth = getAuth();
     const userRecord = await auth.createUser({
       email,
       password: initialPassword,
