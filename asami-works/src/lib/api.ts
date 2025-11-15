@@ -19,10 +19,23 @@ interface FormData {
   token?: string;
 }
 
+interface ChatInquiryData {
+  name: string;
+  email: string;
+  phone: string;
+  businessType: string;
+  chatMessages: Array<{
+    role: 'user' | 'assistant';
+    content: string;
+  }>;
+  userId?: string;
+}
+
 // APIエンドポイント設定
 const API_ENDPOINTS = {
   contact: 'https://us-central1-asamiworks-679b3.cloudfunctions.net/contact',
   form: 'https://us-central1-asamiworks-679b3.cloudfunctions.net/form',
+  chatInquiry: 'https://us-central1-asamiworks-679b3.cloudfunctions.net/chatInquiry',
   instagram: 'https://instagram-n4rlpzrnaq-uc.a.run.app'  // Cloud Run（変更なし）
 };
 
@@ -52,15 +65,32 @@ export const api = {
       },
       body: JSON.stringify(data),
     });
-    
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
       throw new Error(errorData?.message || '送信に失敗しました');
     }
-    
+
     return response.json();
   },
-  
+
+  chatInquiry: async (data: ChatInquiryData) => {
+    const response = await fetch(API_ENDPOINTS.chatInquiry, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || '送信に失敗しました');
+    }
+
+    return response.json();
+  },
+
   instagram: {
     getPhotos: async () => {
       const response = await fetch(API_ENDPOINTS.instagram, {
