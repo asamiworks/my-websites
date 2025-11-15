@@ -1,11 +1,13 @@
 import { Metadata, Viewport } from "next";
 import "./globals.css";
-import { 
-  ConditionalHeader, 
-  ConditionalFooter, 
+import {
+  ConditionalHeader,
+  ConditionalFooter,
   ConditionalBreadcrumb,
-  ConditionalMainStyle 
+  ConditionalMainStyle
 } from "../components/ConditionalLayout";
+import ChatWidget from "../components/ChatWidget";
+import { Providers } from "../components/Providers";
 
 export const metadata: Metadata = {
   title: {
@@ -65,14 +67,17 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    <html lang="ja" data-scroll-behavior="smooth">
       <body>
-        <ConditionalHeader />
-        <ConditionalMainStyle>
-          <ConditionalBreadcrumb />
-          {children}
-        </ConditionalMainStyle>
-        <ConditionalFooter />
+        <Providers>
+          <ConditionalHeader />
+          <ConditionalMainStyle>
+            <ConditionalBreadcrumb />
+            {children}
+          </ConditionalMainStyle>
+          <ConditionalFooter />
+          <ChatWidget />
+        </Providers>
       </body>
     </html>
   );
