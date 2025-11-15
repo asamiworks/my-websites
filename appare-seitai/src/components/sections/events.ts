@@ -54,7 +54,7 @@ export function initEvents(): void {
 
   // キャンペーン期間
   const campaignStartDate = new Date('2025-11-10T00:00:00');  // 開始日時
-  const campaignEndDate = new Date('2026-02-28T23:59:59');    // 終了日時
+  const campaignEndDate = new Date('2025-12-29T23:59:59');    // 終了日時
 
   // キャンペーン画像のパス（1076×1522px）
   const campaignImageUrl = '/images/events/campaign-winter-2025.jpg';
@@ -120,7 +120,7 @@ export function initEvents(): void {
                 <line x1="8" y1="2" x2="8" y2="6"/>
                 <line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
-              <span>開始: ${currentEvent.startDate.toLocaleDateString('ja-JP')}</span>
+              <span>期間: ${currentEvent.startDate.toLocaleDateString('ja-JP')} ～ ${currentEvent.endDate.toLocaleDateString('ja-JP')}</span>
             </div>
             
             <div class="event-cta-section">
