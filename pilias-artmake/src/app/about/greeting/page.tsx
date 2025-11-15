@@ -11,9 +11,52 @@ export default function GreetingPage() {
   const [isVisible, setIsVisible] = useState<Record<number, boolean>>({})
   const observerRefs = useRef<(HTMLElement | null)[]>([])
 
+  const [isHeroVisible, setIsHeroVisible] = useState(false)
+  const [isProfileVisible, setIsProfileVisible] = useState(false)
+  const [isCardsVisible, setIsCardsVisible] = useState(false)
+  const [isQualPhiloVisible, setIsQualPhiloVisible] = useState(false)
+  const [isMessageVisible, setIsMessageVisible] = useState(false)
+
+  const heroRef = useRef<HTMLElement>(null)
+  const profileRef = useRef<HTMLElement>(null)
+  const cardsRef = useRef<HTMLElement>(null)
+  const qualPhiloRef = useRef<HTMLElement>(null)
+  const messageRef = useRef<HTMLElement>(null)
+
   useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsHeroVisible(true)
+    }, observerOptions)
+
+    const profileObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsProfileVisible(true)
+    }, observerOptions)
+
+    const cardsObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsCardsVisible(true)
+    }, observerOptions)
+
+    const qualPhiloObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsQualPhiloVisible(true)
+    }, observerOptions)
+
+    const messageObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsMessageVisible(true)
+    }, observerOptions)
+
+    if (heroRef.current) heroObserver.observe(heroRef.current)
+    if (profileRef.current) profileObserver.observe(profileRef.current)
+    if (cardsRef.current) cardsObserver.observe(cardsRef.current)
+    if (qualPhiloRef.current) qualPhiloObserver.observe(qualPhiloRef.current)
+    if (messageRef.current) messageObserver.observe(messageRef.current)
+
     const observers: IntersectionObserver[] = []
-    
+
     observerRefs.current.forEach((ref, index) => {
       if (ref) {
         const observer = new IntersectionObserver(
@@ -32,6 +75,11 @@ export default function GreetingPage() {
     })
 
     return () => {
+      heroObserver.disconnect()
+      profileObserver.disconnect()
+      cardsObserver.disconnect()
+      qualPhiloObserver.disconnect()
+      messageObserver.disconnect()
       observers.forEach(observer => observer.disconnect())
     }
   }, [])
@@ -124,13 +172,21 @@ export default function GreetingPage() {
       </div>
 
       {/* ヒーローセクション */}
-      <section className="py-8 lg:py-16 bg-gradient-to-br from-[#F5F3F0] to-[#FAF9F7]">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section ref={heroRef} className="py-16 lg:py-24 bg-gradient-to-br from-[#F5F3F0] via-[#FAF9F7] to-white relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#E5E0D8] rounded-full opacity-20 blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#F5F3F0] rounded-full opacity-30 blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-2xl lg:text-5xl font-serif text-[#6B6560] mb-3 lg:mb-4 tracking-wide">
+            <h1 className={`text-4xl lg:text-6xl font-serif text-[#6B6560] mb-6 tracking-wide transition-all duration-1000 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               代表挨拶
             </h1>
-            <p className="text-base lg:text-lg text-[#8B8680]">
+            <p className={`text-lg lg:text-xl text-[#8B8680] transition-all duration-1000 delay-200 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               美と医療の架け橋となり、皆様の人生に寄り添います
             </p>
           </div>
@@ -138,10 +194,12 @@ export default function GreetingPage() {
       </section>
 
       {/* プロフィール */}
-      <section className="py-8 lg:py-16 bg-[#FAF9F7]">
+      <section ref={profileRef} className="py-16 lg:py-24 bg-[#FAF9F7]">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <div className="lg:flex lg:gap-12">
+            <div className={`lg:flex lg:gap-12 transition-all duration-1000 ${
+              isProfileVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               {/* 写真エリア */}
               <div className="lg:w-1/3 mb-6 lg:mb-0">
                 <div className="relative max-w-[200px] mx-auto lg:max-w-none">
@@ -202,13 +260,15 @@ export default function GreetingPage() {
       </section>
 
       {/* PILIAS名前の由来と始動宣言セクション（横並び） */}
-      <section className="py-12 lg:py-20 bg-gradient-to-br from-[#F5F3F0] to-[#FAF9F7]">
+      <section ref={cardsRef} className="py-16 lg:py-24 bg-gradient-to-br from-[#F5F3F0] to-[#FAF9F7]">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
-              
+
               {/* PILIAS名前の由来（2枚目の内容） */}
-              <Card className="p-6 lg:p-8 bg-gradient-to-br from-[#FFF8F3] to-white shadow-xl border border-[#E5E0D8] h-full">
+              <Card className={`p-6 lg:p-8 bg-gradient-to-br from-[#FFF8F3] to-white shadow-xl border border-[#E5E0D8] h-full transition-all duration-700 ${
+                isCardsVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+              }`}>
                 <div className="text-center h-full flex flex-col justify-center">
                   <h2 className="text-xl lg:text-3xl font-serif text-[#6B6560] mb-6 lg:mb-8">
                     "Pilias"とは
@@ -251,7 +311,9 @@ export default function GreetingPage() {
               </Card>
 
               {/* 始動宣言（1枚目の内容） */}
-              <Card className="p-6 lg:p-8 bg-gradient-to-br from-[#FFF8F3] to-white shadow-xl border border-[#E5E0D8] h-full">
+              <Card className={`p-6 lg:p-8 bg-gradient-to-br from-[#FFF8F3] to-white shadow-xl border border-[#E5E0D8] h-full transition-all duration-700 delay-200 ${
+                isCardsVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+              }`}>
                 <div className="text-center h-full flex flex-col justify-center">
                   <div>
                     <p className="text-xs lg:text-sm text-[#8B8680] mb-2">
@@ -310,12 +372,14 @@ export default function GreetingPage() {
       </section>
 
       {/* 資格・理念セクション */}
-      <section className="py-8 lg:py-16 bg-[#FAF9F7]">
+      <section ref={qualPhiloRef} className="py-16 lg:py-24 bg-[#FAF9F7]">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
               {/* 保有資格 */}
-              <Card className="p-6 lg:p-8 bg-[#F5F3F0] border-[#E5E0D8]">
+              <Card className={`p-6 lg:p-8 bg-[#F5F3F0] border-[#E5E0D8] transition-all duration-700 ${
+                isQualPhiloVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}>
                 <div className="flex items-center mb-4 lg:mb-6">
                   <Award className="w-6 h-6 text-[#8B8680] mr-3" />
                   <h3 className="text-xl lg:text-2xl font-medium text-[#6B6560]">保有資格</h3>
@@ -334,7 +398,9 @@ export default function GreetingPage() {
               </Card>
 
               {/* 私たちの理念 */}
-              <Card className="p-6 lg:p-8 bg-[#F5F3F0] border-[#E5E0D8]">
+              <Card className={`p-6 lg:p-8 bg-[#F5F3F0] border-[#E5E0D8] transition-all duration-700 delay-200 ${
+                isQualPhiloVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}>
                 <div className="flex items-center mb-4 lg:mb-6">
                   <Heart className="w-6 h-6 text-[#8B8680] mr-3" />
                   <h3 className="text-xl lg:text-2xl font-medium text-[#6B6560]">私たちの理念</h3>
@@ -361,7 +427,7 @@ export default function GreetingPage() {
       </section>
 
       {/* 経歴セクション - 写真付きデザイン */}
-      <section className="py-12 lg:py-20 bg-gradient-to-b from-[#F5F3F0] to-[#FAF9F7] overflow-hidden">
+      <section className="py-16 lg:py-24 bg-gradient-to-b from-[#F5F3F0] to-[#FAF9F7] overflow-hidden">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-8 lg:mb-16">
@@ -504,79 +570,75 @@ export default function GreetingPage() {
       </section>
 
       {/* メッセージ */}
-      <section className="py-8 lg:py-16 bg-[#FAF9F7]">
+      <section ref={messageRef} className="py-16 lg:py-24 bg-[#FAF9F7]">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <div className="lg:hidden mb-6">
-              <div className="relative aspect-[4/3] max-w-sm mx-auto rounded-xl overflow-hidden shadow-md">
-                <Image
-                  src="/images/profile/treatment.jpg"
-                  alt="施術風景"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </div>
-            
-            <div className="lg:flex lg:gap-12 lg:items-center">
-              <div className="lg:w-2/3 text-center lg:text-left">
-                <h2 className="text-xl lg:text-2xl font-serif text-[#6B6560] mb-3 lg:mb-4">
-                  最後に
-                </h2>
-                <div className="space-y-4 lg:space-y-6">
-                  <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
-                    看護師になることを目指した17歳の時から、私が大切にしたい看護は変わっていません。
-                    <br />
-                    <span className="font-medium">「ともに考える看護」</span>です。
-                  </p>
-                  
-                  <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
-                    これは看護学校の受験、研究発表、病院の採用試験、院内研修発表、どの場所でも言葉にし、臨床現場でも実践してきました。
-                    <br />
-                    今まで出会った全ての患者様・家族とともに進んできた道です。
-                  </p>
-                  
-                  <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
-                    状態や目指すゴールを擦り合わせた上で、時にはアートメイクではなく別の方法を提案することもあるかもしれません。
-                    <br />
-                    皆様おひとりおひとりにとって最善の方法を考えることが私の役割だと思っています。
-                  </p>
-                  
-                  <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
-                    <span className="font-medium">「点ではなく線で看る看護」</span>
-                    <br />
-                    看護学校の先生から何度も教えられた言葉です。私の永遠の目標は、患者様の今だけではなく、今まで歩んできた道と今後の未来まで考えられる看護師になること。
-                  </p>
-                  
-                  <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
-                    一緒に考えて悩んで、一緒に進んで行けたらと思います。
-                  </p>
+            <Card className={`p-6 lg:p-10 bg-gradient-to-br from-white to-[#FFF8F3] border-[#E5E0D8] shadow-lg transition-all duration-1000 ${
+              isMessageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <div className="lg:flex lg:gap-12 lg:items-start">
+                {/* 画像 - モバイルでは上、デスクトップでは右 */}
+                <div className="lg:order-2 lg:w-1/3 mb-6 lg:mb-0">
+                  <div className="relative aspect-[4/3] lg:aspect-[3/4] max-w-sm mx-auto lg:max-w-none rounded-xl overflow-hidden shadow-md">
+                    <Image
+                      src="/images/profile/treatment.jpg"
+                      alt="施術風景"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
                 </div>
-                
-                <p className="font-serif text-lg lg:text-xl text-[#6B6560] mt-6">
-                  PILIAS ARTMAKE 代表　ASUKA
-                </p>
-              </div>
-              
-              <div className="hidden lg:block lg:w-1/3">
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
-                  <Image
-                    src="/images/profile/treatment.jpg"
-                    alt="施術風景"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
+
+                {/* テキスト */}
+                <div className="lg:order-1 lg:w-2/3">
+                  <h2 className="text-xl lg:text-2xl font-serif text-[#6B6560] mb-4 lg:mb-6 text-center lg:text-left">
+                    最後に
+                  </h2>
+                  <div className="space-y-4 lg:space-y-5">
+                    <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
+                      看護師になることを目指した17歳の時から、私が大切にしたい看護は変わっていません。
+                      <br />
+                      <span className="font-medium">「ともに考える看護」</span>です。
+                    </p>
+
+                    <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
+                      これは看護学校の受験、研究発表、病院の採用試験、院内研修発表、どの場所でも言葉にし、臨床現場でも実践してきました。
+                      <br />
+                      今まで出会った全ての患者様・家族とともに進んできた道です。
+                    </p>
+
+                    <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
+                      状態や目指すゴールを擦り合わせた上で、時にはアートメイクではなく別の方法を提案することもあるかもしれません。
+                      <br />
+                      皆様おひとりおひとりにとって最善の方法を考えることが私の役割だと思っています。
+                    </p>
+
+                    <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
+                      <span className="font-medium">「点ではなく線で看る看護」</span>
+                      <br />
+                      看護学校の先生から何度も教えられた言葉です。私の永遠の目標は、患者様の今だけではなく、今まで歩んできた道と今後の未来まで考えられる看護師になること。
+                    </p>
+
+                    <p className="text-sm lg:text-base text-[#6B6560] leading-relaxed">
+                      一緒に考えて悩んで、一緒に進んで行けたらと思います。
+                    </p>
+                  </div>
+
+                  <div className="text-right mt-6 lg:mt-8">
+                    <p className="font-serif text-base lg:text-lg text-[#6B6560]">
+                      PILIAS ARTMAKE 代表　ASUKA
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-8 lg:py-16 bg-gradient-to-br from-[#F5F3F0] to-[#FAF9F7]">
+      <section className="py-16 lg:py-24 bg-gradient-to-br from-[#F5F3F0] to-[#FAF9F7]">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <h2 className="text-xl lg:text-3xl font-serif text-[#6B6560] mb-3 lg:mb-4">
             お気軽にご相談ください

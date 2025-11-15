@@ -33,6 +33,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   themeColor: '#F5F5F0',
+  colorScheme: 'light',
 }
 
 // メタデータ設定（拡張版）
@@ -54,7 +55,6 @@ export const metadata: Metadata = {
   category: '医療・美容',
   classification: '医療アートメイク',
   referrer: 'origin-when-cross-origin',
-  colorScheme: 'light',
   creator: 'PILIAS ARTMAKE',
   publisher: 'PILIAS ARTMAKE',
   applicationName: 'PILIAS ARTMAKE',

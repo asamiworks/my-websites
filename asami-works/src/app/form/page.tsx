@@ -43,11 +43,17 @@ function FormContent() {
     prPagePeriod: "",
   });
 
+  // チャットから来たかどうかのフラグ
+  const [isFromChat, setIsFromChat] = useState(false);
+  const [chatConversation, setChatConversation] = useState("");
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
+
   // URLパラメータから初期値を設定
   useEffect(() => {
     const type = searchParams.get('type');
     const service = searchParams.get('service');
-    
+    const from = searchParams.get('from');
+
     if (type === 'support') {
       setFormData(prev => ({
         ...prev,
@@ -58,6 +64,37 @@ function FormContent() {
         ...prev,
         inquiryType: "広告ページ制作について"
       }));
+    }
+
+    // チャットから来た場合、会話内容を読み込む
+    if (from === 'chat') {
+      const conversation = localStorage.getItem('chatConversation');
+      const businessType = localStorage.getItem('chatBusinessType');
+      const contactName = localStorage.getItem('chatContactName');
+      const contactEmail = localStorage.getItem('chatContactEmail');
+      const contactPhone = localStorage.getItem('chatContactPhone');
+      const contactCompany = localStorage.getItem('chatContactCompany');
+
+      if (conversation) {
+        setIsFromChat(true);
+        setChatConversation(conversation);
+        setFormData(prev => ({
+          ...prev,
+          name: contactName || '',
+          email: contactEmail || '',
+          tel: contactPhone || '',
+          company: contactCompany || businessType || '',
+          inquiryType: 'AIチャットからの相談',
+          message: `【チャットでの相談内容】\n\n${conversation}\n\n【追加のご要望・ご質問】\n`
+        }));
+        // 読み込んだら削除
+        localStorage.removeItem('chatConversation');
+        localStorage.removeItem('chatBusinessType');
+        localStorage.removeItem('chatContactName');
+        localStorage.removeItem('chatContactEmail');
+        localStorage.removeItem('chatContactPhone');
+        localStorage.removeItem('chatContactCompany');
+      }
     }
   }, [searchParams]);
 
@@ -297,9 +334,34 @@ function FormContent() {
                 <p><strong>その他の内容：</strong>{formData.other}</p>
               )}
               {formData.message && (
-                <p><strong>詳細内容：</strong><br />
-                  <span style={{ whiteSpace: 'pre-wrap' }}>{formData.message}</span>
-                </p>
+                <div>
+                  <p style={{ marginBottom: '8px' }}>
+                    <strong>詳細内容：</strong>
+                    {isFromChat && (
+                      <button
+                        onClick={() => setIsChatExpanded(!isChatExpanded)}
+                        style={{
+                          marginLeft: '10px',
+                          padding: '4px 12px',
+                          fontSize: '14px',
+                          backgroundColor: '#007bff',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}
+                        type="button"
+                      >
+                        {isChatExpanded ? '▲ 閉じる' : '▼ チャット内容を表示'}
+                      </button>
+                    )}
+                  </p>
+                  {(!isFromChat || isChatExpanded) && (
+                    <div style={{ whiteSpace: 'pre-wrap', marginTop: '8px', padding: '12px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+                      {formData.message}
+                    </div>
+                  )}
+                </div>
               )}
             </div>
 
@@ -402,6 +464,7 @@ function FormContent() {
             onChange={handleChange}
             required
             title="ご相談内容を選択してください"
+            disabled={isFromChat}
           >
             <option value="" disabled>選択してください</option>
             <option value="ホームページ制作について">ホームページ制作について</option>
@@ -410,6 +473,7 @@ function FormContent() {
             <option value="料金プランについて">料金プランについて</option>
             <option value="見積もりの依頼">見積もりの依頼</option>
             <option value="サポート・設定支援">サポート・設定支援</option>
+            <option value="AIチャットからの相談">AIチャットからの相談</option>
             <option value="その他">その他</option>
           </select>
         </div>
@@ -596,20 +660,48 @@ function FormContent() {
             {formData.inquiryType === "サポート・設定支援" && "（具体的な症状や状況をお書きください）"}
             {formData.inquiryType === "広告ページ制作について" && "（掲載したい内容をお書きください）"}
           </span>
-          <textarea
-            name="message"
-            className={styles.textarea}
-            value={formData.message}
-            onChange={handleChange}
-            rows={5}
-            placeholder={
-              formData.inquiryType === "サポート・設定支援" 
-                ? "例：メールが送信できない、サイトの画像を変更したい、など具体的にお書きください"
-                : formData.inquiryType === "広告ページ制作について"
-                ? "例：掲載したい商品・サービスの内容、営業時間、連絡先など"
-                : "ご相談内容の詳細をご記入ください"
-            }
-          ></textarea>
+
+          {/* チャットから来た場合は読み取り専用で表示 */}
+          {isFromChat ? (
+            <>
+              <div className={styles.chatConversationBox}>
+                <div className={styles.chatConversationHeader}>
+                  <strong>チャットでの相談内容（編集不可）</strong>
+                </div>
+                <div className={styles.chatConversationContent}>
+                  {chatConversation}
+                </div>
+              </div>
+              <textarea
+                name="message"
+                className={styles.textarea}
+                value={formData.message.replace(`【チャットでの相談内容】\n\n${chatConversation}\n\n【追加のご要望・ご質問】\n`, '')}
+                onChange={(e) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    message: `【チャットでの相談内容】\n\n${chatConversation}\n\n【追加のご要望・ご質問】\n${e.target.value}`
+                  }));
+                }}
+                rows={5}
+                placeholder="追加のご要望やご質問があればこちらにご記入ください"
+              />
+            </>
+          ) : (
+            <textarea
+              name="message"
+              className={styles.textarea}
+              value={formData.message}
+              onChange={handleChange}
+              rows={5}
+              placeholder={
+                formData.inquiryType === "サポート・設定支援"
+                  ? "例：メールが送信できない、サイトの画像を変更したい、など具体的にお書きください"
+                  : formData.inquiryType === "広告ページ制作について"
+                  ? "例：掲載したい商品・サービスの内容、営業時間、連絡先など"
+                  : "ご相談内容の詳細をご記入ください"
+              }
+            />
+          )}
         </div>
 
         {/* reCAPTCHA - ローカル環境では非表示 */}

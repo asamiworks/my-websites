@@ -35,8 +35,7 @@ interface ChatInquiryData {
 const API_ENDPOINTS = {
   contact: 'https://us-central1-asamiworks-679b3.cloudfunctions.net/contact',
   form: 'https://us-central1-asamiworks-679b3.cloudfunctions.net/form',
-  chatInquiry: 'https://us-central1-asamiworks-679b3.cloudfunctions.net/chatInquiry',
-  instagram: 'https://instagram-n4rlpzrnaq-uc.a.run.app'  // Cloud Run（変更なし）
+  chatInquiry: 'https://us-central1-asamiworks-679b3.cloudfunctions.net/chatInquiry'
 };
 
 export const api = {
@@ -89,22 +88,5 @@ export const api = {
     }
 
     return response.json();
-  },
-
-  instagram: {
-    getPhotos: async () => {
-      const response = await fetch(API_ENDPOINTS.instagram, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Instagram写真の取得に失敗しました');
-      }
-      
-      return response.json();
-    }
   }
 };

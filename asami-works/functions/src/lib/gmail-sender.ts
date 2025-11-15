@@ -27,12 +27,12 @@ function getEnvVar(key: string): string {
   if (process.env[key]) {
     return process.env[key];
   }
-  
+
   // Cloud Functions環境の場合、functionsConfigから取得を試みる
   try {
     const functions = require('firebase-functions');
     const config = functions.config();
-    
+
     switch (key) {
       case 'GOOGLE_SERVICE_ACCOUNT_EMAIL':
         return config.gmail?.service_account_email || '';
@@ -68,11 +68,17 @@ async function sendEmail({ to, subject, html }: { to: string; subject: string; h
     const serviceAccountEmail = getEnvVar('GOOGLE_SERVICE_ACCOUNT_EMAIL');
     const privateKey = getEnvVar('GOOGLE_PRIVATE_KEY').replace(/\\n/g, '\n');
     const gmailUser = getEnvVar('GMAIL_USER');
-    
+
     if (!serviceAccountEmail || !privateKey || !gmailUser) {
       throw new Error('Gmail configuration is missing');
     }
-    
+
+    console.log('Gmail API Configuration:', {
+      serviceAccountEmail,
+      gmailUser,
+      privateKeyLength: privateKey.length
+    });
+
     // 1. JWT認証設定
     const jwtClient = new google.auth.JWT({
       email: serviceAccountEmail,
@@ -80,7 +86,7 @@ async function sendEmail({ to, subject, html }: { to: string; subject: string; h
       scopes: ['https://www.googleapis.com/auth/gmail.send'],
       subject: gmailUser
     });
-    
+
     await jwtClient.authorize();
 
     // 2. Gmail APIクライアント作成
@@ -89,7 +95,7 @@ async function sendEmail({ to, subject, html }: { to: string; subject: string; h
     // 3. メールコンテンツ作成
     const from = gmailUser;
     const encodedSubject = encodeSubject(subject);
-    
+
     const messageParts = [
       `From: "AsamiWorks" <${from}>`,
       `To: ${to}`,

@@ -494,6 +494,186 @@
   }
 }
 
+/* ログイン/ユーザーメニュー (デスクトップ) */
+.loginButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.loginButton:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.userMenu {
+  position: relative;
+}
+
+.userMenuButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.userMenuButton:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.userName {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdownArrowIcon {
+  transition: transform 0.3s ease;
+}
+
+.userMenuButton[aria-expanded="true"] .dropdownArrowIcon {
+  transform: rotate(180deg);
+}
+
+.userMenuDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  z-index: 101;
+}
+
+.userMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.userMenuItem:hover {
+  background-color: #f0f7ff;
+  color: #007bff;
+  transform: translateX(5px);
+}
+
+/* モバイルログイン/ユーザーメニュー */
+.mobileLoginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 12px;
+}
+
+.mobileLoginButton:hover {
+  background-color: #e9ecef;
+}
+
+.mobileUserSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.mobileUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.mobileUserButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.mobileUserButton:hover {
+  background-color: #0056b3;
+}
+
+.mobileLogoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mobileLogoutButton:hover {
+  background-color: #e9ecef;
+}
+
 /* アクセシビリティ */
 @media (prefers-reduced-motion: reduce) {
   .header,

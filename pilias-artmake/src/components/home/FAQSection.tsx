@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Script from 'next/script'
 import { FAQAccordion } from '@/components/ui/Accordion'
+import { Plus } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 // FAQアイテムの型定義
 interface FAQItem {
@@ -11,18 +13,84 @@ interface FAQItem {
   answer: string
 }
 
+// 個別FAQ項目コンポーネント
+interface FAQAccordionItemProps {
+  question: string
+  answer: string
+}
+
+function FAQAccordionItem({ question, answer }: FAQAccordionItemProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <article
+      className="border border-greige-200 rounded-lg bg-white hover:shadow-sm transition-all"
+      itemScope
+      itemProp="mainEntity"
+      itemType="https://schema.org/Question"
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          'w-full flex items-start justify-between text-left transition-colors p-5',
+          isOpen ? 'text-greige-800' : 'text-greige-600 hover:text-greige-700'
+        )}
+        aria-expanded={isOpen}
+      >
+        <div className="flex items-start flex-1">
+          <div className="flex items-center justify-center w-7 h-7 rounded-full bg-greige-100 text-greige-600 text-sm font-medium mr-3 mt-0.5 flex-shrink-0">
+            Q
+          </div>
+          <h4 className="font-medium text-base lg:text-lg pr-4" itemProp="name">
+            {question}
+          </h4>
+        </div>
+        <Plus
+          className={cn(
+            'w-5 h-5 flex-shrink-0 transition-all duration-200 mt-1 text-greige-400',
+            isOpen && 'rotate-45'
+          )}
+        />
+      </button>
+
+      <div
+        className={cn(
+          'overflow-hidden transition-all duration-300',
+          isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+        )}
+      >
+        <div
+          className="px-5 pb-5"
+          itemScope
+          itemProp="acceptedAnswer"
+          itemType="https://schema.org/Answer"
+        >
+          <div className="flex items-start">
+            <div className="flex items-center justify-center w-7 h-7 rounded-full bg-greige-100 text-greige-600 text-sm font-medium mr-3 mt-0.5 flex-shrink-0">
+              A
+            </div>
+            <div className="flex-1 text-greige-600 leading-relaxed whitespace-pre-line" itemProp="text">
+              {answer}
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  )
+}
+
 // FAQデータ
 const faqItems: FAQItem[] = [
   // 料金について
   {
     category: '料金について',
     question: '料金はどのくらいですか？',
-    answer: '【眉毛・リップアートメイク】\n・通常価格：1回 55,000円\n・モニター価格：1回 44,000円\n・リタッチ（3回目以降）：40,000円\n・1年以内のリタッチ（3回目以降）：38,000円\n\n【パラメディカルアートメイク】\n・傷痕：1×1cm 12,000円〜\n・白斑：5×5cm 30,000円\n・口唇口蓋裂：1回 30,000円\n・ストレッチマーク：5×9cm 15,000円〜\n\n詳しい料金は料金ページをご確認ください。',
+    answer: '【眉毛・リップアートメイク】\n・2回セット：98,000円\n・1回：54,000円\n・モニター価格（2回セット）：88,000円（通常98,000円）\n・3回目以降のリタッチ：40,000円\n・3回目以降のリタッチ（1年以内）：35,000円\n\n【パラメディカルアートメイク】\n・傷痕：1×1cm 12,000円〜\n・白斑：5×5cm 30,000円\n・口唇口蓋裂：30,000円\n・ストレッチマーク：5×9cm 15,000円〜\n\n詳しい料金は料金ページをご確認ください。',
   },
   {
     category: '料金について',
     question: 'モニター価格の条件は何ですか？',
-    answer: 'モニター価格の適用条件は以下の2つです：\n\n1. 全顔お写真のSNS掲載にご協力いただける方\n2. 2回目施術にご来院いただける方\n\n両方の条件を満たす方に、通常55,000円を44,000円でご提供しています。\n詳しくはカウンセリング時にご説明いたします。',
+    answer: 'モニター価格の適用条件は以下の2つです：\n\n1. 全顔お写真掲載OK\n2. 3ヶ月以内に2回目施術でご来院\n\n両方の条件を満たす方に、2回セット通常98,000円を88,000円でご提供しています。\n詳しくはカウンセリング時にご説明いたします。',
   },
   {
     category: '料金について',
@@ -102,7 +170,7 @@ const faqItems: FAQItem[] = [
   {
     category: 'アフターケア',
     question: 'リタッチはいつ頃必要ですか？',
-    answer: '美しい状態を保つために、以下のタイミングでのリタッチをおすすめします：\n\n【2〜3回目まで】\n1〜2ヶ月後：定着のための施術\n\n【完成後】\n1〜2年ごと：色味の補充、形の微調整\n\n3回目以降のリタッチは割引料金でご案内しています。\n1年以内のリタッチは、さらにお得な料金設定です。',
+    answer: '美しい状態を保つために、以下のタイミングでのリタッチをおすすめします：\n\n【2〜3回目まで】\n1〜2ヶ月後：定着のための施術\n\n【完成後】\n1〜2年ごと：色味の補充、形の微調整\n\n【リタッチ料金】\n・3回目以降：40,000円\n・3回目以降（1年以内）：35,000円',
   },
   {
     category: 'アフターケア',
@@ -244,80 +312,43 @@ export default function FAQSection() {
           <div className={`max-w-4xl mx-auto transition-all duration-1000 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}>
-            {/* カテゴリー別FAQ */}
-            <div className="space-y-6">
+            {/* カテゴリー別FAQ（折りたたみ式） */}
+            <div className="space-y-8">
               {Object.entries(groupedFAQ).map(([category, items], categoryIndex) => (
-                <div 
+                <div
                   key={category}
-                  className="bg-white rounded-lg shadow-sm border border-greige-100 overflow-hidden"
                   style={{
                     animationDelay: `${categoryIndex * 100}ms`,
                   }}
                 >
                   {/* カテゴリーヘッダー */}
-                  <h3 className="bg-greige-50 px-6 py-4 font-medium text-greige-800 border-b border-greige-100">
-                    <span className="flex items-center justify-between">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-medium text-greige-800 flex items-center">
+                      <span className="w-1 h-6 bg-greige-400 rounded-full mr-3" />
                       {category}
-                      <span className="text-sm text-greige-500">
+                      <span className="ml-3 text-sm text-greige-500 font-normal">
                         {items.length}件の質問
                       </span>
-                    </span>
-                  </h3>
+                    </h3>
+                  </div>
 
                   {/* カテゴリーの説明（SEO用、非表示） */}
                   <div className="sr-only" aria-label={`${category}の説明`}>
                     {categoryDescriptions[category]}
                   </div>
 
-                  {/* FAQ項目 */}
-                  <div className="divide-y divide-greige-100">
+                  {/* FAQ項目（折りたたみ式） */}
+                  <div className="space-y-3">
                     {items.map((item, itemIndex) => (
-                      <article
+                      <FAQAccordionItem
                         key={`${category}-${itemIndex}`}
-                        className="p-6 hover:bg-greige-50/50 transition-colors"
-                        itemScope
-                        itemProp="mainEntity"
-                        itemType="https://schema.org/Question"
-                      >
-                        {/* 質問 */}
-                        <h4 
-                          className="text-base font-medium text-greige-800 mb-3 flex items-start"
-                          itemProp="name"
-                        >
-                         <span className="inline-block w-6 h-6 bg-greige-100 text-greige-600 rounded-full text-xs font-bold flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
-                            Q
-                          </span>
-                          <span>{item.question}</span>
-                        </h4>
-
-                        {/* 回答 */}
-                        <div 
-                          className="pl-9"
-                          itemScope
-                          itemProp="acceptedAnswer"
-                          itemType="https://schema.org/Answer"
-                        >
-                          <div 
-                            className="text-sm text-greige-600 leading-relaxed whitespace-pre-line"
-                            itemProp="text"
-                          >
-                            {item.answer}
-                          </div>
-                        </div>
-                      </article>
+                        question={item.question}
+                        answer={item.answer}
+                      />
                     ))}
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* オリジナルのFAQAccordionコンポーネントも保持（互換性のため） */}
-            <div className="mt-8 lg:hidden">
-              <FAQAccordion 
-                items={faqItems} 
-                showCategories 
-                variant="bordered"
-              />
             </div>
 
             {/* CTA */}

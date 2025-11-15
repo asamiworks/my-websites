@@ -1,0 +1,22 @@
+{
+  "name": "i-manabee（あいまなびー）",
+  "short_name": "まなびー",
+  "description": "6-18歳向けの安心して使える学習AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8DC",
+  "theme_color": "#FFB300",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "ja",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}

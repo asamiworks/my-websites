@@ -197,24 +197,28 @@ export async function middleware(request: NextRequest) {
       response.headers.set('Access-Control-Max-Age', '86400');
     }
 
-    // 9. 基本的なアクセスログの記録
-    logSecurityEvent(request, 'access_granted', {
-      pathname,
-      ip,
-      userAgent: userAgent.substring(0, 200),
-    });
+    // 9. 基本的なアクセスログの記録（本番環境のみ）
+    if (process.env.NODE_ENV === 'production') {
+      logSecurityEvent(request, 'access_granted', {
+        pathname,
+        ip,
+        userAgent: userAgent.substring(0, 200),
+      });
+    }
 
     return response;
 
   } catch (error) {
     console.error('Middleware error:', error);
 
-    // エラーログ記録
-    logSecurityEvent(request, 'middleware_error', {
-      pathname,
-      ip,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
+    // エラーログ記録（本番環境のみ）
+    if (process.env.NODE_ENV === 'production') {
+      logSecurityEvent(request, 'middleware_error', {
+        pathname,
+        ip,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
 
     // フォールバック - 基本的なセキュリティヘッダーのみ設定
     const fallbackResponse = NextResponse.next();
@@ -344,8 +348,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - public folder files
+     * - public folder files (images, json, etc.)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|manifest.json|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json|ico)$).*)',
   ],
 };

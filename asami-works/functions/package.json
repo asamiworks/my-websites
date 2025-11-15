@@ -15,6 +15,8 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "@types/pdfkit": "^0.17.3",
     "axios": "^1.9.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -25,7 +27,9 @@
     "firebase-functions": "^6.0.1",
     "googleapis": "^150.0.1",
     "ioredis": "^5.6.1",
-    "redis": "^5.5.6"
+    "pdfkit": "^0.17.2",
+    "redis": "^5.5.6",
+    "stripe": "^19.3.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

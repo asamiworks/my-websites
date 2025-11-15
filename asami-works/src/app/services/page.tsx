@@ -62,17 +62,17 @@ export default function Services() {
       }
     },
     {
-      id: "appsheet",
-      title: "AppSheet開発",
-      price: "80万円〜",
-      description: "エクセル業務をスマホアプリ化し、業務効率を大幅改善",
+      id: "webapp",
+      title: "WEBアプリ開発",
+      price: "60万円〜",
+      description: "業務効率化やサービス提供に最適なWEBアプリケーションを開発",
       features: [
-        "初期開発費80万円〜",
-        "月額利用料5万円〜（AppSheet利用料込み）",
-        "GAS連携でLINE通知・自動化対応",
-        "実績：会員制クラブのシフト管理システム"
+        "初期開発費60万円〜",
+        "完全カスタマイズ開発",
+        "高いセキュリティ・保守サポート",
+        "業務フローに最適化"
       ],
-      href: "/services/appsheet",
+      href: "/services/webapp",
       badge: "DX推進"
     }
   ];
@@ -192,17 +192,17 @@ export default function Services() {
             </div>
             
             <div className={styles.comparisonCard}>
-              <h4 className={styles.comparisonCardTitle}>AppSheet開発</h4>
+              <h4 className={styles.comparisonCardTitle}>WEBアプリ開発</h4>
               <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
               <ul className={styles.comparisonList}>
-                <li>エクセル業務が多い</li>
-                <li>業務効率を大幅に改善したい</li>
-                <li>スマホで業務管理したい</li>
+                <li>業務を効率化したい</li>
+                <li>独自システムが必要</li>
+                <li>完全カスタマイズしたい</li>
                 <li>DXを推進したい</li>
               </ul>
               <div className={styles.comparisonDetails}>
-                <p><strong>納期：</strong>3週間〜</p>
-                <p><strong>価格：</strong>初期80万円〜 + 月額5万円〜</p>
+                <p><strong>納期：</strong>1〜3ヶ月</p>
+                <p><strong>価格：</strong>初期60万円〜</p>
               </div>
             </div>
           </div>
@@ -218,7 +218,7 @@ export default function Services() {
                   <th>項目</th>
                   <th>パッケージプラン</th>
                   <th>オリジナルサイト制作</th>
-                  <th>AppSheet開発</th>
+                  <th>WEBアプリ開発</th>
                 </tr>
               </thead>
               <tbody>
@@ -226,31 +226,31 @@ export default function Services() {
                   <td>初期費用</td>
                   <td><strong>5.5万円〜11万円</strong></td>
                   <td>22万円〜77万円</td>
-                  <td>80万円〜</td>
+                  <td>60万円〜</td>
                 </tr>
                 <tr>
                   <td>月額費用</td>
                   <td>1.1万円〜1.65万円（2年目以降は6,600円〜）</td>
                   <td>6,600円〜（2年目以降は6,600円〜）</td>
-                  <td>5万円〜</td>
+                  <td>別途見積</td>
                 </tr>
                 <tr>
                   <td>納期</td>
                   <td><strong>最短3日</strong></td>
                   <td>2週間〜1ヶ月</td>
-                  <td>3週間〜</td>
+                  <td>1〜3ヶ月</td>
                 </tr>
                 <tr>
                   <td>デザイン</td>
                   <td>テンプレート選択</td>
                   <td><strong>完全オーダーメイド</strong></td>
-                  <td>業務特化UI</td>
+                  <td><strong>完全カスタマイズ</strong></td>
                 </tr>
                 <tr>
                   <td>更新作業</td>
                   <td>都度依頼</td>
                   <td>自社更新可能<br/><small>（WordPress選択時）</small></td>
-                  <td><strong>アプリで簡単更新</strong></td>
+                  <td>管理画面で簡単更新</td>
                 </tr>
                 <tr>
                   <td>補助金対応</td>

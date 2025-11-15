@@ -1,19 +1,55 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import { LineButton } from '@/components/ui/Button'
-import { 
-  ChevronRight, 
-  MapPin, 
-  Train, 
+import {
+  ChevronRight,
+  MapPin,
+  Train,
   ExternalLink,
   Instagram
 } from 'lucide-react'
 
 export default function ClinicsPage() {
   const [selectedArea, setSelectedArea] = useState<'all' | 'ginza-shinbashi' | 'chiba' | 'kanagawa'>('all')
+
+  const [isHeroVisible, setIsHeroVisible] = useState(false)
+  const [isClinicsVisible, setIsClinicsVisible] = useState(false)
+  const [isInstagramVisible, setIsInstagramVisible] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+  const clinicsRef = useRef<HTMLElement>(null)
+  const instagramRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsHeroVisible(true)
+    }, observerOptions)
+
+    const clinicsObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsClinicsVisible(true)
+    }, observerOptions)
+
+    const instagramObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsInstagramVisible(true)
+    }, observerOptions)
+
+    if (heroRef.current) heroObserver.observe(heroRef.current)
+    if (clinicsRef.current) clinicsObserver.observe(clinicsRef.current)
+    if (instagramRef.current) instagramObserver.observe(instagramRef.current)
+
+    return () => {
+      heroObserver.disconnect()
+      clinicsObserver.disconnect()
+      instagramObserver.disconnect()
+    }
+  }, [])
 
   const clinics = [
     {
@@ -95,13 +131,21 @@ export default function ClinicsPage() {
       </div>
 
       {/* ヒーローセクション */}
-      <section className="py-12 lg:py-16 bg-gradient-to-br from-greige-50 to-white">
-        <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
+      <section ref={heroRef} className="py-16 lg:py-24 bg-gradient-to-br from-greige-50 via-white to-cream relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-greige-100 rounded-full opacity-30 blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-cream rounded-full opacity-40 blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+        <div className="container mx-auto px-4 lg:px-8 max-w-7xl relative z-10">
           <div className="text-center">
-            <h1 className="text-3xl lg:text-5xl font-serif text-greige-800 mb-4">
+            <h1 className={`text-4xl lg:text-6xl font-serif text-greige-800 mb-6 transition-all duration-1000 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               提携院 / アクセス
             </h1>
-            <p className="text-lg text-greige-600">
+            <p className={`text-lg lg:text-xl text-greige-600 transition-all duration-1000 delay-200 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               東京・千葉・神奈川の5院でお待ちしております
             </p>
           </div>
@@ -132,11 +176,17 @@ export default function ClinicsPage() {
       </section>
 
       {/* クリニック一覧 */}
-      <section className="py-12 lg:py-16 bg-white">
+      <section ref={clinicsRef} className="py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
           <div className="space-y-8">
-            {filteredClinics.map((clinic) => (
-              <Card key={clinic.id} className="overflow-hidden">
+            {filteredClinics.map((clinic, index) => (
+              <Card
+                key={clinic.id}
+                className={`overflow-hidden transition-all duration-700 ${
+                  isClinicsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
                 <div className="lg:flex">
                   {/* Google Maps埋め込み */}
                   <div className="lg:w-1/2 h-64 lg:h-[400px] relative">
@@ -202,35 +252,37 @@ export default function ClinicsPage() {
             ))}
           </div>
 
-          {/* 予約・お問い合わせ情報 */}
-          <div className="mt-16">
-            <Card className="bg-gradient-to-br from-greige-50 to-white">
-              <div className="text-center py-8 px-6">
-                <h3 className="text-2xl font-medium text-greige-800 mb-4">
-                  ご予約状況はInstagramから
-                </h3>
-              
+          {/* Instagram連携セクション */}
+          <div ref={instagramRef} className="mt-16">
+            <Card className={`bg-white text-center p-8 lg:p-12 transition-all duration-1000 ${
+              isInstagramVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <Instagram className="w-16 h-16 text-greige-400 mx-auto mb-6" />
+              <h2 className="text-2xl font-medium text-greige-800 mb-4">
+                ご予約状況はInstagramから
+              </h2>
+              <p className="text-greige-600 mb-6">
+                各院の予約状況や最新情報を配信しています。
+                <br />
+                ご予約・お問い合わせはこちらからお願いします。
+              </p>
 
-                <div className="max-w-md mx-auto">
-                  <a
-                    href="https://www.instagram.com/asuka_artmake_para/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-4 p-5 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 rounded-2xl hover:shadow-xl hover:from-gray-300 hover:to-gray-400 hover:text-gray-800 transform hover:scale-105 transition-all group"
-                  >
-                    <Instagram className="w-8 h-8 group-hover:rotate-12 transition-transform" />
-                    <div className="text-left">
-                      <p className="text-lg font-semibold">@asuka_artmake_para</p>
-                      <p className="text-sm opacity-80">予約枠の確認・お問い合わせはこちら</p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 ml-auto" />
-                  </a>
-                </div>
-
-                <p className="text-sm text-greige-500 mt-8">
-                  ※各院の詳細な診療時間は、予約時にご確認ください
-                </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <a
+                  href="https://www.instagram.com/asuka_artmake_para/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-full hover:shadow-lg hover:from-purple-500 hover:to-pink-500 transition-all group"
+                >
+                  <Instagram className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                  <span className="font-medium">@asuka_artmake_para</span>
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </a>
               </div>
+
+              <p className="text-sm text-greige-500">
+                ※各院の詳細な診療時間は、予約時にご確認ください
+              </p>
             </Card>
           </div>
         </div>

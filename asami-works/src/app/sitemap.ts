@@ -37,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     
     // 主要サービスページ
     {
-      url: `${baseUrl}/services/appsheet`,
+      url: `${baseUrl}/services/webapp`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -181,6 +181,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate,
       changeFrequency: 'yearly',
       priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/tokushoho`,
+      lastModified: currentDate,
+      changeFrequency: 'yearly',
+      priority: 0.5,
     },
   ]
 }

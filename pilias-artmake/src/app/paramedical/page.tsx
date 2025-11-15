@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import { LineButton } from '@/components/ui/Button'
@@ -7,6 +8,47 @@ import Button from '@/components/ui/Button'
 import { ChevronRight, Heart, Shield, Users, CheckCircle, AlertCircle, ArrowRight, Sparkles, HandHeart, Stethoscope } from 'lucide-react'
 
 export default function ParamedicalPage() {
+  const [isHeroVisible, setIsHeroVisible] = useState(false)
+  const [isAboutVisible, setIsAboutVisible] = useState(false)
+  const [isTreatmentsVisible, setIsTreatmentsVisible] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+  const aboutRef = useRef<HTMLElement>(null)
+  const treatmentsRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsHeroVisible(true)
+      }
+    }, observerOptions)
+
+    const aboutObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsAboutVisible(true)
+      }
+    }, observerOptions)
+
+    const treatmentsObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsTreatmentsVisible(true)
+      }
+    }, observerOptions)
+
+    if (heroRef.current) heroObserver.observe(heroRef.current)
+    if (aboutRef.current) aboutObserver.observe(aboutRef.current)
+    if (treatmentsRef.current) treatmentsObserver.observe(treatmentsRef.current)
+
+    return () => {
+      heroObserver.disconnect()
+      aboutObserver.disconnect()
+      treatmentsObserver.disconnect()
+    }
+  }, [])
   const treatments = [
     {
       id: 'scar',
@@ -123,48 +165,96 @@ export default function ParamedicalPage() {
       </div>
 
       {/* ヒーローセクション */}
-      <section className="py-12 lg:py-16 bg-gradient-to-br from-[#FDF6F0] to-white">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section ref={heroRef} className="py-16 lg:py-24 bg-gradient-to-br from-[#FDF6F0] via-white to-[#FAF0E6] relative overflow-hidden">
+        {/* 背景装飾 */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FDF6F0] rounded-full opacity-30 blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#FAF0E6] rounded-full opacity-40 blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl lg:text-5xl font-serif text-greige-800 mb-4">
-              パラメディカルアートメイク
+            <h1 className={`text-4xl lg:text-6xl font-serif text-greige-800 mb-6 transition-all duration-1000 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              パラメディカル<br className="sm:hidden" />アートメイク
             </h1>
-            <p className="text-lg text-greige-600 mb-2">
-              医療補助アートメイクで、心と体の悩みを解決
+            <p className={`text-xl lg:text-2xl text-greige-700 mb-4 font-medium transition-all duration-1000 delay-200 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              医療補助アートメイクで、<br className="sm:hidden" />心と体の悩みを解決
             </p>
-            <p className="text-base text-greige-500">
+            <p className={`text-base lg:text-lg text-greige-600 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-300 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               傷痕・白斑・手術痕など、外見の悩みを自然にカバーし、
-              <br className="hidden lg:block" />
               自信を取り戻すお手伝いをいたします
             </p>
+
+            {/* 特徴バッジ */}
+            <div className={`flex flex-wrap justify-center gap-3 mt-8 transition-all duration-1000 delay-500 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-greige-100">
+                <Shield className="w-4 h-4 text-[#C8A882] mr-2" />
+                <span className="text-sm text-greige-700">丁寧なカウンセリング</span>
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-greige-100">
+                <Heart className="w-4 h-4 text-[#C8A882] mr-2" />
+                <span className="text-sm text-greige-700">プライバシー配慮</span>
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-greige-100">
+                <Users className="w-4 h-4 text-[#C8A882] mr-2" />
+                <span className="text-sm text-greige-700">豊富な実績</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* パラメディカルアートメイクとは */}
-      <section className="py-12 lg:py-16 bg-white">
+      <section ref={aboutRef} className="py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl lg:text-3xl font-medium text-greige-800 mb-4">
-                パラメディカルアートメイクとは
-              </h2>
-              <p className="text-greige-600 max-w-3xl mx-auto">
-                医療補助を目的としたアートメイクで、病気や事故、手術などによる外見の変化をカバーする技術です。
-                医療従事者の知識と技術により、自然で美しい仕上がりを実現します。
-              </p>
+            {/* セクション説明 */}
+            <div className={`max-w-3xl mx-auto mb-16 transition-all duration-1000 ${
+              isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <div className="bg-gradient-to-r from-[#FDF6F0] to-white rounded-2xl p-8 lg:p-10 border border-[#E8D5C4] shadow-sm">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#C8A882] shadow-sm mr-4">
+                    <Stethoscope className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-xl lg:text-2xl font-medium text-greige-800 mb-3">
+                      パラメディカルアートメイクとは
+                    </h2>
+                    <p className="text-greige-600 leading-relaxed">
+                      医療補助を目的としたアートメイクで、病気や事故、手術などによる外見の変化をカバーする技術です。
+                      医療従事者の知識と技術により、自然で美しい仕上がりを実現します。
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {benefits.map((benefit) => (
-                <Card key={benefit.title} hover className="text-center">
-                  <div className="flex justify-center mb-4">
-                    <div className="w-16 h-16 bg-[#FDF6F0] rounded-full flex items-center justify-center text-[#C8A882]">
+            {/* 3つの特徴 */}
+            <div className="grid md:grid-cols-3 gap-8">
+              {benefits.map((benefit, index) => (
+                <Card
+                  key={benefit.title}
+                  hover
+                  className={`text-center group transition-all duration-700 ${
+                    isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
+                  style={{ transitionDelay: `${(index + 1) * 200}ms` }}
+                >
+                  <div className="flex justify-center mb-6">
+                    <div className="w-20 h-20 bg-gradient-to-br from-[#FDF6F0] to-[#FAF0E6] rounded-2xl flex items-center justify-center text-[#C8A882]
+                                  group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       {benefit.icon}
                     </div>
                   </div>
-                  <h3 className="text-lg font-medium text-greige-800 mb-2">{benefit.title}</h3>
-                  <p className="text-sm text-greige-600">{benefit.description}</p>
+                  <h3 className="text-lg font-medium text-greige-800 mb-3">{benefit.title}</h3>
+                  <p className="text-sm text-greige-600 leading-relaxed">{benefit.description}</p>
                 </Card>
               ))}
             </div>
@@ -173,16 +263,24 @@ export default function ParamedicalPage() {
       </section>
 
       {/* 施術メニュー */}
-      <section className="py-12 lg:py-16 bg-greige-50">
+      <section ref={treatmentsRef} className="py-12 lg:py-16 bg-greige-50">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl lg:text-3xl font-medium text-greige-800 text-center mb-12">
+            <h2 className={`text-2xl lg:text-3xl font-medium text-greige-800 text-center mb-12 transition-all duration-1000 ${
+              isTreatmentsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               施術メニュー
             </h2>
 
             <div className="grid lg:grid-cols-2 gap-6">
-              {treatments.map((treatment) => (
-                <Card key={treatment.id} className="bg-white overflow-hidden group hover:shadow-lg transition-all duration-300">
+              {treatments.map((treatment, index) => (
+                <Card
+                  key={treatment.id}
+                  className={`bg-white overflow-hidden group hover:shadow-lg transition-all duration-700 ${
+                    isTreatmentsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
+                  style={{ transitionDelay: `${(index + 1) * 150}ms` }}
+                >
                   {/* ヘッダー部分 */}
                   <div className="bg-gradient-to-r from-[#FDF6F0] to-[#FAF0E6] p-6 border-b border-greige-100">
                     <div className="flex items-center">

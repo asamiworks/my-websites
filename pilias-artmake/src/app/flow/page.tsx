@@ -1,11 +1,53 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import { LineButton } from '@/components/ui/Button'
 import { ChevronRight, Phone, Calendar, Clipboard, Palette, Shield, Heart, Home, AlertCircle } from 'lucide-react'
 
 export default function FlowPage() {
+  const [isHeroVisible, setIsHeroVisible] = useState(false)
+  const [isStepsVisible, setIsStepsVisible] = useState(false)
+  const [isCareVisible, setIsCareVisible] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+  const stepsRef = useRef<HTMLElement>(null)
+  const careRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsHeroVisible(true)
+      }
+    }, observerOptions)
+
+    const stepsObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsStepsVisible(true)
+      }
+    }, observerOptions)
+
+    const careObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsCareVisible(true)
+      }
+    }, observerOptions)
+
+    if (heroRef.current) heroObserver.observe(heroRef.current)
+    if (stepsRef.current) stepsObserver.observe(stepsRef.current)
+    if (careRef.current) careObserver.observe(careRef.current)
+
+    return () => {
+      heroObserver.disconnect()
+      stepsObserver.disconnect()
+      careObserver.disconnect()
+    }
+  }, [])
   const steps = [
     {
       number: '01',
@@ -190,31 +232,68 @@ iconColor: 'text-amber-500',
       </div>
 
       {/* ヒーローセクション */}
-      <section className="py-12 lg:py-16 bg-gradient-to-br from-greige-50 to-white">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section ref={heroRef} className="py-16 lg:py-24 bg-gradient-to-br from-greige-50 via-white to-cream relative overflow-hidden">
+        {/* 背景装飾 */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-greige-100 rounded-full opacity-30 blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-cream rounded-full opacity-40 blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl lg:text-5xl font-serif text-greige-800 mb-4">
+            <h1 className={`text-4xl lg:text-6xl font-serif text-greige-800 mb-6 transition-all duration-1000 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               施術の流れ
             </h1>
-            <p className="text-lg text-greige-600">
-              カウンセリングから施術完了まで、安心のサポート体制
+            <p className={`text-xl lg:text-2xl text-greige-700 mb-4 font-medium transition-all duration-1000 delay-200 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              カウンセリングから施術完了まで、<br className="sm:hidden" />安心のサポート体制
             </p>
+            <p className={`text-base lg:text-lg text-greige-600 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-300 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              初めての方でも安心してお受けいただけるよう、丁寧にご説明しながら進めてまいります
+            </p>
+
+            {/* 特徴バッジ */}
+            <div className={`flex flex-wrap justify-center gap-3 mt-8 transition-all duration-1000 delay-500 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-greige-100">
+                <Calendar className="w-4 h-4 text-greige-600 mr-2" />
+                <span className="text-sm text-greige-700">初回2.5〜3時間</span>
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-greige-100">
+                <Shield className="w-4 h-4 text-greige-600 mr-2" />
+                <span className="text-sm text-greige-700">麻酔使用で安心</span>
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-greige-100">
+                <Heart className="w-4 h-4 text-greige-600 mr-2" />
+                <span className="text-sm text-greige-700">LINEサポート対応</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* 施術の流れ */}
-      <section className="py-12 lg:py-16 bg-white">
+      <section ref={stepsRef} className="py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto">
             {/* タイムライン */}
             <div className="relative">
               {/* 縦線（モバイル） */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-greige-200 lg:hidden" />
-              
+
               <div className="space-y-8 lg:space-y-12">
                 {steps.map((step, index) => (
-                  <div key={step.number} className="relative">
+                  <div
+                    key={step.number}
+                    className={`relative transition-all duration-700 ${
+                      isStepsVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+                    }`}
+                    style={{ transitionDelay: `${index * 100}ms` }}
+                  >
                     {/* 横線（デスクトップ） */}
                     {index < steps.length - 1 && (
                       <div className="hidden lg:block absolute top-1/2 left-1/2 w-full h-0.5 bg-greige-200 transform -translate-y-1/2" style={{ zIndex: -1 }} />
@@ -290,16 +369,20 @@ iconColor: 'text-amber-500',
       </section>
 
       {/* 施術前後のケア */}
-      <section className="py-12 lg:py-16 bg-greige-50">
+      <section ref={careRef} className="py-16 lg:py-24 bg-greige-50">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl lg:text-3xl font-medium text-greige-800 text-center mb-12">
+            <h2 className={`text-2xl lg:text-3xl font-medium text-greige-800 text-center mb-16 transition-all duration-1000 ${
+              isCareVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               施術前後のケア
             </h2>
-            
+
             <div className="grid lg:grid-cols-2 gap-8">
               {/* 施術前 */}
-              <div>
+              <div className={`transition-all duration-1000 delay-200 ${
+                isCareVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+              }`}>
                 <h3 className="text-xl font-medium text-greige-800 mb-6 flex items-center">
                   <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">前</span>
                   施術前の過ごし方
@@ -322,7 +405,9 @@ iconColor: 'text-amber-500',
               </div>
 
               {/* 施術後 */}
-              <div>
+              <div className={`transition-all duration-1000 delay-400 ${
+                isCareVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+              }`}>
                 <h3 className="text-xl font-medium text-greige-800 mb-6 flex items-center">
                 <span className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mr-3">後</span>
                   施術後の過ごし方
@@ -361,12 +446,12 @@ iconColor: 'text-amber-500',
       </section>
 
       {/* CTA */}
-      <section className="py-12 lg:py-16 bg-gradient-to-br from-greige-50 to-cream">
+      <section className="py-16 lg:py-24 bg-gradient-to-br from-greige-50 to-cream">
         <div className="container mx-auto px-4 lg:px-8 text-center">
-          <h2 className="text-2xl lg:text-3xl font-serif text-greige-800 mb-4">
+          <h2 className="text-2xl lg:text-3xl font-serif text-greige-800 mb-6">
             安心の施術体制
           </h2>
-          <p className="text-greige-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-greige-600 mb-8 max-w-2xl mx-auto leading-relaxed">
             経験豊富な施術者が、最初から最後まで責任を持って対応いたします
           </p>
           <LineButton size="lg">LINE無料カウンセリング予約</LineButton>

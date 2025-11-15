@@ -180,25 +180,6 @@ export default function SitemapPage() {
               ))}
             </div>
 
-            {/* XMLサイトマップ案内 */}
-            <div className="mt-12 bg-greige-50 rounded-lg p-6">
-              <h2 className="text-lg font-medium text-greige-800 mb-3">
-                検索エンジン向けサイトマップ
-              </h2>
-              <p className="text-sm text-greige-600 mb-3">
-                検索エンジン向けのXMLサイトマップは以下のURLからアクセスできます。
-              </p>
-              <a
-                href="/sitemap.xml"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-sm text-greige-600 hover:text-greige-800 transition-colors"
-              >
-                <FileText className="w-4 h-4 mr-2" />
-                /sitemap.xml
-              </a>
-            </div>
-
             {/* お問い合わせ */}
             <div className="mt-8 bg-blue-50 rounded-lg p-6 text-center">
               <h2 className="text-lg font-medium text-greige-800 mb-3">

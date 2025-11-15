@@ -39,7 +39,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png'
   },
   manifest: '/manifest.json',
@@ -71,11 +70,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        {/* Security headers */}
-        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-        <meta httpEquiv="X-Frame-Options" content="DENY" />
+        {/* Security headers (X-Frame-Options and X-Content-Type-Options are set via HTTP headers in middleware) */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="referrer" content="strict-origin-when-cross-origin" />
 
         {/* Viewport and responsive */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -33,17 +33,17 @@ export default function Services() {
       badge: "おすすめ"
     },
     {
-      id: "appsheet",
-      title: "AppSheet開発",
-      price: "80万円〜",
-      description: "エクセル業務をスマホアプリ化し、業務効率を大幅改善",
+      id: "webapp",
+      title: "WEBアプリ開発",
+      price: "60万円〜（要見積）",
+      description: "業務効率化やサービス提供に最適なWEBアプリケーションを開発",
       features: [
-        "ノーコードで高速開発",
-        "既存データをそのまま活用",
-        "リアルタイム情報共有",
-        "LINE通知・自動化対応"
+        "完全カスタマイズ開発",
+        "業務フローに最適化",
+        "高いセキュリティ",
+        "保守・運用サポート"
       ],
-      href: "/services/appsheet",
+      href: "/services/webapp",
       badge: "NEW"
     }
   ];
@@ -137,11 +137,11 @@ export default function Services() {
               </ul>
             </div>
             <div className={styles.comparisonCard}>
-              <h4 className={styles.comparisonCardTitle}>AppSheet開発</h4>
+              <h4 className={styles.comparisonCardTitle}>WEBアプリ開発</h4>
               <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
               <ul className={styles.comparisonList}>
                 <li>業務を効率化したい</li>
-                <li>エクセル作業が多い</li>
+                <li>独自システムが必要</li>
                 <li>DXを推進したい</li>
               </ul>
             </div>

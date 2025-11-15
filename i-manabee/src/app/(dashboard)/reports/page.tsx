@@ -6,6 +6,7 @@ import { WeeklyReport } from '@/components/reports/WeeklyReport';
 import { Card, CardContent, CardHeader, CardTitle, Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
 import { Calendar, Download, TrendingUp, BarChart3, Mail, RefreshCw } from 'lucide-react';
 import { WeeklyReportGenerator, type WeeklyReportData } from '@/lib/reports/generator';
+import type { ExportType } from '@/lib/reports/exporters';
 
 export default function ReportsPage() {
   const { user } = useAuth();
@@ -14,6 +15,8 @@ export default function ReportsPage() {
   const [selectedWeek, setSelectedWeek] = useState<string>('current');
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [exportType, setExportType] = useState<ExportType>('summary');
+  const [isExporting, setIsExporting] = useState(false);
 
   // 利用可能な週のオプション
   const [weekOptions] = useState(() => {
@@ -91,10 +94,53 @@ export default function ReportsPage() {
     }
   };
 
-  // PDF ダウンロード（実装予定）
-  const downloadPDF = () => {
-    // TODO: PDF生成機能の実装
-    alert('PDF ダウンロード機能は実装予定です');
+  // CSVエクスポート
+  const exportReport = async () => {
+    if (!user || !currentReport) return;
+
+    try {
+      setIsExporting(true);
+
+      // Firebase Auth トークン取得
+      const idToken = await user.getIdToken();
+
+      // APIリクエスト
+      const response = await fetch('/api/reports/export', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          type: exportType,
+          startDate: currentReport.weekStart,
+          endDate: currentReport.weekEnd,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'エクスポートに失敗しました');
+      }
+
+      // CSVファイルダウンロード
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = response.headers.get('Content-Disposition')?.split('filename=')[1]?.replace(/"/g, '') || 'report.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      alert('レポートをエクスポートしました');
+    } catch (error) {
+      console.error('Export error:', error);
+      alert(error instanceof Error ? error.message : 'エクスポートでエラーが発生しました');
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   // メール送信
@@ -156,26 +202,59 @@ export default function ReportsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap items-center gap-4">
-              {/* 週選択 */}
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">対象週:</label>
-                <Select value={selectedWeek} onValueChange={setSelectedWeek}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {weekOptions.map(option => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
+            <div className="space-y-4">
+              {/* 期間とエクスポート設定 */}
+              <div className="flex flex-wrap items-center gap-4">
+                {/* 週選択 */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700">対象週:</label>
+                  <Select value={selectedWeek} onValueChange={setSelectedWeek}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {weekOptions.map(option => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* エクスポートタイプ選択 */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700">出力形式:</label>
+                  <Select value={exportType} onValueChange={(value) => setExportType(value as ExportType)}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="summary">
+                        <div className="flex flex-col">
+                          <span className="font-medium">📊 サマリー</span>
+                          <span className="text-xs text-gray-500">月次統計（推奨）</span>
+                        </div>
                       </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                      <SelectItem value="detailed">
+                        <div className="flex flex-col">
+                          <span className="font-medium">📈 詳細</span>
+                          <span className="text-xs text-gray-500">日別・教科別データ</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="full">
+                        <div className="flex flex-col">
+                          <span className="font-medium">📁 完全データ</span>
+                          <span className="text-xs text-gray-500">全メッセージ（90日以内）</span>
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* アクションボタン */}
-              <div className="flex gap-2 ml-auto">
+              <div className="flex gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -197,13 +276,14 @@ export default function ReportsPage() {
                 </Button>
 
                 <Button
-                  variant="outline"
+                  variant="primary"
                   size="sm"
-                  onClick={downloadPDF}
-                  disabled={!currentReport}
+                  onClick={exportReport}
+                  disabled={!currentReport || isExporting}
+                  className="bg-blue-600 hover:bg-blue-700"
                 >
-                  <Download className="h-4 w-4 mr-1" />
-                  PDF出力
+                  <Download className={`h-4 w-4 mr-1 ${isExporting ? 'animate-bounce' : ''}`} />
+                  {isExporting ? 'エクスポート中...' : 'CSVエクスポート'}
                 </Button>
               </div>
             </div>

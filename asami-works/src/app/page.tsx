@@ -8,7 +8,6 @@ import Strengths from "../components/sections/Strengths";
 import Services from "../components/sections/Services";
 import Process from "../components/sections/Process";
 import FAQ from "../components/sections/FAQ";
-import InstagramFeed from "../components/sections/InstagramFeed";
 import FlowCta from "../components/sections/FlowCta";
 
 // SEO最適化されたメタデータ
@@ -193,10 +192,7 @@ export default function HomePage() {
       
       {/* よくある質問 - 不安の解消 */}
       <FAQ />
-      
-      {/* Instagram連携 - 最新情報 */}
-      <InstagramFeed />
-      
+
       {/* CTA - 行動喚起 */}
       <FlowCta />
     </>

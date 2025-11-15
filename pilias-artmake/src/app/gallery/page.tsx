@@ -1,16 +1,60 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
-import { ChevronRight, Instagram, Filter, Eye } from 'lucide-react'
+import { ChevronRight, Instagram, Filter, Eye, Camera, Award } from 'lucide-react'
 
 export default function GalleryPage() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [displayCount, setDisplayCount] = useState(8) // 初期表示数を8枚に設定
+  const [previousDisplayCount, setPreviousDisplayCount] = useState(0) // 前回の表示数を追跡
   const MAX_DISPLAY = 60 // 最大表示数を30枚に制限
+
+  const [isHeroVisible, setIsHeroVisible] = useState(false)
+  const [isGalleryVisible, setIsGalleryVisible] = useState(false)
+  const [showNewItems, setShowNewItems] = useState(false) // 新しいアイテムの表示制御
+  const heroRef = useRef<HTMLElement>(null)
+  const galleryRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsHeroVisible(true)
+    }, observerOptions)
+
+    const galleryObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setIsGalleryVisible(true)
+    }, observerOptions)
+
+    if (heroRef.current) heroObserver.observe(heroRef.current)
+    if (galleryRef.current) galleryObserver.observe(galleryRef.current)
+
+    return () => {
+      heroObserver.disconnect()
+      galleryObserver.disconnect()
+    }
+  }, [])
+
+  // displayCountが変更されたときに新しいアイテムのアニメーションをトリガー
+  useEffect(() => {
+    if (previousDisplayCount > 0 && displayCount > previousDisplayCount) {
+      // 強制的にアニメーションをリセット
+      setShowNewItems(false)
+      // ブラウザに状態変更を認識させるため、requestAnimationFrameを使用
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setShowNewItems(true)
+        })
+      })
+    }
+  }, [displayCount, previousDisplayCount])
   
   // 施術症例のサンプルデータ
   // 画像ファイル名の規則: /images/gallery/[category]/[id].jpg
@@ -674,12 +718,16 @@ export default function GalleryPage() {
   // フィルター変更時に表示数をリセット
   const handleFilterChange = (filter: string) => {
     setActiveFilter(filter)
+    setPreviousDisplayCount(0)
+    setShowNewItems(false)
     setDisplayCount(8) // フィルター変更時は初期表示数に戻す
   }
-  
+
   // もっと見るボタンの処理
   const loadMore = () => {
-    setDisplayCount(prev => Math.min(prev + 8, limitedItems.length))
+    const currentCount = displayCount
+    setPreviousDisplayCount(currentCount)
+    setDisplayCount(Math.min(currentCount + 8, limitedItems.length))
   }
 
   return (
@@ -698,17 +746,41 @@ export default function GalleryPage() {
       </div>
 
       {/* ヒーローセクション */}
-      <section className="py-12 lg:py-16 bg-gradient-to-br from-stone-50 to-white">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section ref={heroRef} className="py-16 lg:py-24 bg-gradient-to-br from-stone-50 via-white to-amber-50 relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-stone-100 rounded-full opacity-30 blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-50 rounded-full opacity-40 blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl lg:text-5xl font-serif text-stone-800 mb-4">
+            <h1 className={`text-4xl lg:text-6xl font-serif text-stone-800 mb-6 transition-all duration-1000 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               施術症例
             </h1>
-            <p className="text-lg text-stone-600 mb-6">
+            <p className={`text-lg lg:text-xl text-stone-600 mb-8 transition-all duration-1000 delay-200 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
               1000件以上の実績から、お客様に最適な施術をご提案
             </p>
-            
-           
+
+            {/* Feature badges */}
+            <div className={`flex flex-wrap justify-center gap-3 transition-all duration-1000 delay-500 ${
+              isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-stone-100">
+                <Camera className="w-4 h-4 text-stone-600 mr-2" />
+                <span className="text-sm text-stone-700">Before/After写真</span>
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-stone-100">
+                <Award className="w-4 h-4 text-amber-500 mr-2" />
+                <span className="text-sm text-stone-700">豊富な症例</span>
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm border border-stone-100">
+                <Eye className="w-4 h-4 text-stone-600 mr-2" />
+                <span className="text-sm text-stone-700">1000件以上の実績</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -743,13 +815,37 @@ export default function GalleryPage() {
       </section>
 
       {/* ギャラリーグリッド */}
-      <section className="py-12 lg:py-16 bg-white">
+      <section ref={galleryRef} className="py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           {displayedItems.length > 0 ? (
             <>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {displayedItems.map((item) => (
-                  <div key={item.id} className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer">
+                {displayedItems.map((item, index) => {
+                  // 新しく追加されたアイテムかどうかを判定
+                  const isNewItem = index >= previousDisplayCount && previousDisplayCount > 0
+                  // 初期表示のアイテム
+                  const isInitialItem = previousDisplayCount === 0
+
+                  return (
+                  <div
+                    key={item.id}
+                    className={`relative aspect-square overflow-hidden rounded-lg group cursor-pointer transition-all duration-700 ${
+                      isNewItem
+                        ? showNewItems ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'  // 新しいアイテム
+                        : isInitialItem && isGalleryVisible
+                        ? 'opacity-100 translate-y-0'  // 初期表示アイテム
+                        : isInitialItem && !isGalleryVisible
+                        ? 'opacity-0 translate-y-10'   // 初期表示前
+                        : 'opacity-100 translate-y-0'  // 既に表示済み
+                    }`}
+                    style={{
+                      transitionDelay: isNewItem && showNewItems
+                        ? `${(index - previousDisplayCount) * 50}ms`
+                        : isInitialItem
+                        ? `${Math.min(index * 50, 400)}ms`
+                        : '0ms'
+                    }}
+                  >
                     {/* Before/After画像 */}
                     <Image
                       src={item.image!}
@@ -757,10 +853,10 @@ export default function GalleryPage() {
                       fill
                       className="object-cover"
                     />
-                    
+
                     {/* ホバー時のオーバーレイ */}
-                    
-                    
+
+
                     {/* カテゴリーバッジ */}
                     {/* カテゴリーバッジ */}
 <div className="absolute top-2 left-2">
@@ -777,7 +873,8 @@ export default function GalleryPage() {
   </span>
 </div>
                   </div>
-                ))}
+                  )
+                })}
               </div>
               
               {/* もっと見るボタン */}
@@ -814,7 +911,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Instagram連携セクション */}
-      <section className="py-12 lg:py-16 bg-stone-50">
+      <section className="py-16 lg:py-24 bg-stone-50">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <Card className="bg-white text-center p-8 lg:p-12">
@@ -858,7 +955,7 @@ export default function GalleryPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-12 lg:py-16 bg-gradient-to-br from-stone-50 to-amber-50">
+      <section className="py-16 lg:py-24 bg-gradient-to-br from-stone-50 to-amber-50">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <h2 className="text-2xl lg:text-3xl font-serif text-stone-800 mb-4">
             あなたも理想の仕上がりを

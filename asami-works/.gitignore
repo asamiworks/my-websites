@@ -64,3 +64,4 @@ gmail-token.json
 *.old
 *.orig
 *~
+firebase-admin-key.json

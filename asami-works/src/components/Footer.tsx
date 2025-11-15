@@ -35,8 +35,8 @@ export default function Footer() {
     services: {
       title: "その他制作",
       links: [
-        { href: "/services/appsheet", label: "AppSheet構築" },
-      
+        { href: "/services/webapp", label: "WEBアプリ開発" },
+
         { href: "/pr", label: "広告ページ制作" }  // ← ここに追加
       ]
     },
@@ -110,6 +110,10 @@ export default function Footer() {
             <span className={styles.separator}>|</span>
             <Link href="/terms" className={styles.legalLink}>
               利用規約
+            </Link>
+            <span className={styles.separator}>|</span>
+            <Link href="/tokushoho" className={styles.legalLink}>
+              特定商取引法に基づく表記
             </Link>
           </div>
         </div>

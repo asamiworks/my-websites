@@ -25,7 +25,7 @@ export default function Breadcrumb() {
       'lp': 'ランディングページ制作',
       'corporate': 'コーポレートサイト制作',
       'grant': '補助金対応サイト制作',
-      'appsheet': 'AppSheet業務改善システム',
+      'webapp': 'WEBアプリ開発',
       'subsidy': '補助金・助成金情報',
       'estimate': '料金シミュレーション',
       'form': 'お問い合わせ',
@@ -49,7 +49,13 @@ export default function Breadcrumb() {
   const breadcrumbs = generateBreadcrumbs();
 
   // ホームページや特定のページではパンくずリストを表示しない
-  if (pathname === '/' || pathname === '/form' || pathname === '/estimate') {
+  if (
+    pathname === '/' ||
+    pathname === '/form' ||
+    pathname === '/estimate' ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/mypage')
+  ) {
     return null;
   }
 

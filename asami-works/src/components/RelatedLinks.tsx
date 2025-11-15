@@ -30,9 +30,9 @@ export default function RelatedLinks() {
       description: "補助金申請に最適化された高機能サイト"
     },
     {
-      href: "/services/appsheet",
-      title: "AppSheet業務改善システム",
-      description: "エクセル業務をスマホアプリ化し業務効率を改善"
+      href: "/services/webapp",
+      title: "WEBアプリ開発",
+      description: "業務効率化・サービス提供に最適なカスタムシステムを構築"
     }
   ];
   

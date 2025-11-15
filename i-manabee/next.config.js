@@ -12,7 +12,6 @@ const nextConfig = {
 
   // 実験的機能
   experimental: {
-    appDir: true,
     optimizePackageImports: ['lucide-react'],
   },
 

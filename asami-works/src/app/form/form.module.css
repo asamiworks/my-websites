@@ -625,3 +625,46 @@
     font-size: 1.05rem;
   }
 }
+
+/* チャット会話ボックス */
+.chatConversationBox {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.chatConversationHeader {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+}
+
+.chatConversationContent {
+  padding: 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: #374151;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.chatConversationContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatConversationContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.chatConversationContent::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.chatConversationContent::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
