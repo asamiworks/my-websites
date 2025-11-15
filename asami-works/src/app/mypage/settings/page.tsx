@@ -82,6 +82,12 @@ export default function SettingsPage() {
       return;
     }
 
+    // 初回パスワード変更ではない場合、現在のパスワードが必要
+    if (!wasInitialPassword && !currentPassword) {
+      setPasswordError('現在のパスワードを入力してください');
+      return;
+    }
+
     if (!auth.currentUser || !currentEmail) {
       setPasswordError('ログインしてください');
       return;
@@ -90,21 +96,29 @@ export default function SettingsPage() {
     setPasswordLoading(true);
 
     try {
-      // パスワードの前後の空白を自動的に削除（コピペミス対策）
-      const trimmedPassword = currentPassword.trim();
-
-      console.log('[Password Change] Attempting re-authentication...', {
+      console.log('[Password Change] Starting password change...', {
+        isInitialPassword: wasInitialPassword,
         email: currentEmail,
-        passwordLength: trimmedPassword.length,
-        hadWhitespace: currentPassword !== trimmedPassword,
-        originalLength: currentPassword.length,
       });
 
-      // 再認証
-      const credential = EmailAuthProvider.credential(currentEmail, trimmedPassword);
-      await reauthenticateWithCredential(auth.currentUser, credential);
+      // 初回パスワード変更の場合は再認証をスキップ
+      // （既にログインできているので、初期パスワードは正しいと判断）
+      if (!wasInitialPassword) {
+        // 通常のパスワード変更：再認証が必要
+        const trimmedPassword = currentPassword.trim();
 
-      console.log('[Password Change] Re-authentication successful');
+        console.log('[Password Change] Re-authenticating...', {
+          passwordLength: trimmedPassword.length,
+          hadWhitespace: currentPassword !== trimmedPassword,
+        });
+
+        const credential = EmailAuthProvider.credential(currentEmail, trimmedPassword);
+        await reauthenticateWithCredential(auth.currentUser, credential);
+
+        console.log('[Password Change] Re-authentication successful');
+      } else {
+        console.log('[Password Change] Skipping re-authentication (initial password change)');
+      }
 
       // パスワード更新
       await updatePassword(auth.currentUser, newPassword);
@@ -112,7 +126,7 @@ export default function SettingsPage() {
       console.log('[Password Change] Password updated successfully');
 
       // Firestoreの初期パスワードフラグをfalseに
-      if (clientId) {
+      if (clientId && wasInitialPassword) {
         await updateDoc(doc(db, 'clients', clientId), {
           hasInitialPassword: false,
           updatedAt: new Date(),
@@ -142,7 +156,7 @@ export default function SettingsPage() {
 
       let errorMessage = 'パスワードの変更に失敗しました';
       if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-        errorMessage = '現在のパスワードが正しくありません。初期パスワードをそのままコピーして貼り付けてください。';
+        errorMessage = '現在のパスワードが正しくありません';
       } else if (error.code === 'auth/weak-password') {
         errorMessage = 'パスワードが弱すぎます。より複雑なパスワードを使用してください';
       } else if (error.code === 'auth/requires-recent-login') {
@@ -256,45 +270,55 @@ export default function SettingsPage() {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>パスワード変更</h2>
           <div className={styles.card}>
-            <form onSubmit={handlePasswordChange}>
-              <div className={styles.formGroup}>
-                <label htmlFor="currentPassword" className={styles.label}>
-                  現在のパスワード
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <input
-                    id="currentPassword"
-                    type={showCurrentPassword ? 'text' : 'password'}
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    className={styles.input}
-                    required
-                    autoComplete="current-password"
-                    placeholder="初期パスワードをコピー&ペーストしてください"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                    style={{
-                      position: 'absolute',
-                      right: '10px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                    }}
-                  >
-                    {showCurrentPassword ? '🙈' : '👁️'}
-                  </button>
-                </div>
-                {wasInitialPassword && (
-                  <p className={styles.hint} style={{ color: '#f59e0b', marginTop: '4px' }}>
-                    ⚠️ 初期パスワードは管理画面からコピーして貼り付けてください
-                  </p>
-                )}
+            {wasInitialPassword && (
+              <div style={{
+                padding: '12px 16px',
+                backgroundColor: '#fef3c7',
+                borderLeft: '4px solid #f59e0b',
+                marginBottom: '20px',
+                borderRadius: '4px'
+              }}>
+                <p style={{ margin: 0, fontSize: '14px', color: '#92400e' }}>
+                  🔐 初回ログインです。セキュリティのため、新しいパスワードを設定してください。
+                </p>
               </div>
+            )}
+            <form onSubmit={handlePasswordChange}>
+              {/* 初回パスワード変更の場合は現在のパスワードフィールドを非表示 */}
+              {!wasInitialPassword && (
+                <div className={styles.formGroup}>
+                  <label htmlFor="currentPassword" className={styles.label}>
+                    現在のパスワード
+                  </label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      id="currentPassword"
+                      type={showCurrentPassword ? 'text' : 'password'}
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      className={styles.input}
+                      required
+                      autoComplete="current-password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                      style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                      }}
+                    >
+                      {showCurrentPassword ? '🙈' : '👁️'}
+                    </button>
+                  </div>
+                </div>
+              )}
 
               <div className={styles.formGroup}>
                 <label htmlFor="newPassword" className={styles.label}>
