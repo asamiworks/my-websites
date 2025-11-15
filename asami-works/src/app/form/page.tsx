@@ -2,7 +2,7 @@
 
 import { Suspense, useRef, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import ReCAPTCHA from "react-google-recaptcha";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { api } from "@/lib/api";
 import styles from "./form.module.css";
 
@@ -17,7 +17,7 @@ type SubmitMessage = {
 function FormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<SubmitMessage | null>(null);
@@ -110,9 +110,9 @@ function FormContent() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleConfirm = (e: React.FormEvent) => {
+  const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // フォーム送信を試みたことを記録
     setIsFormAttempted(true);
 
@@ -132,24 +132,26 @@ function FormContent() {
       return;
     }
 
-    // 本番環境でのみreCAPTCHAチェック
-    const token = recaptchaRef.current?.getValue();
-    if (!token) {
-      alert("「私はロボットではありません」にチェックを入れてください。");
+    // 本番環境でreCAPTCHA v3を実行
+    if (!executeRecaptcha) {
+      alert("reCAPTCHAの読み込みに失敗しました。ページを再読み込みしてください。");
       return;
     }
 
-    setRecaptchaToken(token);
-    setShowConfirm(true);
+    try {
+      const token = await executeRecaptcha('submit');
+      setRecaptchaToken(token);
+      setShowConfirm(true);
+    } catch (error) {
+      console.error('reCAPTCHA error:', error);
+      alert("reCAPTCHAの検証に失敗しました。もう一度お試しください。");
+    }
   };
 
   const handleBack = () => {
     setShowConfirm(false);
     setSubmitMessage(null);
-    // reCAPTCHAをリセット
-    if (recaptchaRef.current) {
-      recaptchaRef.current.reset();
-    }
+    setRecaptchaToken("");
   };
 
   const handleSend = async () => {
@@ -704,17 +706,6 @@ function FormContent() {
           )}
         </div>
 
-        {/* reCAPTCHA - ローカル環境では非表示 */}
-        {typeof window !== 'undefined' && window.location.hostname !== 'localhost' && (
-          <div className={styles.formGroup} style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={siteKey}
-              size="normal"
-            />
-          </div>
-        )}
-
         {/* 送信ボタン */}
         <button 
           type="submit" 
@@ -739,11 +730,13 @@ function FormLoading() {
   );
 }
 
-// メインコンポーネント（Suspenseでラップ）
+// メインコンポーネント（GoogleReCaptchaProviderとSuspenseでラップ）
 export default function FormPage() {
   return (
-    <Suspense fallback={<FormLoading />}>
-      <FormContent />
-    </Suspense>
+    <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
+      <Suspense fallback={<FormLoading />}>
+        <FormContent />
+      </Suspense>
+    </GoogleReCaptchaProvider>
   );
 }
