@@ -2,58 +2,67 @@ import * as admin from 'firebase-admin';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-// Initialize Firebase Admin (if not already initialized)
-if (!admin.apps.length) {
+// 初期化を遅延実行する関数
+function ensureFirebaseInitialized() {
+  if (admin.apps.length > 0) {
+    return; // 既に初期化済み
+  }
+
+  console.log('[Firebase Admin] Initializing...');
+
   try {
     // 環境変数からサービスアカウントキーのJSONを取得（Vercel本番環境用）
     const envKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY?.trim();
 
+    console.log('[Firebase Admin] Environment check:', {
+      hasEnvKey: !!envKey,
+      envKeyLength: envKey?.length || 0,
+      nodeEnv: process.env.NODE_ENV,
+      vercelEnv: process.env.VERCEL_ENV,
+    });
+
     if (envKey && envKey.length > 0) {
-      console.log('Using FIREBASE_SERVICE_ACCOUNT_KEY from environment variable');
+      console.log('[Firebase Admin] Using environment variable');
       const serviceAccount = JSON.parse(envKey);
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
         projectId: serviceAccount.project_id
       });
-      console.log('Firebase Admin initialized successfully with environment variable');
+      console.log('[Firebase Admin] ✓ Initialized successfully with environment variable');
     }
     // ローカル開発: firebase-admin-key.jsonファイルを使用
     else {
       const serviceAccountPath = join(process.cwd(), 'firebase-admin-key.json');
+      console.log('[Firebase Admin] Checking local file:', serviceAccountPath);
 
-      // ファイルが存在しない場合（Vercelビルド時など）はスキップ
       if (!existsSync(serviceAccountPath)) {
-        console.warn('Firebase Admin key file not found and no environment variable set.');
-        console.warn('This is expected during build time. Initialization will happen at runtime.');
-        // ビルド時は初期化をスキップ（ランタイムで再度試行される）
-      } else {
-        console.log('Using firebase-admin-key.json from local file system');
-        const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, 'utf8'));
-        admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
-          projectId: serviceAccount.project_id
-        });
-        console.log('Firebase Admin initialized successfully with local file');
+        const errorMsg = 'Firebase Admin key not found. Environment variable FIREBASE_SERVICE_ACCOUNT_KEY is not set and local file does not exist.';
+        console.error('[Firebase Admin] ✗', errorMsg);
+        throw new Error(errorMsg);
       }
+
+      console.log('[Firebase Admin] Using local file');
+      const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, 'utf8'));
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        projectId: serviceAccount.project_id
+      });
+      console.log('[Firebase Admin] ✓ Initialized successfully with local file');
     }
   } catch (error) {
-    console.error('Firebase Admin initialization error:', error);
-    // ビルド時のエラーは警告に留める（ランタイムで再試行される）
-    if (process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production') {
-      console.warn('Initialization failed, but this may be expected during build. Will retry at runtime.');
-    } else {
-      throw error;
-    }
+    console.error('[Firebase Admin] ✗ Initialization failed:', error);
+    throw error;
   }
 }
 
-// Lazy exports to avoid errors during build time
+// Lazy exports - 初回アクセス時に初期化を実行
 let _auth: admin.auth.Auth | null = null;
 let _db: admin.firestore.Firestore | null = null;
 
 export const auth = new Proxy({} as admin.auth.Auth, {
   get(target, prop) {
     if (!_auth) {
+      ensureFirebaseInitialized();
       _auth = admin.auth();
     }
     return (_auth as any)[prop];
@@ -63,6 +72,7 @@ export const auth = new Proxy({} as admin.auth.Auth, {
 export const db = new Proxy({} as admin.firestore.Firestore, {
   get(target, prop) {
     if (!_db) {
+      ensureFirebaseInitialized();
       _db = admin.firestore();
     }
     return (_db as any)[prop];
