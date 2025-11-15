@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/firebase-admin';
+import { auth, db, Timestamp } from '@/lib/firebase-admin';
 
 // ランダムパスワード生成
 function generatePassword(length: number = 12): string {
@@ -39,6 +39,14 @@ export async function POST(request: NextRequest) {
     await auth.setCustomUserClaims(userRecord.uid, {
       clientId,
       role: 'client',
+    });
+
+    // Firestoreのクライアントドキュメントを更新
+    await db.collection('clients').doc(clientId).update({
+      authUid: userRecord.uid,
+      emailVerified: false,
+      hasInitialPassword: true,
+      updatedAt: Timestamp.now(),
     });
 
     return NextResponse.json({
