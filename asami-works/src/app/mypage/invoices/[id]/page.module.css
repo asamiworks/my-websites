@@ -1,0 +1,422 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: #3182ce;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  transition: color 0.2s ease;
+}
+
+.backButton:hover {
+  color: #2c5282;
+  text-decoration: underline;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a202c;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+}
+
+.loading {
+  color: #718096;
+}
+
+.error {
+  color: #e53e3e;
+}
+
+.errorMessage {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #fff5f5;
+  border: 1px solid #fc8181;
+  border-radius: 0.5rem;
+  color: #c53030;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.statusDraft {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.statusSent {
+  background-color: #bee3f8;
+  color: #2c5282;
+}
+
+.statusPaid {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.statusOverdue {
+  background-color: #fed7d7;
+  color: #742a2a;
+}
+
+.statusCancelled {
+  background-color: #e2e8f0;
+  color: #718096;
+  text-decoration: line-through;
+}
+
+.invoiceCard {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.invoiceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.invoiceNumber {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #3182ce;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 0.5rem;
+}
+
+.invoiceMeta {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.autoGenBadge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: #edf2f7;
+  color: #4a5568;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.totalAmount {
+  text-align: right;
+}
+
+.totalLabel {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 0.25rem;
+}
+
+.totalValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.invoiceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+}
+
+.label {
+  color: #718096;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.value {
+  color: #2d3748;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.itemsSection {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.itemsTable {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.itemsTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.itemsTable th {
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  background-color: #f7fafc;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.itemsTable td {
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  color: #2d3748;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.itemsTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.itemAmount {
+  font-weight: 600;
+  text-align: right;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+  padding: 1.5rem;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+}
+
+.summaryRow {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.summaryLabel {
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.summaryValue {
+  color: #2d3748;
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: right;
+}
+
+.summaryTotal {
+  padding-top: 0.5rem;
+  border-top: 2px solid #cbd5e0;
+  margin-top: 0.5rem;
+}
+
+.summaryTotal .summaryLabel {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.summaryTotal .summaryValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3182ce;
+}
+
+.notesSection {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e2e8f0;
+}
+
+.notes {
+  color: #4a5568;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.paymentSection {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.paymentDescription {
+  color: #4a5568;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.payButton {
+  width: 100%;
+  padding: 1rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.payButton:hover:not(:disabled) {
+  background-color: #2c5282;
+}
+
+.payButton:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.bankInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.notice {
+  padding: 1rem;
+  background-color: #fffaf0;
+  border-left: 4px solid #ed8936;
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.notice p {
+  color: #744210;
+  font-size: 0.95rem;
+  margin: 0.25rem 0;
+}
+
+.paidMessage {
+  background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+  border: 2px solid #48bb78;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.paidIcon {
+  font-size: 3rem;
+  color: #22543d;
+  margin-bottom: 0.5rem;
+}
+
+.paidText {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #22543d;
+  margin-bottom: 0.5rem;
+}
+
+.paidDate {
+  font-size: 0.95rem;
+  color: #276749;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .invoiceCard {
+    padding: 1.5rem;
+  }
+
+  .invoiceHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .totalAmount {
+    text-align: left;
+  }
+
+  .totalValue {
+    font-size: 1.5rem;
+  }
+
+  .infoRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .value {
+    text-align: left;
+  }
+
+  .summary {
+    padding: 1rem;
+  }
+
+  .summaryRow {
+    gap: 1rem;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

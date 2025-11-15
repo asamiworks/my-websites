@@ -1,0 +1,270 @@
+.pageWrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.yearSelector {
+  background: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exportButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exportButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.summaryCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.infoItem {
+  background: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border-left: 4px solid #667eea;
+}
+
+.infoLabel {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.infoValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.infoSubtext {
+  font-size: 0.875rem;
+  color: #a0aec0;
+  margin-top: 0.5rem;
+}
+
+.calculation {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.calculationRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.calculationRow:last-child {
+  border-bottom: none;
+}
+
+.calculationLabel {
+  font-size: 0.95rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.calculationValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  font-variant-numeric: tabular-nums;
+}
+
+.calculationRow.total {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.calculationRow.total .calculationLabel,
+.calculationRow.total .calculationValue {
+  color: white;
+}
+
+.calculationRow.total .calculationValue {
+  font-size: 1.75rem;
+}
+
+.highlight {
+  background: #ebf8ff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border-left: 4px solid #3182ce;
+  margin: 1.5rem 0;
+}
+
+.highlight .calculationLabel {
+  color: #2c5282;
+  font-weight: 600;
+}
+
+.highlight .calculationValue {
+  color: #2c5282;
+}
+
+.expensesTable {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.expensesTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.expensesTable thead {
+  background: #f7fafc;
+}
+
+.expensesTable th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.expensesTable td {
+  padding: 1rem;
+  border-top: 1px solid #e2e8f0;
+  color: #2d3748;
+}
+
+.expensesTable tbody tr:hover {
+  background: #f7fafc;
+}
+
+.amount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.alert {
+  background: #fffaf0;
+  border-left: 4px solid #dd6b20;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.alertTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #7c2d12;
+  margin: 0 0 0.5rem 0;
+}
+
+.alertText {
+  font-size: 0.95rem;
+  color: #9c4221;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  color: #718096;
+}
+
+.errorMessage {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .calculationRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .calculationValue {
+    font-size: 1.5rem;
+  }
+}

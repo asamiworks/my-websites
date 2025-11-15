@@ -1,0 +1,216 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 4rem);
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #718096;
+  font-size: 1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #718096;
+  font-size: 1.1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1rem;
+}
+
+.cardDescription {
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.notesList {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 2rem;
+  color: #718096;
+}
+
+.notesList li {
+  margin-bottom: 0.5rem;
+}
+
+.importButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.importButton:hover:not(:disabled) {
+  background-color: #2c5282;
+}
+
+.importButton:disabled {
+  background-color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.resultSuccess,
+.resultError {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.resultSuccess {
+  border-left: 4px solid #48bb78;
+}
+
+.resultError {
+  border-left: 4px solid #f56565;
+  background-color: #fff5f5;
+}
+
+.resultTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.resultSuccess .resultTitle {
+  color: #22543d;
+}
+
+.resultError .resultTitle {
+  color: #c53030;
+}
+
+.resultStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.statItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+}
+
+.statLabel {
+  color: #718096;
+  font-weight: 500;
+}
+
+.statValue {
+  color: #1a202c;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.errorMessage {
+  color: #c53030;
+  padding: 1rem;
+  background-color: #fff5f5;
+  border-radius: 0.5rem;
+  border: 1px solid #feb2b2;
+}
+
+.errorDetails {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #fffaf0;
+  border-radius: 0.5rem;
+  border: 1px solid #fbd38d;
+}
+
+.errorDetails h4 {
+  color: #c05621;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.errorDetails ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  color: #744210;
+}
+
+.errorDetails li {
+  margin-bottom: 0.25rem;
+}
+
+.viewClientsButton {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: #48bb78;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.viewClientsButton:hover {
+  background-color: #38a169;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .resultStats {
+    grid-template-columns: 1fr;
+  }
+}

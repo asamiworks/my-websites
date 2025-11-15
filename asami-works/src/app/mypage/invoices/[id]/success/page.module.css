@@ -1,0 +1,265 @@
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+}
+
+.loading {
+  color: #718096;
+}
+
+.error {
+  color: #e53e3e;
+}
+
+.button {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #2c5282;
+}
+
+.successCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.successIcon {
+  margin: 0 auto 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.checkmark {
+  width: 80px;
+  height: 80px;
+  stroke: #48bb78;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmarkCircle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke: #48bb78;
+  stroke-width: 2;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmarkCheck {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #48bb78;
+  stroke-width: 3;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #48bb78;
+  }
+}
+
+.successTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 1rem;
+}
+
+.successMessage {
+  color: #4a5568;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.invoiceDetails {
+  background-color: #f7fafc;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailLabel {
+  color: #718096;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.detailValue {
+  color: #2d3748;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.detailValueAmount {
+  color: #2d3748;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.infoBox {
+  background-color: #ebf8ff;
+  border: 1px solid #90cdf4;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.infoText {
+  color: #2c5282;
+  font-size: 0.95rem;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.infoText:first-child {
+  margin-top: 0;
+}
+
+.infoText:last-child {
+  margin-bottom: 0;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.primaryButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.primaryButton:hover {
+  background-color: #2c5282;
+}
+
+.secondaryButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: white;
+  color: #3182ce;
+  border: 2px solid #3182ce;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+  background-color: #ebf8ff;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem 1rem;
+  }
+
+  .successCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .successTitle {
+    font-size: 1.5rem;
+  }
+
+  .successMessage {
+    font-size: 1rem;
+  }
+
+  .checkmark {
+    width: 60px;
+    height: 60px;
+  }
+
+  .detailValueAmount {
+    font-size: 1.25rem;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+}

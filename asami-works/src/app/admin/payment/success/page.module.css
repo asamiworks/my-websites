@@ -1,0 +1,136 @@
+.pageWrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 48px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.successIcon {
+  font-size: 80px;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 16px;
+}
+
+.message {
+  font-size: 18px;
+  color: #4a5568;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.info {
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 16px;
+}
+
+.info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info li {
+  padding: 8px 0;
+  color: #4a5568;
+  position: relative;
+  padding-left: 28px;
+}
+
+.info li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #48bb78;
+  font-weight: bold;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.primaryButton {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  padding: 14px 32px;
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.secondaryButton:hover {
+  background: #f7fafc;
+}
+
+.loading {
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  padding: 40px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .card {
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+}

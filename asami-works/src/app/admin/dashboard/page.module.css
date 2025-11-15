@@ -1,0 +1,326 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 4rem);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.errorMessage {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 統計カード */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.statSubtext {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.statusDot {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.statusText {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* セクション */
+.section {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+/* クイックアクション */
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .actionsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.actionButton,
+.actionButtonPrimary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  gap: 0.5rem;
+  min-height: 120px;
+}
+
+.actionButton {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.actionButton:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.actionButtonPrimary {
+  background: #2563eb;
+  border: 1px solid transparent;
+  color: white;
+}
+
+.actionButtonPrimary:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.actionIcon {
+  font-size: 2rem;
+}
+
+.actionLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* 最近の活動 */
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activityItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  transition: background 0.2s;
+}
+
+.activityItem:hover {
+  background: #f3f4f6;
+}
+
+.activityInfo {
+  flex: 1;
+}
+
+.activityName {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.activityMeta {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.activityRight {
+  text-align: right;
+}
+
+.activityAmount {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.activityStatus {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+
+.statusPaid {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusSent {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.statusOverdue {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.statusCancelled {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.statusDraft {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.viewAll {
+  padding-top: 0.5rem;
+  text-align: center;
+}
+
+.viewAllLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.viewAllLink:hover {
+  color: #1d4ed8;
+}
+
+/* 空の状態 */
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.empty p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.emptyButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #2563eb;
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.emptyButton:hover {
+  background: #1d4ed8;
+}

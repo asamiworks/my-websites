@@ -1,0 +1,338 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: #3182ce;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
+}
+
+.backButton:hover {
+  color: #2c5282;
+  text-decoration: underline;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+}
+
+.loading {
+  color: #718096;
+}
+
+.error {
+  color: #e53e3e;
+}
+
+.invoiceCard {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.invoiceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.invoiceNumber {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.invoiceClient {
+  color: #4a5568;
+  font-size: 1.1rem;
+}
+
+.status {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.statusDraft {
+  background-color: #edf2f7;
+  color: #4a5568;
+}
+
+.statusSent {
+  background-color: #bee3f8;
+  color: #2c5282;
+}
+
+.statusPaid {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.statusOverdue {
+  background-color: #fed7d7;
+  color: #742a2a;
+}
+
+.statusCancelled {
+  background-color: #e2e8f0;
+  color: #718096;
+}
+
+.invoiceInfo {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  color: #718096;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.infoValue {
+  color: #2d3748;
+  font-size: 0.95rem;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.itemsSection {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.itemsTable th {
+  background-color: #f7fafc;
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.itemsTable td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #2d3748;
+}
+
+.itemsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.itemsTable th:nth-child(2),
+.itemsTable td:nth-child(2),
+.itemsTable th:nth-child(3),
+.itemsTable td:nth-child(3),
+.itemsTable th:nth-child(4),
+.itemsTable td:nth-child(4) {
+  text-align: right;
+}
+
+.totalsSection {
+  padding: 1.5rem;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.totalLabel {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.totalValue {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.totalRowFinal {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  margin-top: 0.5rem;
+  border-top: 2px solid #cbd5e0;
+  font-size: 1.5rem;
+}
+
+.totalRowFinal .totalLabel {
+  color: #1a202c;
+  font-weight: 700;
+}
+
+.totalValueFinal {
+  color: #1a202c;
+  font-weight: 700;
+}
+
+.notesSection {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #fffaf0;
+  border-left: 4px solid #ed8936;
+  border-radius: 0.5rem;
+}
+
+.notes {
+  color: #2d3748;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.actionSection {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.markPaidButton,
+.editButton,
+.clientButton {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.markPaidButton {
+  background-color: #48bb78;
+  color: white;
+}
+
+.markPaidButton:hover:not(:disabled) {
+  background-color: #38a169;
+}
+
+.markPaidButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.editButton {
+  background-color: #3182ce;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #2c5282;
+}
+
+.clientButton {
+  background-color: white;
+  color: #3182ce;
+  border: 2px solid #3182ce;
+}
+
+.clientButton:hover {
+  background-color: #ebf8ff;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .invoiceCard {
+    padding: 1.5rem;
+  }
+
+  .invoiceHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .invoiceNumber {
+    font-size: 1.5rem;
+  }
+
+  .invoiceClient {
+    font-size: 1rem;
+  }
+
+  .itemsTable {
+    font-size: 0.875rem;
+  }
+
+  .itemsTable th,
+  .itemsTable td {
+    padding: 0.5rem;
+  }
+
+  .itemsTable th:first-child,
+  .itemsTable td:first-child {
+    min-width: 120px;
+  }
+
+  .totalRowFinal {
+    font-size: 1.25rem;
+  }
+
+  .actionSection {
+    flex-direction: column;
+  }
+
+  .markPaidButton,
+  .editButton,
+  .clientButton {
+    width: 100%;
+  }
+}

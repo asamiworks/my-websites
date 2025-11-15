@@ -1,0 +1,155 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+}
+
+.loginCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 3rem 2.5rem;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  text-align: center;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #718096;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.loading {
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.error {
+  background-color: #fff5f5;
+  border: 1px solid #fc8181;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: #c53030;
+  font-size: 0.95rem;
+}
+
+.googleButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.googleButton:hover:not(:disabled) {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.googleButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.googleIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.mfaForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.mfaInput {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-family: monospace;
+  transition: border-color 0.2s;
+}
+
+.mfaInput:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.note {
+  margin-top: 2rem;
+  color: #718096;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .loginCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1.5rem;
+  }
+
+  .logo svg {
+    width: 40px;
+    height: 40px;
+  }
+}

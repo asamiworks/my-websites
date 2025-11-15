@@ -1,0 +1,590 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 4rem);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #718096;
+  font-size: 1rem;
+}
+
+.addButton {
+  padding: 0.75rem 1.5rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: #2c5282;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 3rem;
+  color: #718096;
+  font-size: 1.1rem;
+}
+
+.errorMessage {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #fff5f5;
+  border: 1px solid #fc8181;
+  border-radius: 0.5rem;
+  color: #c53030;
+}
+
+.addButtonLarge {
+  margin-top: 1.5rem;
+  padding: 1rem 2rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.addButtonLarge:hover {
+  background-color: #2c5282;
+}
+
+.clientsTable {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.clientsTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.clientsTable thead {
+  background-color: #f7fafc;
+}
+
+.clientsTable th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.clientsTable td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #2d3748;
+}
+
+.clientsTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.clientsTable tbody tr:hover {
+  background-color: #f7fafc;
+}
+
+.inactiveRow {
+  opacity: 0.6;
+}
+
+.clientName {
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.statusActive {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.statusInactive {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: #e2e8f0;
+  color: #718096;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton,
+.contractButton,
+.toggleButton,
+.invoiceButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editButton {
+  background-color: #edf2f7;
+  color: #2d3748;
+}
+
+.editButton:hover {
+  background-color: #e2e8f0;
+}
+
+.contractButton {
+  background-color: #f0fff4;
+  color: #22543d;
+}
+
+.contractButton:hover {
+  background-color: #c6f6d5;
+}
+
+.toggleButton {
+  background-color: #fffaf0;
+  color: #c05621;
+}
+
+.toggleButton:hover {
+  background-color: #feebc8;
+}
+
+.invoiceButton {
+  background-color: #ebf8ff;
+  color: #2c5282;
+}
+
+.invoiceButton:hover {
+  background-color: #bee3f8;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  background: white;
+  border-radius: 0.75rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #718096;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: #edf2f7;
+}
+
+.form {
+  padding: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.required {
+  color: #e53e3e;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.cancelButton,
+.submitButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton {
+  background-color: white;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+}
+
+.cancelButton:hover {
+  background-color: #f7fafc;
+}
+
+.submitButton {
+  background-color: #3182ce;
+  color: white;
+}
+
+.submitButton:hover {
+  background-color: #2c5282;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .clientsTable {
+    overflow-x: auto;
+  }
+
+  .clientsTable table {
+    min-width: 800px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .editButton,
+  .contractButton,
+  .toggleButton,
+  .invoiceButton {
+    width: 100%;
+  }
+
+  .modalContent {
+    width: 95%;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}
+
+/* マイページリンク */
+.mypageLink {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #48bb78;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.mypageLink:hover {
+  background-color: #38a169;
+}
+
+.noMypage {
+  color: #a0aec0;
+  font-size: 0.875rem;
+}
+
+/* 認証設定関連 */
+.setupAuthButton {
+  padding: 0.5rem 1rem;
+  background-color: #edf2f7;
+  color: #2d3748;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.setupAuthButton:hover {
+  background-color: #e2e8f0;
+  border-color: #a0aec0;
+}
+
+.authConfiguredContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.authConfigured {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  background-color: #c6f6d5;
+  color: #22543d;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.removeAuthButton {
+  padding: 0.375rem 0.75rem;
+  background-color: #fff5f5;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.removeAuthButton:hover {
+  background-color: #fed7d7;
+  border-color: #fc8181;
+}
+
+.noEmail {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* パスワード表示モーダル */
+.credentialsContainer {
+  padding: 1.5rem;
+}
+
+.credentialsNote {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #e6f7ff;
+  border-left: 4px solid #3182ce;
+  border-radius: 0.375rem;
+  line-height: 1.6;
+  color: #2d3748;
+}
+
+.credentialItem {
+  margin-bottom: 1.25rem;
+}
+
+.credentialLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.credentialValueContainer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.credentialValue {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  background-color: #f7fafc;
+  color: #2d3748;
+}
+
+.copyButton {
+  padding: 0.75rem 1.25rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.copyButton:hover {
+  background-color: #2c5282;
+}
+
+.copyButton:active {
+  transform: scale(0.98);
+}
+
+.warningNote {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #fffaf0;
+  border-left: 4px solid #ed8936;
+  border-radius: 0.375rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #744210;
+}
+
+.closeModalButton {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #718096;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.closeModalButton:hover {
+  background-color: #4a5568;
+}

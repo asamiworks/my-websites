@@ -1,0 +1,270 @@
+.pageWrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.cardTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #1a202c;
+  text-align: center;
+}
+
+.cardDescription {
+  font-size: 16px;
+  color: #718096;
+  margin-bottom: 32px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f7fafc;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #2d3748;
+}
+
+.featureIcon {
+  font-size: 24px;
+}
+
+.qrCodeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.qrCodeContainer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background: #f7fafc;
+  border-radius: 12px;
+}
+
+.qrCode {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+}
+
+.instructions h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #2d3748;
+}
+
+.stepsList {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.stepsList li {
+  margin-bottom: 8px;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.secretKey {
+  margin-top: 16px;
+  padding: 16px;
+  background: #edf2f7;
+  border-radius: 8px;
+}
+
+.secretKey p {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #2d3748;
+}
+
+.secretKey code {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #667eea;
+  word-break: break-all;
+}
+
+.form {
+  width: 100%;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: center;
+  letter-spacing: 8px;
+  font-family: monospace;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.primaryButton {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  padding: 14px 24px;
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: #f7fafc;
+}
+
+.secondaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+}
+
+.buttonGroup button {
+  flex: 1;
+}
+
+.successIcon {
+  font-size: 64px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.error {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .qrCodeSection {
+    flex-direction: column;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+}

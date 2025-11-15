@@ -1,0 +1,395 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs,
+  getDoc,
+  updateDoc,
+  doc,
+  Timestamp
+} from 'firebase/firestore';
+import { db } from '@/lib/firebase-config';
+import { Invoice, InvoiceStatus } from '@/types/invoice';
+import AdminNav from '@/components/admin/AdminNav';
+import styles from './page.module.css';
+
+const ADMIN_EMAIL = 'admin@asami-works.com';
+
+export default function PaymentsPage() {
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [unpaidInvoices, setUnpaidInvoices] = useState<Invoice[]>([]);
+  const [paidInvoices, setPaidInvoices] = useState<Invoice[]>([]);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [paymentAmount, setPaymentAmount] = useState<string>('');
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/admin/login');
+      return;
+    }
+
+    if (!authLoading && user && user.email !== ADMIN_EMAIL) {
+      router.push('/');
+      return;
+    }
+
+    if (user && user.email === ADMIN_EMAIL) {
+      loadInvoices();
+    }
+  }, [user, authLoading, router]);
+
+  const loadInvoices = async () => {
+    try {
+      setLoading(true);
+
+      // 未払い請求書を取得（sent, overdue）
+      const unpaidQuery = query(
+        collection(db, 'invoices'),
+        where('status', 'in', ['sent', 'overdue']),
+        orderBy('dueDate', 'asc')
+      );
+      const unpaidSnapshot = await getDocs(unpaidQuery);
+      const unpaidData = unpaidSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Invoice[];
+      setUnpaidInvoices(unpaidData);
+
+      // 最近の支払い済み請求書を取得（最新30件）
+      const paidQuery = query(
+        collection(db, 'invoices'),
+        where('status', '==', 'paid'),
+        orderBy('updatedAt', 'desc')
+      );
+      const paidSnapshot = await getDocs(paidQuery);
+      const paidData = paidSnapshot.docs.slice(0, 30).map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Invoice[];
+      setPaidInvoices(paidData);
+    } catch (err) {
+      console.error('Error loading invoices:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenPaymentModal = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setPaymentAmount(invoice.totalAmount.toString());
+    setShowPaymentModal(true);
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!selectedInvoice) return;
+
+    const paidAmount = parseFloat(paymentAmount);
+    if (isNaN(paidAmount) || paidAmount < 0) {
+      alert('正しい入金額を入力してください');
+      return;
+    }
+
+    const paymentDifference = paidAmount - selectedInvoice.totalAmount;
+
+    try {
+      // 請求書を更新
+      await updateDoc(doc(db, 'invoices', selectedInvoice.id), {
+        status: 'paid' as InvoiceStatus,
+        paidAmount,
+        paymentDifference,
+        updatedAt: Timestamp.now(),
+      });
+
+      // クライアントの累積過不足金を更新
+      const clientRef = doc(db, 'clients', selectedInvoice.clientId);
+      const clientDoc = await getDoc(clientRef);
+
+      if (clientDoc.exists()) {
+        const currentDifference = clientDoc.data().accumulatedDifference || 0;
+        const newDifference = currentDifference + paymentDifference;
+
+        await updateDoc(clientRef, {
+          accumulatedDifference: newDifference,
+          updatedAt: Timestamp.now(),
+        });
+      }
+
+      setShowPaymentModal(false);
+      setSelectedInvoice(null);
+      setPaymentAmount('');
+
+      if (paymentDifference !== 0) {
+        const diffLabel = paymentDifference > 0 ? '過払い' : '不足';
+        alert(`入金を確認しました\n\n${diffLabel}金額: ¥${Math.abs(paymentDifference).toLocaleString()}\n次回請求書で調整されます`);
+      } else {
+        alert('入金を確認しました');
+      }
+
+      loadInvoices();
+    } catch (err) {
+      console.error('Error confirming payment:', err);
+      alert('入金確認に失敗しました');
+    }
+  };
+
+  const formatDate = (timestamp: any) => {
+    if (!timestamp) return '-';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return new Intl.DateTimeFormat('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(date);
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('ja-JP', {
+      style: 'currency',
+      currency: 'JPY'
+    }).format(amount);
+  };
+
+  const getOverdueDays = (dueDate: any) => {
+    if (!dueDate) return 0;
+    const due = dueDate.toDate ? dueDate.toDate() : new Date(dueDate);
+    const today = new Date();
+    const diffTime = today.getTime() - due.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : 0;
+  };
+
+  if (authLoading || loading) {
+    return (
+      <div className={styles.pageWrapper}>
+        <AdminNav />
+        <div className={styles.container}>
+          <div className={styles.loading}>読み込み中...</div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.pageWrapper}>
+      <AdminNav />
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div>
+            <h1 className={styles.title}>入金確認</h1>
+            <p className={styles.subtitle}>
+              未払い請求書: {unpaidInvoices.length}件
+            </p>
+          </div>
+        </div>
+
+        {/* 未払い請求書セクション */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>未払い請求書</h2>
+          {unpaidInvoices.length === 0 ? (
+            <div className={styles.empty}>未払いの請求書はありません</div>
+          ) : (
+            <div className={styles.invoicesTable}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>請求書番号</th>
+                    <th>クライアント</th>
+                    <th>請求額</th>
+                    <th>発行日</th>
+                    <th>支払期限</th>
+                    <th>状態</th>
+                    <th>アクション</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {unpaidInvoices.map((invoice) => {
+                    const overdueDays = getOverdueDays(invoice.dueDate);
+                    return (
+                      <tr key={invoice.id}>
+                        <td className={styles.invoiceNumber}>{invoice.invoiceNumber}</td>
+                        <td>{invoice.clientName}</td>
+                        <td className={styles.amount}>{formatCurrency(invoice.totalAmount)}</td>
+                        <td>{formatDate(invoice.issueDate)}</td>
+                        <td>{formatDate(invoice.dueDate)}</td>
+                        <td>
+                          {overdueDays > 0 ? (
+                            <span className={styles.overdue}>期限超過 ({overdueDays}日)</span>
+                          ) : (
+                            <span className={styles.pending}>未払い</span>
+                          )}
+                        </td>
+                        <td>
+                          <button
+                            className={styles.confirmButton}
+                            onClick={() => handleOpenPaymentModal(invoice)}
+                          >
+                            💰 入金確認
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* 入金履歴セクション */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>入金履歴（最新30件）</h2>
+          {paidInvoices.length === 0 ? (
+            <div className={styles.empty}>入金履歴がありません</div>
+          ) : (
+            <div className={styles.invoicesTable}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>請求書番号</th>
+                    <th>クライアント</th>
+                    <th>請求額</th>
+                    <th>入金額</th>
+                    <th>過不足</th>
+                    <th>入金確認日</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paidInvoices.map((invoice) => {
+                    const difference = (invoice.paidAmount || invoice.totalAmount) - invoice.totalAmount;
+                    return (
+                      <tr key={invoice.id}>
+                        <td className={styles.invoiceNumber}>{invoice.invoiceNumber}</td>
+                        <td>{invoice.clientName}</td>
+                        <td>{formatCurrency(invoice.totalAmount)}</td>
+                        <td className={styles.amount}>
+                          {formatCurrency(invoice.paidAmount || invoice.totalAmount)}
+                        </td>
+                        <td>
+                          {difference === 0 ? (
+                            <span className={styles.noDifference}>±¥0</span>
+                          ) : difference > 0 ? (
+                            <span className={styles.overpaid}>+{formatCurrency(difference)}</span>
+                          ) : (
+                            <span className={styles.underpaid}>{formatCurrency(difference)}</span>
+                          )}
+                        </td>
+                        <td>{formatDate(invoice.updatedAt)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* 入金確認モーダル */}
+      {showPaymentModal && selectedInvoice && (
+        <div className={styles.modal} onClick={() => setShowPaymentModal(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>入金確認</h2>
+              <button className={styles.closeButton} onClick={() => setShowPaymentModal(false)}>
+                ×
+              </button>
+            </div>
+
+            <div className={styles.form}>
+              <div className={styles.invoiceInfo}>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>請求書番号:</span>
+                  <span className={styles.infoValue}>{selectedInvoice.invoiceNumber}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>クライアント:</span>
+                  <span className={styles.infoValue}>{selectedInvoice.clientName}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>請求額:</span>
+                  <span className={styles.infoValueAmount}>
+                    {formatCurrency(selectedInvoice.totalAmount)}
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.label}>
+                  入金額 <span className={styles.required}>*</span>
+                </label>
+                <input
+                  type="number"
+                  className={styles.input}
+                  value={paymentAmount}
+                  onChange={(e) => setPaymentAmount(e.target.value)}
+                  placeholder="入金額を入力してください"
+                  min="0"
+                  step="1"
+                  required
+                />
+              </div>
+
+              {paymentAmount && !isNaN(parseFloat(paymentAmount)) && (
+                <div className={
+                  parseFloat(paymentAmount) === selectedInvoice.totalAmount
+                    ? styles.differenceBoxSuccess
+                    : parseFloat(paymentAmount) > selectedInvoice.totalAmount
+                      ? styles.differenceBoxWarning
+                      : styles.differenceBoxError
+                }>
+                  <div className={styles.differenceHeader}>
+                    <span className={styles.differenceLabel}>
+                      {parseFloat(paymentAmount) === selectedInvoice.totalAmount
+                        ? '✓ 過不足なし'
+                        : parseFloat(paymentAmount) > selectedInvoice.totalAmount
+                          ? '⚠ 過払い'
+                          : '⚠ 不足'}
+                    </span>
+                    {parseFloat(paymentAmount) !== selectedInvoice.totalAmount && (
+                      <span className={styles.differenceAmount}>
+                        {parseFloat(paymentAmount) > selectedInvoice.totalAmount ? '+' : ''}
+                        {formatCurrency(parseFloat(paymentAmount) - selectedInvoice.totalAmount)}
+                      </span>
+                    )}
+                  </div>
+                  {parseFloat(paymentAmount) !== selectedInvoice.totalAmount && (
+                    <p className={styles.differenceNote}>
+                      次回請求書で自動調整されます
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className={styles.formActions}>
+                <button
+                  type="button"
+                  className={styles.cancelButton}
+                  onClick={() => setShowPaymentModal(false)}
+                >
+                  キャンセル
+                </button>
+                <button
+                  type="button"
+                  className={styles.submitButton}
+                  onClick={handleConfirmPayment}
+                  disabled={!paymentAmount || isNaN(parseFloat(paymentAmount)) || parseFloat(paymentAmount) < 0}
+                >
+                  入金確認
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
