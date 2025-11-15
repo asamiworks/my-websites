@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
   // 本番ビルド時の最適化
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'
+  },
+  // プリフェッチの最適化
+  devIndicators: {
+    buildActivityPosition: 'bottom-right',
   }
 }
 
