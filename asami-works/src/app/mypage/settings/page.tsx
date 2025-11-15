@@ -155,12 +155,19 @@ export default function SettingsPage() {
       });
 
       let errorMessage = 'パスワードの変更に失敗しました';
+
+      // requires-recent-login または permission-denied の場合は再ログインが必要
+      if (error.code === 'auth/requires-recent-login' || error.code === 'auth/permission-denied') {
+        alert('セキュリティのため、再度ログインしてください。');
+        await signOut(auth);
+        router.push('/mypage/login?reason=session-expired');
+        return;
+      }
+
       if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
         errorMessage = '現在のパスワードが正しくありません';
       } else if (error.code === 'auth/weak-password') {
         errorMessage = 'パスワードが弱すぎます。より複雑なパスワードを使用してください';
-      } else if (error.code === 'auth/requires-recent-login') {
-        errorMessage = 'セキュリティのため、再度ログインしてください';
       } else if (error.code === 'auth/invalid-email') {
         errorMessage = 'メールアドレスが無効です';
       } else {
@@ -290,32 +297,29 @@ export default function SettingsPage() {
                   <label htmlFor="currentPassword" className={styles.label}>
                     現在のパスワード
                   </label>
-                  <div style={{ position: 'relative' }}>
+                  <input
+                    id="currentPassword"
+                    type={showCurrentPassword ? 'text' : 'password'}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className={styles.input}
+                    required
+                    autoComplete="current-password"
+                  />
+                  <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <input
-                      id="currentPassword"
-                      type={showCurrentPassword ? 'text' : 'password'}
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      className={styles.input}
-                      required
-                      autoComplete="current-password"
+                      type="checkbox"
+                      id="showCurrentPassword"
+                      checked={showCurrentPassword}
+                      onChange={(e) => setShowCurrentPassword(e.target.checked)}
+                      style={{ cursor: 'pointer' }}
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                      style={{
-                        position: 'absolute',
-                        right: '10px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                      }}
+                    <label
+                      htmlFor="showCurrentPassword"
+                      style={{ fontSize: '14px', cursor: 'pointer', userSelect: 'none' }}
                     >
-                      {showCurrentPassword ? '🙈' : '👁️'}
-                    </button>
+                      パスワードを表示
+                    </label>
                   </div>
                 </div>
               )}
@@ -324,34 +328,16 @@ export default function SettingsPage() {
                 <label htmlFor="newPassword" className={styles.label}>
                   新しいパスワード
                 </label>
-                <div style={{ position: 'relative' }}>
-                  <input
-                    id="newPassword"
-                    type={showNewPassword ? 'text' : 'password'}
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className={styles.input}
-                    required
-                    minLength={8}
-                    autoComplete="new-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowNewPassword(!showNewPassword)}
-                    style={{
-                      position: 'absolute',
-                      right: '10px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                    }}
-                  >
-                    {showNewPassword ? '🙈' : '👁️'}
-                  </button>
-                </div>
+                <input
+                  id="newPassword"
+                  type={showNewPassword ? 'text' : 'password'}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className={styles.input}
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                />
                 <p className={styles.hint}>8文字以上で入力してください</p>
               </div>
 
@@ -359,17 +345,30 @@ export default function SettingsPage() {
                 <label htmlFor="confirmPassword" className={styles.label}>
                   新しいパスワード（確認）
                 </label>
-                <div style={{ position: 'relative' }}>
+                <input
+                  id="confirmPassword"
+                  type={showNewPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={styles.input}
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                />
+                <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <input
-                    id="confirmPassword"
-                    type={showNewPassword ? 'text' : 'password'}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className={styles.input}
-                    required
-                    minLength={8}
-                    autoComplete="new-password"
+                    type="checkbox"
+                    id="showNewPassword"
+                    checked={showNewPassword}
+                    onChange={(e) => setShowNewPassword(e.target.checked)}
+                    style={{ cursor: 'pointer' }}
                   />
+                  <label
+                    htmlFor="showNewPassword"
+                    style={{ fontSize: '14px', cursor: 'pointer', userSelect: 'none' }}
+                  >
+                    新しいパスワードを表示
+                  </label>
                 </div>
               </div>
 

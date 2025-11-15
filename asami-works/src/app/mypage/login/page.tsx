@@ -16,6 +16,7 @@ export default function ClientLoginPage() {
   const [showResetForm, setShowResetForm] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -219,7 +220,7 @@ export default function ClientLoginPage() {
             </label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={styles.input}
@@ -227,6 +228,21 @@ export default function ClientLoginPage() {
               placeholder="パスワードを入力"
               autoComplete="current-password"
             />
+            <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <input
+                type="checkbox"
+                id="showPassword"
+                checked={showPassword}
+                onChange={(e) => setShowPassword(e.target.checked)}
+                style={{ cursor: 'pointer' }}
+              />
+              <label
+                htmlFor="showPassword"
+                style={{ fontSize: '14px', cursor: 'pointer', userSelect: 'none' }}
+              >
+                パスワードを表示
+              </label>
+            </div>
           </div>
 
           {error && <div className={styles.error}>{error}</div>}
