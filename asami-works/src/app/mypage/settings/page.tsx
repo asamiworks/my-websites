@@ -28,6 +28,8 @@ export default function SettingsPage() {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   // メールアドレス変更
   const [newEmail, setNewEmail] = useState('');
@@ -88,12 +90,26 @@ export default function SettingsPage() {
     setPasswordLoading(true);
 
     try {
+      // パスワードの前後の空白を自動的に削除（コピペミス対策）
+      const trimmedPassword = currentPassword.trim();
+
+      console.log('[Password Change] Attempting re-authentication...', {
+        email: currentEmail,
+        passwordLength: trimmedPassword.length,
+        hadWhitespace: currentPassword !== trimmedPassword,
+        originalLength: currentPassword.length,
+      });
+
       // 再認証
-      const credential = EmailAuthProvider.credential(currentEmail, currentPassword);
+      const credential = EmailAuthProvider.credential(currentEmail, trimmedPassword);
       await reauthenticateWithCredential(auth.currentUser, credential);
+
+      console.log('[Password Change] Re-authentication successful');
 
       // パスワード更新
       await updatePassword(auth.currentUser, newPassword);
+
+      console.log('[Password Change] Password updated successfully');
 
       // Firestoreの初期パスワードフラグをfalseに
       if (clientId) {
@@ -118,15 +134,23 @@ export default function SettingsPage() {
         setTimeout(() => setPasswordSuccess(false), 3000);
       }
     } catch (error: any) {
-      console.error('Password change error:', error);
+      console.error('[Password Change] Error:', {
+        code: error.code,
+        message: error.message,
+        fullError: error,
+      });
 
       let errorMessage = 'パスワードの変更に失敗しました';
-      if (error.code === 'auth/wrong-password') {
-        errorMessage = '現在のパスワードが正しくありません';
+      if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        errorMessage = '現在のパスワードが正しくありません。初期パスワードをそのままコピーして貼り付けてください。';
       } else if (error.code === 'auth/weak-password') {
         errorMessage = 'パスワードが弱すぎます。より複雑なパスワードを使用してください';
       } else if (error.code === 'auth/requires-recent-login') {
         errorMessage = 'セキュリティのため、再度ログインしてください';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'メールアドレスが無効です';
+      } else {
+        errorMessage = `パスワードの変更に失敗しました (${error.code || 'unknown'})`;
       }
 
       setPasswordError(errorMessage);
@@ -237,31 +261,73 @@ export default function SettingsPage() {
                 <label htmlFor="currentPassword" className={styles.label}>
                   現在のパスワード
                 </label>
-                <input
-                  id="currentPassword"
-                  type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  className={styles.input}
-                  required
-                  autoComplete="current-password"
-                />
+                <div style={{ position: 'relative' }}>
+                  <input
+                    id="currentPassword"
+                    type={showCurrentPassword ? 'text' : 'password'}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className={styles.input}
+                    required
+                    autoComplete="current-password"
+                    placeholder="初期パスワードをコピー&ペーストしてください"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                    }}
+                  >
+                    {showCurrentPassword ? '🙈' : '👁️'}
+                  </button>
+                </div>
+                {wasInitialPassword && (
+                  <p className={styles.hint} style={{ color: '#f59e0b', marginTop: '4px' }}>
+                    ⚠️ 初期パスワードは管理画面からコピーして貼り付けてください
+                  </p>
+                )}
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="newPassword" className={styles.label}>
                   新しいパスワード
                 </label>
-                <input
-                  id="newPassword"
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className={styles.input}
-                  required
-                  minLength={8}
-                  autoComplete="new-password"
-                />
+                <div style={{ position: 'relative' }}>
+                  <input
+                    id="newPassword"
+                    type={showNewPassword ? 'text' : 'password'}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className={styles.input}
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                    }}
+                  >
+                    {showNewPassword ? '🙈' : '👁️'}
+                  </button>
+                </div>
                 <p className={styles.hint}>8文字以上で入力してください</p>
               </div>
 
@@ -269,16 +335,18 @@ export default function SettingsPage() {
                 <label htmlFor="confirmPassword" className={styles.label}>
                   新しいパスワード（確認）
                 </label>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={styles.input}
-                  required
-                  minLength={8}
-                  autoComplete="new-password"
-                />
+                <div style={{ position: 'relative' }}>
+                  <input
+                    id="confirmPassword"
+                    type={showNewPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className={styles.input}
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                  />
+                </div>
               </div>
 
               {passwordError && (
