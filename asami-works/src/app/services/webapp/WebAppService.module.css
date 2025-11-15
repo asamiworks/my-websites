@@ -1,0 +1,422 @@
+.container {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* ========== Hero Section ========== */
+.hero {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+  padding: 140px 24px 100px;
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.heroDescription {
+  font-size: 1.375rem;
+  margin-bottom: 56px;
+  opacity: 0.95;
+  line-height: 1.7;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.primaryButton {
+  background: white;
+  color: #059669;
+  padding: 24px 64px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.primaryButton:hover {
+  background: #f9fafb;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* ========== Stats Section ========== */
+.statsSection {
+  background: white;
+  padding: 80px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.statsGrid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  text-align: center;
+}
+
+.statItem {
+  padding: 24px;
+}
+
+.statNumber {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #059669;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  font-size: 1.125rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* ========== Cases Section ========== */
+.casesSection {
+  padding: 120px 24px;
+  background: #f9fafb;
+}
+
+.sectionContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: 80px;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.casesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.caseCard {
+  background: white;
+  padding: 48px 32px;
+  border-radius: 16px;
+  transition: all 0.3s;
+  border: 1px solid #e5e7eb;
+}
+
+.caseCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  border-color: #10b981;
+}
+
+.caseIcon {
+  font-size: 3.5rem;
+  margin-bottom: 24px;
+  line-height: 1;
+}
+
+.caseTitle {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.caseDescription {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* ========== Features Section ========== */
+.featuresSection {
+  padding: 120px 24px;
+  background: white;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.featureItem {
+  text-align: center;
+  padding: 24px;
+}
+
+.featureNumber {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #d1fae5;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #111827;
+}
+
+.featureDescription {
+  font-size: 1.0625rem;
+  color: #6b7280;
+  line-height: 1.8;
+}
+
+/* ========== Pricing Section ========== */
+.pricingSection {
+  padding: 120px 24px;
+  background: #f9fafb;
+}
+
+.pricingCard {
+  max-width: 600px;
+  margin: 0 auto 32px;
+  background: white;
+  padding: 64px 48px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 2px solid #10b981;
+}
+
+.pricingMain {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pricingAmount {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #059669;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.pricingLabel {
+  font-size: 1.25rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.pricingIncludes {
+  text-align: center;
+}
+
+.pricingIncludes p {
+  font-size: 1.0625rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.pricingNote {
+  text-align: center;
+  font-size: 0.9375rem;
+  color: #6b7280;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ========== Flow Section ========== */
+.flowSection {
+  padding: 120px 24px;
+  background: white;
+}
+
+.flowGrid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.flowItem {
+  flex: 1;
+  text-align: center;
+  padding: 48px 32px;
+  background: #f9fafb;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s;
+}
+
+.flowItem:hover {
+  border-color: #10b981;
+  transform: translateY(-4px);
+}
+
+.flowNumber {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #10b981;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.flowTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.flowDescription {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.7;
+}
+
+.flowArrow {
+  font-size: 2rem;
+  color: #10b981;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ========== CTA Section ========== */
+.ctaSection {
+  padding: 140px 24px;
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  text-align: center;
+}
+
+.ctaContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.ctaDescription {
+  font-size: 1.375rem;
+  color: white;
+  opacity: 0.95;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-block;
+  background: white;
+  color: #059669;
+  padding: 24px 64px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.ctaButton:hover {
+  background: #f9fafb;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 1024px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+
+  .casesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .flowGrid {
+    flex-direction: column;
+  }
+
+  .flowArrow {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroDescription {
+    font-size: 1.125rem;
+  }
+
+  .primaryButton {
+    padding: 20px 48px;
+    font-size: 1.125rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .statNumber {
+    font-size: 3rem;
+  }
+
+  .casesGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .ctaTitle {
+    font-size: 2.5rem;
+  }
+
+  .pricingAmount {
+    font-size: 3rem;
+  }
+}
