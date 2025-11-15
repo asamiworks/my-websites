@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthModal from "@/components/auth/AuthModal";
 import styles from "./Header.module.css";
 
 type NavItem = {
@@ -28,7 +30,12 @@ export default function Header() {
   const [isMobileOriginalOpen, setIsMobileOriginalOpen] = useState(false);
   const [isMobileOthersOpen, setIsMobileOthersOpen] = useState(false);
   const [isMobileServiceOpen, setIsMobileServiceOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const pathname = usePathname();
+  const { user, signOut } = useAuth();
+
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   // スクロール検知
   useEffect(() => {
@@ -39,6 +46,20 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // ユーザーメニューの外側クリック検知
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    if (isUserMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isUserMenuOpen]);
 
   // URLのハッシュに基づいてスクロールする処理
   useEffect(() => {
@@ -130,17 +151,17 @@ export default function Header() {
     },
     {
       label: "その他制作",
-      href: "/services/others",
+      href: "#",
       hasDropdown: true,
       dropdownKey: "others",
       dropdownItems: [
-        { label: "AppSheet構築", href: "/services/appsheet" },
+        { label: "WEBアプリ開発", href: "/services/webapp" },
         { label: "広告ページ制作", href: "/pr" }
       ]
     },
     {
       label: "サービス",
-      href: "/service",
+      href: "#",
       hasDropdown: true,
       dropdownKey: "service",
       dropdownItems: [
@@ -296,6 +317,23 @@ export default function Header() {
     return false;
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      setIsUserMenuOpen(false);
+      setIsMenuOpen(false);
+    } catch (error) {
+      console.error('ログアウトエラー:', error);
+      alert('ログアウトに失敗しました。もう一度お試しください。');
+    }
+  };
+
+  const getUserDisplayName = () => {
+    if (user?.displayName) return user.displayName;
+    if (user?.email) return user.email.split('@')[0];
+    return 'ユーザー';
+  };
+
   return (
     <>
       <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
@@ -364,6 +402,54 @@ export default function Header() {
             <Link href="/form" className={styles.ctaButton}>
               <span className={styles.buttonText}>無料相談</span>
             </Link>
+
+            {/* ログイン/ユーザーメニュー */}
+            {user ? (
+              <div className={styles.userMenu} ref={userMenuRef}>
+                <button
+                  className={styles.userMenuButton}
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  aria-expanded={isUserMenuOpen}
+                  type="button"
+                >
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 10c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                  <span className={styles.userName}>{getUserDisplayName()}</span>
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor" className={styles.dropdownArrowIcon}>
+                    <path d="M5 6L0 0h10L5 6z"/>
+                  </svg>
+                </button>
+
+                {isUserMenuOpen && (
+                  <div className={styles.userMenuDropdown}>
+                    <Link href="/mypage" className={styles.userMenuItem} onClick={() => setIsUserMenuOpen(false)}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      </svg>
+                      マイページ
+                    </Link>
+                    <button className={styles.userMenuItem} onClick={handleLogout} type="button">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                      </svg>
+                      ログアウト
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                className={styles.loginButton}
+                onClick={() => setShowAuthModal(true)}
+                type="button"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                ログイン
+              </button>
+            )}
           </div>
 
           {/* モバイルメニューボタン */}
@@ -442,8 +528,8 @@ export default function Header() {
           
           {/* モバイルCTAボタン */}
           <div className={styles.mobileCta}>
-            <Link 
-              href="/estimate" 
+            <Link
+              href="/estimate"
               className={styles.mobileEstimateButton}
               onClick={() => {
                 scrollPositionRef.current = 0;
@@ -451,8 +537,8 @@ export default function Header() {
             >
               料金シミュレーション
             </Link>
-            <Link 
-              href="/form" 
+            <Link
+              href="/form"
               className={styles.mobileCtaButton}
               onClick={() => {
                 scrollPositionRef.current = 0;
@@ -460,18 +546,67 @@ export default function Header() {
             >
               無料相談はこちら
             </Link>
+
+            {/* モバイルログイン/ユーザーメニュー */}
+            {user ? (
+              <div className={styles.mobileUserSection}>
+                <div className={styles.mobileUserInfo}>
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 10c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                  <span>{getUserDisplayName()}</span>
+                </div>
+                <Link
+                  href="/mypage"
+                  className={styles.mobileUserButton}
+                  onClick={() => {
+                    scrollPositionRef.current = 0;
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  マイページ
+                </Link>
+                <button
+                  className={styles.mobileLogoutButton}
+                  onClick={handleLogout}
+                  type="button"
+                >
+                  ログアウト
+                </button>
+              </div>
+            ) : (
+              <button
+                className={styles.mobileLoginButton}
+                onClick={() => {
+                  setShowAuthModal(true);
+                  setIsMenuOpen(false);
+                }}
+                type="button"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                ログイン
+              </button>
+            )}
           </div>
         </nav>
       </div>
 
       {/* オーバーレイ */}
       {isMenuOpen && (
-        <div 
-          className={styles.overlay} 
+        <div
+          className={styles.overlay}
           onClick={() => setIsMenuOpen(false)}
           aria-hidden="true"
         />
       )}
+
+      {/* 認証モーダル */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </>
   );
 }

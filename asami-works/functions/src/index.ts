@@ -7,13 +7,15 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 // CORS設定
-const corsHandler = cors({ 
+const corsHandler = cors({
   origin: [
     'https://asami-works.com',
+    'https://asami-works.vercel.app',
     'https://asamiworks-679b3.web.app',
     'https://asamiworks-679b3.firebaseapp.com',
     'http://localhost:3000',
-    'http://localhost:3001'
+    'http://localhost:3001',
+    'http://localhost:3002'
   ],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -83,6 +85,18 @@ interface FormRequest {
   inquiryType?: string;  // 追加
   other?: string;        // 追加
   message: string;
+}
+
+interface ChatInquiryRequest {
+  name: string;
+  email: string;
+  phone: string;
+  businessType: string;
+  chatMessages: Array<{
+    role: 'user' | 'assistant';
+    content: string;
+  }>;
+  userId?: string;
 }
 
 /**
@@ -281,12 +295,12 @@ export const form = functions.https.onRequest((request, response) => {
 });
 
 /**
- * Instagram フィード取得
+ * チャット問い合わせフォーム処理
  */
-export const instagram = functions.https.onRequest((request, response) => {
+export const chatInquiry = functions.https.onRequest((request, response) => {
   // セキュリティヘッダーを追加
   addSecurityHeaders(response);
-  
+
   corsHandler(request, response, async () => {
     // OPTIONSリクエストに対応
     if (request.method === 'OPTIONS') {
@@ -294,111 +308,180 @@ export const instagram = functions.https.onRequest((request, response) => {
       return;
     }
 
-    // GETメソッドのみ許可
-    if (request.method !== 'GET') {
+    // POSTメソッドのみ許可
+    if (request.method !== 'POST') {
       response.status(405).send('Method Not Allowed');
       return;
     }
 
+    // レート制限チェック
     const clientIp = getClientIp(request);
-    
-    // Instagram APIは緩いレート制限（1分に30回）
-    if (!checkRateLimit(`instagram_${clientIp}`, 30, 1)) {
-      // キャッシュ制御ヘッダーを追加
-      response.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-      response.set('Pragma', 'no-cache');
-      response.set('Expires', '0');
-      
+    if (!checkRateLimit(clientIp, 3, 60)) { // 1時間に3回まで
+      console.error(`Rate limit exceeded - IP: ${clientIp}, Endpoint: /chatInquiry`);
+      const record = rateLimitStore.get(clientIp);
+      const remainingMinutes = record ? Math.ceil((record.resetTime - Date.now()) / 1000 / 60) : 60;
       response.status(429).json({
-        error: 'Too Many Requests',
-        data: [],
-        count: 0,
-        timestamp: new Date().toISOString()
+        success: false,
+        message: `送信回数の上限（1時間に3回）に達しました。約${remainingMinutes}分後に再度お試しください。`
       });
       return;
     }
 
     try {
-      console.log(`Instagram feed request - IP: ${clientIp}`);
-      
-      // 環境変数から取得
-      const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
-      const userId = process.env.INSTAGRAM_USER_ID;
+      const body: ChatInquiryRequest = request.body;
+      const { name, email, phone, businessType, chatMessages, userId } = body;
 
-      if (!accessToken || !userId) {
-        // キャッシュ制御ヘッダーを追加
-        response.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-        response.set('Pragma', 'no-cache');
-        response.set('Expires', '0');
-        
-        response.json({
-          data: [],
-          count: 0,
-          message: 'Instagram configuration missing',
-          timestamp: new Date().toISOString()
+      // ログ記録
+      const record = rateLimitStore.get(clientIp);
+      console.log(`Chat inquiry submission - IP: ${clientIp}, Email: ${email?.substring(0, 3)}***, BusinessType: ${businessType}, UserId: ${userId || 'guest'}, Count: ${record?.count || 1}/3`);
+
+      // バリデーション
+      if (!name || !email || !phone || !businessType || !chatMessages || chatMessages.length === 0) {
+        response.status(400).json({
+          success: false,
+          message: '必須項目が入力されていません'
         });
         return;
       }
 
-      const axios = require('axios');
-
-      const instagramResponse = await axios.get(
-        `https://graph.instagram.com/v18.0/${userId}/media`,
-        {
-          params: {
-            fields: 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp',
-            access_token: accessToken,
-            limit: 9
-          }
-        }
-      );
-
-      const data = instagramResponse.data;
-
-      if (!data || data.error) {
-        console.error('Instagram API Error:', data.error);
-        // キャッシュ制御ヘッダーを追加
-        response.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-        response.set('Pragma', 'no-cache');
-        response.set('Expires', '0');
-        
-        response.json({
-          data: [],
-          count: 0,
-          message: 'Failed to fetch Instagram data',
-          timestamp: new Date().toISOString()
+      // メールアドレスの基本的なバリデーション
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        response.status(400).json({
+          success: false,
+          message: 'メールアドレスの形式が正しくありません'
         });
         return;
       }
 
-      const mediaPosts = (data.data || []).filter(
-        (post: any) => ['IMAGE', 'VIDEO', 'CAROUSEL_ALBUM'].includes(post.media_type)
-      );
-
-      // キャッシュ制御ヘッダーを追加（成功時も）
-      response.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-      response.set('Pragma', 'no-cache');
-      response.set('Expires', '0');
-      
-      response.json({
-        data: mediaPosts.slice(0, 6),
-        count: mediaPosts.length,
-        timestamp: new Date().toISOString()
+      // チャット内容をメッセージ形式に整形
+      let chatContent = '【AIチャットでの相談内容】\n\n';
+      chatMessages.forEach((msg, index) => {
+        const role = msg.role === 'user' ? 'お客様' : 'AI';
+        chatContent += `${role}: ${msg.content}\n\n`;
       });
 
+      // Gmail送信処理
+      const contactData = {
+        name,
+        email,
+        phone,
+        company: `業種: ${businessType}`,
+        message: chatContent,
+        userAgent: request.headers['user-agent'] || '',
+        ip: clientIp
+      };
+
+      // 自動返信メール送信
+      const autoReplyResult = await sendAutoReply(contactData);
+
+      // 管理者通知メール送信
+      const adminNotificationResult = await sendAdminNotification(contactData);
+
+      if (autoReplyResult.success && adminNotificationResult.success) {
+        console.log(`Chat inquiry processed successfully - IP: ${clientIp}`);
+        response.json({
+          success: true,
+          message: 'お問い合わせを受け付けました。自動返信メールをご確認ください。'
+        });
+      } else {
+        throw new Error('メール送信に失敗しました');
+      }
+
     } catch (error) {
-      console.error('Instagram feed error:', error, `IP: ${clientIp}`);
-      // キャッシュ制御ヘッダーを追加
-      response.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-      response.set('Pragma', 'no-cache');
-      response.set('Expires', '0');
-      
+      console.error('Chat inquiry error:', error, `IP: ${clientIp}`);
       response.status(500).json({
-        error: 'Internal server error',
-        data: [],
-        count: 0,
-        timestamp: new Date().toISOString()
+        success: false,
+        message: 'エラーが発生しました。しばらく経ってから再度お試しください。'
       });
     }
   });
 });
+
+// ====================================
+// Client API
+// ====================================
+
+export { clientApi } from './api/client-api';
+
+// ====================================
+// Chat API
+// ====================================
+
+export { chatApi } from './api/chat-api';
+
+// ====================================
+// Stripe API
+// ====================================
+
+export { createCheckoutSession, stripeWebhook } from './api/stripe-api';
+
+// ====================================
+// Scheduled Functions
+// ====================================
+
+export {
+  generateMonthlyInvoices,
+  triggerMonthlyInvoiceGeneration
+} from './scheduled/generate-monthly-invoices';
+
+export {
+  autoGenerateInvoicePDFs,
+  triggerAutoPDFGeneration
+} from './scheduled/auto-generate-invoice-pdfs';
+
+export {
+  autoChargeInvoiceOnCreate,
+  autoChargeInvoiceOnUpdate
+} from './scheduled/auto-charge-invoices';
+
+// ====================================
+// Next.js App (v2 function)
+// ====================================
+
+import { https } from 'firebase-functions/v2';
+
+// メインのCloud Function
+export const nextjsApp = https.onRequest(
+  {
+    timeoutSeconds: 300,
+    memory: '2GiB',
+    region: 'asia-northeast1',
+    maxInstances: 10,
+    minInstances: 0
+  },
+  async (req, res) => {
+    try {
+      // Next.js関連のモジュールはここで動的にロード
+      const path = require('path');
+      const fs = require('fs');
+
+      // 環境変数ファイルを読み込む（優先順位: .env.local > .env）
+      const envLocalPath = path.join(__dirname, '.env.local');
+      const envPath = path.join(__dirname, '.env');
+
+      if (fs.existsSync(envLocalPath)) {
+        console.log('Loading .env.local for Next.js');
+        dotenv.config({ path: envLocalPath });
+      } else if (fs.existsSync(envPath)) {
+        console.log('Loading .env for Next.js');
+        dotenv.config({ path: envPath });
+      }
+
+      // Next.jsアプリの初期化
+      const next = require('next');
+      const nextApp = next({
+        dev: false,
+        conf: { distDir: '.next' }
+      });
+
+      const handle = nextApp.getRequestHandler();
+
+      await nextApp.prepare();
+      await handle(req, res);
+    } catch (error) {
+      console.error('Error serving Next.js app:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+);

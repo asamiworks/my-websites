@@ -75,10 +75,3 @@ export const apiRateLimiter = createRateLimiter({
   max: 100, // 15分に100リクエストまで
   message: 'APIリクエスト数が上限に達しました。15分後に再度お試しください。'
 });
-
-// Instagram API用の緩いレート制限
-export const instagramRateLimiter = createRateLimiter({
-  windowMs: 60 * 1000, // 1分
-  max: 30, // 1分に30リクエストまで
-  message: 'Instagram APIのリクエスト制限に達しました。'
-});
