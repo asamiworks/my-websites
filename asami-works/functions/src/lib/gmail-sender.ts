@@ -96,8 +96,11 @@ async function sendEmail({ to, subject, html }: { to: string; subject: string; h
     const from = gmailUser;
     const encodedSubject = encodeSubject(subject);
 
+    // noreply アドレスを使用（エイリアス設定後に有効）
+    const fromAddress = 'noreply@asami-works.com';
+
     const messageParts = [
-      `From: "AsamiWorks" <${from}>`,
+      `From: "AsamiWorks" <${fromAddress}>`,
       `To: ${to}`,
       `Subject: ${encodedSubject}`,
       'MIME-Version: 1.0',
