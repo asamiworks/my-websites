@@ -41,8 +41,18 @@ export async function POST(request: NextRequest) {
 
         const invoiceData = invoiceDoc.data();
 
+        if (!invoiceData) {
+          results.push({
+            invoiceId,
+            success: false,
+            error: 'Invoice data not found',
+          });
+          failed++;
+          continue;
+        }
+
         // 既に支払済みの場合はスキップ
-        if (invoiceData?.status === 'paid') {
+        if (invoiceData.status === 'paid') {
           results.push({
             invoiceId,
             invoiceNumber: invoiceData.invoiceNumber,
@@ -54,7 +64,7 @@ export async function POST(request: NextRequest) {
         }
 
         // クライアント情報を取得
-        const clientDoc = await db.collection('clients').doc(invoiceData?.clientId).get();
+        const clientDoc = await db.collection('clients').doc(invoiceData.clientId).get();
 
         if (!clientDoc.exists) {
           results.push({
@@ -68,8 +78,20 @@ export async function POST(request: NextRequest) {
         }
 
         const clientData = clientDoc.data();
-        const stripeCustomerId = clientData?.stripeCustomerId;
-        const stripePaymentMethodId = clientData?.stripePaymentMethodId;
+
+        if (!clientData) {
+          results.push({
+            invoiceId,
+            invoiceNumber: invoiceData.invoiceNumber,
+            success: false,
+            error: 'Client data not found',
+          });
+          failed++;
+          continue;
+        }
+
+        const stripeCustomerId = clientData.stripeCustomerId;
+        const stripePaymentMethodId = clientData.stripePaymentMethodId;
 
         if (!stripeCustomerId || !stripePaymentMethodId) {
           results.push({

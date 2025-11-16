@@ -30,8 +30,15 @@ export async function POST(request: NextRequest) {
 
     const invoiceData = invoiceDoc.data();
 
+    if (!invoiceData) {
+      return NextResponse.json(
+        { error: 'Invoice data not found' },
+        { status: 404 }
+      );
+    }
+
     // 既に支払済みの場合
-    if (invoiceData?.status === 'paid') {
+    if (invoiceData.status === 'paid') {
       return NextResponse.json(
         { error: 'Invoice is already paid' },
         { status: 400 }
@@ -39,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     // クライアント情報を取得
-    const clientDoc = await db.collection('clients').doc(invoiceData?.clientId).get();
+    const clientDoc = await db.collection('clients').doc(invoiceData.clientId).get();
 
     if (!clientDoc.exists) {
       return NextResponse.json(
@@ -49,8 +56,16 @@ export async function POST(request: NextRequest) {
     }
 
     const clientData = clientDoc.data();
-    const stripeCustomerId = clientData?.stripeCustomerId;
-    const stripePaymentMethodId = clientData?.stripePaymentMethodId;
+
+    if (!clientData) {
+      return NextResponse.json(
+        { error: 'Client data not found' },
+        { status: 404 }
+      );
+    }
+
+    const stripeCustomerId = clientData.stripeCustomerId;
+    const stripePaymentMethodId = clientData.stripePaymentMethodId;
 
     if (!stripeCustomerId || !stripePaymentMethodId) {
       return NextResponse.json(
