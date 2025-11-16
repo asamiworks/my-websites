@@ -436,6 +436,12 @@ export {
 } from './scheduled/auto-charge-invoices';
 
 // ====================================
+// Receipt PDF Generation
+// ====================================
+
+export { generateReceiptPDF_HTTP as generateReceiptPDF } from './api/generate-receipt-pdf';
+
+// ====================================
 // Next.js App (v2 function)
 // ====================================
 
