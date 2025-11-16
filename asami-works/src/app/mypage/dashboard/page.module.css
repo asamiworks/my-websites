@@ -379,8 +379,15 @@
   font-weight: 600;
 }
 
+.invoiceActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .payButton {
-  width: 100%;
+  flex: 1;
+  min-width: 150px;
   padding: 0.75rem;
   background-color: #3b82f6;
   color: white;
@@ -390,10 +397,53 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  text-align: center;
 }
 
 .payButton:hover {
   background-color: #2563eb;
+}
+
+.pdfButton,
+.receiptButton {
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.pdfButton {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 2px solid #d1d5db;
+}
+
+.pdfButton:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.receiptButton {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 2px solid #10b981;
+}
+
+.receiptButton:hover {
+  background-color: #a7f3d0;
+  border-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
 }
 
 .footer {

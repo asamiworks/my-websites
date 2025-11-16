@@ -121,8 +121,10 @@ export interface Invoice {
   markedAsPaidBy?: string; // 支払済みにした管理者のUID
 
   // PDF情報
-  pdfUrl?: string; // Google DriveのPDF URL
+  pdfUrl?: string; // Google DriveのPDF URL (請求書)
   pdfGeneratedAt?: string; // PDF生成日時
+  receiptUrl?: string; // Google DriveのPDF URL (領収書)
+  receiptGeneratedAt?: string; // 領収書PDF生成日時
 
   createdAt: Timestamp;
   updatedAt: Timestamp;

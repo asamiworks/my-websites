@@ -462,14 +462,36 @@ export default function DashboardContent() {
                       <span className={styles.detailValue}>{formatCurrency(invoice.totalAmount)}</span>
                     </div>
                   </div>
-                  {invoice.status === 'sent' && client.paymentMethod === 'credit_card' && client.stripePaymentMethodId && (
-                    <button
-                      className={styles.payButton}
-                      onClick={() => handleSinglePayment(invoice)}
-                    >
-                      支払う
-                    </button>
-                  )}
+                  <div className={styles.invoiceActions}>
+                    {invoice.status === 'sent' && client.paymentMethod === 'credit_card' && client.stripePaymentMethodId && (
+                      <button
+                        className={styles.payButton}
+                        onClick={() => handleSinglePayment(invoice)}
+                      >
+                        支払う
+                      </button>
+                    )}
+                    {invoice.pdfUrl && (
+                      <a
+                        href={invoice.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.pdfButton}
+                      >
+                        📄 請求書PDF
+                      </a>
+                    )}
+                    {invoice.status === 'paid' && invoice.receiptUrl && (
+                      <a
+                        href={invoice.receiptUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.receiptButton}
+                      >
+                        📋 領収書PDF
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
