@@ -295,7 +295,8 @@ export default function AdminClientsPage() {
 
       const authData = await authResponse.json();
 
-      if (!authResponse.ok) {
+      // ユーザーが見つからない場合（既に削除されている場合）も成功とみなす
+      if (!authResponse.ok && authResponse.status !== 404 && authData.error !== 'ユーザーが見つかりません') {
         throw new Error(authData.error || 'ユーザー削除に失敗しました');
       }
 
@@ -304,10 +305,16 @@ export default function AdminClientsPage() {
         authUid: null,
         emailVerified: null,
         passwordHash: null,
+        hasInitialPassword: null,
         updatedAt: Timestamp.now(),
       });
 
-      alert(`${client.clientName} 様の認証を解除しました`);
+      if (authResponse.status === 404 || authData.error === 'ユーザーが見つかりません') {
+        alert(`${client.clientName} 様の認証情報をクリアしました（Firebase Authユーザーは既に削除されていました）`);
+      } else {
+        alert(`${client.clientName} 様の認証を解除しました`);
+      }
+
       loadClients();
     } catch (err: any) {
       console.error('Error removing auth:', err);
