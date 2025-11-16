@@ -442,6 +442,12 @@ export {
 export { generateReceiptPDF_HTTP as generateReceiptPDF } from './api/generate-receipt-pdf';
 
 // ====================================
+// Manual Invoice PDF Generation
+// ====================================
+
+export { generateInvoicePDFManual_HTTP as generateInvoicePDFManual } from './api/generate-invoice-pdf-manual';
+
+// ====================================
 // Next.js App (v2 function)
 // ====================================
 
