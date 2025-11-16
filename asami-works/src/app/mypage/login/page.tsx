@@ -48,7 +48,6 @@ export default function ClientLoginPage() {
         const clientData = clientsSnapshot.docs[0].data();
         const hasInitialPassword = clientData.hasInitialPassword || false;
 
-        console.log('[Login] Client data loaded:', {
           clientId: clientsSnapshot.docs[0].id,
           hasInitialPassword: clientData.hasInitialPassword,
           effectiveHasInitialPassword: hasInitialPassword,
@@ -56,13 +55,11 @@ export default function ClientLoginPage() {
 
         // 初回ログインの場合、パスワード変更フォームを表示
         if (hasInitialPassword) {
-          console.log('[Login] Showing password change form (initial password detected)');
           setClientId(clientsSnapshot.docs[0].id);
           setShowPasswordChange(true);
           setLoading(false);
           return;
         } else {
-          console.log('[Login] Proceeding to dashboard (not initial password)');
         }
       }
 
@@ -112,7 +109,6 @@ export default function ClientLoginPage() {
     setPasswordChangeLoading(true);
 
     try {
-      console.log('[Login Password Change] Starting...', {
         clientId,
         hasCurrentUser: !!auth.currentUser,
       });
@@ -120,23 +116,19 @@ export default function ClientLoginPage() {
       // ログイン直後なので再認証不要、直接パスワード更新
       await updatePassword(auth.currentUser, newPassword);
 
-      console.log('[Login Password Change] Password updated successfully');
 
       // Firestoreの初期パスワードフラグをfalseに
-      console.log('[Login Password Change] Updating Firestore...', { clientId });
 
       await updateDoc(doc(db, 'clients', clientId), {
         hasInitialPassword: false,
         updatedAt: new Date(),
       });
 
-      console.log('[Login Password Change] Firestore updated successfully - hasInitialPassword set to false');
 
       setPasswordChangeSuccess(true);
 
       // 1.5秒後にダッシュボードにリダイレクト
       setTimeout(() => {
-        console.log('[Login Password Change] Redirecting to dashboard...');
         router.push('/mypage/dashboard?firstLogin=true');
       }, 1500);
     } catch (error: any) {
