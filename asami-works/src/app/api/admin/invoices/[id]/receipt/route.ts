@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDb } from '@/services/firebase-admin-service';
+import { db } from '@/lib/firebase-admin';
 
 export async function POST(
   request: NextRequest,
@@ -16,7 +16,7 @@ export async function POST(
     }
 
     // 請求書を取得
-    const invoiceRef = adminDb.collection('invoices').doc(id);
+    const invoiceRef = db.collection('invoices').doc(id);
     const invoiceDoc = await invoiceRef.get();
 
     if (!invoiceDoc.exists) {
