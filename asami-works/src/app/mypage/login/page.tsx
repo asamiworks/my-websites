@@ -48,18 +48,12 @@ export default function ClientLoginPage() {
         const clientData = clientsSnapshot.docs[0].data();
         const hasInitialPassword = clientData.hasInitialPassword || false;
 
-          clientId: clientsSnapshot.docs[0].id,
-          hasInitialPassword: clientData.hasInitialPassword,
-          effectiveHasInitialPassword: hasInitialPassword,
-        });
-
         // 初回ログインの場合、パスワード変更フォームを表示
         if (hasInitialPassword) {
           setClientId(clientsSnapshot.docs[0].id);
           setShowPasswordChange(true);
           setLoading(false);
           return;
-        } else {
         }
       }
 
@@ -109,21 +103,14 @@ export default function ClientLoginPage() {
     setPasswordChangeLoading(true);
 
     try {
-        clientId,
-        hasCurrentUser: !!auth.currentUser,
-      });
-
       // ログイン直後なので再認証不要、直接パスワード更新
       await updatePassword(auth.currentUser, newPassword);
 
-
       // Firestoreの初期パスワードフラグをfalseに
-
       await updateDoc(doc(db, 'clients', clientId), {
         hasInitialPassword: false,
         updatedAt: new Date(),
       });
-
 
       setPasswordChangeSuccess(true);
 
