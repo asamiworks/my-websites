@@ -274,6 +274,15 @@
   color: white;
 }
 
+.receiptButton {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.receiptButton:hover {
+  background-color: #a7f3d0;
+}
+
 /* Modal Styles */
 .modal {
   position: fixed;

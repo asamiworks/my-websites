@@ -47,6 +47,7 @@ function AdminInvoicesContent() {
   const [selectedInvoiceForPayment, setSelectedInvoiceForPayment] = useState<Invoice | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<string>('');
   const [generatingPdfFor, setGeneratingPdfFor] = useState<string | null>(null);
+  const [generatingReceiptFor, setGeneratingReceiptFor] = useState<string | null>(null);
   const [selectedInvoices, setSelectedInvoices] = useState<Set<string>>(new Set());
 
   const [invoiceSettings, setInvoiceSettings] = useState({
@@ -514,6 +515,40 @@ function AdminInvoicesContent() {
     }
   };
 
+  const handleGenerateReceipt = async (invoice: Invoice) => {
+    if (invoice.status !== 'paid') {
+      alert('領収書は支払い済みの請求書のみ生成できます');
+      return;
+    }
+
+    try {
+      setGeneratingReceiptFor(invoice.id);
+
+      const response = await fetch(`/api/admin/invoices/${invoice.id}/receipt`, {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (data.receiptUrl) {
+          await navigator.clipboard.writeText(data.receiptUrl);
+          alert(`領収書PDFを生成してGoogle Driveに保存しました\n\nURLをクリップボードにコピーしました:\n${data.receiptUrl}`);
+        } else {
+          alert('領収書PDFを生成しました');
+        }
+        loadInvoices();
+      } else {
+        throw new Error(data.error || '領収書PDF生成に失敗しました');
+      }
+    } catch (err: any) {
+      console.error('Error generating receipt:', err);
+      alert(err.message || '領収書PDF生成に失敗しました');
+    } finally {
+      setGeneratingReceiptFor(null);
+    }
+  };
+
   const toggleInvoiceSelection = (invoiceId: string) => {
     const newSelected = new Set(selectedInvoices);
     if (newSelected.has(invoiceId)) {
@@ -919,6 +954,26 @@ function AdminInvoicesContent() {
                           style={{ textDecoration: 'none', display: 'inline-block' }}
                         >
                           📎 PDF表示
+                        </a>
+                      )}
+                      {invoice.status === 'paid' && (
+                        <button
+                          className={styles.receiptButton}
+                          onClick={() => handleGenerateReceipt(invoice)}
+                          disabled={generatingReceiptFor === invoice.id}
+                        >
+                          {generatingReceiptFor === invoice.id ? '領収書生成中...' : '📋 領収書生成'}
+                        </button>
+                      )}
+                      {invoice.status === 'paid' && invoice.receiptUrl && (
+                        <a
+                          href={invoice.receiptUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.receiptButton}
+                          style={{ textDecoration: 'none', display: 'inline-block' }}
+                        >
+                          📎 領収書表示
                         </a>
                       )}
                       {invoice.status !== 'paid' && (
