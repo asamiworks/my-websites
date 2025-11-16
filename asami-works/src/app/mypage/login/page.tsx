@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup, updatePassword } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase-config';
 import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import styles from './page.module.css';
@@ -18,6 +18,16 @@ export default function ClientLoginPage() {
   const [resetSent, setResetSent] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // 初回パスワード変更用
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
+  const [clientId, setClientId] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [passwordChangeLoading, setPasswordChangeLoading] = useState(false);
+  const [passwordChangeError, setPasswordChangeError] = useState<string | null>(null);
+  const [passwordChangeSuccess, setPasswordChangeSuccess] = useState(false);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -27,7 +37,27 @@ export default function ClientLoginPage() {
       // Firebase Authenticationでログイン
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-      // マイページにリダイレクト（認証成功したら即座に）
+      // Firestoreでクライアント情報を取得
+      const clientsQuery = query(
+        collection(db, 'clients'),
+        where('authUid', '==', userCredential.user.uid)
+      );
+      const clientsSnapshot = await getDocs(clientsQuery);
+
+      if (!clientsSnapshot.empty) {
+        const clientData = clientsSnapshot.docs[0].data();
+        const hasInitialPassword = clientData.hasInitialPassword || false;
+
+        // 初回ログインの場合、パスワード変更フォームを表示
+        if (hasInitialPassword) {
+          setClientId(clientsSnapshot.docs[0].id);
+          setShowPasswordChange(true);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // 通常のログイン：ダッシュボードにリダイレクト
       router.push('/mypage/dashboard');
     } catch (err: any) {
       console.error('Login error:', err);
@@ -45,8 +75,76 @@ export default function ClientLoginPage() {
       }
 
       setError(errorMessage);
-    } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordChangeError(null);
+    setPasswordChangeSuccess(false);
+
+    // バリデーション
+    if (newPassword.length < 8) {
+      setPasswordChangeError('新しいパスワードは8文字以上にしてください');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordChangeError('新しいパスワードが一致しません');
+      return;
+    }
+
+    if (!auth.currentUser || !clientId) {
+      setPasswordChangeError('ログイン情報が見つかりません');
+      return;
+    }
+
+    setPasswordChangeLoading(true);
+
+    try {
+      console.log('[Login Password Change] Updating password (no re-auth needed)...');
+
+      // ログイン直後なので再認証不要、直接パスワード更新
+      await updatePassword(auth.currentUser, newPassword);
+
+      console.log('[Login Password Change] Password updated successfully');
+
+      // Firestoreの初期パスワードフラグをfalseに
+      await updateDoc(doc(db, 'clients', clientId), {
+        hasInitialPassword: false,
+        updatedAt: new Date(),
+      });
+
+      setPasswordChangeSuccess(true);
+
+      // 1.5秒後にダッシュボードにリダイレクト
+      setTimeout(() => {
+        router.push('/mypage/dashboard?firstLogin=true');
+      }, 1500);
+    } catch (error: any) {
+      console.error('[Login Password Change] Error:', {
+        code: error.code,
+        message: error.message,
+        fullError: error,
+      });
+
+      let errorMessage = 'パスワードの変更に失敗しました';
+      if (error.code === 'auth/weak-password') {
+        errorMessage = 'パスワードが弱すぎます。より複雑なパスワードを使用してください';
+      } else if (error.code === 'auth/requires-recent-login' || error.code === 'auth/permission-denied') {
+        errorMessage = 'セッションの有効期限が切れました。再度ログインしてください。';
+        // 3秒後にページをリロードしてログインフォームに戻る
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        errorMessage = `パスワードの変更に失敗しました (${error.code || 'unknown'})`;
+      }
+
+      setPasswordChangeError(errorMessage);
+    } finally {
+      setPasswordChangeLoading(false);
     }
   };
 
@@ -132,6 +230,100 @@ export default function ClientLoginPage() {
       setLoading(false);
     }
   };
+
+  // 初回パスワード変更フォーム
+  if (showPasswordChange) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loginBox}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>パスワード変更</h1>
+            <p className={styles.subtitle}>初回ログインのため、新しいパスワードを設定してください</p>
+          </div>
+
+          <div style={{
+            padding: '12px 16px',
+            backgroundColor: '#fef3c7',
+            borderLeft: '4px solid #f59e0b',
+            marginBottom: '20px',
+            borderRadius: '4px'
+          }}>
+            <p style={{ margin: 0, fontSize: '14px', color: '#92400e' }}>
+              🔐 セキュリティのため、ログイン後すぐに新しいパスワードを設定してください。
+            </p>
+          </div>
+
+          {passwordChangeSuccess ? (
+            <div className={styles.success}>
+              <p>パスワードを変更しました！</p>
+              <p className={styles.successSubtext}>ダッシュボードに移動します...</p>
+            </div>
+          ) : (
+            <form onSubmit={handlePasswordChange} className={styles.form}>
+              <div className={styles.inputGroup}>
+                <label htmlFor="newPassword" className={styles.label}>
+                  新しいパスワード
+                </label>
+                <input
+                  id="newPassword"
+                  type={showNewPassword ? 'text' : 'password'}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className={styles.input}
+                  required
+                  minLength={8}
+                  placeholder="8文字以上"
+                  autoComplete="new-password"
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label htmlFor="confirmPassword" className={styles.label}>
+                  新しいパスワード（確認）
+                </label>
+                <input
+                  id="confirmPassword"
+                  type={showNewPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={styles.input}
+                  required
+                  minLength={8}
+                  placeholder="確認のため再入力"
+                  autoComplete="new-password"
+                />
+                <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <input
+                    type="checkbox"
+                    id="showNewPasswordLogin"
+                    checked={showNewPassword}
+                    onChange={(e) => setShowNewPassword(e.target.checked)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <label
+                    htmlFor="showNewPasswordLogin"
+                    style={{ fontSize: '14px', cursor: 'pointer', userSelect: 'none' }}
+                  >
+                    パスワードを表示
+                  </label>
+                </div>
+              </div>
+
+              {passwordChangeError && <div className={styles.error}>{passwordChangeError}</div>}
+
+              <button
+                type="submit"
+                disabled={passwordChangeLoading}
+                className={styles.submitButton}
+              >
+                {passwordChangeLoading ? '変更中...' : 'パスワードを変更'}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   if (showResetForm) {
     return (
