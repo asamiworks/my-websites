@@ -19,6 +19,7 @@ export default function DashboardContent() {
   const [showCardForm, setShowCardForm] = useState(false);
   const [bulkPaying, setBulkPaying] = useState(false);
   const [sessionWarning, setSessionWarning] = useState(false);
+  const [generatingReceiptFor, setGeneratingReceiptFor] = useState<string | null>(null);
 
   // セッション管理: 5分（300秒）後に自動ログアウト
   useEffect(() => {
@@ -291,6 +292,57 @@ export default function DashboardContent() {
     }
   };
 
+  const handleGenerateReceipt = async (invoice: Invoice) => {
+    if (invoice.status !== 'paid') {
+      alert('領収書は支払い済みの請求書のみ発行できます');
+      return;
+    }
+
+    const confirmed = confirm(
+      `請求書 ${invoice.invoiceNumber}\n金額: ¥${invoice.totalAmount.toLocaleString()}\n\nこの請求書の領収書を発行しますか？`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setGeneratingReceiptFor(invoice.id!);
+
+      // Firebase Authトークンを取得
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('認証エラー: ログインしてください');
+      }
+
+      const token = await user.getIdToken();
+
+      const response = await fetch(`/api/client/invoices/${invoice.id}/receipt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('領収書PDFを生成しました！\n\nページを更新して領収書を確認してください。');
+
+        // データを再読み込みして最新状態を取得
+        if (client && auth.currentUser) {
+          await loadClientData(auth.currentUser.uid);
+        }
+      } else {
+        throw new Error(data.error || '領収書発行に失敗しました');
+      }
+    } catch (error: any) {
+      console.error('Error generating receipt:', error);
+      alert('領収書発行に失敗しました: ' + error.message);
+    } finally {
+      setGeneratingReceiptFor(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className={styles.container}>
@@ -481,15 +533,25 @@ export default function DashboardContent() {
                         📄 請求書PDF
                       </a>
                     )}
-                    {invoice.status === 'paid' && invoice.receiptUrl && (
-                      <a
-                        href={invoice.receiptUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.receiptButton}
-                      >
-                        📋 領収書PDF
-                      </a>
+                    {invoice.status === 'paid' && (
+                      invoice.receiptUrl ? (
+                        <a
+                          href={invoice.receiptUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.receiptButton}
+                        >
+                          📋 領収書PDF
+                        </a>
+                      ) : (
+                        <button
+                          className={styles.generateReceiptButton}
+                          onClick={() => handleGenerateReceipt(invoice)}
+                          disabled={generatingReceiptFor === invoice.id}
+                        >
+                          {generatingReceiptFor === invoice.id ? '発行中...' : '📋 領収書発行'}
+                        </button>
+                      )
                     )}
                   </div>
                 </div>
