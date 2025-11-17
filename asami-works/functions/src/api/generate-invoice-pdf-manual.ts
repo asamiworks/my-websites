@@ -3,8 +3,9 @@ import * as admin from 'firebase-admin';
 import PDFDocument from 'pdfkit';
 import { google } from 'googleapis';
 import { Readable } from 'stream';
+import { adminDb } from '../services/firebase-admin-service';
 
-const db = admin.firestore();
+const db = adminDb;
 
 interface Invoice {
   id: string;
