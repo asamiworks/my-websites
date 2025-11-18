@@ -47,6 +47,14 @@ export default function AdminSettingsPage() {
     representativeName: '',
   });
 
+  const [companyInfo, setCompanyInfo] = useState({
+    name: 'AsamiWorks',
+    postalCode: '532-0011',
+    address: '大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F',
+    phone: '06-4866-6758',
+    email: 'info@asami-works.com',
+  });
+
   useEffect(() => {
     if (!authLoading && !user) {
       router.push('/admin/login');
@@ -96,6 +104,15 @@ export default function AdminSettingsPage() {
             representativeName: data.businessSettings.representativeName ?? '',
           });
         }
+        if (data.companyInfo) {
+          setCompanyInfo({
+            name: data.companyInfo.name ?? 'AsamiWorks',
+            postalCode: data.companyInfo.postalCode ?? '532-0011',
+            address: data.companyInfo.address ?? '大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F',
+            phone: data.companyInfo.phone ?? '06-4866-6758',
+            email: data.companyInfo.email ?? 'info@asami-works.com',
+          });
+        }
       } else {
         throw new Error(data.error || '設定の読み込みに失敗しました');
       }
@@ -124,6 +141,7 @@ export default function AdminSettingsPage() {
           bankInfo,
           invoiceSettings,
           businessSettings,
+          companyInfo,
           userId: user?.uid,
         }),
       });
@@ -174,6 +192,84 @@ export default function AdminSettingsPage() {
       )}
 
       <form onSubmit={handleSubmit}>
+        {/* 会社情報セクション */}
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>会社情報</h2>
+          <p className={styles.helpText} style={{ marginBottom: '16px' }}>
+            請求書・領収書に表示される発行者情報です
+          </p>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              会社名 <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              className={styles.input}
+              value={companyInfo.name}
+              onChange={(e) => setCompanyInfo({ ...companyInfo, name: e.target.value })}
+              placeholder="例：AsamiWorks"
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              郵便番号 <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              className={styles.input}
+              value={companyInfo.postalCode}
+              onChange={(e) => setCompanyInfo({ ...companyInfo, postalCode: e.target.value })}
+              placeholder="例：532-0011"
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              住所 <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              className={styles.input}
+              value={companyInfo.address}
+              onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
+              placeholder="例：大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F"
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              電話番号 <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="tel"
+              className={styles.input}
+              value={companyInfo.phone}
+              onChange={(e) => setCompanyInfo({ ...companyInfo, phone: e.target.value })}
+              placeholder="例：06-4866-6758"
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              メールアドレス <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="email"
+              className={styles.input}
+              value={companyInfo.email}
+              onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
+              placeholder="例：info@asami-works.com"
+              required
+            />
+          </div>
+        </div>
+
         {/* 事業設定セクション */}
         <div className={styles.card}>
           <h2 className={styles.cardTitle}>事業設定</h2>
