@@ -94,10 +94,48 @@ export async function POST(request: NextRequest) {
       // Firestoreの請求書を更新
       await db.collection('invoices').doc(invoiceId).update({
         status: 'paid',
+        paidAmount: invoiceData.totalAmount,
         paidAt: Timestamp.now(),
         stripePaymentIntentId: paymentIntent.id,
+        paymentMethod: 'credit_card',
         updatedAt: Timestamp.now(),
       });
+
+      // 一回払い項目（制作費）の支払い済みフラグを更新
+      if (clientData.productionFeeBreakdown && invoiceData.items) {
+        // 現在のproductionFeeBreakdownを取得（なければ空オブジェクト）
+        const currentBreakdown = clientData.productionFeeBreakdown || {};
+        const items = invoiceData.items;
+
+        // フラグを更新（既存の値を保持しつつ更新）
+        const updatedBreakdown = { ...currentBreakdown };
+
+        if (items.some((item: any) => item.description?.includes('初期費用'))) {
+          updatedBreakdown.initialPaymentPaid = true;
+        }
+
+        if (items.some((item: any) => item.description?.includes('中間費用'))) {
+          updatedBreakdown.intermediatePaymentPaid = true;
+        }
+
+        if (items.some((item: any) => item.description?.includes('最終金'))) {
+          updatedBreakdown.finalPaymentPaid = true;
+        }
+
+        // フラグが更新される場合のみ実行
+        const hasChanges = items.some((item: any) =>
+          item.description?.includes('初期費用') ||
+          item.description?.includes('中間費用') ||
+          item.description?.includes('最終金')
+        );
+
+        if (hasChanges) {
+          await db.collection('clients').doc(invoiceData.clientId).update({
+            productionFeeBreakdown: updatedBreakdown,
+            updatedAt: Timestamp.now(),
+          });
+        }
+      }
 
       return NextResponse.json({
         success: true,
