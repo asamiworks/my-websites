@@ -7,6 +7,7 @@ import { useChat } from "@/contexts/ChatContext";
 import { db } from "@/lib/firebase-config";
 import { doc, getDoc, updateDoc, collection, query, where, orderBy, limit, getDocs, deleteDoc } from "firebase/firestore";
 import { updateProfile, updateEmail, updatePassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 interface UserProfile {
@@ -440,6 +441,16 @@ export default function MyPage() {
     <div className={styles.container}>
       <div className={styles.content}>
         <h1 className={styles.title}>マイページ</h1>
+
+        {/* クライアントダッシュボードへのリンク */}
+        <section className={styles.dashboardLink}>
+          <Link href="/client/dashboard" className={styles.dashboardButton}>
+            請求書・お支払い情報を見る →
+          </Link>
+          <p className={styles.dashboardHint}>
+            クレジットカード情報の登録・請求書・領収書のダウンロードはこちら
+          </p>
+        </section>
 
         {/* プロフィール表示・編集 */}
         <section className={styles.section}>

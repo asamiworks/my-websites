@@ -149,7 +149,7 @@ export default function ClientInvoicesPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backButton} onClick={() => router.push('/mypage/dashboard')}>
+        <button className={styles.backButton} onClick={() => router.push('/client/dashboard')}>
           ← ダッシュボードに戻る
         </button>
         <h1 className={styles.title}>請求書一覧</h1>
@@ -210,7 +210,7 @@ export default function ClientInvoicesPage() {
                   <td>
                     <button
                       className={styles.viewButton}
-                      onClick={() => router.push(`/mypage/invoices/${invoice.id}`)}
+                      onClick={() => router.push(`/client/invoices/${invoice.id}`)}
                     >
                       詳細
                     </button>

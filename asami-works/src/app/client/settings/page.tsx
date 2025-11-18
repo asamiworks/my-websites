@@ -41,7 +41,7 @@ export default function SettingsPage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.push('/mypage/login');
+        router.push('/client/login');
         return;
       }
 
@@ -141,7 +141,7 @@ export default function SettingsPage() {
       // 初回パスワード変更の場合はダッシュボードにリダイレクト
       if (wasInitialPassword) {
         setTimeout(() => {
-          router.push('/mypage/dashboard?firstLogin=true');
+          router.push('/client/dashboard?firstLogin=true');
         }, 1500);
       } else {
         // 通常のパスワード変更の場合は3秒後にフラグをリセット
@@ -160,7 +160,7 @@ export default function SettingsPage() {
       if (error.code === 'auth/requires-recent-login' || error.code === 'auth/permission-denied') {
         alert('セキュリティのため、再度ログインしてください。');
         await signOut(auth);
-        router.push('/mypage/login?reason=session-expired');
+        router.push('/client/login?reason=session-expired');
         return;
       }
 
@@ -230,7 +230,7 @@ export default function SettingsPage() {
       setTimeout(async () => {
         alert('メールアドレスを変更しました。セキュリティのため、再度ログインしてください。');
         await signOut(auth);
-        router.push('/mypage/login');
+        router.push('/client/login');
       }, 3000);
     } catch (error: any) {
       console.error('Email change error:', error);

@@ -10,7 +10,7 @@ export default function DeprecatedTokenPage() {
   useEffect(() => {
     // 5秒後に自動的にログインページへリダイレクト
     const timer = setTimeout(() => {
-      router.push('/mypage/login');
+      router.push('/client/login');
     }, 5000);
 
     return () => clearTimeout(timer);
@@ -47,7 +47,7 @@ export default function DeprecatedTokenPage() {
 
           <button
             className={styles.loginButton}
-            onClick={() => router.push('/mypage/login')}
+            onClick={() => router.push('/client/login')}
           >
             今すぐログインページへ移動
           </button>

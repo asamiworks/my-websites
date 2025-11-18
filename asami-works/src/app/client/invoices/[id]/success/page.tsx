@@ -85,7 +85,7 @@ export default function PaymentSuccessPage() {
     return (
       <div className={styles.container}>
         <div className={styles.error}>{error}</div>
-        <button className={styles.button} onClick={() => router.push('/mypage/invoices')}>
+        <button className={styles.button} onClick={() => router.push('/client/invoices')}>
           一覧に戻る
         </button>
       </div>
@@ -160,13 +160,13 @@ export default function PaymentSuccessPage() {
         <div className={styles.actions}>
           <button
             className={styles.primaryButton}
-            onClick={() => router.push(`/mypage/invoices/${invoice.id}`)}
+            onClick={() => router.push(`/client/invoices/${invoice.id}`)}
           >
             請求書を確認
           </button>
           <button
             className={styles.secondaryButton}
-            onClick={() => router.push('/mypage/invoices')}
+            onClick={() => router.push('/client/invoices')}
           >
             請求書一覧に戻る
           </button>

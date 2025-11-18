@@ -41,7 +41,7 @@ export default function DashboardContent() {
       inactivityTimer = setTimeout(async () => {
         alert('セッションが切れました。再度ログインしてください。');
         await signOut(auth);
-        router.push('/mypage/login');
+        router.push('/client/login');
       }, 5 * 60 * 1000); // 5分
     };
 
@@ -68,7 +68,7 @@ export default function DashboardContent() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         // ログインしていない場合はログインページにリダイレクト
-        router.push('/mypage/login');
+        router.push('/client/login');
         return;
       }
 
@@ -106,7 +106,7 @@ export default function DashboardContent() {
       // 初期パスワードの場合は設定ページにリダイレクト
       if (clientData.hasInitialPassword) {
         alert('セキュリティのため、初回ログイン時にパスワードを変更してください。');
-        router.push('/mypage/settings');
+        router.push('/client/settings');
         return;
       }
 
@@ -145,7 +145,7 @@ export default function DashboardContent() {
       // 支払い方法がクレジットカードで、カードが未登録の場合
       if (client.paymentMethod === 'credit_card' && !client.stripePaymentMethodId) {
         // URLパラメータをクリア
-        router.replace('/mypage/dashboard', { scroll: false });
+        router.replace('/client/dashboard', { scroll: false });
 
         // カード登録フォームを表示
         setTimeout(() => {
@@ -161,7 +161,7 @@ export default function DashboardContent() {
 
     try {
       await signOut(auth);
-      router.push('/mypage/login');
+      router.push('/client/login');
     } catch (error) {
       console.error('Logout error:', error);
       alert('ログアウトに失敗しました');
@@ -376,7 +376,7 @@ export default function DashboardContent() {
           <p className={styles.subtitle}>AsamiWorks クライアント専用ページ</p>
         </div>
         <div className={styles.headerButtons}>
-          <button onClick={() => router.push('/mypage/settings')} className={styles.settingsButton}>
+          <button onClick={() => router.push('/client/settings')} className={styles.settingsButton}>
             ⚙️ 設定
           </button>
           <button onClick={handleLogout} className={styles.logoutButton}>

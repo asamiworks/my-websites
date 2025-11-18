@@ -173,7 +173,7 @@ export default function AdminClientsPage() {
         }
 
         // 3. マイページURLを生成
-        const mypageUrl = `${window.location.origin}/mypage/login`;
+        const mypageUrl = `${window.location.origin}/client/login`;
 
         // 4. クライアントにログイン情報をメールで送信
         const emailResponse = await fetch('/api/clients/send-credentials', {
@@ -251,7 +251,7 @@ export default function AdminClientsPage() {
       }
 
       // 2. マイページURLを生成
-      const mypageUrl = `${window.location.origin}/mypage/login`;
+      const mypageUrl = `${window.location.origin}/client/login`;
 
       // 3. パスワード情報をモーダルで表示
       setCredentialsData({

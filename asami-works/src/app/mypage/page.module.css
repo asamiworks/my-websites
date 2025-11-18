@@ -35,6 +35,55 @@
   }
 }
 
+/* ダッシュボードリンク */
+.dashboardLink {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+}
+
+.dashboardButton {
+  display: inline-block;
+  padding: 16px 32px;
+  background-color: white;
+  color: #667eea;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboardButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dashboardHint {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 767px) {
+  .dashboardLink {
+    padding: 20px 16px;
+  }
+
+  .dashboardButton {
+    padding: 14px 24px;
+    font-size: 1rem;
+  }
+
+  .dashboardHint {
+    font-size: 0.85rem;
+  }
+}
+
 .section {
   background: white;
   border-radius: 16px;

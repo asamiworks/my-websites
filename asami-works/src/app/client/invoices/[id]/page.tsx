@@ -194,7 +194,7 @@ export default function InvoiceDetailPage() {
     return (
       <div className={styles.container}>
         <div className={styles.error}>{error}</div>
-        <button className={styles.backButton} onClick={() => router.push('/mypage/invoices')}>
+        <button className={styles.backButton} onClick={() => router.push('/client/invoices')}>
           ← 請求書一覧に戻る
         </button>
       </div>
@@ -211,7 +211,7 @@ export default function InvoiceDetailPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backButton} onClick={() => router.push('/mypage/invoices')}>
+        <button className={styles.backButton} onClick={() => router.push('/client/invoices')}>
           ← 請求書一覧に戻る
         </button>
         <div className={styles.titleRow}>

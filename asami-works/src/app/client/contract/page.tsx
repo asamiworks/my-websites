@@ -118,7 +118,7 @@ export default function ContractPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backButton} onClick={() => router.push('/mypage/dashboard')}>
+        <button className={styles.backButton} onClick={() => router.push('/client/dashboard')}>
           ← ダッシュボードに戻る
         </button>
         <h1 className={styles.title}>契約情報</h1>

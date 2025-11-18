@@ -58,7 +58,7 @@ export default function ClientLoginPage() {
       }
 
       // 通常のログイン：ダッシュボードにリダイレクト
-      router.push('/mypage/dashboard');
+      router.push('/client/dashboard');
     } catch (err: any) {
       console.error('Login error:', err);
 
@@ -116,7 +116,7 @@ export default function ClientLoginPage() {
 
       // 1.5秒後にダッシュボードにリダイレクト
       setTimeout(() => {
-        router.push('/mypage/dashboard?firstLogin=true');
+        router.push('/client/dashboard?firstLogin=true');
       }, 1500);
     } catch (error: any) {
       console.error('[Login Password Change] Error:', {
@@ -210,7 +210,7 @@ export default function ClientLoginPage() {
       }
 
       // Googleアカウントでログイン成功
-      router.push('/mypage/dashboard');
+      router.push('/client/dashboard');
     } catch (err: any) {
       console.error('Google sign-in error:', err);
 
