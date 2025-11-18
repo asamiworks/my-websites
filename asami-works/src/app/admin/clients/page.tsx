@@ -336,6 +336,8 @@ export default function AdminClientsPage() {
   const removeUndefinedValues = (obj: any): any => {
     if (obj === null || obj === undefined) return null;
     if (typeof obj !== 'object') return obj;
+    // Timestamp オブジェクトはそのまま保持
+    if (obj instanceof Timestamp || (obj.toDate && typeof obj.toDate === 'function')) return obj;
     if (Array.isArray(obj)) return obj.map(removeUndefinedValues);
 
     const cleaned: any = {};
