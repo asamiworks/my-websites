@@ -12,29 +12,37 @@ const nextConfig: NextConfig = {
   devIndicators: {
     position: 'bottom-right',
   },
-  // ESLint をビルド時にスキップ（Next.js 15 の既知の問題を回避）
+  // ESLint をビルド時にスキップ
   eslint: {
     ignoreDuringBuilds: true
   },
   // フォントの自動最適化を無効化
   optimizeFonts: false,
-  // CSS・JSの自動プリロードを無効化
+  // 自動プリフェッチを無効化（プリロード警告対策）
   experimental: {
     optimizePackageImports: [],
+    // CSSチャンクの最適化を無効化
+    optimizeCss: false,
   },
-  // Link ヘッダーのプリロードを無効化
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Link',
-            value: '',
+  // WebpackでCSSプリロードを制御
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // クライアント側でのプリロードリンクの生成を制限
+      config.optimization.splitChunks = {
+        ...config.optimization.splitChunks,
+        cacheGroups: {
+          ...config.optimization.splitChunks?.cacheGroups,
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true,
+            priority: 20,
           },
-        ],
-      },
-    ]
+        },
+      };
+    }
+    return config;
   },
 }
 
