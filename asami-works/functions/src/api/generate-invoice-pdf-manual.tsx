@@ -1,7 +1,7 @@
 import React from 'react';
 import { onRequest } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
-import { pdf } from '@react-pdf/renderer';
+import { renderToBuffer } from '@react-pdf/renderer';
 import { google } from 'googleapis';
 import { Readable } from 'stream';
 import { adminDb } from '../services/firebase-admin-service';
@@ -68,15 +68,12 @@ const generateInvoicePDF = async (
   };
 
   // PDFコンポーネントを作成してバッファに変換
-  const pdfDoc = pdf(
+  const result = await renderToBuffer(
     <InvoicePDF invoice={invoice} bankInfo={bankInfo} companyInfo={company} />
   );
 
-  // @react-pdf/renderer v4 では toBuffer() が Uint8Array を返す
-  const result = await pdfDoc.toBuffer();
-
-  // Uint8Array を Buffer に変換（型定義の問題を回避）
-  const buffer = Buffer.from(result as unknown as Uint8Array);
+  // Uint8Array を Buffer に変換
+  const buffer = Buffer.from(result);
 
   return buffer;
 };
