@@ -66,8 +66,12 @@ AsamiWorksです。
 
 ■ 請求内容
 請求書番号: {invoiceNumber}
-請求金額: {totalAmount}
 お支払期限: {dueDate}
+
+【内訳】
+{itemsBreakdown}
+-------------------
+合計金額: {totalAmount}
 
 請求書の詳細は、マイページよりご確認いただけます。
 {mypageUrl}
@@ -106,6 +110,18 @@ Web: https://asami-works.com`,
     // マイページURL
     const mypageUrl = `https://asami-works.com/mypage`;
 
+    // 内訳テキストを生成
+    const items = invoice?.items || [];
+    const itemsBreakdown = items.map((item: any) => {
+      const quantity = item.quantity || 1;
+      const amount = item.amount || 0;
+      if (quantity === 1) {
+        return `・${item.description}: ${formatCurrency(amount)}`;
+      } else {
+        return `・${item.description} × ${quantity}: ${formatCurrency(amount * quantity)}`;
+      }
+    }).join('\n');
+
     // プレースホルダーを置換
     const subject = emailSettings.invoiceSubject
       .replace(/{clientName}/g, client.clientName)
@@ -118,7 +134,8 @@ Web: https://asami-works.com`,
       .replace(/{totalAmount}/g, formatCurrency(invoice?.totalAmount))
       .replace(/{dueDate}/g, formatDate(invoice?.dueDate))
       .replace(/{billingMonth}/g, billingMonth)
-      .replace(/{mypageUrl}/g, mypageUrl);
+      .replace(/{mypageUrl}/g, mypageUrl)
+      .replace(/{itemsBreakdown}/g, itemsBreakdown);
 
     // Cloud Functions経由でメール送信（請求書専用）
     const cloudFunctionUrl = 'https://us-central1-asamiworks-679b3.cloudfunctions.net/sendInvoiceEmail';
