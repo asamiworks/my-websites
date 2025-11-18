@@ -6,12 +6,9 @@ export async function POST(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    console.log('[Receipt API] Starting receipt generation...');
-
     // Firebase Authトークンを検証
     const authHeader = request.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      console.log('[Receipt API] No auth header');
       return NextResponse.json(
         { error: '認証が必要です' },
         { status: 401 }
@@ -22,11 +19,9 @@ export async function POST(
     let decodedToken;
 
     try {
-      console.log('[Receipt API] Verifying token...');
       decodedToken = await auth.verifyIdToken(token);
-      console.log('[Receipt API] Token verified, UID:', decodedToken.uid);
     } catch (error) {
-      console.error('[Receipt API] Token verification failed:', error);
+      console.error('[Receipt API] Token verification failed');
       return NextResponse.json(
         { error: '認証トークンが無効です' },
         { status: 401 }
@@ -36,15 +31,12 @@ export async function POST(
     const authUid = decodedToken.uid;
 
     // authUidからクライアント情報を取得
-    console.log('[Receipt API] Fetching client info for UID:', authUid);
     const clientsSnapshot = await db.collection('clients')
       .where('authUid', '==', authUid)
       .limit(1)
       .get();
-    console.log('[Receipt API] Client query result, empty:', clientsSnapshot.empty);
 
     if (clientsSnapshot.empty) {
-      console.log('[Receipt API] No client found');
       return NextResponse.json(
         { error: 'クライアント情報が見つかりません' },
         { status: 404 }
@@ -52,7 +44,6 @@ export async function POST(
     }
 
     const clientId = clientsSnapshot.docs[0].id;
-    console.log('[Receipt API] Client ID:', clientId);
 
     const { id } = await context.params;
 

@@ -250,13 +250,10 @@ function AdminInvoicesContent() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        console.log('Auto-charge successful:', data);
         return { success: true, message: 'カード決済が完了しました' };
       } else if (data.skipped || data.alreadyPaid) {
-        console.log('Auto-charge skipped:', data.message);
         return { success: true, skipped: true };
       } else {
-        console.error('Auto-charge failed:', data);
         return { success: false, error: data.error };
       }
     } catch (error) {
@@ -277,10 +274,8 @@ function AdminInvoicesContent() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        console.log('Invoice email sent:', data);
         return { success: true, message: data.message };
       } else {
-        console.error('Email send failed:', data);
         return { success: false, error: data.error };
       }
     } catch (error) {
