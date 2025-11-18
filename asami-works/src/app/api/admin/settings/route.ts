@@ -1,0 +1,87 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/firebase-admin';
+
+// 設定を取得
+export async function GET() {
+  try {
+    const settingsRef = db.collection('settings').doc('admin');
+    const settingsDoc = await settingsRef.get();
+
+    if (!settingsDoc.exists) {
+      // デフォルト値を返す
+      return NextResponse.json({
+        bankInfo: {
+          bankName: '',
+          branchName: '',
+          accountType: '',
+          accountNumber: '',
+          accountHolder: '',
+        },
+        invoiceSettings: {
+          closingDayType: 'end_of_month',
+          closingDay: undefined,
+          issueDayType: 'first_of_next_month',
+          issueDay: undefined,
+          dueDateType: 'end_of_issue_month',
+          dueDateDays: undefined,
+          dueDateDay: undefined,
+          adjustDueDateForHolidays: true,
+          taxRate: 0,
+        },
+        businessSettings: {
+          businessType: 'sole_proprietorship',
+          taxFilingMethod: 'blue',
+          blueReturnDeduction: 65,
+          fiscalYearEnd: '03-31',
+          incorporationDate: '',
+          capitalStock: undefined,
+          representativeName: '',
+        },
+      });
+    }
+
+    const data = settingsDoc.data();
+    return NextResponse.json({
+      bankInfo: data?.bankInfo || {},
+      invoiceSettings: data?.invoiceSettings || {},
+      businessSettings: data?.businessSettings || {},
+    });
+  } catch (error: any) {
+    console.error('Error loading settings:', error);
+    return NextResponse.json(
+      { error: error.message || '設定の読み込みに失敗しました' },
+      { status: 500 }
+    );
+  }
+}
+
+// 設定を保存
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { bankInfo, invoiceSettings, businessSettings } = body;
+
+    const settingsRef = db.collection('settings').doc('admin');
+
+    await settingsRef.set(
+      {
+        bankInfo: bankInfo || {},
+        invoiceSettings: invoiceSettings || {},
+        businessSettings: businessSettings || {},
+        updatedAt: new Date().toISOString(),
+      },
+      { merge: true }
+    );
+
+    return NextResponse.json({
+      success: true,
+      message: '設定を保存しました',
+    });
+  } catch (error: any) {
+    console.error('Error saving settings:', error);
+    return NextResponse.json(
+      { error: error.message || '設定の保存に失敗しました' },
+      { status: 500 }
+    );
+  }
+}
