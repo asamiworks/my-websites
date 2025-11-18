@@ -203,39 +203,20 @@ const uploadToGoogleDrive = async (
   });
 
   const drive = google.drive({ version: 'v3', auth });
-  const rootFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID || '1asd9c8BJyv8HP_5PBnKBumHL_UFbMscC';
+  const rootFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID_INVOICES || '0AIyWA0JFbdhEUk9PVA';
 
-  // 年月フォルダを取得または作成
-  const folderName = `${year}年${month}月`;
+  // 年月フォルダを作成せず、直接ルートフォルダに保存
+  const folderId = rootFolderId;
 
-  const folderResponse = await drive.files.list({
-    q: `name='${folderName}' and '${rootFolderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
-    fields: 'files(id, name)',
-  });
-
-  let folderId: string;
-
-  if (folderResponse.data.files && folderResponse.data.files.length > 0) {
-    folderId = folderResponse.data.files[0].id!;
-  } else {
-    const folder = await drive.files.create({
-      requestBody: {
-        name: folderName,
-        mimeType: 'application/vnd.google-apps.folder',
-        parents: [rootFolderId],
-      },
-      fields: 'id',
-    });
-    folderId = folder.data.id!;
-  }
-
-  // ファイル名
+  // ファイル名 - 年月を含める
   const fileName = `${year}${String(month).padStart(2, '0')}_${clientName}.pdf`;
 
   // 既存ファイルをチェック
   const existingFiles = await drive.files.list({
     q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
     fields: 'files(id)',
+    supportsAllDrives: true,
+    includeItemsFromAllDrives: true,
   });
 
   let fileId: string;
@@ -249,6 +230,7 @@ const uploadToGoogleDrive = async (
         mimeType: 'application/pdf',
         body: Readable.from(pdfBuffer),
       },
+      supportsAllDrives: true,
     });
   } else {
     // 新規ファイルを作成
@@ -262,6 +244,7 @@ const uploadToGoogleDrive = async (
         body: Readable.from(pdfBuffer),
       },
       fields: 'id',
+      supportsAllDrives: true,
     });
     fileId = file.data.id!;
   }
@@ -274,7 +257,8 @@ const uploadToGoogleDrive = async (
  */
 export const generateInvoicePDFManual_HTTP = onRequest({
   timeoutSeconds: 300,
-  memory: '2GiB'
+  memory: '2GiB',
+  secrets: ['GOOGLE_SERVICE_ACCOUNT_CREDENTIALS']
 }, async (request, response) => {
   // 認証チェック
   const authHeader = request.headers['authorization'] || request.headers['Authorization'];

@@ -1,9 +1,11 @@
 import { onRequest } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
-import PDFDocument from 'pdfkit';
+import { pdf } from '@react-pdf/renderer';
 import { google } from 'googleapis';
 import { Readable } from 'stream';
 import { adminDb } from '../services/firebase-admin-service';
+import { ReceiptPDF } from '../pdf/ReceiptTemplate';
+import React from 'react';
 
 const db = adminDb;
 
@@ -37,144 +39,11 @@ interface InvoiceItem {
  * 領収書PDFを生成
  */
 const generateReceiptPDF = async (invoice: Invoice): Promise<Buffer> => {
-  return new Promise((resolve, reject) => {
-    try {
-      const doc = new PDFDocument({
-        size: 'A4',
-        margins: { top: 50, bottom: 50, left: 50, right: 50 },
-      });
-
-      const chunks: Buffer[] = [];
-      doc.on('data', (chunk) => chunks.push(chunk));
-      doc.on('end', () => resolve(Buffer.concat(chunks)));
-      doc.on('error', reject);
-
-      // ヘッダー
-      doc.fontSize(24).text('RECEIPT', { align: 'center' }).moveDown(0.5);
-      doc.fontSize(20).text('領収書', { align: 'center' }).moveDown(2);
-
-      // 領収書情報
-      const startY = doc.y;
-      doc.fontSize(10).text('AsamiWorks', 50, startY);
-      doc.fontSize(9)
-        .text('〒532-0011', 50)
-        .text('大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F', 50)
-        .text('TEL: 06-4866-6758', 50)
-        .text('Email: info@asami-works.com', 50);
-
-      const rightX = 350;
-      doc.fontSize(10).text(`領収書No: ${invoice.invoiceNumber}`, rightX, startY, { width: 200, align: 'right' });
-
-      // 発行日
-      const paidDate = invoice.paidDate ? invoice.paidDate.toDate() : new Date();
-      const paidDateStr = new Intl.DateTimeFormat('ja-JP', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      }).format(paidDate);
-      doc.text(`発行日: ${paidDateStr}`, rightX, undefined, { width: 200, align: 'right' });
-
-      doc.moveDown(3);
-
-      // 宛名
-      doc.fontSize(14)
-        .fillColor('#000')
-        .text(`${invoice.clientName} 様`, 50)
-        .moveDown(1);
-
-      // 金額（大きく表示）
-      doc.fontSize(16)
-        .text('下記正に領収いたしました', 50)
-        .moveDown(1);
-
-      doc.fontSize(28)
-        .fillColor('#000')
-        .text(`¥${invoice.totalAmount.toLocaleString()}`, 50, undefined, { align: 'center' })
-        .moveDown(2);
-
-      // 内訳
-      doc.fontSize(12)
-        .fillColor('#000')
-        .text('お支払い内訳', 50)
-        .moveDown(0.5);
-
-      doc.moveTo(50, doc.y).lineTo(545, doc.y).stroke();
-      doc.moveDown(0.5);
-
-      const tableTop = doc.y;
-      const itemX = 50;
-      const quantityX = 300;
-      const priceX = 370;
-      const amountX = 470;
-
-      doc.fontSize(9)
-        .fillColor('#000')
-        .text('項目', itemX, tableTop)
-        .text('数量', quantityX, tableTop)
-        .text('単価', priceX, tableTop)
-        .text('金額', amountX, tableTop);
-
-      doc.moveTo(itemX, tableTop + 15).lineTo(545, tableTop + 15).stroke();
-
-      let currentY = tableTop + 25;
-      invoice.items.forEach((item) => {
-        doc.fontSize(9)
-          .text(item.description, itemX, currentY, { width: 240 })
-          .text(item.quantity.toString(), quantityX, currentY, { width: 60 })
-          .text(`¥${item.unitPrice.toLocaleString()}`, priceX, currentY, { width: 90, align: 'right' })
-          .text(`¥${item.amount.toLocaleString()}`, amountX, currentY, { width: 75, align: 'right' });
-        currentY += 25;
-      });
-
-      doc.moveDown(2);
-
-      // 合計金額（詳細）
-      const totalRightX = 400;
-      const totalValueX = 470;
-
-      doc.fontSize(10)
-        .text('小計:', totalRightX, undefined, { width: 60, align: 'right' })
-        .text(`¥${invoice.subtotal.toLocaleString()}`, totalValueX, doc.y - 12, { width: 75, align: 'right' });
-
-      const taxRate = invoice.taxRate ? (invoice.taxRate * 100).toFixed(0) : '0';
-      doc.text(`消費税 (${taxRate}%):`, totalRightX, undefined, { width: 60, align: 'right' })
-        .text(`¥${invoice.taxAmount.toLocaleString()}`, totalValueX, doc.y - 12, { width: 75, align: 'right' });
-
-      doc.fontSize(12)
-        .fillColor('#000')
-        .text('合計:', totalRightX, undefined, { width: 60, align: 'right' })
-        .text(`¥${invoice.totalAmount.toLocaleString()}`, totalValueX, doc.y - 14, { width: 75, align: 'right' });
-
-      doc.moveDown(3);
-
-      // 但し書き
-      doc.fontSize(10)
-        .fillColor('#000')
-        .text('但し、', 50)
-        .moveDown(0.3);
-
-      if (invoice.notes) {
-        doc.fontSize(9)
-          .text(invoice.notes, 50, undefined, { width: 500 });
-      } else {
-        doc.fontSize(9)
-          .text('上記の通り領収いたしました', 50, undefined, { width: 500 });
-      }
-
-      doc.moveDown(2);
-
-      // 印紙（必要に応じて）
-      if (invoice.totalAmount >= 50000) {
-        doc.fontSize(8)
-          .fillColor('#666')
-          .text('※ 5万円以上のため収入印紙の貼付が必要です', 50, undefined, { width: 500 });
-      }
-
-      doc.end();
-    } catch (error) {
-      reject(error);
-    }
-  });
+  // React PDFコンポーネントを作成してバッファに変換
+  const element = React.createElement(ReceiptPDF, { invoice });
+  const pdfDoc = pdf(element as any);
+  const buffer = await pdfDoc.toBuffer() as any as Buffer;
+  return buffer;
 };
 
 /**
@@ -201,39 +70,20 @@ const uploadReceiptToGoogleDrive = async (
   });
 
   const drive = google.drive({ version: 'v3', auth });
-  const rootFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID || '1asd9c8BJyv8HP_5PBnKBumHL_UFbMscC';
+  const rootFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID_RECEIPTS || '0APkoULdGNWdVUk9PVA';
 
-  // 年月フォルダを取得または作成
-  const folderName = `${year}年${month}月`;
+  // 年月フォルダを作成せず、直接ルートフォルダに保存
+  const folderId = rootFolderId;
 
-  const folderResponse = await drive.files.list({
-    q: `name='${folderName}' and '${rootFolderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
-    fields: 'files(id, name)',
-  });
-
-  let folderId: string;
-
-  if (folderResponse.data.files && folderResponse.data.files.length > 0) {
-    folderId = folderResponse.data.files[0].id!;
-  } else {
-    const folder = await drive.files.create({
-      requestBody: {
-        name: folderName,
-        mimeType: 'application/vnd.google-apps.folder',
-        parents: [rootFolderId],
-      },
-      fields: 'id',
-    });
-    folderId = folder.data.id!;
-  }
-
-  // ファイル名（領収書用）
+  // ファイル名（領収書用）- 年月を含める
   const fileName = `${year}${String(month).padStart(2, '0')}_${clientName}_領収書_${invoiceNumber}.pdf`;
 
   // 既存ファイルをチェック
   const existingFiles = await drive.files.list({
     q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
     fields: 'files(id)',
+    supportsAllDrives: true,
+    includeItemsFromAllDrives: true,
   });
 
   let fileId: string;
@@ -247,6 +97,7 @@ const uploadReceiptToGoogleDrive = async (
         mimeType: 'application/pdf',
         body: Readable.from(pdfBuffer),
       },
+      supportsAllDrives: true,
     });
   } else {
     // 新規ファイルを作成
@@ -260,6 +111,7 @@ const uploadReceiptToGoogleDrive = async (
         body: Readable.from(pdfBuffer),
       },
       fields: 'id',
+      supportsAllDrives: true,
     });
     fileId = file.data.id!;
   }
@@ -272,7 +124,8 @@ const uploadReceiptToGoogleDrive = async (
  */
 export const generateReceiptPDF_HTTP = onRequest({
   timeoutSeconds: 300,
-  memory: '2GiB'
+  memory: '2GiB',
+  secrets: ['GOOGLE_SERVICE_ACCOUNT_CREDENTIALS']
 }, async (request, response) => {
   // 認証チェック
   const authHeader = request.headers['authorization'] || request.headers['Authorization'];

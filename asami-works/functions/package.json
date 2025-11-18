@@ -2,7 +2,7 @@
   "name": "functions",
   "scripts": {
     "lint": "eslint .",
-    "build": "tsc",
+    "build": "tsc && mkdir -p lib/pdf/fonts && cp src/fonts/ipaexm.ttf lib/pdf/fonts/",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
@@ -16,9 +16,11 @@
   "main": "lib/index.js",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",
+    "@react-pdf/renderer": "^4.3.1",
     "@types/pdfkit": "^0.17.3",
     "axios": "^1.9.0",
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.0",
@@ -28,6 +30,7 @@
     "googleapis": "^150.0.1",
     "ioredis": "^5.6.1",
     "pdfkit": "^0.17.2",
+    "react": "^19.2.0",
     "redis": "^5.5.6",
     "stripe": "^19.3.0"
   },

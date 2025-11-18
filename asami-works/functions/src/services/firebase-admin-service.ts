@@ -3,10 +3,34 @@ import { Timestamp, DocumentSnapshot } from 'firebase-admin/firestore';
 
 // Initialize Firebase Admin (if not already initialized)
 if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    projectId: process.env.FIREBASE_PROJECT_ID || 'asamiworks-679b3'
-  });
+  // Try to use explicit service account credentials first
+  const serviceAccountKey = process.env.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS;
+
+  if (serviceAccountKey) {
+    try {
+      const serviceAccount = JSON.parse(serviceAccountKey);
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        projectId: serviceAccount.project_id || 'asamiworks-679b3'
+      });
+      console.log('[Firebase Admin Service] Initialized with explicit service account credentials');
+    } catch (error) {
+      console.error('[Firebase Admin Service] Failed to parse service account credentials:', error);
+      // Fallback to application default credentials
+      admin.initializeApp({
+        credential: admin.credential.applicationDefault(),
+        projectId: process.env.FIREBASE_PROJECT_ID || 'asamiworks-679b3'
+      });
+      console.log('[Firebase Admin Service] Fallback to application default credentials');
+    }
+  } else {
+    // Use application default credentials
+    admin.initializeApp({
+      credential: admin.credential.applicationDefault(),
+      projectId: process.env.FIREBASE_PROJECT_ID || 'asamiworks-679b3'
+    });
+    console.log('[Firebase Admin Service] Using application default credentials');
+  }
 }
 
 export const adminAuth = admin.auth();
