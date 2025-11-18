@@ -21,6 +21,8 @@ interface QuickReply {
 export default function ChatWidget() {
   const pathname = usePathname();
   const isMyPage = pathname?.startsWith('/mypage');
+  const isClientPage = pathname?.startsWith('/client');
+  const shouldHideWidget = isMyPage || isClientPage;
   const { user } = useAuth();
   const { currentChat, createNewChat, loadChat, saveMessage, saveQuickReplies, saveFormStates } = useChat();
 
@@ -618,8 +620,8 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Chat Button - チャット開くアイコンのみ表示（マイページでは非表示） */}
-      {!isOpen && !isMyPage && (
+      {/* Chat Button - チャット開くアイコンのみ表示（マイページ・クライアントページでは非表示） */}
+      {!isOpen && !shouldHideWidget && (
         <button
           className={styles.chatButton}
           onClick={() => setIsOpen(true)}
