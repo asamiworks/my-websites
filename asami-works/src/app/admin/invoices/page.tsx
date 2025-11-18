@@ -487,25 +487,28 @@ function AdminInvoicesContent() {
         };
 
         // 請求書内の一回払い項目をチェックして、支払い済みフラグを更新
-        if (clientData.productionFeeBreakdown) {
-          const breakdown = clientData.productionFeeBreakdown;
-          const items = selectedInvoiceForPayment.items || [];
+        const items = selectedInvoiceForPayment.items || [];
+        console.log('Payment confirmation - Invoice items:', items.map(i => i.description));
 
-          // 初期費用が含まれているかチェック
-          if (items.some(item => item.description.includes('初期費用'))) {
-            updateData['productionFeeBreakdown.initialPaymentPaid'] = true;
-          }
-
-          // 中間費用が含まれているかチェック
-          if (items.some(item => item.description.includes('中間費用'))) {
-            updateData['productionFeeBreakdown.intermediatePaymentPaid'] = true;
-          }
-
-          // 最終金が含まれているかチェック
-          if (items.some(item => item.description.includes('最終金'))) {
-            updateData['productionFeeBreakdown.finalPaymentPaid'] = true;
-          }
+        // 初期費用が含まれているかチェック
+        if (items.some(item => item.description?.includes('初期費用'))) {
+          updateData['productionFeeBreakdown.initialPaymentPaid'] = true;
+          console.log('Setting initialPaymentPaid = true');
         }
+
+        // 中間費用が含まれているかチェック
+        if (items.some(item => item.description?.includes('中間費用'))) {
+          updateData['productionFeeBreakdown.intermediatePaymentPaid'] = true;
+          console.log('Setting intermediatePaymentPaid = true');
+        }
+
+        // 最終金が含まれているかチェック
+        if (items.some(item => item.description?.includes('最終金'))) {
+          updateData['productionFeeBreakdown.finalPaymentPaid'] = true;
+          console.log('Setting finalPaymentPaid = true');
+        }
+
+        console.log('Update data for client:', updateData);
 
         await updateDoc(clientRef, updateData);
       }

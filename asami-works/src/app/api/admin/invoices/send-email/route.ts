@@ -128,14 +128,36 @@ Web: https://asami-works.com`,
       .replace(/{invoiceNumber}/g, invoice?.invoiceNumber)
       .replace(/{billingMonth}/g, billingMonth);
 
-    const body = emailSettings.invoiceBody
+    let body = emailSettings.invoiceBody
       .replace(/{clientName}/g, client.clientName)
       .replace(/{invoiceNumber}/g, invoice?.invoiceNumber)
       .replace(/{totalAmount}/g, formatCurrency(invoice?.totalAmount))
       .replace(/{dueDate}/g, formatDate(invoice?.dueDate))
       .replace(/{billingMonth}/g, billingMonth)
-      .replace(/{mypageUrl}/g, mypageUrl)
-      .replace(/{itemsBreakdown}/g, itemsBreakdown);
+      .replace(/{mypageUrl}/g, mypageUrl);
+
+    // 内訳プレースホルダーがある場合は置換、ない場合は請求金額の後に挿入
+    if (body.includes('{itemsBreakdown}')) {
+      body = body.replace(/{itemsBreakdown}/g, itemsBreakdown);
+    } else {
+      // 請求金額の行を探して、その前に内訳を挿入
+      const totalAmountLine = `請求金額: ${formatCurrency(invoice?.totalAmount)}`;
+      if (body.includes(totalAmountLine)) {
+        body = body.replace(
+          totalAmountLine,
+          `【内訳】\n${itemsBreakdown}\n-------------------\n合計金額: ${formatCurrency(invoice?.totalAmount)}`
+        );
+      } else {
+        // 請求金額行が見つからない場合は、お支払期限の後に追加
+        const dueDateLine = `お支払期限: ${formatDate(invoice?.dueDate)}`;
+        if (body.includes(dueDateLine)) {
+          body = body.replace(
+            dueDateLine,
+            `${dueDateLine}\n\n【内訳】\n${itemsBreakdown}\n-------------------\n合計金額: ${formatCurrency(invoice?.totalAmount)}`
+          );
+        }
+      }
+    }
 
     // Cloud Functions経由でメール送信（請求書専用）
     const cloudFunctionUrl = 'https://us-central1-asamiworks-679b3.cloudfunctions.net/sendInvoiceEmail';
