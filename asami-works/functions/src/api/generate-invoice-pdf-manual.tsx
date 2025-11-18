@@ -1,9 +1,11 @@
+import React from 'react';
 import { onRequest } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
-import PDFDocument from 'pdfkit';
+import { pdf } from '@react-pdf/renderer';
 import { google } from 'googleapis';
 import { Readable } from 'stream';
 import { adminDb } from '../services/firebase-admin-service';
+import { InvoicePDF } from '../pdf/InvoiceTemplate';
 
 const db = adminDb;
 
@@ -49,7 +51,7 @@ interface CompanyInfo {
 }
 
 /**
- * 請求書PDFを生成
+ * 請求書PDFを生成（@react-pdf/renderer使用）
  */
 const generateInvoicePDF = async (
   invoice: Invoice,
@@ -65,137 +67,18 @@ const generateInvoicePDF = async (
     email: 'info@asami-works.com',
   };
 
-  return new Promise((resolve, reject) => {
-    try {
-      const doc = new PDFDocument({
-        size: 'A4',
-        margins: { top: 50, bottom: 50, left: 50, right: 50 },
-      });
+  // PDFコンポーネントを作成してバッファに変換
+  const pdfDoc = pdf(
+    <InvoicePDF invoice={invoice} bankInfo={bankInfo} companyInfo={company} />
+  );
 
-      const chunks: Buffer[] = [];
-      doc.on('data', (chunk) => chunks.push(chunk));
-      doc.on('end', () => resolve(Buffer.concat(chunks)));
-      doc.on('error', reject);
+  // @react-pdf/renderer v4 では toBuffer() が Uint8Array を返す
+  const result = await pdfDoc.toBuffer();
 
-      // ヘッダー
-      doc.fontSize(24).text('INVOICE', { align: 'center' }).moveDown(0.5);
-      doc.fontSize(20).text('請求書', { align: 'center' }).moveDown(2);
+  // Uint8Array を Buffer に変換（型定義の問題を回避）
+  const buffer = Buffer.from(result as unknown as Uint8Array);
 
-      // 請求書情報
-      const startY = doc.y;
-      doc.fontSize(10).text(company.name, 50, startY);
-      doc.fontSize(9)
-        .text(`〒${company.postalCode}`, 50)
-        .text(company.address, 50)
-        .text(`TEL: ${company.phone}`, 50)
-        .text(`Email: ${company.email}`, 50);
-
-      const rightX = 400;
-      doc.fontSize(10).text(`請求書番号: ${invoice.invoiceNumber}`, rightX, startY, { width: 150, align: 'right' });
-
-      if (invoice.issueDate) {
-        const issueDate = invoice.issueDate.toDate();
-        const issueDateStr = new Intl.DateTimeFormat('ja-JP', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        }).format(issueDate);
-        doc.text(`発行日: ${issueDateStr}`, rightX, undefined, { width: 150, align: 'right' });
-      }
-
-      if (invoice.dueDate) {
-        const dueDate = invoice.dueDate.toDate();
-        const dueDateStr = new Intl.DateTimeFormat('ja-JP', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        }).format(dueDate);
-        doc.text(`支払期限: ${dueDateStr}`, rightX, undefined, { width: 150, align: 'right' });
-      }
-
-      doc.moveDown(3);
-
-      // 請求先情報
-      doc.fontSize(12).text(`${invoice.clientName} 御中`, 50).moveDown(2);
-
-      // 請求項目テーブル
-      const tableTop = doc.y;
-      const itemX = 50;
-      const quantityX = 300;
-      const priceX = 370;
-      const amountX = 470;
-
-      doc.fontSize(10)
-        .fillColor('#000')
-        .text('項目', itemX, tableTop)
-        .text('数量', quantityX, tableTop)
-        .text('単価', priceX, tableTop)
-        .text('金額', amountX, tableTop);
-
-      doc.moveTo(itemX, tableTop + 15).lineTo(545, tableTop + 15).stroke();
-
-      let currentY = tableTop + 25;
-      invoice.items.forEach((item) => {
-        doc.fontSize(9)
-          .text(item.description, itemX, currentY, { width: 240 })
-          .text(item.quantity.toString(), quantityX, currentY, { width: 60 })
-          .text(`¥${item.unitPrice.toLocaleString()}`, priceX, currentY, { width: 90, align: 'right' })
-          .text(`¥${item.amount.toLocaleString()}`, amountX, currentY, { width: 75, align: 'right' });
-        currentY += 25;
-      });
-
-      doc.moveDown(2);
-
-      // 合計金額
-      const totalRightX = 400;
-      const totalValueX = 470;
-
-      doc.fontSize(10)
-        .text('小計:', totalRightX, undefined, { width: 60, align: 'right' })
-        .text(`¥${invoice.subtotal.toLocaleString()}`, totalValueX, doc.y - 12, { width: 75, align: 'right' });
-
-      const taxRate = invoice.taxRate ? (invoice.taxRate * 100).toFixed(0) : '0';
-      doc.text(`消費税 (${taxRate}%):`, totalRightX, undefined, { width: 60, align: 'right' })
-        .text(`¥${invoice.taxAmount.toLocaleString()}`, totalValueX, doc.y - 12, { width: 75, align: 'right' });
-
-      doc.fontSize(12)
-        .fillColor('#000')
-        .text('合計:', totalRightX, undefined, { width: 60, align: 'right' })
-        .text(`¥${invoice.totalAmount.toLocaleString()}`, totalValueX, doc.y - 14, { width: 75, align: 'right' });
-
-      doc.moveDown(2);
-
-      // 振込先情報
-      if (bankInfo) {
-        doc.fontSize(11)
-          .fillColor('#000')
-          .text('お振込先', 50)
-          .moveDown(0.5);
-
-        doc.fontSize(9)
-          .text(`銀行名: ${bankInfo.bankName}`, 50)
-          .text(`支店名: ${bankInfo.branchName}`, 50)
-          .text(`口座種別: ${bankInfo.accountType}`, 50)
-          .text(`口座番号: ${bankInfo.accountNumber}`, 50)
-          .text(`口座名義: ${bankInfo.accountHolder}`, 50);
-
-        doc.moveDown(2);
-      }
-
-      // 備考
-      if (invoice.notes) {
-        doc.fontSize(10)
-          .fillColor('#666')
-          .text('備考:', 50)
-          .fontSize(9)
-          .text(invoice.notes, 50, undefined, { width: 500 });
-      }
-
-      doc.end();
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return buffer;
 };
 
 /**
