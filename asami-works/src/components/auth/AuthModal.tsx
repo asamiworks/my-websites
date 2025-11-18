@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
@@ -13,19 +14,30 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalProps) {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>(defaultTab);
   const { error, clearError, user } = useAuth();
+  const [wasOpen, setWasOpen] = useState(false);
 
   useEffect(() => {
     setActiveTab(defaultTab);
   }, [defaultTab]);
 
-  // ログイン成功時にモーダルを閉じる
+  // モーダルが開いたことを追跡
   useEffect(() => {
-    if (user) {
-      onClose();
+    if (isOpen) {
+      setWasOpen(true);
     }
-  }, [user, onClose]);
+  }, [isOpen]);
+
+  // ログイン成功時にモーダルを閉じてマイページへリダイレクト
+  useEffect(() => {
+    if (user && wasOpen && isOpen) {
+      onClose();
+      router.push('/mypage');
+      setWasOpen(false);
+    }
+  }, [user, wasOpen, isOpen, onClose, router]);
 
   // モーダルを閉じる時にエラーをクリア
   useEffect(() => {
