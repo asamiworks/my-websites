@@ -22,7 +22,7 @@ export default function ChatWidget() {
   const pathname = usePathname();
   const isMyPage = pathname?.startsWith('/mypage');
   const isClientPage = pathname?.startsWith('/client');
-  const shouldHideWidget = isMyPage || isClientPage;
+  const shouldHideWidget = isClientPage; // /client/* ページのみ非表示
   const { user } = useAuth();
   const { currentChat, createNewChat, loadChat, saveMessage, saveQuickReplies, saveFormStates } = useChat();
 
