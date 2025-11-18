@@ -468,10 +468,11 @@ function AdminInvoicesContent() {
         status: 'paid' as InvoiceStatus,
         paidAmount,
         paymentDifference,
+        paidAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       });
 
-      // クライアントの累積過不足金を更新
+      // クライアントの累積過不足金と支払いフラグを更新
       const clientRef = doc(db, 'clients', selectedInvoiceForPayment.clientId);
       const clientDoc = await getDoc(clientRef);
 
@@ -480,37 +481,33 @@ function AdminInvoicesContent() {
         const currentDifference = clientData.accumulatedDifference || 0;
         const newDifference = currentDifference + paymentDifference;
 
-        // 更新オブジェクトを作成
-        const updateData: any = {
-          accumulatedDifference: newDifference,
-          updatedAt: Timestamp.now(),
-        };
+        // 現在のproductionFeeBreakdownを取得（なければ空オブジェクト）
+        const currentBreakdown = clientData.productionFeeBreakdown || {};
 
-        // 請求書内の一回払い項目をチェックして、支払い済みフラグを更新
+        // 請求書内の一回払い項目をチェック
         const items = selectedInvoiceForPayment.items || [];
-        console.log('Payment confirmation - Invoice items:', items.map(i => i.description));
 
-        // 初期費用が含まれているかチェック
+        // フラグを更新（既存の値を保持しつつ更新）
+        const updatedBreakdown = { ...currentBreakdown };
+
         if (items.some(item => item.description?.includes('初期費用'))) {
-          updateData['productionFeeBreakdown.initialPaymentPaid'] = true;
-          console.log('Setting initialPaymentPaid = true');
+          updatedBreakdown.initialPaymentPaid = true;
         }
 
-        // 中間費用が含まれているかチェック
         if (items.some(item => item.description?.includes('中間費用'))) {
-          updateData['productionFeeBreakdown.intermediatePaymentPaid'] = true;
-          console.log('Setting intermediatePaymentPaid = true');
+          updatedBreakdown.intermediatePaymentPaid = true;
         }
 
-        // 最終金が含まれているかチェック
         if (items.some(item => item.description?.includes('最終金'))) {
-          updateData['productionFeeBreakdown.finalPaymentPaid'] = true;
-          console.log('Setting finalPaymentPaid = true');
+          updatedBreakdown.finalPaymentPaid = true;
         }
 
-        console.log('Update data for client:', updateData);
-
-        await updateDoc(clientRef, updateData);
+        // クライアントドキュメントを更新
+        await updateDoc(clientRef, {
+          accumulatedDifference: newDifference,
+          productionFeeBreakdown: updatedBreakdown,
+          updatedAt: Timestamp.now(),
+        });
       }
 
       setShowPaymentModal(false);
