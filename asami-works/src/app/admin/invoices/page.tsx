@@ -476,13 +476,38 @@ function AdminInvoicesContent() {
       const clientDoc = await getDoc(clientRef);
 
       if (clientDoc.exists()) {
-        const currentDifference = clientDoc.data().accumulatedDifference || 0;
+        const clientData = clientDoc.data();
+        const currentDifference = clientData.accumulatedDifference || 0;
         const newDifference = currentDifference + paymentDifference;
 
-        await updateDoc(clientRef, {
+        // 更新オブジェクトを作成
+        const updateData: any = {
           accumulatedDifference: newDifference,
           updatedAt: Timestamp.now(),
-        });
+        };
+
+        // 請求書内の一回払い項目をチェックして、支払い済みフラグを更新
+        if (clientData.productionFeeBreakdown) {
+          const breakdown = clientData.productionFeeBreakdown;
+          const items = selectedInvoiceForPayment.items || [];
+
+          // 初期費用が含まれているかチェック
+          if (items.some(item => item.description.includes('初期費用'))) {
+            updateData['productionFeeBreakdown.initialPaymentPaid'] = true;
+          }
+
+          // 中間費用が含まれているかチェック
+          if (items.some(item => item.description.includes('中間費用'))) {
+            updateData['productionFeeBreakdown.intermediatePaymentPaid'] = true;
+          }
+
+          // 最終金が含まれているかチェック
+          if (items.some(item => item.description.includes('最終金'))) {
+            updateData['productionFeeBreakdown.finalPaymentPaid'] = true;
+          }
+        }
+
+        await updateDoc(clientRef, updateData);
       }
 
       setShowPaymentModal(false);

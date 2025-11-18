@@ -117,6 +117,36 @@ export const autoChargeInvoiceOnCreate = onDocumentCreated({
         updatedAt: admin.firestore.Timestamp.now(),
       });
 
+      // 一回払い項目（制作費）の支払い済みフラグを更新
+      if (clientData?.productionFeeBreakdown && invoiceData.items) {
+        const updateData: any = {
+          updatedAt: admin.firestore.Timestamp.now(),
+        };
+
+        const items = invoiceData.items;
+
+        // 初期費用が含まれているかチェック
+        if (items.some((item: any) => item.description?.includes('初期費用'))) {
+          updateData['productionFeeBreakdown.initialPaymentPaid'] = true;
+        }
+
+        // 中間費用が含まれているかチェック
+        if (items.some((item: any) => item.description?.includes('中間費用'))) {
+          updateData['productionFeeBreakdown.intermediatePaymentPaid'] = true;
+        }
+
+        // 最終金が含まれているかチェック
+        if (items.some((item: any) => item.description?.includes('最終金'))) {
+          updateData['productionFeeBreakdown.finalPaymentPaid'] = true;
+        }
+
+        // フラグが更新される場合のみ実行
+        if (Object.keys(updateData).length > 1) {
+          await db.collection('clients').doc(clientId).update(updateData);
+          console.log(`Invoice ${invoiceId}: Updated production fee paid flags`);
+        }
+      }
+
       console.log(`Invoice ${invoiceId}: Auto-charge succeeded. Payment Intent: ${paymentIntent.id}`);
     } else {
       console.error(`Invoice ${invoiceId}: Payment status is ${paymentIntent.status}`);
@@ -247,6 +277,36 @@ export const autoChargeInvoiceOnUpdate = onDocumentWritten({
         autoCharged: true,
         updatedAt: admin.firestore.Timestamp.now(),
       });
+
+      // 一回払い項目（制作費）の支払い済みフラグを更新
+      if (clientData?.productionFeeBreakdown && afterData.items) {
+        const updateData: any = {
+          updatedAt: admin.firestore.Timestamp.now(),
+        };
+
+        const items = afterData.items;
+
+        // 初期費用が含まれているかチェック
+        if (items.some((item: any) => item.description?.includes('初期費用'))) {
+          updateData['productionFeeBreakdown.initialPaymentPaid'] = true;
+        }
+
+        // 中間費用が含まれているかチェック
+        if (items.some((item: any) => item.description?.includes('中間費用'))) {
+          updateData['productionFeeBreakdown.intermediatePaymentPaid'] = true;
+        }
+
+        // 最終金が含まれているかチェック
+        if (items.some((item: any) => item.description?.includes('最終金'))) {
+          updateData['productionFeeBreakdown.finalPaymentPaid'] = true;
+        }
+
+        // フラグが更新される場合のみ実行
+        if (Object.keys(updateData).length > 1) {
+          await db.collection('clients').doc(clientId).update(updateData);
+          console.log(`Invoice ${invoiceId}: Updated production fee paid flags (status update)`);
+        }
+      }
 
       console.log(`Invoice ${invoiceId}: Auto-charge succeeded (status update)`);
     } else {
