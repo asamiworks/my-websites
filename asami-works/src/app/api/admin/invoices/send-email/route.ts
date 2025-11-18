@@ -120,8 +120,8 @@ Web: https://asami-works.com`,
       .replace(/{billingMonth}/g, billingMonth)
       .replace(/{mypageUrl}/g, mypageUrl);
 
-    // Cloud Functions経由でメール送信
-    const cloudFunctionUrl = 'https://us-central1-asamiworks-679b3.cloudfunctions.net/contact';
+    // Cloud Functions経由でメール送信（請求書専用）
+    const cloudFunctionUrl = 'https://us-central1-asamiworks-679b3.cloudfunctions.net/sendInvoiceEmail';
 
     const response = await fetch(cloudFunctionUrl, {
       method: 'POST',
@@ -129,11 +129,9 @@ Web: https://asami-works.com`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: client.clientName,
-        email: clientEmail,
-        company: 'AsamiWorks Invoice',
-        message: body,
+        to: clientEmail,
         subject: subject,
+        body: body,
       }),
     });
 

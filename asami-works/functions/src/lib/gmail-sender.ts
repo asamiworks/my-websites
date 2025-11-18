@@ -246,3 +246,27 @@ export async function sendAdminNotification(contactData: ContactData): Promise<E
 
   return await sendEmail({ to: adminEmail, subject, html });
 }
+
+/**
+ * 請求書通知メール送信（テンプレートなしでそのまま送信）
+ */
+export async function sendInvoiceNotification(data: {
+  to: string;
+  subject: string;
+  body: string;
+}): Promise<EmailResult> {
+  const { to, subject, body } = data;
+
+  // プレーンテキストをHTMLに変換（改行を<br>に）
+  const htmlBody = body.replace(/\n/g, '<br>');
+
+  const html = `
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="line-height: 1.8; color: #333;">
+    ${htmlBody}
+  </div>
+</div>
+  `;
+
+  return await sendEmail({ to, subject, html });
+}

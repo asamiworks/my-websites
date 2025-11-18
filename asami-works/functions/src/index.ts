@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 const cors = require('cors');
-import { sendAutoReply, sendAdminNotification } from './lib/gmail-sender';
+import { sendAutoReply, sendAdminNotification, sendInvoiceNotification } from './lib/gmail-sender';
 import * as dotenv from 'dotenv';
 
 // .envファイルから環境変数を読み込む
@@ -390,6 +390,73 @@ export const chatInquiry = functions.https.onRequest((request, response) => {
 
     } catch (error) {
       console.error('Chat inquiry error:', error, `IP: ${clientIp}`);
+      response.status(500).json({
+        success: false,
+        message: 'エラーが発生しました。しばらく経ってから再度お試しください。'
+      });
+    }
+  });
+});
+
+/**
+ * 請求書メール送信（テンプレートなし）
+ */
+export const sendInvoiceEmail = functions.https.onRequest((request, response) => {
+  // セキュリティヘッダーを追加
+  addSecurityHeaders(response);
+
+  corsHandler(request, response, async () => {
+    // OPTIONSリクエストに対応
+    if (request.method === 'OPTIONS') {
+      response.status(200).send();
+      return;
+    }
+
+    // POSTメソッドのみ許可
+    if (request.method !== 'POST') {
+      response.status(405).send('Method Not Allowed');
+      return;
+    }
+
+    try {
+      const { to, subject, body } = request.body;
+
+      // バリデーション
+      if (!to || !subject || !body) {
+        response.status(400).json({
+          success: false,
+          message: '必須項目が入力されていません'
+        });
+        return;
+      }
+
+      // メールアドレスの基本的なバリデーション
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(to)) {
+        response.status(400).json({
+          success: false,
+          message: 'メールアドレスの形式が正しくありません'
+        });
+        return;
+      }
+
+      console.log(`Sending invoice email to: ${to.substring(0, 3)}***`);
+
+      // メール送信
+      const result = await sendInvoiceNotification({ to, subject, body });
+
+      if (result.success) {
+        console.log(`Invoice email sent successfully to: ${to.substring(0, 3)}***`);
+        response.json({
+          success: true,
+          message: 'メールを送信しました'
+        });
+      } else {
+        throw new Error(result.error || 'メール送信に失敗しました');
+      }
+
+    } catch (error) {
+      console.error('Invoice email error:', error);
       response.status(500).json({
         success: false,
         message: 'エラーが発生しました。しばらく経ってから再度お試しください。'
