@@ -1,6 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
 
+// デフォルトのメール設定
+const defaultEmailSettings = {
+  invoiceSubject: '【AsamiWorks】請求書のご送付',
+  invoiceBody: `{clientName} 様
+
+いつもお世話になっております。
+AsamiWorksです。
+
+{billingMonth}分の請求書をお送りいたします。
+
+■ 請求内容
+請求書番号: {invoiceNumber}
+請求金額: {totalAmount}
+お支払期限: {dueDate}
+
+請求書の詳細は、マイページよりご確認いただけます。
+{mypageUrl}
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+
+---
+AsamiWorks
+Email: info@asami-works.com
+Web: https://asami-works.com`,
+};
+
 // 設定を取得
 export async function GET() {
   try {
@@ -44,6 +70,7 @@ export async function GET() {
           phone: '06-4866-6758',
           email: 'info@asami-works.com',
         },
+        emailSettings: defaultEmailSettings,
       });
     }
 
@@ -59,6 +86,7 @@ export async function GET() {
         phone: '06-4866-6758',
         email: 'info@asami-works.com',
       },
+      emailSettings: data?.emailSettings || defaultEmailSettings,
     });
   } catch (error: any) {
     console.error('Error loading settings:', error);
@@ -73,7 +101,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { bankInfo, invoiceSettings, businessSettings, companyInfo } = body;
+    const { bankInfo, invoiceSettings, businessSettings, companyInfo, emailSettings } = body;
 
     const settingsRef = db.collection('settings').doc('admin');
 
@@ -83,6 +111,7 @@ export async function POST(request: NextRequest) {
         invoiceSettings: invoiceSettings || {},
         businessSettings: businessSettings || {},
         companyInfo: companyInfo || {},
+        emailSettings: emailSettings || defaultEmailSettings,
         updatedAt: new Date().toISOString(),
       },
       { merge: true }

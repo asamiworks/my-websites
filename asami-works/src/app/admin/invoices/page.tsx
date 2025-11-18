@@ -265,6 +265,30 @@ function AdminInvoicesContent() {
     }
   };
 
+  // 請求書メール送信
+  const sendInvoiceEmail = async (invoiceId: string) => {
+    try {
+      const response = await fetch('/api/admin/invoices/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invoiceId }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        console.log('Invoice email sent:', data);
+        return { success: true, message: data.message };
+      } else {
+        console.error('Email send failed:', data);
+        return { success: false, error: data.error };
+      }
+    } catch (error) {
+      console.error('Error sending invoice email:', error);
+      return { success: false, error: 'メール送信に失敗しました' };
+    }
+  };
+
   const handleSubmit = async (status: InvoiceStatus = 'draft') => {
     setError(null);
 
@@ -308,14 +332,47 @@ function AdminInvoicesContent() {
         alert(`請求書を${statusLabel}しました`);
       }
 
-      // クレジットカード決済のクライアントで、請求書が送信済みの場合は自動決済を試行
-      if (status === 'sent' && selectedClient.paymentMethod === 'credit_card' && invoiceId) {
-        const chargeResult = await triggerAutoCharge(invoiceId);
-        if (chargeResult.success && !chargeResult.skipped) {
-          alert('請求書を送付し、カード決済が完了しました');
-        } else if (!chargeResult.success) {
-          alert('請求書を送付しましたが、カード決済に失敗しました。\n' + (chargeResult.error || ''));
+      // 送付時の処理
+      if (status === 'sent' && invoiceId) {
+        let emailSent = false;
+        let chargeDone = false;
+        let emailError = '';
+        let chargeError = '';
+
+        // 認証設定済みのクライアントにメール送信
+        if (selectedClient.authUid) {
+          const emailResult = await sendInvoiceEmail(invoiceId);
+          if (emailResult.success) {
+            emailSent = true;
+          } else {
+            emailError = emailResult.error || '';
+          }
         }
+
+        // クレジットカード決済のクライアントで自動決済を試行
+        if (selectedClient.paymentMethod === 'credit_card') {
+          const chargeResult = await triggerAutoCharge(invoiceId);
+          if (chargeResult.success && !chargeResult.skipped) {
+            chargeDone = true;
+          } else if (!chargeResult.success) {
+            chargeError = chargeResult.error || '';
+          }
+        }
+
+        // 結果メッセージを作成
+        let message = '請求書を送付しました';
+        if (emailSent) {
+          message += '\nメールを送信しました';
+        } else if (selectedClient.authUid && emailError) {
+          message += '\nメール送信に失敗しました: ' + emailError;
+        }
+        if (chargeDone) {
+          message += '\nカード決済が完了しました';
+        } else if (selectedClient.paymentMethod === 'credit_card' && chargeError) {
+          message += '\nカード決済に失敗しました: ' + chargeError;
+        }
+
+        alert(message);
       }
 
       handleCloseModal();
@@ -341,16 +398,49 @@ function AdminInvoicesContent() {
         updatedAt: Timestamp.now(),
       });
 
-      // クレジットカード決済のクライアントで、ステータスを'sent'に変更した場合は自動決済を試行
+      // ステータスを'sent'に変更した場合の処理
       if (newStatus === 'sent') {
         const client = clients.find(c => c.id === invoice.clientId);
-        if (client?.paymentMethod === 'credit_card') {
-          const chargeResult = await triggerAutoCharge(invoice.id);
-          if (chargeResult.success && !chargeResult.skipped) {
-            alert('請求書を送信し、カード決済が完了しました');
-          } else if (!chargeResult.success) {
-            alert('請求書を送信しましたが、カード決済に失敗しました。\n' + (chargeResult.error || ''));
+        if (client) {
+          let emailSent = false;
+          let chargeDone = false;
+          let emailError = '';
+          let chargeError = '';
+
+          // 認証設定済みのクライアントにメール送信
+          if (client.authUid) {
+            const emailResult = await sendInvoiceEmail(invoice.id);
+            if (emailResult.success) {
+              emailSent = true;
+            } else {
+              emailError = emailResult.error || '';
+            }
           }
+
+          // クレジットカード決済のクライアントで自動決済を試行
+          if (client.paymentMethod === 'credit_card') {
+            const chargeResult = await triggerAutoCharge(invoice.id);
+            if (chargeResult.success && !chargeResult.skipped) {
+              chargeDone = true;
+            } else if (!chargeResult.success) {
+              chargeError = chargeResult.error || '';
+            }
+          }
+
+          // 結果メッセージを作成
+          let message = '請求書を送付しました';
+          if (emailSent) {
+            message += '\nメールを送信しました';
+          } else if (client.authUid && emailError) {
+            message += '\nメール送信に失敗しました: ' + emailError;
+          }
+          if (chargeDone) {
+            message += '\nカード決済が完了しました';
+          } else if (client.paymentMethod === 'credit_card' && chargeError) {
+            message += '\nカード決済に失敗しました: ' + chargeError;
+          }
+
+          alert(message);
         }
       }
 

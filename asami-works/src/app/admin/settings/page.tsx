@@ -55,6 +55,31 @@ export default function AdminSettingsPage() {
     email: 'info@asami-works.com',
   });
 
+  const [emailSettings, setEmailSettings] = useState({
+    invoiceSubject: '【AsamiWorks】請求書のご送付',
+    invoiceBody: `{clientName} 様
+
+いつもお世話になっております。
+AsamiWorksです。
+
+{billingMonth}分の請求書をお送りいたします。
+
+■ 請求内容
+請求書番号: {invoiceNumber}
+請求金額: {totalAmount}
+お支払期限: {dueDate}
+
+請求書の詳細は、マイページよりご確認いただけます。
+{mypageUrl}
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+
+---
+AsamiWorks
+Email: info@asami-works.com
+Web: https://asami-works.com`,
+  });
+
   useEffect(() => {
     if (!authLoading && !user) {
       router.push('/admin/login');
@@ -113,6 +138,12 @@ export default function AdminSettingsPage() {
             email: data.companyInfo.email ?? 'info@asami-works.com',
           });
         }
+        if (data.emailSettings) {
+          setEmailSettings({
+            invoiceSubject: data.emailSettings.invoiceSubject ?? '【AsamiWorks】請求書のご送付',
+            invoiceBody: data.emailSettings.invoiceBody ?? emailSettings.invoiceBody,
+          });
+        }
       } else {
         throw new Error(data.error || '設定の読み込みに失敗しました');
       }
@@ -142,6 +173,7 @@ export default function AdminSettingsPage() {
           invoiceSettings,
           businessSettings,
           companyInfo,
+          emailSettings,
           userId: user?.uid,
         }),
       });
@@ -612,6 +644,43 @@ export default function AdminSettingsPage() {
                 現在の設定: {invoiceSettings.taxRate === 0 ? '免税事業者（消費税0%）' : `消費税${(invoiceSettings.taxRate * 100).toFixed(0)}%`}
               </p>
             </div>
+        </div>
+
+        {/* メール設定セクション */}
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>請求書メール設定</h2>
+          <p className={styles.helpText} style={{ marginBottom: '16px' }}>
+            認証設定済みのクライアントに送付する請求書メールの内容を設定します。
+            <br />
+            利用可能なプレースホルダー: {'{clientName}'}, {'{invoiceNumber}'}, {'{totalAmount}'}, {'{dueDate}'}, {'{billingMonth}'}, {'{mypageUrl}'}
+          </p>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              件名 <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              className={styles.input}
+              value={emailSettings.invoiceSubject}
+              onChange={(e) => setEmailSettings({ ...emailSettings, invoiceSubject: e.target.value })}
+              placeholder="例：【AsamiWorks】請求書のご送付"
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              本文 <span className={styles.required}>*</span>
+            </label>
+            <textarea
+              className={styles.input}
+              style={{ minHeight: '300px', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}
+              value={emailSettings.invoiceBody}
+              onChange={(e) => setEmailSettings({ ...emailSettings, invoiceBody: e.target.value })}
+              required
+            />
+          </div>
         </div>
 
         <div className={styles.formActions}>
