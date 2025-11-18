@@ -275,11 +275,29 @@ interface InvoiceItem {
   amount: number;
 }
 
-interface ReceiptPDFProps {
-  invoice: Invoice;
+interface CompanyInfo {
+  name: string;
+  postalCode: string;
+  address: string;
+  phone: string;
+  email: string;
 }
 
-export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice }) => {
+interface ReceiptPDFProps {
+  invoice: Invoice;
+  companyInfo?: CompanyInfo;
+}
+
+export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo }) => {
+  // デフォルトの会社情報
+  const company = companyInfo || {
+    name: 'AsamiWorks',
+    postalCode: '532-0011',
+    address: '大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F',
+    phone: '06-4866-6758',
+    email: 'info@asami-works.com',
+  };
+
   const formatCurrency = (amount: number | undefined) => {
     if (amount === undefined || amount === null) {
       return '¥0';
@@ -390,11 +408,11 @@ export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice }) => {
         {/* 発行者情報 */}
         <View style={styles.issuerSection}>
           <Text style={styles.issuerLabel}>発行者</Text>
-          <Text style={styles.issuerName}>AsamiWorks</Text>
-          <Text style={styles.issuerLine}>〒532-0011</Text>
-          <Text style={styles.issuerLine}>大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F</Text>
-          <Text style={styles.issuerLine}>TEL: 06-4866-6758</Text>
-          <Text style={styles.issuerLine}>Email: info@asami-works.com</Text>
+          <Text style={styles.issuerName}>{company.name}</Text>
+          <Text style={styles.issuerLine}>〒{company.postalCode}</Text>
+          <Text style={styles.issuerLine}>{company.address}</Text>
+          <Text style={styles.issuerLine}>TEL: {company.phone}</Text>
+          <Text style={styles.issuerLine}>Email: {company.email}</Text>
         </View>
 
         {/* フッター */}

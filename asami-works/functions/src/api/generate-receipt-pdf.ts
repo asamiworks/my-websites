@@ -35,12 +35,20 @@ interface InvoiceItem {
   amount: number;
 }
 
+interface CompanyInfo {
+  name: string;
+  postalCode: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
 /**
  * 領収書PDFを生成
  */
-const generateReceiptPDF = async (invoice: Invoice): Promise<Buffer> => {
+const generateReceiptPDF = async (invoice: Invoice, companyInfo?: CompanyInfo): Promise<Buffer> => {
   // React PDFコンポーネントを作成してバッファに変換
-  const element = React.createElement(ReceiptPDF, { invoice });
+  const element = React.createElement(ReceiptPDF, { invoice, companyInfo });
   const pdfDoc = pdf(element as any);
   const buffer = await pdfDoc.toBuffer() as any as Buffer;
   return buffer;
@@ -167,8 +175,13 @@ export const generateReceiptPDF_HTTP = onRequest({
 
     console.log(`Generating receipt PDF for invoice ${invoice.invoiceNumber}...`);
 
+    // 設定から会社情報を取得
+    const settingsDoc = await db.collection('settings').doc('admin').get();
+    const settings = settingsDoc.exists ? settingsDoc.data() : {};
+    const companyInfo: CompanyInfo | undefined = settings?.companyInfo;
+
     // 領収書PDFを生成
-    const pdfBuffer = await generateReceiptPDF(invoice);
+    const pdfBuffer = await generateReceiptPDF(invoice, companyInfo);
 
     // 支払い日または発行日から年月を取得
     const paidDate = invoice.paidDate ? invoice.paidDate.toDate() : invoice.issueDate.toDate();

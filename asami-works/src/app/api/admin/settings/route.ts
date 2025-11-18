@@ -37,6 +37,13 @@ export async function GET() {
           capitalStock: undefined,
           representativeName: '',
         },
+        companyInfo: {
+          name: 'AsamiWorks',
+          postalCode: '532-0011',
+          address: '大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F',
+          phone: '06-4866-6758',
+          email: 'info@asami-works.com',
+        },
       });
     }
 
@@ -45,6 +52,13 @@ export async function GET() {
       bankInfo: data?.bankInfo || {},
       invoiceSettings: data?.invoiceSettings || {},
       businessSettings: data?.businessSettings || {},
+      companyInfo: data?.companyInfo || {
+        name: 'AsamiWorks',
+        postalCode: '532-0011',
+        address: '大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F',
+        phone: '06-4866-6758',
+        email: 'info@asami-works.com',
+      },
     });
   } catch (error: any) {
     console.error('Error loading settings:', error);
@@ -59,7 +73,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { bankInfo, invoiceSettings, businessSettings } = body;
+    const { bankInfo, invoiceSettings, businessSettings, companyInfo } = body;
 
     const settingsRef = db.collection('settings').doc('admin');
 
@@ -68,6 +82,7 @@ export async function POST(request: NextRequest) {
         bankInfo: bankInfo || {},
         invoiceSettings: invoiceSettings || {},
         businessSettings: businessSettings || {},
+        companyInfo: companyInfo || {},
         updatedAt: new Date().toISOString(),
       },
       { merge: true }

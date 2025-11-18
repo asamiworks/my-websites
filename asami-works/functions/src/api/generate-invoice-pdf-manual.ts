@@ -40,13 +40,31 @@ interface BankInfo {
   accountHolder: string;
 }
 
+interface CompanyInfo {
+  name: string;
+  postalCode: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
 /**
  * 請求書PDFを生成
  */
 const generateInvoicePDF = async (
   invoice: Invoice,
-  bankInfo?: BankInfo
+  bankInfo?: BankInfo,
+  companyInfo?: CompanyInfo
 ): Promise<Buffer> => {
+  // デフォルトの会社情報
+  const company = companyInfo || {
+    name: 'AsamiWorks',
+    postalCode: '532-0011',
+    address: '大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F',
+    phone: '06-4866-6758',
+    email: 'info@asami-works.com',
+  };
+
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({
@@ -65,12 +83,12 @@ const generateInvoicePDF = async (
 
       // 請求書情報
       const startY = doc.y;
-      doc.fontSize(10).text('AsamiWorks', 50, startY);
+      doc.fontSize(10).text(company.name, 50, startY);
       doc.fontSize(9)
-        .text('〒532-0011', 50)
-        .text('大阪府大阪市淀川区西中島 5-6-13 新大阪御幸ビル 6F', 50)
-        .text('TEL: 06-4866-6758', 50)
-        .text('Email: info@asami-works.com', 50);
+        .text(`〒${company.postalCode}`, 50)
+        .text(company.address, 50)
+        .text(`TEL: ${company.phone}`, 50)
+        .text(`Email: ${company.email}`, 50);
 
       const rightX = 400;
       doc.fontSize(10).text(`請求書番号: ${invoice.invoiceNumber}`, rightX, startY, { width: 150, align: 'right' });
@@ -292,12 +310,14 @@ export const generateInvoicePDFManual_HTTP = onRequest({
 
     console.log(`Generating invoice PDF for ${invoice.invoiceNumber}...`);
 
-    // 設定から振込先情報を取得
-    const settingsDoc = await db.collection('settings').doc('invoice_settings').get();
-    const bankInfo: BankInfo | undefined = settingsDoc.exists ? settingsDoc.data()?.bankInfo : undefined;
+    // 設定から振込先情報と会社情報を取得
+    const settingsDoc = await db.collection('settings').doc('admin').get();
+    const settings = settingsDoc.exists ? settingsDoc.data() : {};
+    const bankInfo: BankInfo | undefined = settings?.bankInfo;
+    const companyInfo: CompanyInfo | undefined = settings?.companyInfo;
 
     // PDFを生成
-    const pdfBuffer = await generateInvoicePDF(invoice, bankInfo);
+    const pdfBuffer = await generateInvoicePDF(invoice, bankInfo, companyInfo);
 
     // 発行日から年月を取得
     const issueDate = invoice.issueDate.toDate();
