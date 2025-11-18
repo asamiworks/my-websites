@@ -740,13 +740,52 @@ function AdminInvoicesContent() {
               amount: currentSchedule.monthlyFee * 11,
             });
           } else {
-            // 月額請求
-            items.push({
-              description: currentSchedule.description || '月額管理費',
-              quantity: 1,
-              unitPrice: currentSchedule.monthlyFee,
-              amount: currentSchedule.monthlyFee,
-            });
+            // 月額請求 - 請求対象月を計算（発行日の前月）
+            const billingMonth = new Date(issueDate.getFullYear(), issueDate.getMonth() - 1, 1);
+            const billingMonthEnd = new Date(issueDate.getFullYear(), issueDate.getMonth(), 0); // 前月末日
+
+            const scheduleStart = safeToDate(currentSchedule.fromDate);
+            const daysInMonth = billingMonthEnd.getDate();
+
+            // 日割り計算が必要かチェック
+            let startDay = 1;
+            let endDay = daysInMonth;
+            let isProrated = false;
+
+            if (scheduleStart) {
+              // スケジュール開始日が請求対象月内の場合
+              if (scheduleStart.getFullYear() === billingMonth.getFullYear() &&
+                  scheduleStart.getMonth() === billingMonth.getMonth()) {
+                startDay = scheduleStart.getDate();
+                isProrated = startDay > 1;
+              }
+            }
+
+            const actualDays = endDay - startDay + 1;
+            const baseDescription = currentSchedule.description || '月額管理費';
+
+            if (isProrated) {
+              // 日割り計算
+              const proratedAmount = Math.round(currentSchedule.monthlyFee * actualDays / daysInMonth);
+              const periodStr = `${billingMonth.getMonth() + 1}/${startDay}〜${billingMonth.getMonth() + 1}/${endDay}`;
+
+              items.push({
+                description: `${baseDescription}（${periodStr}）`,
+                quantity: 1,
+                unitPrice: proratedAmount,
+                amount: proratedAmount,
+              });
+            } else {
+              // 通常の月額（期間を表示）
+              const periodStr = `${billingMonth.getMonth() + 1}/${startDay}〜${billingMonth.getMonth() + 1}/${endDay}`;
+
+              items.push({
+                description: `${baseDescription}（${periodStr}）`,
+                quantity: 1,
+                unitPrice: currentSchedule.monthlyFee,
+                amount: currentSchedule.monthlyFee,
+              });
+            }
           }
         }
       }

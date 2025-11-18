@@ -103,9 +103,10 @@ Web: https://asami-works.com`,
       }).format(amount);
     };
 
-    // 請求月を取得
+    // 請求月を取得（発行日の前月）
     const issueDate = invoice?.issueDate?.toDate ? invoice.issueDate.toDate() : new Date(invoice?.issueDate);
-    const billingMonth = `${issueDate.getFullYear()}年${issueDate.getMonth() + 1}月`;
+    const billingDate = new Date(issueDate.getFullYear(), issueDate.getMonth() - 1, 1);
+    const billingMonth = `${billingDate.getFullYear()}年${billingDate.getMonth() + 1}月`;
 
     // マイページURL
     const mypageUrl = `https://asami-works.com/mypage`;
