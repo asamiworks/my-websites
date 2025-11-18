@@ -369,8 +369,6 @@ export default function ContactPage() {
         message: detailedMessage
       };
 
-      console.log('送信開始:', submitData);
-
       // api.tsを使用してリクエスト送信
       const data = await api.contact(submitData);
 

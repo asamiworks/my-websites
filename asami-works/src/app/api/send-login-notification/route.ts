@@ -11,14 +11,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ログイン通知をコンソールに出力
-    // 本番環境では、ここでメール送信などの処理を行う
-    console.log('=== Admin Login Notification ===');
-    console.log('Email:', email);
-    console.log('Login Time:', loginTime);
-    console.log('User Agent:', userAgent);
-    console.log('================================');
-
     // TODO: 実際のメール送信処理を実装する場合はここに追加
     // 例: Resend, SendGrid, Nodemailer などを使用
 

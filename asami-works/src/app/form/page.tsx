@@ -159,8 +159,6 @@ function FormContent() {
       setIsSubmitting(true);
       setSubmitMessage(null);
 
-      console.log('フォーム送信開始:', formData);
-
       // メッセージを構築
       let fullMessage = `【ご相談内容】${formData.inquiryType}${formData.other ? ` - ${formData.other}` : ''}\n\n`;
       
@@ -204,8 +202,6 @@ function FormContent() {
         message: fullMessage,
         token: recaptchaToken
       };
-
-      console.log('送信データ:', submitData);
 
       const result = await api.form(submitData);
 

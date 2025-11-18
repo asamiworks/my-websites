@@ -96,34 +96,17 @@ export default function SettingsPage() {
     setPasswordLoading(true);
 
     try {
-      console.log('[Password Change] Starting password change...', {
-        isInitialPassword: wasInitialPassword,
-        email: currentEmail,
-      });
-
       // 初回パスワード変更の場合は再認証をスキップ
       // （既にログインできているので、初期パスワードは正しいと判断）
       if (!wasInitialPassword) {
         // 通常のパスワード変更：再認証が必要
         const trimmedPassword = currentPassword.trim();
-
-        console.log('[Password Change] Re-authenticating...', {
-          passwordLength: trimmedPassword.length,
-          hadWhitespace: currentPassword !== trimmedPassword,
-        });
-
         const credential = EmailAuthProvider.credential(currentEmail, trimmedPassword);
         await reauthenticateWithCredential(auth.currentUser, credential);
-
-        console.log('[Password Change] Re-authentication successful');
-      } else {
-        console.log('[Password Change] Skipping re-authentication (initial password change)');
       }
 
       // パスワード更新
       await updatePassword(auth.currentUser, newPassword);
-
-      console.log('[Password Change] Password updated successfully');
 
       // Firestoreの初期パスワードフラグをfalseに
       if (clientId && wasInitialPassword) {
