@@ -18,6 +18,8 @@ interface Client {
   managementFeeSchedule?: ManagementFeeSchedule[];
   paymentMethod?: 'credit_card' | 'bank_transfer';
   lastPaidPeriod?: string; // 最後に支払った期間（YYYY-MM形式）
+  lastPaidPeriodStart?: admin.firestore.Timestamp; // 支払い完了期間の開始日
+  lastPaidPeriodEnd?: admin.firestore.Timestamp; // 支払い完了期間の終了日
 }
 
 interface ManagementFeeSchedule {

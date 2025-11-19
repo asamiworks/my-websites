@@ -141,8 +141,7 @@ export default function Header() {
       hasDropdown: true,
       dropdownKey: "others",
       dropdownItems: [
-        { label: "WEBアプリ開発", href: "/services/webapp" },
-        { label: "広告ページ制作", href: "/pr" }
+        { label: "WEBアプリ開発", href: "/services/webapp" }
       ]
     },
     {

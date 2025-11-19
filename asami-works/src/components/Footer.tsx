@@ -28,9 +28,7 @@ export default function Footer() {
     services: {
       title: "その他制作",
       links: [
-        { href: "/services/webapp", label: "WEBアプリ開発" },
-
-        { href: "/pr", label: "広告ページ制作" }  // ← ここに追加
+        { href: "/services/webapp", label: "WEBアプリ開発" }
       ]
     },
     support: {
