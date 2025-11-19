@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   onAuthStateChanged,
   updatePassword,
@@ -12,14 +12,21 @@ import {
 } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase-config';
 import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { Client } from '@/types/invoice';
+import CardRegistrationForm from '@/components/mypage/CardRegistrationForm';
 import styles from './page.module.css';
 
-export default function SettingsPage() {
+function SettingsContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [clientId, setClientId] = useState<string | null>(null);
+  const [client, setClient] = useState<Client | null>(null);
   const [currentEmail, setCurrentEmail] = useState('');
   const [wasInitialPassword, setWasInitialPassword] = useState(false);
+
+  // カード関連
+  const [showCardForm, setShowCardForm] = useState(false);
 
   // パスワード変更
   const [currentPassword, setCurrentPassword] = useState('');
@@ -55,8 +62,12 @@ export default function SettingsPage() {
       const clientsSnapshot = await getDocs(clientsQuery);
 
       if (!clientsSnapshot.empty) {
-        const clientData = clientsSnapshot.docs[0].data();
+        const clientData = {
+          id: clientsSnapshot.docs[0].id,
+          ...clientsSnapshot.docs[0].data()
+        } as Client;
         setClientId(clientsSnapshot.docs[0].id);
+        setClient(clientData);
         setWasInitialPassword(clientData.hasInitialPassword || false);
       }
 
@@ -65,6 +76,32 @@ export default function SettingsPage() {
 
     return () => unsubscribe();
   }, [router]);
+
+  // registerCardパラメータがある場合はカードフォームを表示
+  useEffect(() => {
+    if (!loading && searchParams.get('registerCard') === 'true') {
+      setShowCardForm(true);
+    }
+  }, [loading, searchParams]);
+
+  const handleCardRegistrationSuccess = async () => {
+    setShowCardForm(false);
+    // クライアント情報を再読み込み
+    if (auth.currentUser) {
+      const clientsQuery = query(
+        collection(db, 'clients'),
+        where('authUid', '==', auth.currentUser.uid)
+      );
+      const clientsSnapshot = await getDocs(clientsQuery);
+      if (!clientsSnapshot.empty) {
+        const clientData = {
+          id: clientsSnapshot.docs[0].id,
+          ...clientsSnapshot.docs[0].data()
+        } as Client;
+        setClient(clientData);
+      }
+    }
+  };
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -436,7 +473,79 @@ export default function SettingsPage() {
             </form>
           </div>
         </section>
+
+        {/* クレジットカード設定 */}
+        {client && client.paymentMethod === 'credit_card' && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>クレジットカード設定</h2>
+            <div className={styles.card}>
+              {!showCardForm && client.stripePaymentMethodId ? (
+                <div>
+                  <div className={styles.currentInfo}>
+                    <span className={styles.currentLabel}>登録済みカード:</span>
+                    <span className={styles.currentValue}>
+                      {client.cardBrand?.toUpperCase() || 'カード'} **** {client.cardLast4 || '****'}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
+                    ✓ 請求書が発行されると自動的に決済されます
+                  </p>
+                  <button
+                    className={styles.submitButton}
+                    onClick={() => setShowCardForm(true)}
+                  >
+                    カードを変更
+                  </button>
+                </div>
+              ) : !showCardForm ? (
+                <div>
+                  <p style={{ marginBottom: '12px', color: '#666' }}>
+                    クレジットカードが未登録です
+                  </p>
+                  <p style={{ fontSize: '14px', color: '#888', marginBottom: '16px' }}>
+                    カードを登録すると、請求書が発行された際に自動的に決済されます
+                  </p>
+                  <button
+                    className={styles.submitButton}
+                    onClick={() => setShowCardForm(true)}
+                  >
+                    クレジットカードを登録
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button
+                    onClick={() => setShowCardForm(false)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#666',
+                      cursor: 'pointer',
+                      padding: '8px 0',
+                      marginBottom: '16px',
+                      fontSize: '14px'
+                    }}
+                  >
+                    ← 戻る
+                  </button>
+                  <CardRegistrationForm
+                    clientId={client.id!}
+                    onSuccess={handleCardRegistrationSuccess}
+                  />
+                </div>
+              )}
+            </div>
+          </section>
+        )}
       </div>
     </div>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <Suspense fallback={<div className={styles.container}><div className={styles.loading}>読み込み中...</div></div>}>
+      <SettingsContent />
+    </Suspense>
   );
 }

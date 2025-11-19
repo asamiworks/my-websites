@@ -6,7 +6,6 @@ import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase-config';
 import { Client, Invoice } from '@/types/invoice';
-import CardRegistrationForm from '@/components/mypage/CardRegistrationForm';
 import Link from 'next/link';
 import styles from './page.module.css';
 
@@ -17,7 +16,6 @@ export default function DashboardContent() {
   const [error, setError] = useState<string | null>(null);
   const [client, setClient] = useState<Client | null>(null);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [showCardForm, setShowCardForm] = useState(false);
   const [bulkPaying, setBulkPaying] = useState(false);
   const [sessionWarning, setSessionWarning] = useState(false);
   const [generatingReceiptFor, setGeneratingReceiptFor] = useState<string | null>(null);
@@ -154,7 +152,7 @@ export default function DashboardContent() {
     }
   };
 
-  // 初回ログイン時のカード登録フォーム自動表示
+  // 初回ログイン時にカード未登録の場合は設定ページにリダイレクト
   useEffect(() => {
     const isFirstLogin = searchParams.get('firstLogin') === 'true';
 
@@ -164,9 +162,9 @@ export default function DashboardContent() {
         // URLパラメータをクリア
         router.replace('/client/dashboard', { scroll: false });
 
-        // カード登録フォームを表示
+        // 設定ページにリダイレクト
         setTimeout(() => {
-          setShowCardForm(true);
+          router.push('/client/settings?registerCard=true');
         }, 500);
       }
     }
@@ -213,13 +211,6 @@ export default function DashboardContent() {
       bank_transfer: '銀行振込',
     };
     return method ? labels[method] || method : '未設定';
-  };
-
-  const handleCardRegistrationSuccess = () => {
-    setShowCardForm(false);
-    if (client && auth.currentUser) {
-      loadClientData(auth.currentUser.uid);
-    }
   };
 
   const handleSinglePayment = async (invoice: Invoice) => {
@@ -484,7 +475,7 @@ export default function DashboardContent() {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>支払い情報</h2>
           <div className={styles.card}>
-            {!showCardForm && client.stripePaymentMethodId ? (
+            {client.stripePaymentMethodId ? (
               <div className={styles.paymentInfo}>
                 <div className={styles.cardDetails}>
                   <div className={styles.cardIcon}>💳</div>
@@ -500,14 +491,11 @@ export default function DashboardContent() {
                 <p className={styles.autoChargeNote}>
                   ✓ 請求書が発行されると自動的に決済されます
                 </p>
-                <button
-                  className={styles.updatePaymentButton}
-                  onClick={() => setShowCardForm(true)}
-                >
-                  カードを変更
-                </button>
+                <Link href="/client/settings" className={styles.updatePaymentButton}>
+                  カード情報を変更
+                </Link>
               </div>
-            ) : !showCardForm ? (
+            ) : (
               <div className={styles.paymentInfo}>
                 <p className={styles.noPayment}>
                   クレジットカードが未登録です
@@ -515,25 +503,9 @@ export default function DashboardContent() {
                 <p className={styles.cardBenefit}>
                   カードを登録すると、請求書が発行された際に自動的に決済されます
                 </p>
-                <button
-                  className={styles.registerPaymentButton}
-                  onClick={() => setShowCardForm(true)}
-                >
+                <Link href="/client/settings?registerCard=true" className={styles.registerPaymentButton}>
                   クレジットカードを登録
-                </button>
-              </div>
-            ) : (
-              <div className={styles.cardFormContainer}>
-                <button
-                  className={styles.cancelButton}
-                  onClick={() => setShowCardForm(false)}
-                >
-                  ← 戻る
-                </button>
-                <CardRegistrationForm
-                  clientId={client.id!}
-                  onSuccess={handleCardRegistrationSuccess}
-                />
+                </Link>
               </div>
             )}
           </div>
