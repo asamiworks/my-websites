@@ -172,6 +172,19 @@ export async function POST(request: NextRequest) {
         }
       }
 
+      // lastPaidPeriodを更新（月額管理費の重複請求を防止）
+      if (invoiceData.billingPeriodEnd) {
+        const periodEnd = invoiceData.billingPeriodEnd;
+        const endDate = periodEnd.toDate ? periodEnd.toDate() : new Date(periodEnd);
+        const year = endDate.getFullYear();
+        const month = String(endDate.getMonth() + 1).padStart(2, '0');
+
+        await db.collection('clients').doc(invoiceData.clientId).update({
+          lastPaidPeriod: `${year}-${month}`,
+          updatedAt: Timestamp.now(),
+        });
+      }
+
       return NextResponse.json({
         success: true,
         message: '支払いが完了しました',
