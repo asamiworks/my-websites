@@ -217,9 +217,8 @@ export default function PaymentsPage() {
 
         // billingPeriodEndがある場合はその月を、なければbillingMonthを使用
         if (selectedInvoice.billingPeriodEnd) {
-          const endDate = selectedInvoice.billingPeriodEnd.toDate ?
-            selectedInvoice.billingPeriodEnd.toDate() :
-            new Date(selectedInvoice.billingPeriodEnd);
+          const periodEnd = selectedInvoice.billingPeriodEnd as any;
+          const endDate = periodEnd.toDate ? periodEnd.toDate() : new Date(periodEnd);
           const year = endDate.getFullYear();
           const month = String(endDate.getMonth() + 1).padStart(2, '0');
           updateData.lastPaidPeriod = `${year}-${month}`;
