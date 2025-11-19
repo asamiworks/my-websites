@@ -39,7 +39,7 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
           invoicesRef,
           where('clientId', '==', client.id),
           where('status', '==', 'paid'),
-          orderBy('billingPeriodEnd', 'desc'),
+          orderBy('paidAt', 'desc'),
           limit(1)
         );
         const snapshot = await getDocs(q);
