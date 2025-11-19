@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
         {/* ヘッダー */}
         <div className={styles.privacyHeader}>
           <h1 className={styles.privacyTitle}>プライバシーポリシー</h1>
-          <p className={styles.privacyLastUpdated}>最終更新日：2024年3月1日</p>
+          <p className={styles.privacyLastUpdated}>最終更新日：2025年11月19日</p>
         </div>
 
         {/* 本文 */}
@@ -53,6 +53,7 @@ export default function PrivacyPolicyPage() {
               <li>電話番号</li>
               <li>住所</li>
               <li>お問い合わせ内容</li>
+              <li>決済に関する情報（クレジットカード情報は当社では保持せず、決済代行会社が管理します）</li>
               <li>その他、お客様が任意で提供される情報</li>
             </ul>
           </section>
@@ -88,7 +89,30 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className={styles.privacySection}>
-            <h2 className={styles.privacySectionTitle}>5. 個人情報の安全管理</h2>
+            <h2 className={styles.privacySectionTitle}>5. 決済情報の取り扱いについて</h2>
+            <p className={styles.privacyText}>
+              当社のサービスにおけるクレジットカード決済は、決済代行会社であるStripe, Inc.（以下、「Stripe」といいます。）を通じて処理されます。
+            </p>
+            <p className={styles.privacyText}>
+              お客様のクレジットカード情報（カード番号、有効期限、セキュリティコード等）は、
+              当社のサーバーを経由せず、Stripeが直接取得・管理いたします。
+              当社がカード情報を保持・保管することはありません。
+            </p>
+            <p className={styles.privacyText}>
+              Stripeは、クレジットカード業界のセキュリティ基準であるPCI DSS（Payment Card Industry Data Security Standard）に準拠しており、
+              お客様の決済情報は安全に保護されています。
+            </p>
+            <p className={styles.privacyText}>
+              Stripeのプライバシーポリシーについては、
+              <a href="https://stripe.com/jp/privacy" target="_blank" rel="noopener noreferrer" className={styles.privacyLink}>
+                Stripeプライバシーポリシー
+              </a>
+              をご参照ください。
+            </p>
+          </section>
+
+          <section className={styles.privacySection}>
+            <h2 className={styles.privacySectionTitle}>6. 個人情報の安全管理</h2>
             <p className={styles.privacyText}>
               当社は、個人情報の紛失、破壊、改ざん及び漏洩などのリスクに対して、
               技術的および組織的な安全対策を実施し、個人情報の厳重な管理を行います。
@@ -96,7 +120,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className={styles.privacySection}>
-            <h2 className={styles.privacySectionTitle}>6. Cookieの使用について</h2>
+            <h2 className={styles.privacySectionTitle}>7. Cookieの使用について</h2>
             <p className={styles.privacyText}>
               当サイトでは、お客様により良いサービスを提供するため、Cookieを使用することがあります。
               Cookieの使用により収集される情報には、個人を特定する情報は含まれません。
@@ -108,7 +132,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className={styles.privacySection}>
-            <h2 className={styles.privacySectionTitle}>7. アクセス解析ツールについて</h2>
+            <h2 className={styles.privacySectionTitle}>8. アクセス解析ツールについて</h2>
             <p className={styles.privacyText}>
               当サイトでは、Googleアナリティクスなどのアクセス解析ツールを利用しています。
               これらのツールはCookieを使用して情報を収集しますが、個人を特定する情報は含まれません。
@@ -117,7 +141,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className={styles.privacySection}>
-            <h2 className={styles.privacySectionTitle}>8. 個人情報の開示・訂正・削除</h2>
+            <h2 className={styles.privacySectionTitle}>9. 個人情報の開示・訂正・削除</h2>
             <p className={styles.privacyText}>
               お客様は、当社に対して自己の個人情報の開示、訂正、削除を求めることができます。
               その際は、本人確認のための手続きをお願いすることがあります。
@@ -125,7 +149,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className={styles.privacySection}>
-            <h2 className={styles.privacySectionTitle}>9. プライバシーポリシーの変更</h2>
+            <h2 className={styles.privacySectionTitle}>10. プライバシーポリシーの変更</h2>
             <p className={styles.privacyText}>
               当社は、必要に応じて本プライバシーポリシーを変更することがあります。
               変更後のプライバシーポリシーは、当サイトに掲載した時点から効力を生じるものとします。
@@ -133,7 +157,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className={styles.privacySection}>
-            <h2 className={styles.privacySectionTitle}>10. お問い合わせ</h2>
+            <h2 className={styles.privacySectionTitle}>11. お問い合わせ</h2>
             <p className={styles.privacyText}>
               個人情報の取り扱いに関するお問い合わせは、以下の連絡先までお願いいたします。
             </p>
