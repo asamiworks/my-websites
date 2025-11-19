@@ -202,18 +202,33 @@ export default function ChatWidget() {
           }
         } else {
           // 新規チャット: 初期メッセージと初期の選択肢を表示
-          setMessages([
-            {
-              role: "assistant",
-              content: "AIチャットサービスへようこそ。本日はどのようなことでお困りですか？"
+          // ただし、既にユーザーがメッセージを送信している場合はリセットしない
+          // （createNewChat()が呼ばれた直後の状態を保持するため）
+          setMessages(prev => {
+            // 初期メッセージのみの場合、またはメッセージがない場合のみリセット
+            if (prev.length <= 1) {
+              return [
+                {
+                  role: "assistant",
+                  content: "AIチャットサービスへようこそ。本日はどのようなことでお困りですか？"
+                }
+              ];
             }
-          ]);
-          setQuickReplies([
-            "新規のお客様が増えない",
-            "ホームページを改善したい",
-            "業務が煩雑で時間が足りない",
-            "競合に負けている気がする"
-          ]);
+            // ユーザーが既にメッセージを送信している場合は現在の状態を維持
+            return prev;
+          });
+          setQuickReplies(prev => {
+            // 初期状態の場合のみリセット
+            if (prev.length === 0 || prev.length === 4) {
+              return [
+                "新規のお客様が増えない",
+                "ホームページを改善したい",
+                "業務が煩雑で時間が足りない",
+                "競合に負けている気がする"
+              ];
+            }
+            return prev;
+          });
         }
       }
     }
@@ -304,11 +319,17 @@ export default function ChatWidget() {
     if (!text.trim() || isLoading) return;
 
     const userMessage: Message = { role: "user", content: text.trim() };
-    setMessages(prev => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInput("");
     setQuickReplies([]); // Clear quick replies when user sends a message
     setSelectedReplies([]); // Clear selected replies
     setIsLoading(true);
+
+    // ゲストモードの場合、メッセージをlocalStorageに保存
+    if (!user && isGuestMode) {
+      localStorage.setItem('guestChatMessages', JSON.stringify(newMessages));
+    }
 
     // Reset textarea height
     if (inputRef.current) {
@@ -318,9 +339,7 @@ export default function ChatWidget() {
     // ログインユーザーの場合、チャットを作成（まだない場合）
     if (user && !currentChat) {
       try {
-        console.log('Creating new chat for logged in user');
         await createNewChat();
-        console.log('New chat created in Firestore');
       } catch (error) {
         console.error("Failed to create new chat:", error);
       }
@@ -362,7 +381,14 @@ export default function ChatWidget() {
         role: "assistant",
         content: data.reply
       };
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages(prev => {
+        const updatedMessages = [...prev, assistantMessage];
+        // ゲストモードの場合、メッセージをlocalStorageに保存
+        if (!user && isGuestMode) {
+          localStorage.setItem('guestChatMessages', JSON.stringify(updatedMessages));
+        }
+        return updatedMessages;
+      });
       setTypingMessage(""); // Clear typing message after adding to messages
 
       // ログインユーザーの場合、メッセージをFirestoreに保存
@@ -370,14 +396,10 @@ export default function ChatWidget() {
       if (user && currentChat) {
         try {
           // ユーザーメッセージを保存
-          console.log('Saving user message:', { chatId: currentChat.id, message: userMessage });
           savedChatId = await saveMessage(userMessage);
-          console.log('User message saved, chatId:', savedChatId);
 
           // アシスタントメッセージを保存
-          console.log('Saving assistant message:', { chatId: savedChatId, message: assistantMessage });
           savedChatId = await saveMessage(assistantMessage);
-          console.log('Assistant message saved, chatId:', savedChatId);
         } catch (error) {
           console.error("Failed to save messages to Firestore:", error);
         }
@@ -390,7 +412,6 @@ export default function ChatWidget() {
         if (user && savedChatId) {
           try {
             await saveQuickReplies(data.suggestedReplies, savedChatId);
-            console.log('Quick replies saved successfully');
           } catch (error) {
             console.error("Failed to save quick replies to Firestore:", error);
           }
@@ -448,7 +469,6 @@ export default function ChatWidget() {
             updatedInquiryComplete,
             savedChatId
           );
-          console.log('Form states saved successfully');
         } catch (error) {
           console.error("Failed to save form states to Firestore:", error);
         }

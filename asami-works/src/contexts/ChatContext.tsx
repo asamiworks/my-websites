@@ -74,6 +74,31 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (user) {
       loadChats();
+
+      // ゲストチャットがlocalStorageにあれば復元
+      const restoreGuestChat = async () => {
+        try {
+          const guestMessages = localStorage.getItem('guestChatMessages');
+          if (guestMessages) {
+            const messages = JSON.parse(guestMessages) as Message[];
+            // ユーザーメッセージが含まれている場合のみ保存（初期メッセージのみは除外）
+            if (messages.length > 1 && messages.some(m => m.role === 'user')) {
+              await saveCurrentChatToFirestore(messages);
+              // 保存後にlocalStorageをクリア
+              localStorage.removeItem('guestChatMessages');
+            } else {
+              // 初期メッセージのみの場合はクリアするだけ
+              localStorage.removeItem('guestChatMessages');
+            }
+          }
+        } catch (error) {
+          console.error('Error restoring guest chat:', error);
+          // エラーが発生してもlocalStorageはクリア
+          localStorage.removeItem('guestChatMessages');
+        }
+      };
+
+      restoreGuestChat();
     } else {
       setChats([]);
       setCurrentChat(null);
@@ -126,8 +151,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
 
       const docRef = await addDoc(collection(db, 'chats'), chatData);
       const chatId = docRef.id;
-
-      console.log('New chat created in Firestore with ID:', chatId);
 
       const newChat: Chat = {
         id: chatId,
@@ -211,8 +234,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
 
       await updateDoc(chatDocRef, updateData);
 
-      console.log('Message saved to chat:', chatId);
-
       // ローカル状態を更新
       const updatedChat = {
         ...targetChat,
@@ -248,14 +269,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      console.log('Saving quick replies to Firestore:', { chatId: targetChatId, quickReplies });
-
       await updateDoc(doc(db, 'chats', targetChatId), {
         quickReplies,
         updatedAt: serverTimestamp(),
       });
-
-      console.log('Quick replies saved to Firestore successfully');
 
       // ローカル状態を更新
       setCurrentChat((prev) =>
@@ -302,21 +319,12 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      console.log('Saving form states to Firestore:', {
-        chatId: targetChatId,
-        collectBusinessInfo,
-        collectInfo,
-        inquiryComplete,
-      });
-
       await updateDoc(doc(db, 'chats', targetChatId), {
         collectBusinessInfo,
         collectInfo,
         inquiryComplete,
         updatedAt: serverTimestamp(),
       });
-
-      console.log('Form states saved to Firestore successfully');
 
       // ローカル状態を更新
       setCurrentChat((prev) =>
