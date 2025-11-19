@@ -774,64 +774,62 @@ function AdminInvoicesContent() {
               unpaidStartDate = billingMonth;
             }
 
-            // 未払い開始が請求対象月より後の場合は請求対象月を使用
-            if (unpaidStartDate > billingMonth) {
-              unpaidStartDate = billingMonth;
+            // 未払い開始が請求対象月の終わりより後の場合は請求対象がない
+            if (unpaidStartDate <= billingMonthEnd) {
+              // 期間と金額を計算
+              let periodStartMonth = unpaidStartDate.getMonth() + 1;
+              let periodStartDay = unpaidStartDate.getDate();
+              let periodEndMonth = billingMonth.getMonth() + 1;
+              let periodEndDay = billingMonthEnd.getDate();
+              let totalAmount = 0;
+
+              // 未払い期間の月を計算
+              const currentMonth = new Date(unpaidStartDate.getFullYear(), unpaidStartDate.getMonth(), 1);
+
+              while (currentMonth <= billingMonth) {
+                const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+                const daysInMonth = monthEnd.getDate();
+
+                let startDay = 1;
+                let endDay = daysInMonth;
+
+                // 開始月の場合
+                if (currentMonth.getFullYear() === unpaidStartDate.getFullYear() &&
+                    currentMonth.getMonth() === unpaidStartDate.getMonth()) {
+                  startDay = unpaidStartDate.getDate();
+                }
+
+                // 終了月の場合
+                if (currentMonth.getFullYear() === billingMonth.getFullYear() &&
+                    currentMonth.getMonth() === billingMonth.getMonth()) {
+                  endDay = billingMonthEnd.getDate();
+                }
+
+                const actualDays = endDay - startDay + 1;
+
+                if (actualDays === daysInMonth) {
+                  // 全日数の場合は月額
+                  totalAmount += currentSchedule.monthlyFee;
+                } else {
+                  // 日割り計算
+                  totalAmount += Math.round(currentSchedule.monthlyFee * actualDays / daysInMonth);
+                }
+
+                // 次の月へ
+                currentMonth.setMonth(currentMonth.getMonth() + 1);
+              }
+
+              const periodStr = periodStartMonth === periodEndMonth
+                ? `${periodStartMonth}/${periodStartDay}〜${periodEndMonth}/${periodEndDay}`
+                : `${periodStartMonth}/${periodStartDay}〜${periodEndMonth}/${periodEndDay}`;
+
+              items.push({
+                description: `${baseDescription}（${periodStr}）`,
+                quantity: 1,
+                unitPrice: totalAmount,
+                amount: totalAmount,
+              });
             }
-
-            // 期間と金額を計算
-            let periodStartMonth = unpaidStartDate.getMonth() + 1;
-            let periodStartDay = unpaidStartDate.getDate();
-            let periodEndMonth = billingMonth.getMonth() + 1;
-            let periodEndDay = billingMonthEnd.getDate();
-            let totalAmount = 0;
-
-            // 未払い期間の月を計算
-            const currentMonth = new Date(unpaidStartDate.getFullYear(), unpaidStartDate.getMonth(), 1);
-
-            while (currentMonth <= billingMonth) {
-              const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
-              const daysInMonth = monthEnd.getDate();
-
-              let startDay = 1;
-              let endDay = daysInMonth;
-
-              // 開始月の場合
-              if (currentMonth.getFullYear() === unpaidStartDate.getFullYear() &&
-                  currentMonth.getMonth() === unpaidStartDate.getMonth()) {
-                startDay = unpaidStartDate.getDate();
-              }
-
-              // 終了月の場合
-              if (currentMonth.getFullYear() === billingMonth.getFullYear() &&
-                  currentMonth.getMonth() === billingMonth.getMonth()) {
-                endDay = billingMonthEnd.getDate();
-              }
-
-              const actualDays = endDay - startDay + 1;
-
-              if (actualDays === daysInMonth) {
-                // 全日数の場合は月額
-                totalAmount += currentSchedule.monthlyFee;
-              } else {
-                // 日割り計算
-                totalAmount += Math.round(currentSchedule.monthlyFee * actualDays / daysInMonth);
-              }
-
-              // 次の月へ
-              currentMonth.setMonth(currentMonth.getMonth() + 1);
-            }
-
-            const periodStr = periodStartMonth === periodEndMonth
-              ? `${periodStartMonth}/${periodStartDay}〜${periodEndMonth}/${periodEndDay}`
-              : `${periodStartMonth}/${periodStartDay}〜${periodEndMonth}/${periodEndDay}`;
-
-            items.push({
-              description: `${baseDescription}（${periodStr}）`,
-              quantity: 1,
-              unitPrice: totalAmount,
-              amount: totalAmount,
-            });
           }
         }
       }
