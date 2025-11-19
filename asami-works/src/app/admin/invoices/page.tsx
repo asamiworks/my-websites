@@ -823,7 +823,7 @@ function AdminInvoicesContent() {
           } else {
             // 月額請求 - 請求対象月を計算（発行日の前月）
             const billingMonth = new Date(issueDate.getFullYear(), issueDate.getMonth() - 1, 1);
-            const billingMonthEnd = new Date(issueDate.getFullYear(), issueDate.getMonth(), 0); // 前月末日
+            const billingMonthEnd = new Date(billingMonth.getFullYear(), billingMonth.getMonth() + 1, 0); // 前月末日
 
             const scheduleStart = safeToDate(currentSchedule.fromDate);
             const baseDescription = currentSchedule.description || '月額管理費';
