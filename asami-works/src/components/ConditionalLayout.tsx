@@ -10,7 +10,8 @@ export function ConditionalHeader() {
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
   const isClientPage = pathname?.startsWith('/client');
-  return (isDemoPage || isMyPage || isClientPage) ? null : <Header />;
+  const isAdminPage = pathname?.startsWith('/admin');
+  return (isDemoPage || isMyPage || isClientPage || isAdminPage) ? null : <Header />;
 }
 
 export function ConditionalBreadcrumb() {
@@ -18,7 +19,8 @@ export function ConditionalBreadcrumb() {
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
   const isClientPage = pathname?.startsWith('/client');
-  return (isDemoPage || isMyPage || isClientPage) ? null : <Breadcrumb />;
+  const isAdminPage = pathname?.startsWith('/admin');
+  return (isDemoPage || isMyPage || isClientPage || isAdminPage) ? null : <Breadcrumb />;
 }
 
 export function ConditionalFooter() {
@@ -26,7 +28,8 @@ export function ConditionalFooter() {
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
   const isClientPage = pathname?.startsWith('/client');
-  return (isDemoPage || isMyPage || isClientPage) ? null : <Footer />;
+  const isAdminPage = pathname?.startsWith('/admin');
+  return (isDemoPage || isMyPage || isClientPage || isAdminPage) ? null : <Footer />;
 }
 
 export function ConditionalMainStyle({ children }: { children: React.ReactNode }) {
@@ -34,10 +37,11 @@ export function ConditionalMainStyle({ children }: { children: React.ReactNode }
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
   const isClientPage = pathname?.startsWith('/client');
+  const isAdminPage = pathname?.startsWith('/admin');
 
   return (
     <main style={{
-      paddingTop: (isDemoPage || isMyPage || isClientPage) ? "0" : "70px",
+      paddingTop: (isDemoPage || isMyPage || isClientPage || isAdminPage) ? "0" : "70px",
       maxWidth: "100vw",
       overflowX: "hidden"
     }}>
