@@ -81,7 +81,7 @@ export interface InvoiceItem {
 }
 
 // 請求書ステータス
-export type InvoiceStatus = 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
+export type InvoiceStatus = 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled' | 'refunded' | 'partially_refunded';
 
 // 請求書
 export interface Invoice {
@@ -127,6 +127,12 @@ export interface Invoice {
   receiptGeneratedAt?: string; // 領収書PDF生成日時
   receiptDownloadCount?: number; // 領収書ダウンロード回数
   receiptFirstDownloadedAt?: Timestamp; // 領収書初回ダウンロード日時
+
+  // 返金情報
+  refundId?: string; // Stripe Refund ID
+  refundAmount?: number; // 返金額
+  partialRefundAmount?: number; // 部分返金額（全額以外の場合）
+  refundedAt?: Timestamp; // 返金日時
 
   createdAt: Timestamp;
   updatedAt: Timestamp;

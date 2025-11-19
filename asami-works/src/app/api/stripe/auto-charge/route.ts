@@ -40,9 +40,39 @@ export async function POST(request: NextRequest) {
     // 既に支払済みの場合
     if (invoiceData.status === 'paid') {
       return NextResponse.json(
-        { error: 'Invoice is already paid' },
-        { status: 400 }
+        { alreadyPaid: true, message: 'Invoice is already paid' },
+        { status: 200 }
       );
+    }
+
+    // 既に決済処理が開始されている場合（stripePaymentIntentIdが存在する場合）
+    if (invoiceData.stripePaymentIntentId) {
+      // 既存のPayment Intentの状態を確認
+      try {
+        const existingIntent = await stripe.paymentIntents.retrieve(invoiceData.stripePaymentIntentId);
+        if (existingIntent.status === 'succeeded') {
+          // 既に成功している場合は請求書を更新して終了
+          await db.collection('invoices').doc(invoiceId).update({
+            status: 'paid',
+            paidAmount: invoiceData.totalAmount,
+            paidAt: Timestamp.now(),
+            updatedAt: Timestamp.now(),
+          });
+          return NextResponse.json(
+            { alreadyPaid: true, message: 'Payment already completed' },
+            { status: 200 }
+          );
+        } else if (existingIntent.status === 'processing') {
+          return NextResponse.json(
+            { processing: true, message: 'Payment is still processing' },
+            { status: 200 }
+          );
+        }
+        // その他の状態（canceled, requires_action等）の場合は新規決済を許可
+      } catch (err) {
+        // Payment Intentが見つからない等のエラーは無視して新規決済を許可
+        console.log('Could not retrieve existing payment intent, proceeding with new charge');
+      }
     }
 
     // クライアント情報を取得
@@ -74,6 +104,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // 冪等性キーを生成（同じ請求書に対する重複リクエストを防止）
+    const idempotencyKey = `invoice_${invoiceId}_${invoiceData.invoiceNumber}`;
+
     // Payment Intentを作成して即座に課金
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(invoiceData.totalAmount), // 円単位
@@ -88,6 +121,8 @@ export async function POST(request: NextRequest) {
         invoiceNumber: invoiceData.invoiceNumber,
         clientId: invoiceData.clientId,
       },
+    }, {
+      idempotencyKey,
     });
 
     if (paymentIntent.status === 'succeeded') {

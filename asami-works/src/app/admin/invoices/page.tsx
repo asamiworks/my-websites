@@ -956,6 +956,8 @@ function AdminInvoicesContent() {
       paid: '支払い済み',
       overdue: '期限超過',
       cancelled: 'キャンセル',
+      refunded: '返金済み',
+      partially_refunded: '一部返金',
     };
     return labels[status] || status;
   };
@@ -967,8 +969,44 @@ function AdminInvoicesContent() {
       paid: styles.statusPaid,
       overdue: styles.statusOverdue,
       cancelled: styles.statusCancelled,
+      refunded: styles.statusCancelled,
+      partially_refunded: styles.statusOverdue,
     };
     return classes[status] || styles.statusDraft;
+  };
+
+  // 返金処理
+  const handleRefund = async (invoice: Invoice) => {
+    if (!invoice.stripePaymentIntentId) {
+      alert('この請求書にはStripe決済情報がありません');
+      return;
+    }
+
+    const confirmMessage = `請求書 #${invoice.invoiceNumber} を返金しますか？\n\nクライアント: ${invoice.clientName}\n金額: ${formatCurrency(invoice.totalAmount)}\n\nこの操作は取り消せません。`;
+
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/stripe/refund', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invoiceId: invoice.id }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert(data.message);
+        loadInvoices();
+      } else {
+        throw new Error(data.error || '返金処理に失敗しました');
+      }
+    } catch (error: any) {
+      console.error('Error processing refund:', error);
+      alert(error.message || '返金処理に失敗しました');
+    }
   };
 
   if (authLoading || loading) {

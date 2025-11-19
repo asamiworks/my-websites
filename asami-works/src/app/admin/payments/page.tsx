@@ -31,6 +31,7 @@ export default function PaymentsPage() {
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank_transfer' | 'other'>('bank_transfer');
+  const [cardLastFour, setCardLastFour] = useState<string>('');
   const [selectedInvoices, setSelectedInvoices] = useState<string[]>([]);
   const [showBulkPaymentModal, setShowBulkPaymentModal] = useState(false);
 
@@ -192,14 +193,21 @@ export default function PaymentsPage() {
 
     try {
       // 請求書を更新
-      await updateDoc(doc(db, 'invoices', selectedInvoice.id), {
+      const invoiceUpdateData: any = {
         status: 'paid' as InvoiceStatus,
         paidAmount,
         paymentDifference,
         paymentMethod,
         paidAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
-      });
+      };
+
+      // カード決済の場合はカード番号下4桁を保存
+      if (paymentMethod === 'card' && cardLastFour) {
+        invoiceUpdateData.cardLastFour = cardLastFour;
+      }
+
+      await updateDoc(doc(db, 'invoices', selectedInvoice.id), invoiceUpdateData);
 
       // クライアントの累積過不足金とlastPaidPeriodを更新
       const clientRef = doc(db, 'clients', selectedInvoice.clientId);
@@ -233,6 +241,7 @@ export default function PaymentsPage() {
       setSelectedInvoice(null);
       setPaymentAmount('');
       setPaymentMethod('bank_transfer');
+      setCardLastFour('');
 
       if (paymentDifference !== 0) {
         const diffLabel = paymentDifference > 0 ? '過払い' : '不足';
@@ -493,7 +502,12 @@ export default function PaymentsPage() {
                 <select
                   className={styles.input}
                   value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value as 'card' | 'bank_transfer' | 'other')}
+                  onChange={(e) => {
+                    setPaymentMethod(e.target.value as 'card' | 'bank_transfer' | 'other');
+                    if (e.target.value !== 'card') {
+                      setCardLastFour('');
+                    }
+                  }}
                   required
                 >
                   <option value="bank_transfer">銀行振込</option>
@@ -501,6 +515,26 @@ export default function PaymentsPage() {
                   <option value="other">その他</option>
                 </select>
               </div>
+
+              {paymentMethod === 'card' && (
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>
+                    カード番号下4桁
+                  </label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={cardLastFour}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                      setCardLastFour(value);
+                    }}
+                    placeholder="1234"
+                    maxLength={4}
+                  />
+                  <p className={styles.inputHint}>領収書に表示されます</p>
+                </div>
+              )}
 
               {paymentAmount && !isNaN(parseFloat(paymentAmount)) && (
                 <div className={
