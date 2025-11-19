@@ -532,7 +532,7 @@ export default function DashboardContent() {
                         📄 請求書PDF
                       </a>
                     )}
-                    {invoice.status === 'paid' && (
+                    {invoice.status === 'paid' && !invoice.receiptDisabled && (
                       invoice.receiptUrl ? (
                         <a
                           href={invoice.receiptUrl}
