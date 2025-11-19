@@ -864,63 +864,85 @@ function AdminInvoicesContent() {
 
             // 未払い開始が請求対象月の終わりより後の場合は請求対象がない
             if (unpaidStartDate <= billingMonthEnd) {
-              // 期間と金額を計算
-              let periodStartMonth = unpaidStartDate.getMonth() + 1;
-              let periodStartDay = unpaidStartDate.getDate();
-              let periodEndMonth = billingMonth.getMonth() + 1;
-              let periodEndDay = billingMonthEnd.getDate();
-              let totalAmount = 0;
-
-              // 未払い期間の月を計算
-              const currentMonth = new Date(unpaidStartDate.getFullYear(), unpaidStartDate.getMonth(), 1);
-
-              while (currentMonth <= billingMonth) {
-                const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
-                const daysInMonth = monthEnd.getDate();
-
-                let startDay = 1;
-                let endDay = daysInMonth;
-
-                // 開始月の場合
-                if (currentMonth.getFullYear() === unpaidStartDate.getFullYear() &&
-                    currentMonth.getMonth() === unpaidStartDate.getMonth()) {
-                  startDay = unpaidStartDate.getDate();
-                }
-
-                // 終了月の場合
-                if (currentMonth.getFullYear() === billingMonth.getFullYear() &&
-                    currentMonth.getMonth() === billingMonth.getMonth()) {
-                  endDay = billingMonthEnd.getDate();
-                }
-
-                const actualDays = endDay - startDay + 1;
-
-                if (actualDays === daysInMonth) {
-                  // 全日数の場合は月額
-                  totalAmount += currentSchedule.monthlyFee;
-                } else {
-                  // 日割り計算
-                  totalAmount += Math.round(currentSchedule.monthlyFee * actualDays / daysInMonth);
-                }
-
-                // 次の月へ
-                currentMonth.setMonth(currentMonth.getMonth() + 1);
-              }
-
-              const periodStr = periodStartMonth === periodEndMonth
-                ? `${periodStartMonth}/${periodStartDay}〜${periodEndMonth}/${periodEndDay}`
-                : `${periodStartMonth}/${periodStartDay}〜${periodEndMonth}/${periodEndDay}`;
-
-              items.push({
-                description: `${baseDescription}（${periodStr}）`,
-                quantity: 1,
-                unitPrice: totalAmount,
-                amount: totalAmount,
-              });
-
               // 請求期間を保存用に記録
-              billingPeriodStartDate = unpaidStartDate;
-              billingPeriodEndDate = billingMonthEnd;
+              billingPeriodStartDate = new Date(unpaidStartDate);
+              billingPeriodEndDate = new Date(billingMonthEnd);
+
+              // 月初スタートかどうかを判定
+              const isFirstOfMonth = unpaidStartDate.getDate() === 1;
+
+              if (isFirstOfMonth) {
+                // 月初スタート：日割りなし、複数月を1行で表示
+                // 月数を計算
+                let monthCount = 0;
+                const currentMonth = new Date(unpaidStartDate.getFullYear(), unpaidStartDate.getMonth(), 1);
+
+                while (currentMonth <= billingMonth) {
+                  monthCount++;
+                  currentMonth.setMonth(currentMonth.getMonth() + 1);
+                }
+
+                const startMonth = unpaidStartDate.getMonth() + 1;
+                const startDay = unpaidStartDate.getDate();
+                const endMonth = billingMonthEnd.getMonth() + 1;
+                const endDay = billingMonthEnd.getDate();
+
+                const periodStr = `${startMonth}/${startDay}〜${endMonth}/${endDay}`;
+
+                items.push({
+                  description: `${baseDescription}（${periodStr}）`,
+                  quantity: monthCount,
+                  unitPrice: currentSchedule.monthlyFee,
+                  amount: currentSchedule.monthlyFee * monthCount,
+                });
+              } else {
+                // 月途中スタート：日割り + 残り全月の2行
+
+                // 1行目：初月の日割り
+                const firstMonthEnd = new Date(unpaidStartDate.getFullYear(), unpaidStartDate.getMonth() + 1, 0);
+                const daysInFirstMonth = firstMonthEnd.getDate();
+                const actualDaysInFirstMonth = daysInFirstMonth - unpaidStartDate.getDate() + 1;
+                const proratedAmount = Math.round(currentSchedule.monthlyFee * actualDaysInFirstMonth / daysInFirstMonth);
+
+                const firstMonthNum = unpaidStartDate.getMonth() + 1;
+                const firstPeriodStr = `${firstMonthNum}/${unpaidStartDate.getDate()}〜${firstMonthNum}/${firstMonthEnd.getDate()}`;
+
+                items.push({
+                  description: `${baseDescription}（${firstPeriodStr}）`,
+                  quantity: 1,
+                  unitPrice: proratedAmount,
+                  amount: proratedAmount,
+                });
+
+                // 2行目：残りの全月（次月から請求対象月末まで）
+                const secondMonthStart = new Date(unpaidStartDate.getFullYear(), unpaidStartDate.getMonth() + 1, 1);
+
+                if (secondMonthStart <= billingMonth) {
+                  // 残りの月数を計算
+                  let remainingMonthCount = 0;
+                  const currentMonth = new Date(secondMonthStart);
+
+                  while (currentMonth <= billingMonth) {
+                    remainingMonthCount++;
+                    currentMonth.setMonth(currentMonth.getMonth() + 1);
+                  }
+
+                  if (remainingMonthCount > 0) {
+                    const secondMonthNum = secondMonthStart.getMonth() + 1;
+                    const endMonthNum = billingMonthEnd.getMonth() + 1;
+                    const endDay = billingMonthEnd.getDate();
+
+                    const secondPeriodStr = `${secondMonthNum}/1〜${endMonthNum}/${endDay}`;
+
+                    items.push({
+                      description: `${baseDescription}（${secondPeriodStr}）`,
+                      quantity: remainingMonthCount,
+                      unitPrice: currentSchedule.monthlyFee,
+                      amount: currentSchedule.monthlyFee * remainingMonthCount,
+                    });
+                  }
+                }
+              }
             }
           }
         }

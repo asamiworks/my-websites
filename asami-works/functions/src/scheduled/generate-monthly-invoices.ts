@@ -128,44 +128,6 @@ const isFirstBillingMonth = (contractStartDate: admin.firestore.Timestamp, curre
 };
 
 /**
- * 日割り金額を計算
- */
-const calculateProratedAmount = (monthlyFee: number, startDate: Date, endDate: Date): number => {
-  const startMonth = startDate.getMonth();
-  const endMonth = endDate.getMonth();
-
-  if (startMonth === endMonth) {
-    // 同じ月内
-    const daysInMonth = new Date(startDate.getFullYear(), startMonth + 1, 0).getDate();
-    const actualDays = endDate.getDate() - startDate.getDate() + 1;
-    return Math.round(monthlyFee * actualDays / daysInMonth);
-  } else {
-    // 複数月にまたがる場合（初月日割り + 翌月以降全額）
-    let total = 0;
-
-    // 初月の日割り
-    const firstMonthEnd = new Date(startDate.getFullYear(), startMonth + 1, 0);
-    const daysInFirstMonth = firstMonthEnd.getDate();
-    const actualDaysInFirstMonth = daysInFirstMonth - startDate.getDate() + 1;
-    total += Math.round(monthlyFee * actualDaysInFirstMonth / daysInFirstMonth);
-
-    // 翌月以降
-    let currentMonth = new Date(startDate.getFullYear(), startMonth + 1, 1);
-    while (currentMonth <= endDate) {
-      if (currentMonth.getMonth() === endDate.getMonth() && currentMonth.getFullYear() === endDate.getFullYear()) {
-        // 最終月
-        total += monthlyFee;
-      } else {
-        total += monthlyFee;
-      }
-      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
-    }
-
-    return total;
-  }
-};
-
-/**
  * 毎月1日に自動的に請求書を生成
  * Cloud Schedulerで毎月1日 0:00 (JST) に実行
  */
@@ -314,31 +276,70 @@ export const generateMonthlyInvoices = onSchedule({
 
           // 金額計算
           let subtotal: number;
-          let description: string;
+          const items: Array<{description: string; quantity: number; unitPrice: number; amount: number}> = [];
 
           if (isFirstBilling) {
-            // 初回まとめ請求：日割り計算
-            proratedAmount = calculateProratedAmount(monthlyFee, billingStartDate, billingEndDate);
-            subtotal = proratedAmount;
-            description = `月額管理費（${periodStr}）初回`;
+            // 初回まとめ請求：日割り + 残り全月の2行
+            const firstMonthEnd = new Date(billingStartDate.getFullYear(), billingStartDate.getMonth() + 1, 0);
+            const daysInFirstMonth = firstMonthEnd.getDate();
+            const actualDaysInFirstMonth = daysInFirstMonth - billingStartDate.getDate() + 1;
+            proratedAmount = Math.round(monthlyFee * actualDaysInFirstMonth / daysInFirstMonth);
+
+            // 1行目：初月の日割り
+            const firstMonthNum = billingStartDate.getMonth() + 1;
+            const firstPeriodStr = `${firstMonthNum}/${billingStartDate.getDate()}〜${firstMonthNum}/${firstMonthEnd.getDate()}`;
+            items.push({
+              description: `月額管理費（${firstPeriodStr}）`,
+              quantity: 1,
+              unitPrice: proratedAmount,
+              amount: proratedAmount,
+            });
+
+            // 2行目：残りの全月
+            const secondMonthStart = new Date(billingStartDate.getFullYear(), billingStartDate.getMonth() + 1, 1);
+            if (secondMonthStart <= billingEndDate) {
+              let remainingMonthCount = 0;
+              const currentMonth = new Date(secondMonthStart);
+              while (currentMonth.getMonth() <= billingEndDate.getMonth() && currentMonth.getFullYear() <= billingEndDate.getFullYear()) {
+                remainingMonthCount++;
+                currentMonth.setMonth(currentMonth.getMonth() + 1);
+              }
+
+              if (remainingMonthCount > 0) {
+                const secondMonthNum = secondMonthStart.getMonth() + 1;
+                const endMonthNum = billingEndDate.getMonth() + 1;
+                const endDay = billingEndDate.getDate();
+                const secondPeriodStr = `${secondMonthNum}/1〜${endMonthNum}/${endDay}`;
+
+                items.push({
+                  description: `月額管理費（${secondPeriodStr}）`,
+                  quantity: remainingMonthCount,
+                  unitPrice: monthlyFee,
+                  amount: monthlyFee * remainingMonthCount,
+                });
+              }
+            }
+
+            subtotal = items.reduce((sum, item) => sum + item.amount, 0);
           } else if (totalMonths > 1) {
-            // 未払い統合
+            // 未払い統合（月初スタート）
             subtotal = monthlyFee * totalMonths;
-            description = `月額管理費（${periodStr}）${totalMonths}ヶ月分`;
+            items.push({
+              description: `月額管理費（${periodStr}）`,
+              quantity: totalMonths,
+              unitPrice: monthlyFee,
+              amount: subtotal,
+            });
           } else {
             // 通常の1ヶ月分
             subtotal = monthlyFee;
-            description = `月額管理費（${periodStr}）`;
+            items.push({
+              description: `月額管理費（${periodStr}）`,
+              quantity: 1,
+              unitPrice: monthlyFee,
+              amount: subtotal,
+            });
           }
-
-          const items = [
-            {
-              description,
-              quantity: isFirstBilling ? 1 : totalMonths,
-              unitPrice: isFirstBilling ? proratedAmount : monthlyFee,
-              amount: subtotal
-            }
-          ];
           const taxRate = 0.1; // 10%
           const taxAmount = Math.floor(subtotal * taxRate);
           const totalAmount = subtotal + taxAmount;
@@ -534,28 +535,70 @@ export const triggerMonthlyInvoiceGeneration = onRequest(async (request, respons
 
         // 金額計算
         let subtotal: number;
-        let description: string;
+        const items: Array<{description: string; quantity: number; unitPrice: number; amount: number}> = [];
 
         if (isFirstBilling) {
-          proratedAmount = calculateProratedAmount(monthlyFee, billingStartDate, billingEndDate);
-          subtotal = proratedAmount;
-          description = `月額管理費（${periodStr}）初回`;
-        } else if (totalMonths > 1) {
-          subtotal = monthlyFee * totalMonths;
-          description = `月額管理費（${periodStr}）${totalMonths}ヶ月分`;
-        } else {
-          subtotal = monthlyFee;
-          description = `月額管理費（${periodStr}）`;
-        }
+          // 初回まとめ請求：日割り + 残り全月の2行
+          const firstMonthEnd = new Date(billingStartDate.getFullYear(), billingStartDate.getMonth() + 1, 0);
+          const daysInFirstMonth = firstMonthEnd.getDate();
+          const actualDaysInFirstMonth = daysInFirstMonth - billingStartDate.getDate() + 1;
+          proratedAmount = Math.round(monthlyFee * actualDaysInFirstMonth / daysInFirstMonth);
 
-        const items = [
-          {
-            description,
-            quantity: isFirstBilling ? 1 : totalMonths,
-            unitPrice: isFirstBilling ? proratedAmount : monthlyFee,
-            amount: subtotal
+          // 1行目：初月の日割り
+          const firstMonthNum = billingStartDate.getMonth() + 1;
+          const firstPeriodStr = `${firstMonthNum}/${billingStartDate.getDate()}〜${firstMonthNum}/${firstMonthEnd.getDate()}`;
+          items.push({
+            description: `月額管理費（${firstPeriodStr}）`,
+            quantity: 1,
+            unitPrice: proratedAmount,
+            amount: proratedAmount,
+          });
+
+          // 2行目：残りの全月
+          const secondMonthStart = new Date(billingStartDate.getFullYear(), billingStartDate.getMonth() + 1, 1);
+          if (secondMonthStart <= billingEndDate) {
+            let remainingMonthCount = 0;
+            const currentMonth = new Date(secondMonthStart);
+            while (currentMonth.getMonth() <= billingEndDate.getMonth() && currentMonth.getFullYear() <= billingEndDate.getFullYear()) {
+              remainingMonthCount++;
+              currentMonth.setMonth(currentMonth.getMonth() + 1);
+            }
+
+            if (remainingMonthCount > 0) {
+              const secondMonthNum = secondMonthStart.getMonth() + 1;
+              const endMonthNum = billingEndDate.getMonth() + 1;
+              const endDay = billingEndDate.getDate();
+              const secondPeriodStr = `${secondMonthNum}/1〜${endMonthNum}/${endDay}`;
+
+              items.push({
+                description: `月額管理費（${secondPeriodStr}）`,
+                quantity: remainingMonthCount,
+                unitPrice: monthlyFee,
+                amount: monthlyFee * remainingMonthCount,
+              });
+            }
           }
-        ];
+
+          subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+        } else if (totalMonths > 1) {
+          // 未払い統合（月初スタート）
+          subtotal = monthlyFee * totalMonths;
+          items.push({
+            description: `月額管理費（${periodStr}）`,
+            quantity: totalMonths,
+            unitPrice: monthlyFee,
+            amount: subtotal,
+          });
+        } else {
+          // 通常の1ヶ月分
+          subtotal = monthlyFee;
+          items.push({
+            description: `月額管理費（${periodStr}）`,
+            quantity: 1,
+            unitPrice: monthlyFee,
+            amount: subtotal,
+          });
+        }
 
         const taxRate = 0.1;
         const taxAmount = Math.floor(subtotal * taxRate);
