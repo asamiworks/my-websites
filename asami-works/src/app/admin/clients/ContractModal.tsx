@@ -38,18 +38,26 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
         const q = query(
           invoicesRef,
           where('clientId', '==', client.id),
-          where('status', '==', 'paid'),
-          orderBy('paidAt', 'desc'),
-          limit(1)
+          where('status', '==', 'paid')
         );
         const snapshot = await getDocs(q);
 
         if (!snapshot.empty) {
-          const invoiceData = snapshot.docs[0].data();
-          if (invoiceData.billingPeriodStart || invoiceData.billingPeriodEnd) {
+          // クライアント側でpaidAtでソートして最新を取得
+          const paidInvoices = snapshot.docs
+            .map(doc => doc.data())
+            .filter(inv => inv.billingPeriodEnd)
+            .sort((a, b) => {
+              const aDate = a.paidAt?.toDate?.() || new Date(0);
+              const bDate = b.paidAt?.toDate?.() || new Date(0);
+              return bDate.getTime() - aDate.getTime();
+            });
+
+          if (paidInvoices.length > 0) {
+            const latestInvoice = paidInvoices[0];
             setLastPaidPeriod({
-              start: invoiceData.billingPeriodStart,
-              end: invoiceData.billingPeriodEnd,
+              start: latestInvoice.billingPeriodStart,
+              end: latestInvoice.billingPeriodEnd,
             });
           }
         }
