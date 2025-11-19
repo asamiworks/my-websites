@@ -63,6 +63,8 @@ function AdminInvoicesContent() {
     taxRate: 0, // 免税事業者のため0%
     notes: '',
     items: [{ description: '', quantity: 1, unitPrice: 0, amount: 0 }] as InvoiceItem[],
+    billingPeriodStart: null as Date | null,
+    billingPeriodEnd: null as Date | null,
   });
 
   useEffect(() => {
@@ -182,6 +184,18 @@ function AdminInvoicesContent() {
       const issueDate = invoice.issueDate.toDate ? invoice.issueDate.toDate() : new Date(invoice.issueDate as any);
       const dueDate = invoice.dueDate.toDate ? invoice.dueDate.toDate() : new Date(invoice.dueDate as any);
 
+      // 請求期間を取得
+      let billingPeriodStart = null;
+      let billingPeriodEnd = null;
+      if (invoice.billingPeriodStart) {
+        const start = invoice.billingPeriodStart as any;
+        billingPeriodStart = start.toDate ? start.toDate() : new Date(start);
+      }
+      if (invoice.billingPeriodEnd) {
+        const end = invoice.billingPeriodEnd as any;
+        billingPeriodEnd = end.toDate ? end.toDate() : new Date(end);
+      }
+
       setFormData({
         clientId: invoice.clientId,
         issueDate: issueDate.toISOString().split('T')[0],
@@ -189,6 +203,8 @@ function AdminInvoicesContent() {
         taxRate: invoice.taxRate,
         notes: invoice.notes ?? '',
         items: [...invoice.items],
+        billingPeriodStart,
+        billingPeriodEnd,
       });
     } else {
       setEditingInvoice(null);
@@ -203,6 +219,8 @@ function AdminInvoicesContent() {
         taxRate: invoiceSettings.taxRate,
         notes: '',
         items: [{ description: '', quantity: 1, unitPrice: 0, amount: 0 }],
+        billingPeriodStart: null,
+        billingPeriodEnd: null,
       });
     }
     setShowModal(true);
@@ -303,7 +321,7 @@ function AdminInvoicesContent() {
 
       const { subtotal, taxAmount, totalAmount } = calculateTotals(formData.items, formData.taxRate);
 
-      const invoiceData = {
+      const invoiceData: any = {
         clientId: formData.clientId,
         clientName: selectedClient.clientName,
         invoiceNumber: editingInvoice?.invoiceNumber || generateInvoiceNumber(),
@@ -318,6 +336,14 @@ function AdminInvoicesContent() {
         notes: formData.notes || null,
         updatedAt: Timestamp.now(),
       };
+
+      // 請求期間を保存（入金確認時のlastPaidPeriod更新に使用）
+      if (formData.billingPeriodStart) {
+        invoiceData.billingPeriodStart = Timestamp.fromDate(formData.billingPeriodStart);
+      }
+      if (formData.billingPeriodEnd) {
+        invoiceData.billingPeriodEnd = Timestamp.fromDate(formData.billingPeriodEnd);
+      }
 
       let invoiceId = editingInvoice?.id;
 
@@ -723,6 +749,8 @@ function AdminInvoicesContent() {
       }
 
       const items: InvoiceItem[] = [];
+      let billingPeriodStartDate: Date | null = null;
+      let billingPeriodEndDate: Date | null = null;
 
       // 管理費を取得
       if (selectedClient.managementFeeSchedule && selectedClient.managementFeeSchedule.length > 0) {
@@ -829,6 +857,10 @@ function AdminInvoicesContent() {
                 unitPrice: totalAmount,
                 amount: totalAmount,
               });
+
+              // 請求期間を保存用に記録
+              billingPeriodStartDate = unpaidStartDate;
+              billingPeriodEndDate = billingMonthEnd;
             }
           }
         }
@@ -890,7 +922,12 @@ function AdminInvoicesContent() {
         return;
       }
 
-      setFormData({ ...formData, items });
+      setFormData({
+        ...formData,
+        items,
+        billingPeriodStart: billingPeriodStartDate,
+        billingPeriodEnd: billingPeriodEndDate,
+      });
       alert(`${items.length}件の請求項目を自動生成しました\n\n内容を確認して、「下書き保存」または「送付」してください`);
     } catch (err) {
       console.error('Error auto-generating items:', err);
