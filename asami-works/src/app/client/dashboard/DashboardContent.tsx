@@ -470,48 +470,6 @@ export default function DashboardContent() {
         </div>
       </section>
 
-      {/* クレジットカード情報 */}
-      {client.paymentMethod === 'credit_card' && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>支払い情報</h2>
-          <div className={styles.card}>
-            {client.stripePaymentMethodId ? (
-              <div className={styles.paymentInfo}>
-                <div className={styles.cardDetails}>
-                  <div className={styles.cardIcon}>💳</div>
-                  <div className={styles.cardInfo}>
-                    <p className={styles.cardBrand}>
-                      {client.cardBrand?.toUpperCase() || 'カード'}
-                    </p>
-                    <p className={styles.cardNumber}>
-                      **** **** **** {client.cardLast4 || '****'}
-                    </p>
-                  </div>
-                </div>
-                <p className={styles.autoChargeNote}>
-                  ✓ 請求書が発行されると自動的に決済されます
-                </p>
-                <Link href="/client/settings" className={styles.updatePaymentButton}>
-                  カード情報を変更
-                </Link>
-              </div>
-            ) : (
-              <div className={styles.paymentInfo}>
-                <p className={styles.noPayment}>
-                  クレジットカードが未登録です
-                </p>
-                <p className={styles.cardBenefit}>
-                  カードを登録すると、請求書が発行された際に自動的に決済されます
-                </p>
-                <Link href="/client/settings?registerCard=true" className={styles.registerPaymentButton}>
-                  クレジットカードを登録
-                </Link>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
       {/* 請求書履歴 */}
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
