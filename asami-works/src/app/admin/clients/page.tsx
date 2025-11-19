@@ -8,7 +8,6 @@ import { collection, query, orderBy, getDocs, addDoc, updateDoc, deleteDoc, doc,
 import { db } from '@/lib/firebase-config';
 import { Client, ManagementFeeSchedule } from '@/types/invoice';
 import AdminNav from '@/components/admin/AdminNav';
-import StripeSetupButton from '@/components/admin/StripeSetupButton';
 import styles from './page.module.css';
 import ContractModal, { ContractData } from './ContractModal';
 
@@ -480,13 +479,6 @@ export default function AdminClientsPage() {
                       >
                         契約情報
                       </button>
-                      {client.contractStartDate && client.managementFeeSchedule && client.managementFeeSchedule.length > 0 && (
-                        <StripeSetupButton
-                          clientId={client.id}
-                          clientName={client.clientName}
-                          disabled={!client.isActive}
-                        />
-                      )}
                       <button
                         className={styles.toggleButton}
                         onClick={() => handleToggleActive(client)}

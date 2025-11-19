@@ -1,21 +1,164 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem;
+  background-color: #f7fafc;
   position: relative;
+}
+
+/* ミニマルヘッダー */
+.minimalHeader {
+  background: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.logoTagline {
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+/* プロフィールドロップダウン */
+.profileMenu {
+  position: relative;
+}
+
+.profileButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.profileButton:hover {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.profileIcon {
+  width: 32px;
+  height: 32px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a5568;
+}
+
+.profileName {
+  font-weight: 500;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileArrow {
+  transition: transform 0.2s ease;
+}
+
+.profileArrow.open {
+  transform: rotate(180deg);
+}
+
+.profileDropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #4a5568;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background-color: #f7fafc;
+}
+
+.dropdownItem:not(:last-child) {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 0.25rem 0;
+}
+
+/* メインコンテンツ */
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .sessionWarning {
   position: fixed;
-  top: 1rem;
+  top: 4.5rem;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  color: white;
-  padding: 1rem 2rem;
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid #f59e0b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   animation: slideDown 0.3s ease;
 }
@@ -31,63 +174,36 @@
   }
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+/* ページタイトル */
+.pageHeader {
+  margin-bottom: 2rem;
 }
 
-.title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 0 0 0.5rem 0;
+.pageTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 0.25rem 0;
 }
 
-.subtitle {
-  font-size: 1.125rem;
-  opacity: 0.9;
+.pageSubtitle {
+  font-size: 0.875rem;
+  color: #718096;
   margin: 0;
-}
-
-.headerButtons {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.settingsButton,
-.logoutButton {
-  padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 2px solid white;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.settingsButton:hover,
-.logoutButton:hover {
-  background: white;
-  color: #667eea;
 }
 
 .loading,
 .error {
   text-align: center;
   padding: 3rem;
-  color: white;
-  font-size: 1.25rem;
+  color: #718096;
+  font-size: 1rem;
 }
 
 .error {
-  background-color: rgba(239, 68, 68, 0.8);
+  background-color: #fff5f5;
+  border: 1px solid #feb2b2;
+  color: #c53030;
   border-radius: 0.5rem;
   max-width: 600px;
   margin: 0 auto 2rem;
@@ -108,17 +224,18 @@
 }
 
 .sectionTitle {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: white;
+  color: #2d3748;
   margin: 0 0 1rem 0;
 }
 
 .card {
   background: white;
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* お客様情報 */
@@ -159,8 +276,9 @@
   gap: 1rem;
   margin-bottom: 1.5rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 0.75rem;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
 }
 
 .cardIcon {
@@ -174,7 +292,7 @@
 .cardBrand {
   font-size: 0.875rem;
   font-weight: 600;
-  color: white;
+  color: #4a5568;
   margin: 0 0 0.25rem 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -183,7 +301,7 @@
 .cardNumber {
   font-size: 1.25rem;
   font-weight: 500;
-  color: white;
+  color: #2d3748;
   margin: 0;
   font-family: 'Courier New', monospace;
 }
@@ -260,30 +378,25 @@
 
 /* 請求書履歴 */
 .bulkPayButton {
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  padding: 0.5rem 1rem;
+  background-color: #3182ce;
   color: white;
   border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
 .bulkPayButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+  background-color: #2c5282;
 }
 
 .bulkPayButton:disabled {
-  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  background-color: #a0aec0;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
 .empty {
@@ -481,24 +594,41 @@
 
 .footer {
   text-align: center;
-  color: white;
-  margin-top: 4rem;
+  color: #718096;
+  margin-top: 3rem;
   padding: 2rem 0;
-  opacity: 0.8;
+  font-size: 0.875rem;
+  border-top: 1px solid #e2e8f0;
 }
 
 /* レスポンシブ */
 @media (max-width: 768px) {
-  .container {
+  .minimalHeader {
+    padding: 0.75rem 1rem;
+  }
+
+  .logoText {
+    font-size: 1.25rem;
+  }
+
+  .logoTagline {
+    display: none;
+  }
+
+  .profileName {
+    display: none;
+  }
+
+  .mainContent {
     padding: 1rem;
   }
 
-  .title {
-    font-size: 2rem;
+  .pageTitle {
+    font-size: 1.5rem;
   }
 
   .card {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
   .infoGrid {
@@ -516,22 +646,7 @@
 
   .bulkPayButton {
     width: 100%;
-    padding: 0.875rem 1.25rem;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .headerButtons {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .settingsButton,
-  .logoutButton {
-    width: 100%;
+    padding: 0.75rem 1rem;
   }
 
   .sessionWarning {

@@ -1218,7 +1218,15 @@ function AdminInvoicesContent() {
                           📎 領収書表示
                         </a>
                       )}
-                      {invoice.status !== 'paid' && (
+                      {invoice.status === 'paid' && invoice.stripePaymentIntentId && (
+                        <button
+                          className={styles.deleteButton}
+                          onClick={() => handleRefund(invoice)}
+                        >
+                          返金
+                        </button>
+                      )}
+                      {invoice.status !== 'paid' && invoice.status !== 'refunded' && invoice.status !== 'partially_refunded' && (
                         <button
                           className={styles.deleteButton}
                           onClick={() => handleDeleteInvoice(invoice)}

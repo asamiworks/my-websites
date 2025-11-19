@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase-config';
 import { Client, Invoice } from '@/types/invoice';
 import CardRegistrationForm from '@/components/mypage/CardRegistrationForm';
+import Link from 'next/link';
 import styles from './page.module.css';
 
 export default function DashboardContent() {
@@ -20,6 +21,22 @@ export default function DashboardContent() {
   const [bulkPaying, setBulkPaying] = useState(false);
   const [sessionWarning, setSessionWarning] = useState(false);
   const [generatingReceiptFor, setGeneratingReceiptFor] = useState<string | null>(null);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+
+  // プロフィールメニューの外側クリック検知
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    if (isProfileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isProfileMenuOpen]);
 
   // セッション管理: 5分（300秒）後に自動ログアウト
   useEffect(() => {
@@ -364,26 +381,78 @@ export default function DashboardContent() {
 
   return (
     <div className={styles.container}>
+      {/* ミニマルヘッダー */}
+      <header className={styles.minimalHeader}>
+        <Link href="/" className={styles.logo}>
+          <span className={styles.logoText}>AsamiWorks</span>
+          <span className={styles.logoTagline}>クライアントポータル</span>
+        </Link>
+
+        <div className={styles.profileMenu} ref={profileMenuRef}>
+          <button
+            className={styles.profileButton}
+            onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+            aria-expanded={isProfileMenuOpen}
+            type="button"
+          >
+            <div className={styles.profileIcon}>
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 10c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <span className={styles.profileName}>{client.clientName}</span>
+            <svg
+              width="10"
+              height="6"
+              viewBox="0 0 10 6"
+              fill="currentColor"
+              className={`${styles.profileArrow} ${isProfileMenuOpen ? styles.open : ''}`}
+            >
+              <path d="M5 6L0 0h10L5 6z"/>
+            </svg>
+          </button>
+
+          {isProfileMenuOpen && (
+            <div className={styles.profileDropdown}>
+              <button
+                className={styles.dropdownItem}
+                onClick={() => {
+                  router.push('/client/settings');
+                  setIsProfileMenuOpen(false);
+                }}
+                type="button"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+                設定
+              </button>
+              <button
+                className={styles.dropdownItem}
+                onClick={handleLogout}
+                type="button"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+                ログアウト
+              </button>
+            </div>
+          )}
+        </div>
+      </header>
+
       {sessionWarning && (
         <div className={styles.sessionWarning}>
-          ⚠️ セッションが1分後に切れます。何か操作をしてください。
+          セッションが1分後に切れます。何か操作をしてください。
         </div>
       )}
 
-      <header className={styles.header}>
-        <div>
-          <h1 className={styles.title}>マイページ</h1>
-          <p className={styles.subtitle}>AsamiWorks クライアント専用ページ</p>
+      <main className={styles.mainContent}>
+        <div className={styles.pageHeader}>
+          <h1 className={styles.pageTitle}>マイページ</h1>
+          <p className={styles.pageSubtitle}>{client.clientName} 様</p>
         </div>
-        <div className={styles.headerButtons}>
-          <button onClick={() => router.push('/client/settings')} className={styles.settingsButton}>
-            ⚙️ 設定
-          </button>
-          <button onClick={handleLogout} className={styles.logoutButton}>
-            ログアウト
-          </button>
-        </div>
-      </header>
 
       {/* クライアント情報 */}
       <section className={styles.section}>
@@ -564,6 +633,7 @@ export default function DashboardContent() {
       <footer className={styles.footer}>
         <p>&copy; 2025 AsamiWorks. All rights reserved.</p>
       </footer>
+      </main>
     </div>
   );
 }
