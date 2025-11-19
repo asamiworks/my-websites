@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import { Client, ManagementFeeSchedule, ProductionFeeBreakdown } from '@/types/invoice';
 import styles from './ContractModal.module.css';
 
@@ -24,6 +25,41 @@ export interface ContractData {
 export default function ContractModal({ client, onClose, onSave }: ContractModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastPaidPeriod, setLastPaidPeriod] = useState<{
+    start: any;
+    end: any;
+  } | null>(null);
+
+  // 最新の支払済み請求書から支払い完了期間を取得
+  useEffect(() => {
+    const fetchLastPaidPeriod = async () => {
+      try {
+        const invoicesRef = collection(db, 'invoices');
+        const q = query(
+          invoicesRef,
+          where('clientId', '==', client.id),
+          where('status', '==', 'paid'),
+          orderBy('billingPeriodEnd', 'desc'),
+          limit(1)
+        );
+        const snapshot = await getDocs(q);
+
+        if (!snapshot.empty) {
+          const invoiceData = snapshot.docs[0].data();
+          if (invoiceData.billingPeriodStart || invoiceData.billingPeriodEnd) {
+            setLastPaidPeriod({
+              start: invoiceData.billingPeriodStart,
+              end: invoiceData.billingPeriodEnd,
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching last paid period:', err);
+      }
+    };
+
+    fetchLastPaidPeriod();
+  }, [client.id]);
 
   // Timestampを安全に日付文字列に変換するヘルパー関数
   const timestampToDateString = (timestamp: any): string => {
@@ -383,17 +419,17 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
             </p>
           </div>
 
-          {/* 支払い完了期間（読み取り専用） */}
-          {(client.lastPaidPeriodStart || client.lastPaidPeriodEnd) && (
+          {/* 支払い完了期間（読み取り専用・請求書データから取得） */}
+          {lastPaidPeriod && (
             <div className={styles.formGroup}>
               <label className={styles.label}>支払い完了期間</label>
               <div className={styles.readOnlyField}>
-                {client.lastPaidPeriodStart && timestampToDateString(client.lastPaidPeriodStart)}
-                {client.lastPaidPeriodStart && client.lastPaidPeriodEnd && ' 〜 '}
-                {client.lastPaidPeriodEnd && timestampToDateString(client.lastPaidPeriodEnd)}
+                {lastPaidPeriod.start && timestampToDateString(lastPaidPeriod.start)}
+                {lastPaidPeriod.start && lastPaidPeriod.end && ' 〜 '}
+                {lastPaidPeriod.end && timestampToDateString(lastPaidPeriod.end)}
               </div>
               <p className={styles.helpText}>
-                この期間は請求書の支払い完了時に自動更新されます
+                最新の支払済み請求書から自動取得されます
               </p>
             </div>
           )}
