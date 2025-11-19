@@ -106,6 +106,63 @@ const formatPeriodString = (startDate: Date, endDate: Date): string => {
 };
 
 /**
+ * 初月スルーが必要かチェック（契約開始日が当月の場合）
+ */
+const shouldSkipFirstMonth = (contractStartDate: admin.firestore.Timestamp, currentDate: Date): boolean => {
+  const startDate = contractStartDate.toDate();
+  return startDate.getFullYear() === currentDate.getFullYear() &&
+         startDate.getMonth() === currentDate.getMonth();
+};
+
+/**
+ * 初回まとめ請求が必要かチェック（契約開始日が前月の場合）
+ */
+const isFirstBillingMonth = (contractStartDate: admin.firestore.Timestamp, currentDate: Date): boolean => {
+  const startDate = contractStartDate.toDate();
+  const prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+  return startDate.getFullYear() === prevMonth.getFullYear() &&
+         startDate.getMonth() === prevMonth.getMonth();
+};
+
+/**
+ * 日割り金額を計算
+ */
+const calculateProratedAmount = (monthlyFee: number, startDate: Date, endDate: Date): number => {
+  const startMonth = startDate.getMonth();
+  const endMonth = endDate.getMonth();
+
+  if (startMonth === endMonth) {
+    // 同じ月内
+    const daysInMonth = new Date(startDate.getFullYear(), startMonth + 1, 0).getDate();
+    const actualDays = endDate.getDate() - startDate.getDate() + 1;
+    return Math.round(monthlyFee * actualDays / daysInMonth);
+  } else {
+    // 複数月にまたがる場合（初月日割り + 翌月以降全額）
+    let total = 0;
+
+    // 初月の日割り
+    const firstMonthEnd = new Date(startDate.getFullYear(), startMonth + 1, 0);
+    const daysInFirstMonth = firstMonthEnd.getDate();
+    const actualDaysInFirstMonth = daysInFirstMonth - startDate.getDate() + 1;
+    total += Math.round(monthlyFee * actualDaysInFirstMonth / daysInFirstMonth);
+
+    // 翌月以降
+    let currentMonth = new Date(startDate.getFullYear(), startMonth + 1, 1);
+    while (currentMonth <= endDate) {
+      if (currentMonth.getMonth() === endDate.getMonth() && currentMonth.getFullYear() === endDate.getFullYear()) {
+        // 最終月
+        total += monthlyFee;
+      } else {
+        total += monthlyFee;
+      }
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+    }
+
+    return total;
+  }
+};
+
+/**
  * 毎月1日に自動的に請求書を生成
  * Cloud Schedulerで毎月1日 0:00 (JST) に実行
  */
@@ -157,6 +214,13 @@ export const generateMonthlyInvoices = onSchedule({
             continue;
           }
 
+          // 初月スルー：契約開始日が当月の場合はスキップ
+          if (shouldSkipFirstMonth(client.contractStartDate, now)) {
+            console.log(`Skipping client ${client.id}: First month skip (contract started this month)`);
+            skipCount++;
+            continue;
+          }
+
           // 現在の月額管理費を取得
           const monthlyFee = getCurrentMonthlyFee(client);
 
@@ -189,6 +253,8 @@ export const generateMonthlyInvoices = onSchedule({
           // 請求期間を計算
           let billingStartDate: Date;
           let totalMonths = 1;
+          let isFirstBilling = false;
+          let proratedAmount = 0;
 
           if (unpaidInvoices.length > 0) {
             // 未払い請求書がある場合、最も古い請求書の期間から開始
@@ -201,8 +267,13 @@ export const generateMonthlyInvoices = onSchedule({
               billingStartDate = new Date(unpaidYear, unpaidMonth - 1, 1);
             }
             totalMonths = unpaidInvoices.length + 1; // 未払い月数 + 当月
+          } else if (isFirstBillingMonth(client.contractStartDate, now)) {
+            // 初回まとめ請求：契約開始日が前月の場合
+            billingStartDate = client.contractStartDate.toDate();
+            isFirstBilling = true;
+            // 日割り計算（初月日割り + 当月全額）
           } else {
-            // 未払いがない場合は当月のみ
+            // 通常の1ヶ月分
             billingStartDate = new Date(year, now.getMonth(), 1);
           }
 
@@ -212,21 +283,33 @@ export const generateMonthlyInvoices = onSchedule({
           // 期間文字列を生成
           const periodStr = formatPeriodString(billingStartDate, billingEndDate);
 
-          // 請求書アイテム
-          const description = totalMonths > 1
-            ? `月額管理費（${periodStr}）${totalMonths}ヶ月分`
-            : `月額管理費（${periodStr}）`;
+          // 金額計算
+          let subtotal: number;
+          let description: string;
+
+          if (isFirstBilling) {
+            // 初回まとめ請求：日割り計算
+            proratedAmount = calculateProratedAmount(monthlyFee, billingStartDate, billingEndDate);
+            subtotal = proratedAmount;
+            description = `月額管理費（${periodStr}）初回`;
+          } else if (totalMonths > 1) {
+            // 未払い統合
+            subtotal = monthlyFee * totalMonths;
+            description = `月額管理費（${periodStr}）${totalMonths}ヶ月分`;
+          } else {
+            // 通常の1ヶ月分
+            subtotal = monthlyFee;
+            description = `月額管理費（${periodStr}）`;
+          }
 
           const items = [
             {
               description,
-              quantity: totalMonths,
-              unitPrice: monthlyFee,
-              amount: monthlyFee * totalMonths
+              quantity: isFirstBilling ? 1 : totalMonths,
+              unitPrice: isFirstBilling ? proratedAmount : monthlyFee,
+              amount: subtotal
             }
           ];
-
-          const subtotal = monthlyFee * totalMonths;
           const taxRate = 0.1; // 10%
           const taxAmount = Math.floor(subtotal * taxRate);
           const totalAmount = subtotal + taxAmount;
@@ -260,16 +343,20 @@ export const generateMonthlyInvoices = onSchedule({
             billingPeriodStart: admin.firestore.Timestamp.fromDate(billingStartDate),
             billingPeriodEnd: admin.firestore.Timestamp.fromDate(billingEndDate),
             quantity: totalMonths,
-            notes: totalMonths > 1
-              ? `未払い${unpaidInvoices.length}ヶ月分を含む自動生成された請求書です。`
-              : '自動生成された月額管理費の請求書です。',
+            notes: isFirstBilling
+              ? '初回請求（初月日割り + 当月分）の自動生成された請求書です。'
+              : totalMonths > 1
+                ? `未払い${unpaidInvoices.length}ヶ月分を含む自動生成された請求書です。`
+                : '自動生成された月額管理費の請求書です。',
             createdAt: admin.firestore.Timestamp.now(),
             updatedAt: admin.firestore.Timestamp.now()
           });
 
           await batch.commit();
 
-          if (unpaidInvoices.length > 0) {
+          if (isFirstBilling) {
+            console.log(`Successfully generated first invoice ${invoiceNumber} for client ${client.clientName} (prorated: ¥${proratedAmount})`);
+          } else if (unpaidInvoices.length > 0) {
             console.log(`Successfully generated invoice ${invoiceNumber} for client ${client.clientName} (${totalMonths} months, ${unpaidInvoices.length} unpaid invoices cancelled)`);
           } else {
             console.log(`Successfully generated invoice ${invoiceNumber} for client ${client.clientName}`);
@@ -344,6 +431,13 @@ export const triggerMonthlyInvoiceGeneration = onRequest(async (request, respons
           continue;
         }
 
+        // 初月スルー：契約開始日が当月の場合はスキップ
+        if (shouldSkipFirstMonth(client.contractStartDate, now)) {
+          console.log(`Skipping client ${client.id}: First month skip (contract started this month)`);
+          skipCount++;
+          continue;
+        }
+
         const monthlyFee = getCurrentMonthlyFee(client);
 
         if (monthlyFee <= 0) {
@@ -373,6 +467,8 @@ export const triggerMonthlyInvoiceGeneration = onRequest(async (request, respons
         // 請求期間を計算
         let billingStartDate: Date;
         let totalMonths = 1;
+        let isFirstBilling = false;
+        let proratedAmount = 0;
 
         if (unpaidInvoices.length > 0) {
           const oldestUnpaid = unpaidInvoices[0].data();
@@ -383,6 +479,10 @@ export const triggerMonthlyInvoiceGeneration = onRequest(async (request, respons
             billingStartDate = new Date(unpaidYear, unpaidMonth - 1, 1);
           }
           totalMonths = unpaidInvoices.length + 1;
+        } else if (isFirstBillingMonth(client.contractStartDate, now)) {
+          // 初回まとめ請求：契約開始日が前月の場合
+          billingStartDate = client.contractStartDate.toDate();
+          isFirstBilling = true;
         } else {
           billingStartDate = new Date(year, now.getMonth(), 1);
         }
@@ -390,20 +490,31 @@ export const triggerMonthlyInvoiceGeneration = onRequest(async (request, respons
         const billingEndDate = new Date(year, now.getMonth() + 1, 0);
         const periodStr = formatPeriodString(billingStartDate, billingEndDate);
 
-        const description = totalMonths > 1
-          ? `月額管理費（${periodStr}）${totalMonths}ヶ月分`
-          : `月額管理費（${periodStr}）`;
+        // 金額計算
+        let subtotal: number;
+        let description: string;
+
+        if (isFirstBilling) {
+          proratedAmount = calculateProratedAmount(monthlyFee, billingStartDate, billingEndDate);
+          subtotal = proratedAmount;
+          description = `月額管理費（${periodStr}）初回`;
+        } else if (totalMonths > 1) {
+          subtotal = monthlyFee * totalMonths;
+          description = `月額管理費（${periodStr}）${totalMonths}ヶ月分`;
+        } else {
+          subtotal = monthlyFee;
+          description = `月額管理費（${periodStr}）`;
+        }
 
         const items = [
           {
             description,
-            quantity: totalMonths,
-            unitPrice: monthlyFee,
-            amount: monthlyFee * totalMonths
+            quantity: isFirstBilling ? 1 : totalMonths,
+            unitPrice: isFirstBilling ? proratedAmount : monthlyFee,
+            amount: subtotal
           }
         ];
 
-        const subtotal = monthlyFee * totalMonths;
         const taxRate = 0.1;
         const taxAmount = Math.floor(subtotal * taxRate);
         const totalAmount = subtotal + taxAmount;
@@ -436,16 +547,20 @@ export const triggerMonthlyInvoiceGeneration = onRequest(async (request, respons
           billingPeriodStart: admin.firestore.Timestamp.fromDate(billingStartDate),
           billingPeriodEnd: admin.firestore.Timestamp.fromDate(billingEndDate),
           quantity: totalMonths,
-          notes: totalMonths > 1
-            ? `未払い${unpaidInvoices.length}ヶ月分を含む自動生成された請求書です。`
-            : '自動生成された月額管理費の請求書です。',
+          notes: isFirstBilling
+            ? '初回請求（初月日割り + 当月分）の自動生成された請求書です。'
+            : totalMonths > 1
+              ? `未払い${unpaidInvoices.length}ヶ月分を含む自動生成された請求書です。`
+              : '自動生成された月額管理費の請求書です。',
           createdAt: admin.firestore.Timestamp.now(),
           updatedAt: admin.firestore.Timestamp.now()
         });
 
         await batch.commit();
 
-        if (unpaidInvoices.length > 0) {
+        if (isFirstBilling) {
+          console.log(`Successfully generated first invoice ${invoiceNumber} for client ${client.clientName} (prorated: ¥${proratedAmount})`);
+        } else if (unpaidInvoices.length > 0) {
           console.log(`Successfully generated invoice ${invoiceNumber} for client ${client.clientName} (${totalMonths} months, ${unpaidInvoices.length} unpaid invoices cancelled)`);
         } else {
           console.log(`Successfully generated invoice ${invoiceNumber} for client ${client.clientName}`);
