@@ -420,19 +420,23 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
           </div>
 
           {/* 支払い完了期間（読み取り専用・請求書データから取得） */}
-          {lastPaidPeriod && (
-            <div className={styles.formGroup}>
-              <label className={styles.label}>支払い完了期間</label>
-              <div className={styles.readOnlyField}>
-                {lastPaidPeriod.start && timestampToDateString(lastPaidPeriod.start)}
-                {lastPaidPeriod.start && lastPaidPeriod.end && ' 〜 '}
-                {lastPaidPeriod.end && timestampToDateString(lastPaidPeriod.end)}
-              </div>
-              <p className={styles.helpText}>
-                最新の支払済み請求書から自動取得されます
-              </p>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>支払い完了期間</label>
+            <div className={styles.readOnlyField}>
+              {lastPaidPeriod ? (
+                <>
+                  {lastPaidPeriod.start && timestampToDateString(lastPaidPeriod.start)}
+                  {lastPaidPeriod.start && lastPaidPeriod.end && ' 〜 '}
+                  {lastPaidPeriod.end && timestampToDateString(lastPaidPeriod.end)}
+                </>
+              ) : (
+                <span style={{ color: '#9ca3af' }}>支払済み請求書がありません</span>
+              )}
             </div>
-          )}
+            <p className={styles.helpText}>
+              最新の支払済み請求書から自動取得されます
+            </p>
+          </div>
 
           {/* 管理費スケジュール */}
           <div className={styles.scheduleSection}>
