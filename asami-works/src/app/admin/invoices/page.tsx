@@ -49,6 +49,8 @@ function AdminInvoicesContent() {
   const [generatingPdfFor, setGeneratingPdfFor] = useState<string | null>(null);
   const [generatingReceiptFor, setGeneratingReceiptFor] = useState<string | null>(null);
   const [selectedInvoices, setSelectedInvoices] = useState<Set<string>>(new Set());
+  const [sendingInvoice, setSendingInvoice] = useState<string | null>(null);
+  const [submittingInvoice, setSubmittingInvoice] = useState(false);
 
   const [invoiceSettings, setInvoiceSettings] = useState({
     taxRate: 0, // デフォルトは免税
@@ -285,12 +287,17 @@ function AdminInvoicesContent() {
   };
 
   const handleSubmit = async (status: InvoiceStatus = 'draft') => {
+    // 既に送信中の場合は処理をスキップ（二重クリック防止）
+    if (submittingInvoice) return;
+
+    setSubmittingInvoice(true);
     setError(null);
 
     try {
       const selectedClient = clients.find(c => c.id === formData.clientId);
       if (!selectedClient) {
         setError('クライアントを選択してください');
+        setSubmittingInvoice(false);
         return;
       }
 
@@ -375,6 +382,8 @@ function AdminInvoicesContent() {
     } catch (err) {
       console.error('Error saving invoice:', err);
       setError('請求書の保存に失敗しました');
+    } finally {
+      setSubmittingInvoice(false);
     }
   };
 
@@ -385,6 +394,14 @@ function AdminInvoicesContent() {
       setPaymentAmount(invoice.totalAmount.toString());
       setShowPaymentModal(true);
       return;
+    }
+
+    // 既に送信中の場合は処理をスキップ（二重クリック防止）
+    if (sendingInvoice) return;
+
+    // 送付処理の場合はローディング状態をセット
+    if (newStatus === 'sent') {
+      setSendingInvoice(invoice.id);
     }
 
     try {
@@ -443,6 +460,8 @@ function AdminInvoicesContent() {
     } catch (err) {
       console.error('Error updating invoice status:', err);
       setError('ステータスの更新に失敗しました');
+    } finally {
+      setSendingInvoice(null);
     }
   };
 
@@ -738,53 +757,69 @@ function AdminInvoicesContent() {
 
             const scheduleStart = safeToDate(currentSchedule.fromDate);
             const baseDescription = currentSchedule.description || '月額管理費';
+            const lastPaid = selectedClient.lastPaidPeriod;
 
-            // 初回まとめ請求かどうかをチェック
-            // スケジュール開始日が前月以前で、かつ初回請求の場合
-            let periodStartMonth = billingMonth.getMonth() + 1;
-            let periodStartDay = 1;
+            // 未払い期間の開始を決定
+            let unpaidStartDate: Date;
+
+            if (lastPaid) {
+              // lastPaidPeriodの翌月から開始
+              const [year, month] = lastPaid.split('-').map(Number);
+              unpaidStartDate = new Date(year, month, 1); // 翌月の1日
+            } else if (scheduleStart) {
+              // 初回請求の場合はスケジュール開始日から
+              unpaidStartDate = scheduleStart;
+            } else {
+              // デフォルトは請求対象月の1日
+              unpaidStartDate = billingMonth;
+            }
+
+            // 未払い開始が請求対象月より後の場合は請求対象月を使用
+            if (unpaidStartDate > billingMonth) {
+              unpaidStartDate = billingMonth;
+            }
+
+            // 期間と金額を計算
+            let periodStartMonth = unpaidStartDate.getMonth() + 1;
+            let periodStartDay = unpaidStartDate.getDate();
             let periodEndMonth = billingMonth.getMonth() + 1;
             let periodEndDay = billingMonthEnd.getDate();
-            let totalAmount = currentSchedule.monthlyFee;
+            let totalAmount = 0;
 
-            if (scheduleStart) {
-              // スケジュール開始日が請求対象月内の場合（日割り）
-              if (scheduleStart.getFullYear() === billingMonth.getFullYear() &&
-                  scheduleStart.getMonth() === billingMonth.getMonth()) {
-                periodStartDay = scheduleStart.getDate();
+            // 未払い期間の月を計算
+            const currentMonth = new Date(unpaidStartDate.getFullYear(), unpaidStartDate.getMonth(), 1);
 
-                if (periodStartDay > 1) {
-                  // 日割り計算
-                  const daysInMonth = billingMonthEnd.getDate();
-                  const actualDays = periodEndDay - periodStartDay + 1;
-                  totalAmount = Math.round(currentSchedule.monthlyFee * actualDays / daysInMonth);
-                }
+            while (currentMonth <= billingMonth) {
+              const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+              const daysInMonth = monthEnd.getDate();
+
+              let startDay = 1;
+              let endDay = daysInMonth;
+
+              // 開始月の場合
+              if (currentMonth.getFullYear() === unpaidStartDate.getFullYear() &&
+                  currentMonth.getMonth() === unpaidStartDate.getMonth()) {
+                startDay = unpaidStartDate.getDate();
               }
-              // スケジュール開始日が前月の場合（初回まとめ請求）
-              else if (scheduleStart < billingMonth) {
-                const prevMonth = new Date(billingMonth.getFullYear(), billingMonth.getMonth() - 1, 1);
 
-                // 開始日が前月内の場合
-                if (scheduleStart.getFullYear() === prevMonth.getFullYear() &&
-                    scheduleStart.getMonth() === prevMonth.getMonth()) {
-                  // lastPaidPeriodをチェックして初回請求かどうか確認
-                  const lastPaid = selectedClient.lastPaidPeriod;
-                  const prevMonthStr = `${prevMonth.getFullYear()}-${String(prevMonth.getMonth() + 1).padStart(2, '0')}`;
-
-                  // 前月が未払いの場合、まとめて請求
-                  if (!lastPaid || lastPaid < prevMonthStr) {
-                    periodStartMonth = scheduleStart.getMonth() + 1;
-                    periodStartDay = scheduleStart.getDate();
-
-                    // 前月分の日割り + 今月分
-                    const prevMonthEnd = new Date(billingMonth.getFullYear(), billingMonth.getMonth(), 0);
-                    const prevMonthDays = prevMonthEnd.getDate();
-                    const prevActualDays = prevMonthDays - periodStartDay + 1;
-                    const prevAmount = Math.round(currentSchedule.monthlyFee * prevActualDays / prevMonthDays);
-                    totalAmount = prevAmount + currentSchedule.monthlyFee;
-                  }
-                }
+              // 終了月の場合
+              if (currentMonth.getFullYear() === billingMonth.getFullYear() &&
+                  currentMonth.getMonth() === billingMonth.getMonth()) {
+                endDay = billingMonthEnd.getDate();
               }
+
+              const actualDays = endDay - startDay + 1;
+
+              if (actualDays === daysInMonth) {
+                // 全日数の場合は月額
+                totalAmount += currentSchedule.monthlyFee;
+              } else {
+                // 日割り計算
+                totalAmount += Math.round(currentSchedule.monthlyFee * actualDays / daysInMonth);
+              }
+
+              // 次の月へ
+              currentMonth.setMonth(currentMonth.getMonth() + 1);
             }
 
             const periodStr = periodStartMonth === periodEndMonth
@@ -1088,8 +1123,9 @@ function AdminInvoicesContent() {
                         <button
                           className={styles.sendButton}
                           onClick={() => handleStatusChange(invoice, 'sent')}
+                          disabled={sendingInvoice === invoice.id}
                         >
-                          送付
+                          {sendingInvoice === invoice.id ? '送付中...' : '送付'}
                         </button>
                       )}
                       {invoice.status === 'sent' && (
@@ -1323,12 +1359,12 @@ function AdminInvoicesContent() {
               </div>
 
               <div className={styles.formActions}>
-                <button type="button" className={styles.cancelButton} onClick={handleCloseModal}>
+                <button type="button" className={styles.cancelButton} onClick={handleCloseModal} disabled={submittingInvoice}>
                   キャンセル
                 </button>
                 {editingInvoice ? (
-                  <button type="button" className={styles.submitButton} onClick={() => handleSubmit()}>
-                    更新
+                  <button type="button" className={styles.submitButton} onClick={() => handleSubmit()} disabled={submittingInvoice}>
+                    {submittingInvoice ? '更新中...' : '更新'}
                   </button>
                 ) : (
                   <>
@@ -1336,15 +1372,17 @@ function AdminInvoicesContent() {
                       type="button"
                       className={styles.draftButton}
                       onClick={() => handleSubmit('draft')}
+                      disabled={submittingInvoice}
                     >
-                      📝 下書き保存
+                      {submittingInvoice ? '保存中...' : '📝 下書き保存'}
                     </button>
                     <button
                       type="button"
                       className={styles.sendButton}
                       onClick={() => handleSubmit('sent')}
+                      disabled={submittingInvoice}
                     >
-                      📤 送付
+                      {submittingInvoice ? '送付中...' : '📤 送付'}
                     </button>
                   </>
                 )}
