@@ -10,13 +10,11 @@ Font.register({
   src: path.join(__dirname, 'fonts', 'ipaexm.ttf'),
 });
 
-// A5横長（ランドスケープ）用センター配置デザイン
+// A5横長（ランドスケープ）用コンパクトデザイン
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
-    paddingTop: 25,
-    paddingBottom: 20,
-    fontSize: 9,
+    padding: 24,
+    fontSize: 8,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
     backgroundColor: pdfConfig.colors.white,
@@ -28,139 +26,115 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
 
-  // ヘッダー（タイトル中央）
-  header: {
-    alignItems: 'center',
-    marginBottom: 15,
-    paddingBottom: 10,
+  // ヘッダー行（タイトル左 + メタ情報右）
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+    paddingBottom: 8,
     borderBottomWidth: 2,
     borderBottomColor: pdfConfig.colors.black,
   },
-  titleRow: {
+  titleSection: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    gap: 10,
+    gap: 8,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
-    letterSpacing: 4,
-  },
-  subtitle: {
-    fontSize: 8,
-    fontFamily: pdfConfig.fonts.japanese,
-    color: pdfConfig.colors.gray,
     letterSpacing: 3,
   },
+  subtitle: {
+    fontSize: 7,
+    fontFamily: pdfConfig.fonts.japanese,
+    color: pdfConfig.colors.gray,
+  },
   reissueTag: {
-    fontSize: 10,
+    fontSize: 8,
     fontFamily: pdfConfig.fonts.japanese,
     color: '#c00',
-    marginTop: 4,
+    marginLeft: 8,
   },
-
-  // メタ情報（右寄せ）
-  metaSection: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginBottom: 12,
-    gap: 20,
+  metaInfo: {
+    alignItems: 'flex-end',
   },
-  metaItem: {
+  metaRow: {
     flexDirection: 'row',
-    gap: 6,
+    gap: 4,
+    marginBottom: 2,
   },
   metaLabel: {
-    fontSize: 8,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
   },
   metaValue: {
-    fontSize: 8,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
   },
 
-  // 宛名セクション（中央）
+  // 上部セクション（宛名左 + 金額右）
+  topSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+    gap: 20,
+  },
   recipientSection: {
-    alignItems: 'center',
-    marginBottom: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: pdfConfig.colors.lightGray,
+    flex: 1,
   },
   recipientName: {
-    fontSize: 16,
+    fontSize: 11,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   recipientSuffix: {
-    fontSize: 12,
+    fontSize: 9,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
   },
-
-  // 金額セクション（中央・強調）
-  amountSection: {
-    alignItems: 'center',
-    marginBottom: 15,
-    padding: 15,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 4,
+  amountBox: {
+    backgroundColor: '#f8f9fa',
+    padding: 10,
+    borderRadius: 3,
+    borderWidth: 1,
+    borderColor: '#e9ecef',
+    alignItems: 'flex-end',
+    minWidth: 180,
   },
   amountLabel: {
-    fontSize: 9,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 6,
-  },
-  amountRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
+    marginBottom: 4,
   },
   amountValue: {
-    fontSize: 28,
+    fontSize: 18,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
   },
   amountNote: {
-    fontSize: 10,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginLeft: 6,
-  },
-  receivedText: {
-    fontSize: 9,
-    fontFamily: pdfConfig.fonts.japanese,
-    color: pdfConfig.colors.darkGray,
-    marginTop: 8,
-  },
-
-  // 2カラムレイアウト（明細と発行者）
-  twoColumnLayout: {
-    flexDirection: 'row',
-    gap: 25,
-    flex: 1,
-  },
-  leftColumn: {
-    flex: 1,
-  },
-  rightColumn: {
-    width: 160,
+    marginTop: 2,
   },
 
   // 明細テーブル
   table: {
-    marginBottom: 10,
+    marginBottom: 8,
   },
   tableHeader: {
     flexDirection: 'row',
-    paddingBottom: 4,
-    borderBottomWidth: 1.5,
+    paddingBottom: 3,
+    borderBottomWidth: 1,
     borderBottomColor: pdfConfig.colors.black,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   tableHeaderCell: {
     fontSize: 7,
@@ -169,15 +143,14 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     flexDirection: 'row',
-    paddingVertical: 5,
+    paddingVertical: 3,
     borderBottomWidth: 0.5,
-    borderBottomColor: pdfConfig.colors.lightGray,
+    borderBottomColor: '#e9ecef',
   },
   tableCell: {
-    fontSize: 8,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
-    lineHeight: 1.4,
   },
   tableCol1: { width: '50%' },
   tableCol2: { width: '15%', textAlign: 'center' },
@@ -186,51 +159,53 @@ const styles = StyleSheet.create({
 
   // 合計セクション
   totalSection: {
-    marginTop: 8,
-    paddingTop: 8,
+    marginTop: 6,
+    paddingTop: 6,
     borderTopWidth: 1,
-    borderTopColor: pdfConfig.colors.lightGray,
+    borderTopColor: '#e9ecef',
   },
   totalRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingVertical: 2,
-    gap: 20,
+    paddingVertical: 1,
+    gap: 16,
   },
   totalLabel: {
-    fontSize: 8,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    width: 80,
+    width: 70,
     textAlign: 'right',
   },
   totalValue: {
-    fontSize: 8,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
-    width: 60,
+    width: 50,
     textAlign: 'right',
   },
 
-  // 但し書き・支払い方法
-  notesSection: {
+  // 下部セクション（備考と発行者）
+  bottomSection: {
+    flexDirection: 'row',
     marginTop: 10,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: pdfConfig.colors.lightGray,
+    gap: 20,
+  },
+  notesSection: {
+    flex: 1,
   },
   notesRow: {
     flexDirection: 'row',
-    marginBottom: 3,
+    marginBottom: 2,
   },
   notesLabel: {
-    fontSize: 8,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    width: 60,
+    width: 50,
   },
   notesValue: {
-    fontSize: 8,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
     flex: 1,
@@ -238,39 +213,40 @@ const styles = StyleSheet.create({
 
   // 発行者情報
   issuerSection: {
-    padding: 12,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 4,
+    padding: 8,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 3,
+    width: 150,
   },
   issuerLabel: {
-    fontSize: 7,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 8,
-    letterSpacing: 1,
+    marginBottom: 4,
   },
   issuerName: {
-    fontSize: 11,
+    fontSize: 9,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
-    marginBottom: 6,
+    marginBottom: 4,
   },
   issuerLine: {
-    fontSize: 7,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 2,
-    lineHeight: 1.5,
+    marginBottom: 1,
+    lineHeight: 1.4,
   },
 
   // フッター
   footer: {
     marginTop: 'auto',
-    paddingTop: 8,
-    alignItems: 'center',
+    paddingTop: 6,
+    borderTopWidth: 0.5,
+    borderTopColor: '#e9ecef',
   },
   footerText: {
-    fontSize: 6,
+    fontSize: 5,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
     textAlign: 'center',
@@ -357,7 +333,7 @@ export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo, is
     switch (invoice.paymentMethod) {
       case 'card':
         if (invoice.cardLastFour) {
-          return `クレジットカード（****-****-****-${invoice.cardLastFour}）`;
+          return `クレジットカード（****-${invoice.cardLastFour}）`;
         }
         return 'クレジットカード';
       case 'bank_transfer':
@@ -373,104 +349,93 @@ export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo, is
     <Document>
       <Page size="A5" orientation="landscape" style={styles.page}>
         <View style={styles.container}>
-          {/* ヘッダー */}
-          <View style={styles.header}>
-            <View style={styles.titleRow}>
-              <Text style={styles.title}>領 収 書</Text>
+          {/* ヘッダー行 */}
+          <View style={styles.headerRow}>
+            <View style={styles.titleSection}>
+              <Text style={styles.title}>領収書</Text>
               <Text style={styles.subtitle}>RECEIPT</Text>
+              {isReissue && (
+                <Text style={styles.reissueTag}>（再発行）</Text>
+              )}
             </View>
-            {isReissue && (
-              <Text style={styles.reissueTag}>（再発行）</Text>
-            )}
-          </View>
-
-          {/* メタ情報 */}
-          <View style={styles.metaSection}>
-            <View style={styles.metaItem}>
-              <Text style={styles.metaLabel}>No.</Text>
-              <Text style={styles.metaValue}>{invoice.invoiceNumber}</Text>
-            </View>
-            <View style={styles.metaItem}>
-              <Text style={styles.metaLabel}>発行日</Text>
-              <Text style={styles.metaValue}>{formatDate(paidDate)}</Text>
+            <View style={styles.metaInfo}>
+              <View style={styles.metaRow}>
+                <Text style={styles.metaLabel}>No.</Text>
+                <Text style={styles.metaValue}>{invoice.invoiceNumber}</Text>
+              </View>
+              <View style={styles.metaRow}>
+                <Text style={styles.metaLabel}>発行日</Text>
+                <Text style={styles.metaValue}>{formatDate(paidDate)}</Text>
+              </View>
             </View>
           </View>
 
-          {/* 宛名 */}
-          <View style={styles.recipientSection}>
-            <Text style={styles.recipientName}>
-              {invoice.clientName}
-              <Text style={styles.recipientSuffix}> 様</Text>
-            </Text>
-          </View>
-
-          {/* 金額 */}
-          <View style={styles.amountSection}>
-            <Text style={styles.amountLabel}>領収金額</Text>
-            <View style={styles.amountRow}>
+          {/* 上部セクション: 宛名と金額 */}
+          <View style={styles.topSection}>
+            <View style={styles.recipientSection}>
+              <Text style={styles.recipientName}>
+                {invoice.clientName}
+                <Text style={styles.recipientSuffix}> 様</Text>
+              </Text>
+            </View>
+            <View style={styles.amountBox}>
+              <Text style={styles.amountLabel}>領収金額</Text>
               <Text style={styles.amountValue}>{formatCurrency(invoice.totalAmount)}</Text>
               <Text style={styles.amountNote}>（税込）</Text>
             </View>
-            <Text style={styles.receivedText}>上記正に領収いたしました</Text>
           </View>
 
-          {/* 2カラム: 明細と発行者 */}
-          <View style={styles.twoColumnLayout}>
-            {/* 左カラム: 明細 */}
-            <View style={styles.leftColumn}>
-              <View style={styles.table}>
-                <View style={styles.tableHeader}>
-                  <Text style={[styles.tableHeaderCell, styles.tableCol1]}>内訳</Text>
-                  <Text style={[styles.tableHeaderCell, styles.tableCol2]}>数量</Text>
-                  <Text style={[styles.tableHeaderCell, styles.tableCol3]}>単価</Text>
-                  <Text style={[styles.tableHeaderCell, styles.tableCol4]}>金額</Text>
-                </View>
+          {/* 明細テーブル */}
+          <View style={styles.table}>
+            <View style={styles.tableHeader}>
+              <Text style={[styles.tableHeaderCell, styles.tableCol1]}>内訳</Text>
+              <Text style={[styles.tableHeaderCell, styles.tableCol2]}>数量</Text>
+              <Text style={[styles.tableHeaderCell, styles.tableCol3]}>単価</Text>
+              <Text style={[styles.tableHeaderCell, styles.tableCol4]}>金額</Text>
+            </View>
 
-                {invoice.items.map((item, index) => (
-                  <View key={index} style={styles.tableRow}>
-                    <Text style={[styles.tableCell, styles.tableCol1]}>{item.description}</Text>
-                    <Text style={[styles.tableCell, styles.tableCol2]}>{item.quantity}</Text>
-                    <Text style={[styles.tableCell, styles.tableCol3]}>{formatCurrency(item.unitPrice)}</Text>
-                    <Text style={[styles.tableCell, styles.tableCol4]}>{formatCurrency(item.amount)}</Text>
-                  </View>
-                ))}
+            {invoice.items.map((item, index) => (
+              <View key={index} style={styles.tableRow}>
+                <Text style={[styles.tableCell, styles.tableCol1]}>{item.description}</Text>
+                <Text style={[styles.tableCell, styles.tableCol2]}>{item.quantity}</Text>
+                <Text style={[styles.tableCell, styles.tableCol3]}>{formatCurrency(item.unitPrice)}</Text>
+                <Text style={[styles.tableCell, styles.tableCol4]}>{formatCurrency(item.amount)}</Text>
               </View>
+            ))}
+          </View>
 
-              {/* 合計 */}
-              <View style={styles.totalSection}>
-                <View style={styles.totalRow}>
-                  <Text style={styles.totalLabel}>小計</Text>
-                  <Text style={styles.totalValue}>{formatCurrency(invoice.subtotal)}</Text>
-                </View>
-                <View style={styles.totalRow}>
-                  <Text style={styles.totalLabel}>消費税（{(invoice.taxRate * 100).toFixed(0)}%）</Text>
-                  <Text style={styles.totalValue}>{formatCurrency(invoice.taxAmount)}</Text>
-                </View>
+          {/* 合計 */}
+          <View style={styles.totalSection}>
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>小計</Text>
+              <Text style={styles.totalValue}>{formatCurrency(invoice.subtotal)}</Text>
+            </View>
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>消費税（{(invoice.taxRate * 100).toFixed(0)}%）</Text>
+              <Text style={styles.totalValue}>{formatCurrency(invoice.taxAmount)}</Text>
+            </View>
+          </View>
+
+          {/* 下部セクション: 備考と発行者 */}
+          <View style={styles.bottomSection}>
+            <View style={styles.notesSection}>
+              <View style={styles.notesRow}>
+                <Text style={styles.notesLabel}>但し</Text>
+                <Text style={styles.notesValue}>{invoice.notes || '上記サービス料として'}</Text>
               </View>
-
-              {/* 但し書き・支払い方法 */}
-              <View style={styles.notesSection}>
-                <View style={styles.notesRow}>
-                  <Text style={styles.notesLabel}>但し</Text>
-                  <Text style={styles.notesValue}>{invoice.notes || '上記サービス料として'}</Text>
-                </View>
-                <View style={styles.notesRow}>
-                  <Text style={styles.notesLabel}>支払方法</Text>
-                  <Text style={styles.notesValue}>{getPaymentMethodDisplay()}</Text>
-                </View>
+              <View style={styles.notesRow}>
+                <Text style={styles.notesLabel}>支払方法</Text>
+                <Text style={styles.notesValue}>{getPaymentMethodDisplay()}</Text>
               </View>
             </View>
 
-            {/* 右カラム: 発行者 */}
-            <View style={styles.rightColumn}>
-              <View style={styles.issuerSection}>
-                <Text style={styles.issuerLabel}>発行者</Text>
-                <Text style={styles.issuerName}>{company.name}</Text>
-                <Text style={styles.issuerLine}>〒{company.postalCode}</Text>
-                <Text style={styles.issuerLine}>{company.address}</Text>
-                <Text style={styles.issuerLine}>TEL: {company.phone}</Text>
-                <Text style={styles.issuerLine}>Email: {company.email}</Text>
-              </View>
+            <View style={styles.issuerSection}>
+              <Text style={styles.issuerLabel}>発行者</Text>
+              <Text style={styles.issuerName}>{company.name}</Text>
+              <Text style={styles.issuerLine}>〒{company.postalCode}</Text>
+              <Text style={styles.issuerLine}>{company.address}</Text>
+              <Text style={styles.issuerLine}>TEL: {company.phone}</Text>
+              <Text style={styles.issuerLine}>Email: {company.email}</Text>
             </View>
           </View>
 
