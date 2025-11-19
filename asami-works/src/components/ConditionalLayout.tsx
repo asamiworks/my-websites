@@ -9,31 +9,35 @@ export function ConditionalHeader() {
   const pathname = usePathname();
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
-  return (isDemoPage || isMyPage) ? null : <Header />;
+  const isClientPage = pathname?.startsWith('/client');
+  return (isDemoPage || isMyPage || isClientPage) ? null : <Header />;
 }
 
 export function ConditionalBreadcrumb() {
   const pathname = usePathname();
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
-  return (isDemoPage || isMyPage) ? null : <Breadcrumb />;
+  const isClientPage = pathname?.startsWith('/client');
+  return (isDemoPage || isMyPage || isClientPage) ? null : <Breadcrumb />;
 }
 
 export function ConditionalFooter() {
   const pathname = usePathname();
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
-  return (isDemoPage || isMyPage) ? null : <Footer />;
+  const isClientPage = pathname?.startsWith('/client');
+  return (isDemoPage || isMyPage || isClientPage) ? null : <Footer />;
 }
 
 export function ConditionalMainStyle({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isDemoPage = pathname?.includes('/demo/');
   const isMyPage = pathname?.startsWith('/mypage');
+  const isClientPage = pathname?.startsWith('/client');
 
   return (
     <main style={{
-      paddingTop: (isDemoPage || isMyPage) ? "0" : "70px",
+      paddingTop: (isDemoPage || isMyPage || isClientPage) ? "0" : "70px",
       maxWidth: "100vw",
       overflowX: "hidden"
     }}>
