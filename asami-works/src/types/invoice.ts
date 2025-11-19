@@ -125,6 +125,8 @@ export interface Invoice {
   pdfGeneratedAt?: string; // PDF生成日時
   receiptUrl?: string; // Google DriveのPDF URL (領収書)
   receiptGeneratedAt?: string; // 領収書PDF生成日時
+  receiptDownloadCount?: number; // 領収書ダウンロード回数
+  receiptFirstDownloadedAt?: Timestamp; // 領収書初回ダウンロード日時
 
   createdAt: Timestamp;
   updatedAt: Timestamp;

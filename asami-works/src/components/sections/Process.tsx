@@ -83,12 +83,6 @@ export default function Process() {
 
   const timelines = [
     {
-      type: "最短プラン",
-      duration: "3日〜1週間",
-      description: "パッケージプランで最速公開",
-      suitable: "すぐにサイトが必要な方"
-    },
-    {
       type: "標準プラン",
       duration: "3週間〜1.5ヶ月",
       description: "オリジナル制作の通常納期",

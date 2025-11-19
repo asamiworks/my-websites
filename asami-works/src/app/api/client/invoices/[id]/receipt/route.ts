@@ -83,16 +83,13 @@ export async function POST(
       );
     }
 
-    // 既に領収書が生成されている場合は既存のURLを返す
-    if (invoice.receiptUrl) {
-      return NextResponse.json({
-        success: true,
-        receiptUrl: invoice.receiptUrl,
-        message: '領収書は既に生成されています'
-      });
-    }
+    // 現在のダウンロード回数を取得
+    const currentDownloadCount = invoice.receiptDownloadCount || 0;
+    const isReissue = currentDownloadCount > 0;
+    const newDownloadCount = currentDownloadCount + 1;
 
-    // Firebase Functionsの領収書生成エンドポイントを呼び出し
+    // 再発行の場合は新しいPDFを生成する
+    // 初回の場合も生成する
     const functionsUrl = process.env.FIREBASE_FUNCTIONS_URL || 'https://us-central1-asamiworks-679b3.cloudfunctions.net';
     const response = await fetch(`${functionsUrl}/generateReceiptPDF`, {
       method: 'POST',
@@ -100,7 +97,11 @@ export async function POST(
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.ADMIN_SECRET_KEY || 'dev-secret-key'}`
       },
-      body: JSON.stringify({ invoiceId: id })
+      body: JSON.stringify({
+        invoiceId: id,
+        isReissue,
+        reissueCount: isReissue ? newDownloadCount - 1 : 0
+      })
     });
 
     if (!response.ok) {
@@ -110,10 +111,24 @@ export async function POST(
 
     const data = await response.json();
 
+    // ダウンロード回数を更新
+    const updateData: any = {
+      receiptDownloadCount: newDownloadCount,
+    };
+
+    // 初回ダウンロードの場合は初回ダウンロード日時も記録
+    if (!isReissue) {
+      updateData.receiptFirstDownloadedAt = new Date();
+    }
+
+    await invoiceRef.update(updateData);
+
     return NextResponse.json({
       success: true,
       receiptUrl: data.receiptUrl,
-      message: '領収書PDFを生成しました'
+      message: isReissue ? '領収書を再発行しました' : '領収書PDFを生成しました',
+      isReissue,
+      downloadCount: newDownloadCount
     });
 
   } catch (error: any) {

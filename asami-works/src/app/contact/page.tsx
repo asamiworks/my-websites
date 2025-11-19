@@ -7,12 +7,6 @@ import styles from "../../styles/Contact.module.css";
 
 // 型定義
 type EstimateData = {
-  planType?: 'package' | 'original';  // プランタイプ
-  // パッケージプラン用
-  packageSiteType?: 'lp' | 'hp';
-  packageTheme?: string;
-  packageName?: string;
-  // オリジナルプラン用
   siteType?: string;
   options?: string[];
   pageCount?: number;
@@ -204,39 +198,12 @@ export default function ContactPage() {
     
     if (estimate) {
       message += '\n\n【概算見積もり内容】\n';
-      
-      // パッケージプランの場合
-      if (estimate.planType === 'package') {
-        message += `プランタイプ: パッケージプラン\n`;
-        message += `サイトタイプ: ${estimate.packageSiteType === 'lp' ? 'ランディングページ' : 'ホームページ'}\n`;
-        
-        if (estimate.packageTheme) {
-          const themeLabel = estimate.packageSiteType === 'lp' 
-            ? (estimate.packageTheme === 'elegant' ? 'エレガント' : 
-               estimate.packageTheme === 'natural' ? 'ナチュラル' : 'モダン')
-            : (estimate.packageTheme === 'professional' ? 'プロフェッショナル' : 
-               estimate.packageTheme === 'innovative' ? 'イノベーティブ' : 'フレンドリー');
-          message += `選択デザイン: ${themeLabel}\n`;
-        }
-        
-        if (estimate.packageName) {
-          message += `${estimate.packageSiteType === 'lp' ? '店舗名' : '会社名'}: ${estimate.packageName}\n`;
-        }
-        
-        message += `概算金額: ${estimate.totalPrice.toLocaleString()}円（税込）\n`;
-        message += `\n※月額運用費: ${estimate.packageSiteType === 'lp' ? '11,000' : '16,500'}円（初年度）\n`;
-        message += `※サーバー・ドメイン・SSL証明書・基本保守すべて込み\n`;
-        message += `※2年目以降は月額6,600円への移行も可能\n`;
-        
-        return message;
-      }
-      
-      // オリジナルプランの場合
-      if (estimate.planType === 'original' && estimate.siteType) {
+
+      // 見積もり内容の表示
+      if (estimate.siteType) {
         const options = estimate.options || [];
         const selectedLanguages = estimate.selectedLanguages || [];
         
-        message += `プランタイプ: オリジナルプラン\n`;
         message += `サイトタイプ: ${siteTypeLabelMap[estimate.siteType]}\n`;
         message += `概算金額: ${estimate.totalPrice.toLocaleString()}円（税込）\n`;
         
@@ -414,94 +381,7 @@ export default function ContactPage() {
 
   // 見積もり内容の表示コンポーネント
   const renderEstimateDetails = () => {
-    if (!estimate) return null;
-
-    // パッケージプランの場合
-    if (estimate.planType === 'package') {
-      return (
-        <div className={styles.estimateBox}>
-          <h2>概算見積もり（パッケージプラン）</h2>
-          <div className={styles.totalPrice}>
-            {estimate.totalPrice.toLocaleString()}円（税込）
-          </div>
-          
-          <div className={styles.breakdown}>
-            <div className={styles.breakdownItem}>
-              <span>
-                {estimate.packageSiteType === 'lp' ? 'ランディングページ' : 'ホームページ'} 制作費
-              </span>
-              <span>{estimate.totalPrice.toLocaleString()}円</span>
-            </div>
-            
-            {estimate.packageTheme && (
-              <div className={styles.breakdownItem} style={{ fontSize: '0.9rem', color: '#666' }}>
-                <span>選択デザイン</span>
-                <span>
-                  {estimate.packageSiteType === 'lp' 
-                    ? (estimate.packageTheme === 'elegant' ? 'エレガント' : 
-                       estimate.packageTheme === 'natural' ? 'ナチュラル' : 'モダン')
-                    : (estimate.packageTheme === 'professional' ? 'プロフェッショナル' : 
-                       estimate.packageTheme === 'innovative' ? 'イノベーティブ' : 'フレンドリー')
-                  }
-                </span>
-              </div>
-            )}
-            
-            {estimate.packageName && (
-              <div className={styles.breakdownItem} style={{ fontSize: '0.9rem', color: '#666' }}>
-                <span>{estimate.packageSiteType === 'lp' ? '店舗名' : '会社名'}</span>
-                <span>{estimate.packageName}</span>
-              </div>
-            )}
-          </div>
-
-          <div style={{
-            margin: "20px 0",
-            padding: "15px",
-            background: "#f8f9fa",
-            borderRadius: "6px",
-            border: "1px solid #dee2e6"
-          }}>
-            <h4 style={{ margin: "0 0 10px 0", fontSize: "1rem", color: "#333" }}>
-              月額運用費について
-            </h4>
-            <div style={{ fontSize: "0.9rem", color: "#666" }}>
-              <p style={{ margin: "5px 0" }}>
-                初年度：月額 {estimate.packageSiteType === 'lp' ? '11,000' : '16,500'}円（税込）
-              </p>
-              <p style={{ margin: "5px 0" }}>
-                2年目以降：月額 6,600円（税込）への移行も可能
-              </p>
-              <p style={{ margin: "10px 0 0 0", fontSize: "0.85rem" }}>
-                ※サーバー・ドメイン・SSL証明書・基本保守すべて込み
-              </p>
-            </div>
-          </div>
-
-          <div className={styles.valueStatement}>
-            <p>
-              <strong>テンプレートデザインを活用した低価格プラン</strong><br />
-              短納期でビジネスをすぐにスタートできます。
-            </p>
-          </div>
-
-          <p className={styles.editLink}>
-            内容を変更したい場合は{" "}
-            <button
-              type="button"
-              onClick={() => router.push("/estimate")}
-              className={styles.linkButton}
-            >
-              簡易見積もりフォームに戻る
-            </button>{" "}
-            ことができます。
-          </p>
-        </div>
-      );
-    }
-
-    // オリジナルプランの場合
-    if (!estimate.siteType) return null;
+    if (!estimate || !estimate.siteType) return null;
 
     const basePrice = getBasePrice(estimate.siteType);
     const lockedOptions = getLockedOptions(estimate.siteType);

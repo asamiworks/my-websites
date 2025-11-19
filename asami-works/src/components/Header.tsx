@@ -22,11 +22,9 @@ type NavItem = {
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isPackageOpen, setIsPackageOpen] = useState(false);
   const [isOriginalOpen, setIsOriginalOpen] = useState(false);
   const [isOthersOpen, setIsOthersOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
-  const [isMobilePackageOpen, setIsMobilePackageOpen] = useState(false);
   const [isMobileOriginalOpen, setIsMobileOriginalOpen] = useState(false);
   const [isMobileOthersOpen, setIsMobileOthersOpen] = useState(false);
   const [isMobileServiceOpen, setIsMobileServiceOpen] = useState(false);
@@ -116,11 +114,9 @@ export default function Header() {
   // ページ遷移時にメニューを閉じる
   useEffect(() => {
     setIsMenuOpen(false);
-    setIsPackageOpen(false);
     setIsOriginalOpen(false);
     setIsOthersOpen(false);
     setIsServiceOpen(false);
-    setIsMobilePackageOpen(false);
     setIsMobileOriginalOpen(false);
     setIsMobileOthersOpen(false);
     setIsMobileServiceOpen(false);
@@ -129,17 +125,7 @@ export default function Header() {
 
   const navItems: NavItem[] = [
     {
-      label: "パッケージプラン",
-      href: "/services/package",
-      hasDropdown: true,
-      dropdownKey: "package",
-      dropdownItems: [
-        { label: "LPプラン", href: "/services/package/demo/lp" },
-        { label: "HPプラン", href: "/services/package/demo/corporate" }
-      ]
-    },
-    {
-      label: "オリジナルサイト制作",
+      label: "サイト制作",
       href: "/services/original",
       hasDropdown: true,
       dropdownKey: "original",
@@ -187,7 +173,6 @@ export default function Header() {
         
         if (element) {
           setIsMenuOpen(false);
-          setIsMobilePackageOpen(false);
           setIsMobileOriginalOpen(false);
           setIsMobileOthersOpen(false);
           setIsMobileServiceOpen(false);
@@ -217,7 +202,6 @@ export default function Header() {
         }
       } else {
         setIsMenuOpen(false);
-        setIsMobilePackageOpen(false);
         setIsMobileOriginalOpen(false);
         setIsMobileOthersOpen(false);
         setIsMobileServiceOpen(false);
@@ -232,7 +216,6 @@ export default function Header() {
     if (href.startsWith('/#') && pathname === '/') {
       setTimeout(() => {
         setIsMenuOpen(false);
-        setIsMobilePackageOpen(false);
         setIsMobileOriginalOpen(false);
         setIsMobileOthersOpen(false);
         setIsMobileServiceOpen(false);
@@ -242,33 +225,23 @@ export default function Header() {
 
   // ドロップダウンの開閉を管理
   const handleDropdownEnter = (key: string) => {
-    if (key === "package") {
-      setIsPackageOpen(true);
-      setIsOriginalOpen(false);
-      setIsOthersOpen(false);
-      setIsServiceOpen(false);
-    } else if (key === "original") {
+    if (key === "original") {
       setIsOriginalOpen(true);
-      setIsPackageOpen(false);
       setIsOthersOpen(false);
       setIsServiceOpen(false);
     } else if (key === "others") {
       setIsOthersOpen(true);
-      setIsPackageOpen(false);
       setIsOriginalOpen(false);
       setIsServiceOpen(false);
     } else if (key === "service") {
       setIsServiceOpen(true);
-      setIsPackageOpen(false);
       setIsOriginalOpen(false);
       setIsOthersOpen(false);
     }
   };
 
   const handleDropdownLeave = (key: string) => {
-    if (key === "package") {
-      setIsPackageOpen(false);
-    } else if (key === "original") {
+    if (key === "original") {
       setIsOriginalOpen(false);
     } else if (key === "others") {
       setIsOthersOpen(false);
@@ -278,31 +251,22 @@ export default function Header() {
   };
 
   const handleMobileDropdownToggle = (key: string) => {
-    if (key === "package") {
-      setIsMobilePackageOpen(!isMobilePackageOpen);
-      setIsMobileOriginalOpen(false);
-      setIsMobileOthersOpen(false);
-      setIsMobileServiceOpen(false);
-    } else if (key === "original") {
+    if (key === "original") {
       setIsMobileOriginalOpen(!isMobileOriginalOpen);
-      setIsMobilePackageOpen(false);
       setIsMobileOthersOpen(false);
       setIsMobileServiceOpen(false);
     } else if (key === "others") {
       setIsMobileOthersOpen(!isMobileOthersOpen);
-      setIsMobilePackageOpen(false);
       setIsMobileOriginalOpen(false);
       setIsMobileServiceOpen(false);
     } else if (key === "service") {
       setIsMobileServiceOpen(!isMobileServiceOpen);
-      setIsMobilePackageOpen(false);
       setIsMobileOriginalOpen(false);
       setIsMobileOthersOpen(false);
     }
   };
 
   const getDropdownState = (key: string | undefined) => {
-    if (key === "package") return isPackageOpen;
     if (key === "original") return isOriginalOpen;
     if (key === "others") return isOthersOpen;
     if (key === "service") return isServiceOpen;
@@ -310,7 +274,6 @@ export default function Header() {
   };
 
   const getMobileDropdownState = (key: string | undefined) => {
-    if (key === "package") return isMobilePackageOpen;
     if (key === "original") return isMobileOriginalOpen;
     if (key === "others") return isMobileOthersOpen;
     if (key === "service") return isMobileServiceOpen;

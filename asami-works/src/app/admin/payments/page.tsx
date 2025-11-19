@@ -30,6 +30,7 @@ export default function PaymentsPage() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<string>('');
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank_transfer' | 'other'>('bank_transfer');
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -83,9 +84,25 @@ export default function PaymentsPage() {
     }
   };
 
-  const handleOpenPaymentModal = (invoice: Invoice) => {
+  const handleOpenPaymentModal = async (invoice: Invoice) => {
     setSelectedInvoice(invoice);
     setPaymentAmount(invoice.totalAmount.toString());
+
+    // クライアントの支払い方法をデフォルトとして取得
+    try {
+      const clientDoc = await getDoc(doc(db, 'clients', invoice.clientId));
+      if (clientDoc.exists()) {
+        const clientData = clientDoc.data();
+        const method = clientData.paymentMethod === 'credit_card' ? 'card' :
+                       clientData.paymentMethod === 'bank_transfer' ? 'bank_transfer' : 'bank_transfer';
+        setPaymentMethod(method);
+      } else {
+        setPaymentMethod('bank_transfer');
+      }
+    } catch (err) {
+      setPaymentMethod('bank_transfer');
+    }
+
     setShowPaymentModal(true);
   };
 
@@ -106,6 +123,8 @@ export default function PaymentsPage() {
         status: 'paid' as InvoiceStatus,
         paidAmount,
         paymentDifference,
+        paymentMethod,
+        paidAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       });
 
@@ -126,6 +145,7 @@ export default function PaymentsPage() {
       setShowPaymentModal(false);
       setSelectedInvoice(null);
       setPaymentAmount('');
+      setPaymentMethod('bank_transfer');
 
       if (paymentDifference !== 0) {
         const diffLabel = paymentDifference > 0 ? '過払い' : '不足';
@@ -336,6 +356,22 @@ export default function PaymentsPage() {
                   step="1"
                   required
                 />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.label}>
+                  支払い方法 <span className={styles.required}>*</span>
+                </label>
+                <select
+                  className={styles.input}
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value as 'card' | 'bank_transfer' | 'other')}
+                  required
+                >
+                  <option value="bank_transfer">銀行振込</option>
+                  <option value="card">クレジットカード</option>
+                  <option value="other">その他</option>
+                </select>
               </div>
 
               {paymentAmount && !isNaN(parseFloat(paymentAmount)) && (

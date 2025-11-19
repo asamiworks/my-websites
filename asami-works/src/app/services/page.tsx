@@ -5,32 +5,6 @@ import styles from "./Services.module.css";
 export default function Services() {
   const services = [
     {
-      id: "package",
-      title: "パッケージプラン",
-      price: "5.5万円〜",
-      description: "最速3日で公開！テンプレートを活用した格安プラン",
-      features: [
-        "LP 5.5万円 / HP 11万円",
-        "最短3日〜5日で納品",
-        "月額費用にサーバー・ドメイン込み",
-        "スマホ対応・基本SEO対策付き"
-      ],
-      href: "/services/package",
-      badge: "最速・格安",
-      details: {
-        lp: {
-          price: "55,000円",
-          monthly: "月額11,000円",
-          delivery: "最短3日"
-        },
-        hp: {
-          price: "110,000円",
-          monthly: "月額16,500円",
-          delivery: "最短5日"
-        }
-      }
-    },
-    {
       id: "original",
       title: "オリジナルサイト制作",
       price: "22万円〜",
@@ -82,7 +56,7 @@ export default function Services() {
       <div className={styles.container}>
         <header className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>
-            選べる<span className={styles.highlight}>3つのサービス</span>
+            選べる<span className={styles.highlight}>2つのサービス</span>
           </h2>
           <p className={styles.sectionDescription}>
             お客様のニーズと予算に合わせて、最適なプランをご提案します
@@ -91,29 +65,23 @@ export default function Services() {
 
         <div className={styles.serviceGrid}>
           {services.map((service) => (
-            <article 
-              key={service.id} 
+            <article
+              key={service.id}
               className={`${styles.serviceCard} ${
                 service.badge === "おすすめ" ? styles.recommended : ""
               } ${
                 service.badge === "DX推進" ? styles.newService : ""
-              } ${
-                service.badge === "最速・格安" ? styles.budgetService : ""
               }`}
-              itemScope 
+              itemScope
               itemType="https://schema.org/Service"
             >
               {service.badge && (
-                <span 
+                <span
                   className={`${styles.badge} ${
                     service.badge === "DX推進" ? styles.newBadge : ""
-                  } ${
-                    service.badge === "最速・格安" ? styles.budgetBadge : ""
-                  }`} 
+                  }`}
                   aria-label={
-                    service.badge === "DX推進" ? "DX推進サービス" : 
-                    service.badge === "最速・格安" ? "最速・格安プラン" : 
-                    "推奨プラン"
+                    service.badge === "DX推進" ? "DX推進サービス" : "推奨プラン"
                   }
                 >
                   {service.badge}
@@ -162,21 +130,6 @@ export default function Services() {
           <h3 className={styles.comparisonTitle}>どのサービスが最適？</h3>
           <div className={styles.comparisonGrid}>
             <div className={styles.comparisonCard}>
-              <h4 className={styles.comparisonCardTitle}>パッケージプラン</h4>
-              <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
-              <ul className={styles.comparisonList}>
-                <li>とにかく早く・安くサイトが欲しい</li>
-                <li>初めてホームページを作る</li>
-                <li>シンプルな構成で十分</li>
-                <li>月額費用を抑えたい</li>
-              </ul>
-              <div className={styles.comparisonDetails}>
-                <p><strong>納期：</strong>最短3日〜5日</p>
-                <p><strong>価格：</strong>LP 5.5万円 / HP 11万円</p>
-              </div>
-            </div>
-            
-            <div className={styles.comparisonCard}>
               <h4 className={styles.comparisonCardTitle}>オリジナルサイト制作</h4>
               <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
               <ul className={styles.comparisonList}>
@@ -190,7 +143,7 @@ export default function Services() {
                 <p><strong>価格：</strong>22万円〜77万円</p>
               </div>
             </div>
-            
+
             <div className={styles.comparisonCard}>
               <h4 className={styles.comparisonCardTitle}>WEBアプリ開発</h4>
               <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
@@ -216,7 +169,6 @@ export default function Services() {
               <thead>
                 <tr>
                   <th>項目</th>
-                  <th>パッケージプラン</th>
                   <th>オリジナルサイト制作</th>
                   <th>WEBアプリ開発</th>
                 </tr>
@@ -224,37 +176,31 @@ export default function Services() {
               <tbody>
                 <tr>
                   <td>初期費用</td>
-                  <td><strong>5.5万円〜11万円</strong></td>
                   <td>22万円〜77万円</td>
                   <td>60万円〜</td>
                 </tr>
                 <tr>
                   <td>月額費用</td>
-                  <td>1.1万円〜1.65万円（2年目以降は6,600円〜）</td>
-                  <td>6,600円〜（2年目以降は6,600円〜）</td>
+                  <td>6,600円〜</td>
                   <td>別途見積</td>
                 </tr>
                 <tr>
                   <td>納期</td>
-                  <td><strong>最短3日</strong></td>
                   <td>2週間〜1ヶ月</td>
                   <td>1〜3ヶ月</td>
                 </tr>
                 <tr>
                   <td>デザイン</td>
-                  <td>テンプレート選択</td>
                   <td><strong>完全オーダーメイド</strong></td>
                   <td><strong>完全カスタマイズ</strong></td>
                 </tr>
                 <tr>
                   <td>更新作業</td>
-                  <td>都度依頼</td>
                   <td>自社更新可能<br/><small>（WordPress選択時）</small></td>
                   <td>管理画面で簡単更新</td>
                 </tr>
                 <tr>
                   <td>補助金対応</td>
-                  <td>×</td>
                   <td><strong>◎</strong><br/><small>（最大100万円削減）</small></td>
                   <td>△<br/><small>（IT導入補助金等）</small></td>
                 </tr>

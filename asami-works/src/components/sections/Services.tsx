@@ -5,20 +5,6 @@ import styles from "./Services.module.css";
 export default function Services() {
   const services = [
     {
-      id: "package",
-      title: "パッケージプラン",
-      price: "5.5万円〜",
-      description: "圧倒的な低価格と最速納期でWeb制作を実現",
-      features: [
-        "最短3日で納品",
-        "豊富なデザインテンプレート",
-        "必要機能をすべて網羅",
-        "業界最安値クラスの価格"
-      ],
-      href: "/services/package",
-      badge: "格安"
-    },
-    {
       id: "original",
       title: "オリジナル制作",
       price: "22万円〜",
@@ -53,7 +39,7 @@ export default function Services() {
       <div className={styles.container}>
         <header className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>
-            選べる<span className={styles.highlight}>3つのサービス</span>
+            選べる<span className={styles.highlight}>2つのサービス</span>
           </h2>
           <p className={styles.sectionDescription}>
             お客様のニーズと予算に合わせて、最適なプランをご提案します
@@ -62,16 +48,16 @@ export default function Services() {
 
         <div className={styles.serviceGrid}>
           {services.map((service) => (
-            <article 
-              key={service.id} 
-              className={`${styles.serviceCard} ${service.badge === "おすすめ" ? styles.recommended : ""} ${service.badge === "NEW" ? styles.newService : ""} ${service.badge === "格安" ? styles.budgetService : ""}`}
-              itemScope 
+            <article
+              key={service.id}
+              className={`${styles.serviceCard} ${service.badge === "おすすめ" ? styles.recommended : ""} ${service.badge === "NEW" ? styles.newService : ""}`}
+              itemScope
               itemType="https://schema.org/Service"
             >
               {service.badge && (
-                <span 
-                  className={`${styles.badge} ${service.badge === "NEW" ? styles.newBadge : ""} ${service.badge === "格安" ? styles.budgetBadge : ""}`} 
-                  aria-label={service.badge === "NEW" ? "新サービス" : service.badge === "格安" ? "格安プラン" : "推奨プラン"}
+                <span
+                  className={`${styles.badge} ${service.badge === "NEW" ? styles.newBadge : ""}`}
+                  aria-label={service.badge === "NEW" ? "新サービス" : "推奨プラン"}
                 >
                   {service.badge}
                 </span>
@@ -118,15 +104,6 @@ export default function Services() {
         <div className={styles.comparisonSection}>
           <h3 className={styles.comparisonTitle}>どのサービスが最適？</h3>
           <div className={styles.comparisonGrid}>
-            <div className={styles.comparisonCard}>
-              <h4 className={styles.comparisonCardTitle}>パッケージプラン</h4>
-              <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
-              <ul className={styles.comparisonList}>
-                <li>予算を抑えたい</li>
-                <li>最短3日でサイトが必要</li>
-                <li>シンプルな構成で十分</li>
-              </ul>
-            </div>
             <div className={styles.comparisonCard}>
               <h4 className={styles.comparisonCardTitle}>オリジナル制作</h4>
               <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>

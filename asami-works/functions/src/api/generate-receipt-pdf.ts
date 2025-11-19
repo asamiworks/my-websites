@@ -22,10 +22,14 @@ interface Invoice {
   issueDate: admin.firestore.Timestamp;
   dueDate: admin.firestore.Timestamp;
   paidDate?: admin.firestore.Timestamp;
+  paidAt?: admin.firestore.Timestamp;
   status: string;
   notes?: string;
+  paymentMethod?: 'card' | 'bank_transfer' | 'other';
   receiptUrl?: string;
   receiptGeneratedAt?: string;
+  receiptDownloadCount?: number;
+  receiptFirstDownloadedAt?: admin.firestore.Timestamp;
 }
 
 interface InvoiceItem {
@@ -46,9 +50,14 @@ interface CompanyInfo {
 /**
  * 領収書PDFを生成
  */
-const generateReceiptPDF = async (invoice: Invoice, companyInfo?: CompanyInfo): Promise<Buffer> => {
+const generateReceiptPDFBuffer = async (
+  invoice: Invoice,
+  companyInfo?: CompanyInfo,
+  isReissue?: boolean,
+  reissueCount?: number
+): Promise<Buffer> => {
   // React PDFコンポーネントを作成してバッファに変換
-  const element = React.createElement(ReceiptPDF, { invoice, companyInfo });
+  const element = React.createElement(ReceiptPDF, { invoice, companyInfo, isReissue, reissueCount });
   const pdfDoc = pdf(element as any);
   const buffer = await pdfDoc.toBuffer() as any as Buffer;
   return buffer;
@@ -145,7 +154,7 @@ export const generateReceiptPDF_HTTP = onRequest({
   }
 
   try {
-    const { invoiceId } = request.body;
+    const { invoiceId, isReissue, reissueCount } = request.body;
 
     if (!invoiceId) {
       response.status(400).json({ error: 'Invoice ID is required' });
@@ -173,7 +182,7 @@ export const generateReceiptPDF_HTTP = onRequest({
       return;
     }
 
-    console.log(`Generating receipt PDF for invoice ${invoice.invoiceNumber}...`);
+    console.log(`Generating receipt PDF for invoice ${invoice.invoiceNumber}${isReissue ? ' (reissue)' : ''}...`);
 
     // 設定から会社情報を取得
     const settingsDoc = await db.collection('settings').doc('admin').get();
@@ -181,7 +190,7 @@ export const generateReceiptPDF_HTTP = onRequest({
     const companyInfo: CompanyInfo | undefined = settings?.companyInfo;
 
     // 領収書PDFを生成
-    const pdfBuffer = await generateReceiptPDF(invoice, companyInfo);
+    const pdfBuffer = await generateReceiptPDFBuffer(invoice, companyInfo, isReissue, reissueCount);
 
     // 支払い日または発行日から年月を取得
     const paidDate = invoice.paidDate ? invoice.paidDate.toDate() : invoice.issueDate.toDate();

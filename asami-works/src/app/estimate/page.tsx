@@ -31,13 +31,7 @@ function EstimateContent() {
   const searchParams = useSearchParams();
   const resultRef = useRef<HTMLElement>(null);
 
-  // 新規追加: プランタイプの状態
-  const [planType, setPlanType] = useState<"package" | "original" | null>(null);
-  const [packageSiteType, setPackageSiteType] = useState<"lp" | "hp" | null>(null);
-  const [packageTheme, setPackageTheme] = useState<string>("");
-  const [packageName, setPackageName] = useState<string>("");
-
-  // 既存の状態
+  // 状態
   const [siteType, setSiteType] = useState<string | null>(null);
   const [options, setOptions] = useState<string[]>([]);
   const [pageCount, setPageCount] = useState<number | null>(null);
@@ -186,7 +180,6 @@ function EstimateContent() {
   const applyPresetAndScroll = useCallback((preset: string) => {
     const config = presetConfigurations[preset as keyof typeof presetConfigurations];
     if (config) {
-      setPlanType("original");
       setSiteType(config.siteType);
       const locked = getLockedOptions(config.siteType);
       setOptions([...locked, ...config.options]);
@@ -225,23 +218,10 @@ function EstimateContent() {
   // 初期表示時の処理
   useEffect(() => {
     const preset = searchParams.get('preset');
-    const type = searchParams.get('type');
-    const plan = searchParams.get('plan');
-    const theme = searchParams.get('theme');
-    const shopName = searchParams.get('shopName');
-    const company = searchParams.get('company');
-    
+
     if (preset && presetConfigurations[preset as keyof typeof presetConfigurations]) {
       // プリセットがある場合
       applyPresetAndScroll(preset);
-      setIsLoading(false);
-    } else if (type === 'package' && plan) {
-      // パッケージプランの場合
-      setPlanType('package');
-      setPackageSiteType(plan as 'lp' | 'hp');
-      if (theme) setPackageTheme(theme);
-      if (shopName) setPackageName(shopName);
-      if (company) setPackageName(company);
       setIsLoading(false);
     } else {
       // 通常の初期化処理
@@ -249,21 +229,17 @@ function EstimateContent() {
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          setPlanType(parsed.planType || null);
-          
-          if (parsed.planType === 'package') {
-            setPackageSiteType(parsed.packageSiteType || null);
-            setPackageTheme(parsed.packageTheme || '');
-            setPackageName(parsed.packageName || '');
-          } else {
-            setSiteType(parsed.siteType || "corporate");
+          // siteTypeが有効な値の場合のみ復元
+          if (parsed.siteType && ['lp', 'corporate', 'grant'].includes(parsed.siteType)) {
+            setSiteType(parsed.siteType);
             setOptions(parsed.options || []);
             setPageCount(parsed.pageCount || 4);
             setSelectedLanguages(parsed.selectedLanguages || []);
+            setShowPrices(parsed.showPrices !== undefined ? parsed.showPrices : false);
           }
-          setShowPrices(parsed.showPrices !== undefined ? parsed.showPrices : false);
+          // 古いパッケージプランデータの場合はクリア
         } catch {
-          setPlanType(null);
+          // エラー時は初期状態
         }
       }
       setIsLoading(false);
@@ -272,7 +248,7 @@ function EstimateContent() {
 
   // siteType変更時に強制的に初期化（プリセット適用時は除く）
   useEffect(() => {
-    if (!siteType || planType === 'package') return;
+    if (!siteType) return;
     const preset = searchParams.get('preset');
     if (preset) return; // プリセット適用時はスキップ
 
@@ -280,7 +256,7 @@ function EstimateContent() {
     setOptions([...locked]);
     setPageCount(siteType === "grant" ? 5 : siteType === "corporate" ? 4 : 1);
     setSelectedLanguages([]);
-  }, [siteType, planType, getLockedOptions, searchParams]);
+  }, [siteType, getLockedOptions, searchParams]);
 
   // メッセージを一定時間後に消す
   useEffect(() => {
@@ -303,14 +279,7 @@ function EstimateContent() {
     );
   }
 
-  // パッケージプランの価格計算
-  const getPackagePrice = () => {
-    if (packageSiteType === 'lp') return 55000;
-    if (packageSiteType === 'hp') return 110000;
-    return 0;
-  };
-
-  // オリジナルプランの価格計算
+  // 価格計算
   const basePrice =
     siteType === "lp" ? 220000 : siteType === "corporate" ? 385000 : siteType === "grant" ? 770000 : 0;
 
@@ -346,15 +315,14 @@ function EstimateContent() {
       ? (pageCount - 5) * 11000
       : 0;
 
-  const totalPrice = planType === 'package' ? getPackagePrice() : basePrice + optionPrice + pagePrice;
+  const totalPrice = basePrice + optionPrice + pagePrice;
 
   // 月額サポートプラン必須かどうかを判定
   const requiresSupportPlan = () => {
-    if (planType === 'package') return false;
-    return siteType === "grant" || 
-           options.includes("wordpress") || 
+    return siteType === "grant" ||
+           options.includes("wordpress") ||
            options.includes("payment") ||
-           options.includes("mypage") || 
+           options.includes("mypage") ||
            options.includes("chat") ||
            options.includes("mailmagazine") ||
            options.includes("reservation") ||
@@ -363,10 +331,9 @@ function EstimateContent() {
 
   // 必要なサポートプランのレベルを判定
   const getRequiredSupportPlanLevel = () => {
-    if (planType === 'package') return null;
-    if (siteType === "grant" || 
+    if (siteType === "grant" ||
         options.includes("payment") ||
-        options.includes("mypage") || 
+        options.includes("mypage") ||
         options.includes("chat") ||
         options.includes("mailmagazine") ||
         options.includes("instagram")) {
@@ -414,29 +381,15 @@ function EstimateContent() {
   };
 
   const handleProceed = () => {
-    let estimateData;
-    
-    if (planType === 'package') {
-      estimateData = { 
-        planType,
-        packageSiteType,
-        packageTheme,
-        packageName,
-        totalPrice,
-        showPrices
-      };
-    } else {
-      estimateData = { 
-        planType,
-        siteType, 
-        options, 
-        pageCount, 
-        totalPrice, 
-        showPrices, 
-        selectedLanguages 
-      };
-    }
-    
+    const estimateData = {
+      siteType,
+      options,
+      pageCount,
+      totalPrice,
+      showPrices,
+      selectedLanguages
+    };
+
     localStorage.setItem("estimateData", JSON.stringify(estimateData));
     router.push("/contact");
   };
@@ -445,11 +398,11 @@ function EstimateContent() {
   const currentSiteType = siteTypeOptions.find(opt => opt.value === siteType);
 
   // 月額サポートプランの料金を計算
-  const calculateMonthlyFee = (planTypeName: string, year: number = 1) => {
+  const calculateMonthlyFee = (plan: string, year: number = 1) => {
     const total = totalPrice;
-    
+
     if (year === 1) {
-      switch (planTypeName) {
+      switch (plan) {
         case "standard":
           const standardFee = Math.max(total * 0.02, 8800);
           return Math.min(standardFee, 27500);
@@ -463,7 +416,7 @@ function EstimateContent() {
           return 0;
       }
     } else {
-      switch (planTypeName) {
+      switch (plan) {
         case "standard":
           const standardFee = Math.max(total * 0.01, 6600);
           return Math.min(standardFee, 16500);
@@ -514,418 +467,14 @@ function EstimateContent() {
     }
   };
 
-  // プランタイプが未選択の場合の画面
-  if (!planType) {
-    return (
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <h1>見積もりフォーム</h1>
-          <p>まずはプランタイプをお選びください</p>
-        </header>
-
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>
-            <span className={styles.stepNumber}>1</span>
-            プランタイプを選択
-          </h2>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-            {/* パッケージプラン */}
-            <div 
-              className={styles.planTypeCard}
-              style={{
-                padding: '30px',
-                border: '2px solid #e0e0e0',
-                borderRadius: '10px',
-                cursor: 'pointer',
-                transition: 'all 0.3s'
-              }}
-              onClick={() => setPlanType('package')}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#005bac';
-                e.currentTarget.style.transform = 'translateY(-5px)';
-                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,91,172,0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#e0e0e0';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '10px', color: '#005bac' }}>
-                パッケージプラン
-              </h3>
-              <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '20px' }}>
-                テンプレートデザインを使用した<br />
-                低価格・短納期のプラン
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
-                <li style={{ marginBottom: '10px' }}>✓ LP: 55,000円〜</li>
-                <li style={{ marginBottom: '10px' }}>✓ HP: 110,000円〜</li>
-                <li style={{ marginBottom: '10px' }}>✓ 最短3日で公開</li>
-                <li style={{ marginBottom: '10px' }}>✓ デザインテンプレート選択可</li>
-              </ul>
-              <button 
-                className={styles.ctaButton}
-                style={{ width: '100%', marginTop: '20px' }}
-              >
-                このプランを選択
-              </button>
-            </div>
-
-            {/* オリジナルプラン */}
-            <div 
-              className={styles.planTypeCard}
-              style={{
-                padding: '30px',
-                border: '2px solid #e0e0e0',
-                borderRadius: '10px',
-                cursor: 'pointer',
-                transition: 'all 0.3s'
-              }}
-              onClick={() => setPlanType('original')}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#005bac';
-                e.currentTarget.style.transform = 'translateY(-5px)';
-                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,91,172,0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#e0e0e0';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '10px', color: '#005bac' }}>
-                オリジナルプラン
-              </h3>
-              <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '20px' }}>
-                完全オーダーメイドの<br />
-                高機能・高品質プラン
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
-                <li style={{ marginBottom: '10px' }}>✓ LP: 220,000円〜</li>
-                <li style={{ marginBottom: '10px' }}>✓ コーポレート: 385,000円〜</li>
-                <li style={{ marginBottom: '10px' }}>✓ 補助金対応: 770,000円〜</li>
-                <li style={{ marginBottom: '10px' }}>✓ 豊富なオプション機能</li>
-              </ul>
-              <button 
-                className={styles.ctaButton}
-                style={{ width: '100%', marginTop: '20px' }}
-              >
-                このプランを選択
-              </button>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  // パッケージプランの場合
-  if (planType === 'package') {
-    return (
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <h1>パッケージプラン見積もり</h1>
-          <p>テンプレートデザインで低価格・短納期を実現</p>
-          <p className={styles.taxNote}>※表示している価格は全て税込です</p>
-        </header>
-
-        {/* プランタイプ変更ボタン */}
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <button
-            onClick={() => {
-              setPlanType(null);
-              setPackageSiteType(null);
-              setPackageTheme('');
-              setPackageName('');
-            }}
-            style={{
-              padding: '8px 20px',
-              background: 'white',
-              border: '1px solid #005bac',
-              color: '#005bac',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            ← プランタイプを変更
-          </button>
-        </div>
-
-        {/* サイトタイプ選択 */}
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>
-            <span className={styles.stepNumber}>1</span>
-            サイトタイプを選択
-          </h2>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
-            <label
-              className={`${styles.siteTypeOption} ${packageSiteType === 'lp' ? styles.selected : ''}`}
-            >
-              <input
-                type="radio"
-                name="packageSiteType"
-                value="lp"
-                checked={packageSiteType === 'lp'}
-                onChange={() => setPackageSiteType('lp')}
-                className={styles.hiddenRadio}
-              />
-              <div className={styles.optionContent}>
-                <h3>ランディングページ（LP）</h3>
-                <p className={styles.optionDescription}>
-                  1ページ完結型の訴求力の高いサイト
-                </p>
-                <div className={styles.optionPrice}>
-                  55,000円（税込）
-                </div>
-              </div>
-              <div className={styles.radioIndicator}></div>
-            </label>
-
-            <label
-              className={`${styles.siteTypeOption} ${packageSiteType === 'hp' ? styles.selected : ''}`}
-            >
-              <input
-                type="radio"
-                name="packageSiteType"
-                value="hp"
-                checked={packageSiteType === 'hp'}
-                onChange={() => setPackageSiteType('hp')}
-                className={styles.hiddenRadio}
-              />
-              <div className={styles.optionContent}>
-                <h3>ホームページ（HP）</h3>
-                <p className={styles.optionDescription}>
-                  3ページ構成の企業サイト
-                </p>
-                <div className={styles.optionPrice}>
-                  110,000円（税込）
-                </div>
-              </div>
-              <div className={styles.radioIndicator}></div>
-            </label>
-          </div>
-        </section>
-
-        {/* デザインテーマ選択（任意） */}
-        {packageSiteType && (
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              <span className={styles.stepNumber}>2</span>
-              デザインテーマ（任意）
-            </h2>
-            <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '20px' }}>
-              デモサイトでお気に入りのデザインがあれば選択してください
-            </p>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px', maxWidth: '600px' }}>
-              {packageSiteType === 'lp' ? (
-                <>
-                  <label className={styles.themeOption}>
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="elegant"
-                      checked={packageTheme === 'elegant'}
-                      onChange={(e) => setPackageTheme(e.target.value)}
-                    />
-                    <span>エレガント</span>
-                  </label>
-                  <label className={styles.themeOption}>
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="natural"
-                      checked={packageTheme === 'natural'}
-                      onChange={(e) => setPackageTheme(e.target.value)}
-                    />
-                    <span>ナチュラル</span>
-                  </label>
-                  <label className={styles.themeOption}>
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="modern"
-                      checked={packageTheme === 'modern'}
-                      onChange={(e) => setPackageTheme(e.target.value)}
-                    />
-                    <span>モダン</span>
-                  </label>
-                </>
-              ) : (
-                <>
-                  <label className={styles.themeOption}>
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="professional"
-                      checked={packageTheme === 'professional'}
-                      onChange={(e) => setPackageTheme(e.target.value)}
-                    />
-                    <span>プロフェッショナル</span>
-                  </label>
-                  <label className={styles.themeOption}>
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="innovative"
-                      checked={packageTheme === 'innovative'}
-                      onChange={(e) => setPackageTheme(e.target.value)}
-                    />
-                    <span>イノベーティブ</span>
-                  </label>
-                  <label className={styles.themeOption}>
-                    <input
-                      type="radio"
-                      name="theme"
-                      value="friendly"
-                      checked={packageTheme === 'friendly'}
-                      onChange={(e) => setPackageTheme(e.target.value)}
-                    />
-                    <span>フレンドリー</span>
-                  </label>
-                </>
-              )}
-            </div>
-
-            {/* 店舗名/会社名入力 */}
-            <div style={{ marginTop: '30px', maxWidth: '400px' }}>
-              <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>
-                {packageSiteType === 'lp' ? '店舗名' : '会社名'}（任意）
-              </label>
-              <input
-                type="text"
-                placeholder={packageSiteType === 'lp' ? '例：サロン名など' : '例：株式会社〇〇'}
-                value={packageName}
-                onChange={(e) => setPackageName(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '1rem'
-                }}
-              />
-            </div>
-          </section>
-        )}
-
-        {/* 見積もり結果 */}
-        {packageSiteType && (
-          <section className={styles.result} ref={resultRef}>
-            <div className={styles.resultHeader}>
-              <h2>概算見積もり</h2>
-              <div className={styles.totalPrice}>
-                {totalPrice.toLocaleString()}円（税込）
-              </div>
-            </div>
-            
-            <div className={styles.breakdown}>
-              <div className={styles.breakdownItem}>
-                <span>
-                  {packageSiteType === 'lp' ? 'ランディングページ' : 'ホームページ'} 制作費
-                </span>
-                <span>{totalPrice.toLocaleString()}円</span>
-              </div>
-              {packageTheme && (
-                <div className={styles.breakdownItem} style={{ fontSize: '0.9rem', color: '#666' }}>
-                  <span>選択デザイン</span>
-                  <span>
-                    {packageSiteType === 'lp' 
-                      ? (packageTheme === 'elegant' ? 'エレガント' : packageTheme === 'natural' ? 'ナチュラル' : 'モダン')
-                      : (packageTheme === 'professional' ? 'プロフェッショナル' : packageTheme === 'innovative' ? 'イノベーティブ' : 'フレンドリー')
-                    }
-                  </span>
-                </div>
-              )}
-              {packageName && (
-                <div className={styles.breakdownItem} style={{ fontSize: '0.9rem', color: '#666' }}>
-                  <span>{packageSiteType === 'lp' ? '店舗名' : '会社名'}</span>
-                  <span>{packageName}</span>
-                </div>
-              )}
-            </div>
-
-            {/* 月額費用の説明 */}
-            <div style={{
-              margin: "20px 0",
-              padding: "15px",
-              background: "#f8f9fa",
-              borderRadius: "6px",
-              border: "1px solid #dee2e6"
-            }}>
-              <h4 style={{ margin: "0 0 10px 0", fontSize: "1rem", color: "#333" }}>
-                月額運用費について
-              </h4>
-              <div style={{ fontSize: "0.9rem", color: "#666" }}>
-                <p style={{ margin: "5px 0" }}>
-                  初年度：月額 {packageSiteType === 'lp' ? '11,000' : '16,500'}円（税込）
-                </p>
-                <p style={{ margin: "5px 0" }}>
-                  2年目以降：月額 6,600円（税込）への移行も可能
-                </p>
-                <p style={{ margin: "10px 0 0 0", fontSize: "0.85rem" }}>
-                  ※サーバー・ドメイン・SSL証明書・基本保守すべて込み
-                </p>
-              </div>
-            </div>
-
-            <div className={styles.valueStatement}>
-              <p>
-                <strong>テンプレートデザインを活用した低価格プラン</strong><br />
-                短納期でビジネスをすぐにスタートできます。
-              </p>
-            </div>
-          </section>
-        )}
-
-        {packageSiteType && (
-          <section className={styles.section}>
-            <button 
-              onClick={handleProceed} 
-              className={styles.button}
-              aria-label="この内容で依頼フォームへ進む"
-            >
-              この内容で依頼フォームへ進む
-            </button>
-          </section>
-        )}
-      </div>
-    );
-  }
-
-  // オリジナルプランの場合（既存のコード）
+  // メインの見積もりフォーム
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1>オリジナルプラン見積もり</h1>
-        <p>完全オーダーメイドの高機能プラン</p>
+        <h1>見積もりフォーム</h1>
+        <p>ご要望に合わせたプランをお選びください</p>
         <p className={styles.taxNote}>※表示している価格は全て税込です</p>
       </header>
-
-      {/* プランタイプ変更ボタン */}
-      <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-        <button
-          onClick={() => {
-            setPlanType(null);
-            setSiteType(null);
-            setOptions([]);
-            setPageCount(null);
-          }}
-          style={{
-            padding: '8px 20px',
-            background: 'white',
-            border: '1px solid #005bac',
-            color: '#005bac',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          ← プランタイプを変更
-        </button>
-      </div>
 
       {/* プリセットメッセージの表示 */}
       {presetMessage && (

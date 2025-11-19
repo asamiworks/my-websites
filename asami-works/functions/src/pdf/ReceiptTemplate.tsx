@@ -10,11 +10,11 @@ Font.register({
   src: path.join(__dirname, 'fonts', 'ipaexm.ttf'),
 });
 
-// ミニマルデザインのスタイル定義
+// A5サイズ用ミニマルデザインのスタイル定義
 const styles = StyleSheet.create({
   page: {
-    padding: pdfConfig.layout.pageMargin,
-    fontSize: pdfConfig.fonts.sizes.body,
+    padding: 24, // A5用に小さめのマージン
+    fontSize: 8,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
     backgroundColor: pdfConfig.colors.white,
@@ -22,20 +22,20 @@ const styles = StyleSheet.create({
 
   // ヘッダー
   header: {
-    marginBottom: pdfConfig.layout.sectionSpacing,
-    paddingBottom: 12,
+    marginBottom: 12,
+    paddingBottom: 8,
     borderBottomWidth: pdfConfig.layout.thinBorder,
     borderBottomColor: pdfConfig.colors.lightGray,
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
-    marginBottom: 4,
+    marginBottom: 2,
     letterSpacing: 0.5,
   },
   subtitle: {
-    fontSize: pdfConfig.fonts.sizes.tiny,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
     letterSpacing: 2,
@@ -45,96 +45,96 @@ const styles = StyleSheet.create({
   metaSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: pdfConfig.layout.sectionSpacing,
+    marginBottom: 10,
   },
   metaItem: {
     flex: 1,
   },
   metaLabel: {
-    fontSize: pdfConfig.fonts.sizes.tiny,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 4,
+    marginBottom: 2,
     letterSpacing: 0.3,
   },
   metaValue: {
-    fontSize: 10,
+    fontSize: 8,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
   },
 
   // 宛名セクション
   recipientSection: {
-    marginBottom: pdfConfig.layout.sectionSpacing,
-    paddingBottom: pdfConfig.layout.sectionSpacing,
+    marginBottom: 10,
+    paddingBottom: 10,
     borderBottomWidth: pdfConfig.layout.thinBorder,
     borderBottomColor: pdfConfig.colors.lightGray,
   },
   recipientLabel: {
-    fontSize: pdfConfig.fonts.sizes.tiny,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 6,
+    marginBottom: 4,
     letterSpacing: 0.3,
   },
   recipientName: {
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
-    marginBottom: 12,
+    marginBottom: 8,
   },
 
   // 金額セクション
   amountSection: {
-    marginBottom: pdfConfig.layout.sectionSpacing,
-    paddingBottom: pdfConfig.layout.sectionSpacing,
+    marginBottom: 10,
+    paddingBottom: 10,
     borderBottomWidth: pdfConfig.layout.thinBorder,
     borderBottomColor: pdfConfig.colors.lightGray,
     alignItems: 'center',
   },
   amountLabel: {
-    fontSize: 11,
+    fontSize: 8,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   amountValue: {
-    fontSize: 32,
+    fontSize: 22,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.accent,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   amountNote: {
-    fontSize: pdfConfig.fonts.sizes.tiny,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
   },
 
   // テーブル
   table: {
-    marginBottom: pdfConfig.layout.sectionSpacing,
+    marginBottom: 10,
   },
   tableHeader: {
     flexDirection: 'row',
-    paddingBottom: 6,
+    paddingBottom: 4,
     borderBottomWidth: pdfConfig.layout.mediumBorder,
     borderBottomColor: pdfConfig.colors.black,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   tableHeaderCell: {
-    fontSize: 8,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
     letterSpacing: 0.3,
   },
   tableRow: {
     flexDirection: 'row',
-    paddingVertical: 8,
+    paddingVertical: 4,
     borderBottomWidth: pdfConfig.layout.thinBorder,
     borderBottomColor: pdfConfig.colors.lightGray,
   },
   tableCell: {
-    fontSize: 9,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
     lineHeight: 1.4,
@@ -146,22 +146,22 @@ const styles = StyleSheet.create({
 
   // 合計セクション
   totalSection: {
-    marginTop: 10,
+    marginTop: 6,
     marginLeft: 'auto',
     width: '45%',
   },
   totalRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 5,
+    paddingVertical: 3,
   },
   totalLabel: {
-    fontSize: 9,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
   },
   totalValue: {
-    fontSize: 10,
+    fontSize: 8,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
     textAlign: 'right',
@@ -169,19 +169,19 @@ const styles = StyleSheet.create({
   grandTotalRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 12,
-    paddingBottom: 5,
+    paddingTop: 8,
+    paddingBottom: 3,
     borderTopWidth: pdfConfig.layout.mediumBorder,
     borderTopColor: pdfConfig.colors.black,
-    marginTop: 8,
+    marginTop: 4,
   },
   grandTotalLabel: {
-    fontSize: 13,
+    fontSize: 10,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
   },
   grandTotalValue: {
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.accent,
     textAlign: 'right',
@@ -189,63 +189,81 @@ const styles = StyleSheet.create({
 
   // 但し書き
   notesSection: {
-    marginTop: 12,
-    paddingTop: 10,
+    marginTop: 8,
+    paddingTop: 6,
   },
   notesLabel: {
-    fontSize: 8,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 4,
+    marginBottom: 2,
     letterSpacing: 0.3,
   },
   notesText: {
-    fontSize: 9,
+    fontSize: 7,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.darkGray,
     lineHeight: 1.5,
   },
 
+  // 支払い方法セクション
+  paymentMethodSection: {
+    marginTop: 8,
+    paddingTop: 6,
+  },
+  paymentMethodLabel: {
+    fontSize: 6,
+    fontFamily: pdfConfig.fonts.japanese,
+    color: pdfConfig.colors.gray,
+    marginBottom: 2,
+    letterSpacing: 0.3,
+  },
+  paymentMethodText: {
+    fontSize: 7,
+    fontFamily: pdfConfig.fonts.japanese,
+    color: pdfConfig.colors.darkGray,
+  },
+
   // 発行者情報
   issuerSection: {
-    marginTop: pdfConfig.layout.sectionSpacing,
-    paddingTop: pdfConfig.layout.sectionSpacing,
+    marginTop: 12,
+    paddingTop: 10,
     borderTopWidth: pdfConfig.layout.thinBorder,
     borderTopColor: pdfConfig.colors.lightGray,
   },
   issuerLabel: {
-    fontSize: 8,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 8,
+    marginBottom: 4,
     letterSpacing: 0.3,
   },
   issuerName: {
-    fontSize: 11,
+    fontSize: 9,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.black,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   issuerLine: {
-    fontSize: pdfConfig.fonts.sizes.small,
+    fontSize: 6,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 3,
+    marginBottom: 2,
     lineHeight: 1.5,
   },
 
   // フッター
   footer: {
-    marginTop: pdfConfig.layout.sectionSpacing,
-    paddingTop: 10,
+    marginTop: 10,
+    paddingTop: 8,
     borderTopWidth: pdfConfig.layout.thinBorder,
     borderTopColor: pdfConfig.colors.lightGray,
   },
   footerText: {
-    fontSize: pdfConfig.fonts.sizes.tiny,
+    fontSize: 5,
     fontFamily: pdfConfig.fonts.japanese,
     color: pdfConfig.colors.gray,
-    marginBottom: 3,
+    marginBottom: 2,
     lineHeight: 1.4,
     textAlign: 'center',
   },
@@ -266,6 +284,7 @@ interface Invoice {
   paidDate?: any;
   status: string;
   notes?: string;
+  paymentMethod?: 'card' | 'bank_transfer' | 'other';
 }
 
 interface InvoiceItem {
@@ -286,9 +305,11 @@ interface CompanyInfo {
 interface ReceiptPDFProps {
   invoice: Invoice;
   companyInfo?: CompanyInfo;
+  isReissue?: boolean; // 再発行かどうか
+  reissueCount?: number; // 再発行回数
 }
 
-export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo }) => {
+export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo, isReissue, reissueCount }) => {
   // デフォルトの会社情報
   const company = companyInfo || {
     name: 'AsamiWorks',
@@ -325,15 +346,30 @@ export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo }) 
     }
   };
 
+  const getPaymentMethodLabel = (method?: string) => {
+    switch (method) {
+      case 'card':
+        return 'クレジットカード';
+      case 'bank_transfer':
+        return '銀行振込';
+      default:
+        return 'その他';
+    }
+  };
+
   const paidDate = invoice.paidDate || new Date();
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A5" style={styles.page}>
         {/* ヘッダー */}
         <View style={styles.header}>
-          <Text style={styles.title}>領収書</Text>
-          <Text style={styles.subtitle}>RECEIPT</Text>
+          <Text style={styles.title}>
+            領収書{isReissue && '（再発行）'}
+          </Text>
+          <Text style={styles.subtitle}>
+            RECEIPT{isReissue && ' - REISSUED'}
+          </Text>
         </View>
 
         {/* メタ情報（領収書番号・発行日） */}
@@ -405,6 +441,14 @@ export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo }) 
           </Text>
         </View>
 
+        {/* 支払い方法 */}
+        <View style={styles.paymentMethodSection}>
+          <Text style={styles.paymentMethodLabel}>支払い方法</Text>
+          <Text style={styles.paymentMethodText}>
+            {getPaymentMethodLabel(invoice.paymentMethod)}
+          </Text>
+        </View>
+
         {/* 発行者情報 */}
         <View style={styles.issuerSection}>
           <Text style={styles.issuerLabel}>発行者</Text>
@@ -420,9 +464,12 @@ export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo }) 
           <Text style={styles.footerText}>
             本領収書は、お支払いを確認した証明書です
           </Text>
+          <Text style={styles.footerText}>
+            この領収書は電子帳簿保存法の要件に基づき電子的に発行されています
+          </Text>
           {invoice.totalAmount >= 50000 && (
-            <Text style={[styles.footerText, { marginTop: 6 }]}>
-              ※ 5万円以上のため収入印紙の貼付が必要です
+            <Text style={[styles.footerText, { marginTop: 4 }]}>
+              ※ 電子発行のため収入印紙は不要です
             </Text>
           )}
         </View>

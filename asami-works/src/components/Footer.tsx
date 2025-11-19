@@ -17,15 +17,8 @@ export default function Footer() {
   }
 
   const siteMap = {
-    package: {
-      title: "パッケージプラン",
-      links: [
-        { href: "/services/package/demo/lp", label: "LPプラン" },
-        { href: "/services/package/demo/corporate", label: "HPプラン" }
-      ]
-    },
     original: {
-      title: "オリジナルサイト制作",
+      title: "サイト制作",
       links: [
         { href: "/services/original/lp", label: "LPプラン" },
         { href: "/services/original/corporate", label: "HPプラン" },

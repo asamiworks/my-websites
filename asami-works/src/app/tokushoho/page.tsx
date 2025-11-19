@@ -81,7 +81,6 @@ export default function TokushohoPage() {
               価格は税込表示です。
             </p>
             <ul className={styles.termsUnorderedList}>
-              <li><Link href="/services/package" style={{ color: '#0066cc', textDecoration: 'underline' }}>パッケージプラン</Link>: 88,000円〜</li>
               <li><Link href="/services/original" style={{ color: '#0066cc', textDecoration: 'underline' }}>オリジナルプラン</Link>: 個別見積もり</li>
               <li><Link href="/services/webapp" style={{ color: '#0066cc', textDecoration: 'underline' }}>Webアプリ開発</Link>: 個別見積もり</li>
             </ul>
@@ -120,7 +119,6 @@ export default function TokushohoPage() {
               原則として、以下の支払スケジュールとなります。
             </p>
             <ul className={styles.termsUnorderedList}>
-              <li>パッケージプラン: ご契約時に全額お支払い</li>
               <li>オリジナルプラン: 着手金50%、納品時50%の分割払い</li>
               <li>Webアプリ開発: 個別契約による（着手金制または分割払い）</li>
             </ul>
@@ -135,7 +133,6 @@ export default function TokushohoPage() {
               サービスの提供時期は以下の通りです。
             </p>
             <ul className={styles.termsUnorderedList}>
-              <li>パッケージプラン: ご契約後1〜2週間程度</li>
               <li>オリジナルプラン: ご契約後1〜3ヶ月程度（内容により変動）</li>
               <li>Webアプリ開発: 個別見積もり時にご提示</li>
             </ul>
