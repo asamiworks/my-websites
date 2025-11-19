@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Timestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db } from '@/lib/firebase-config';
 import { Client, ManagementFeeSchedule, ProductionFeeBreakdown } from '@/types/invoice';
 import styles from './ContractModal.module.css';
 
