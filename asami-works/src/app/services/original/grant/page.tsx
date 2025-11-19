@@ -61,8 +61,8 @@ export default function GrantServicePage() {
           <div className={styles.priceCard}>
             <div className={styles.priceCompare}>
               <div className={styles.priceOriginal}>
-                <p>通常価格</p>
-                <p>770,000円</p>
+                <p>通常価格（税抜）</p>
+                <p>700,000円</p>
               </div>
               <div className={styles.priceArrow}>→</div>
               <div className={styles.priceDiscounted}>
@@ -76,7 +76,7 @@ export default function GrantServicePage() {
                 <strong>重要：</strong>補助金の採択には審査があります。採択を保証するものではありません。不採択の場合でも、お客様のご予算に応じた別プランをご提案いたします。
               </p>
               <p className={styles.priceWarningSecond}>
-                <strong>補助金について：</strong>補助率2/3、通常枠の上限50万円。本プラン（770,000円）の場合、補助額は上限の50万円となります。インボイス特例適用時は上限100万円ですが、本プランでは補助額約51.3万円（770,000円×2/3）となります。
+                <strong>補助金について：</strong>補助率2/3、通常枠の上限50万円。本プラン（税込770,000円）の場合、補助額は上限の50万円となります。インボイス特例適用時は上限100万円ですが、本プランでは補助額約51.3万円（770,000円×2/3）となります。
               </p>
             </div>
             <div className={styles.invoiceSpecial}>
@@ -85,7 +85,7 @@ export default function GrantServicePage() {
                 <p className={styles.invoiceAmount}>最大100万円</p>
                 <p className={styles.invoiceNote}>
                   インボイス発行事業者に転換した事業者は補助上限額が100万円にアップ<br />
-                  （本プランの場合、実質負担額：約256,700円）
+                  （本プランの場合、実質負担額：約256,700円・税込）
                 </p>
                 <div className={styles.invoiceCondition}>
                   <p>※インボイス特例の対象期間等の詳細は公募要領をご確認ください</p>
@@ -105,7 +105,11 @@ export default function GrantServicePage() {
                 <li>・SSL証明書設定</li>
                 <li>・Google Analytics設定</li>
                 <li>・基本的な更新マニュアル</li>
+                <li>・現場出張費（関東圏内）</li>
               </ul>
+              <p style={{ marginTop: '12px', fontSize: '0.85rem', color: '#666' }}>
+                ※関東圏外の場合は別途お見積もりとなります
+              </p>
             </div>
           </div>
         </div>
@@ -150,7 +154,7 @@ export default function GrantServicePage() {
                 </div>
                 <div className={styles.optionContent}>
                   <p className={styles.optionPrice}>
-                    <span className={styles.originalPrice}>770,000円</span>
+                    <span className={styles.originalPrice}>700,000円（税抜）</span>
                     <span className={styles.arrow}>→</span>
                     <span className={styles.actualPrice}>実質270,000円〜</span>
                   </p>
@@ -169,7 +173,7 @@ export default function GrantServicePage() {
                 </div>
                 <div className={styles.optionContent}>
                   <p className={styles.optionPrice}>
-                    <span className={styles.rangePrice}>385,000円〜</span>
+                    <span className={styles.rangePrice}>600,000円〜（税抜）</span>
                   </p>
                   <ul className={styles.optionFeatures}>
                     <li>補助金要件に縛られない柔軟な制作</li>
@@ -252,20 +256,17 @@ export default function GrantServicePage() {
                   ブログ機能とSNS連携で、継続的な情報発信。地域での認知度向上を実現。
                 </p>
                 <div className={styles.exampleBreakdown}>
-                  <p className={styles.breakdownTitle}>プラン内訳：</p>
+                  <p className={styles.breakdownTitle}>プラン内訳（税抜）：</p>
                   <ul className={styles.breakdownList}>
-                    <li>小規模事業者持続化補助金対応サイト: 770,000円</li>
-                    <li>ページ追加（実績・スタッフ紹介）: 22,000円</li>
-                   
-                    
-                    <li>Instagram連携・埋め込み: 66,000円</li>
-                   
+                    <li>小規模事業者持続化補助金対応サイト: 700,000円</li>
+                    <li>ページ追加（実績・スタッフ紹介）: 10,000円</li>
+                    <li>Instagram連携・埋め込み: 150,000円</li>
                   </ul>
                   <p className={styles.exampleTotal}>
                     <span>合計</span>
-                    <span className={styles.totalPrice}>847,000円</span>
+                    <span className={styles.totalPrice}>860,000円</span>
                   </p>
-                  <p className={styles.subsidyNote}>補助金適用後：実質347,000円〜</p>
+                  <p className={styles.subsidyNote}>補助金適用後：実質446,000円〜</p>
                 </div>
                 <div className={styles.exampleCTA}>
                   <a href="/estimate?preset=grant_info" className={styles.exampleButton}>
@@ -286,22 +287,22 @@ export default function GrantServicePage() {
                   商品ページと予約システムで、オンラインでの商談機会を創出。SNS連携で認知度も向上。
                 </p>
                 <div className={styles.exampleBreakdown}>
-                  <p className={styles.breakdownTitle}>プラン内訳：</p>
+                  <p className={styles.breakdownTitle}>プラン内訳（税抜）：</p>
                   <ul className={styles.breakdownList}>
-                    <li>小規模事業者持続化補助金対応サイト: 770,000円</li>
-                    <li>セキュリティ強化対策: 33,000円</li>
-                    <li>各商品ページ追加（5ページ追加）: 55,000円</li>
-                    
-                    
-                    <li>広告出稿サポート: 33,000円</li>
-                    
-                    <li>予約システム導入: 220,000円</li>
-                    
+                    <li>小規模事業者持続化補助金対応サイト: 700,000円</li>
+                    <li>セキュリティ強化対策: 30,000円</li>
+                    <li>各商品ページ追加（5ページ追加）: 50,000円</li>
+
+
+                    <li>広告出稿サポート: 30,000円</li>
+
+                    <li>予約システム導入: 200,000円</li>
+
                   </ul>
-                
+
                   <p className={styles.exampleTotal}>
                     <span>合計</span>
-                    <span className={styles.totalPrice}>1,111,000円</span>
+                    <span className={styles.totalPrice}>1,010,000円</span>
                   </p>
                   <p className={styles.subsidyNote}>補助金適用後：実質611,000円〜</p>
                 </div>
@@ -324,22 +325,22 @@ export default function GrantServicePage() {
                   補助金の範囲内で高機能なサイトを実現。会員機能やメール配信で顧客との関係を強化。
                 </p>
                 <div className={styles.exampleBreakdown}>
-                  <p className={styles.breakdownTitle}>プラン内訳：</p>
+                  <p className={styles.breakdownTitle}>プラン内訳（税抜）：</p>
                   <ul className={styles.breakdownList}>
-                    <li>小規模事業者持続化補助金対応サイト: 770,000円</li>
-                    
-                    <li>マイページ機能: 330,000円</li>
-                    <li>決済機能: 220,000円</li>
-                    <li>セキュリティ強化対策: 33,000円</li>
-                    <li>メールマガジン配信: 55,000円</li>
-                    
+                    <li>小規模事業者持続化補助金対応サイト: 700,000円</li>
+
+                    <li>マイページ機能: 300,000円</li>
+                    <li>決済機能: 600,000円</li>
+                    <li>セキュリティ強化対策: 30,000円</li>
+                    <li>メールマガジン配信: 50,000円</li>
+
                   </ul>
-                 
+
                   <p className={styles.exampleTotal}>
                     <span>合計</span>
-                    <span className={styles.totalPrice}>1,408,000円</span>
+                    <span className={styles.totalPrice}>1,680,000円</span>
                   </p>
-                  <p className={styles.subsidyNote}>補助金適用後：実質908,000円〜</p>
+                  <p className={styles.subsidyNote}>補助金適用後：実質1,348,000円〜</p>
                 </div>
                 <div className={styles.exampleCTA}>
                   <a href="/estimate?preset=grant_advanced" className={styles.exampleButton}>

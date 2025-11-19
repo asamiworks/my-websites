@@ -566,34 +566,293 @@
   .heroTitle {
     font-size: 3.5rem;
   }
-  
+
   .featuresGrid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .exampleGrid {
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
-  
+
   .exampleTitle {
     font-size: 1.25rem;
   }
-  
+
   .sectionTitle {
     font-size: 3rem;
   }
-  
+
   /* 3カラムレイアウトでカードの高さを揃える */
   .exampleCard {
     height: 100%;
   }
-  
+
   .exampleContent {
     min-height: 450px;
   }
-  
+
   .targetGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .approachGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .aioFeatures {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 課題提起セクション */
+.challengeSection {
+  padding: 80px 24px;
+  background: #1e293b;
+  color: white;
+}
+
+.challengeSection .sectionTitle {
+  color: white;
+}
+
+.challengeContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.challengeText {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.challengeText:last-child {
+  margin-bottom: 0;
+}
+
+.challengeText strong {
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+/* アプローチセクション */
+.approachSection {
+  padding: 80px 24px;
+  background: white;
+}
+
+.approachGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.approachItem {
+  background: #f8fafc;
+  padding: 32px;
+  border-radius: 12px;
+  border-left: 4px solid #0066cc;
+}
+
+.approachTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.approachDescription {
+  color: #4b5563;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.approachNote {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* AIOセクション */
+.aioSection {
+  padding: 80px 24px;
+  background: #f0f9ff;
+}
+
+.aioContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.aioText {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #374151;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.aioText:last-child {
+  margin-bottom: 0;
+}
+
+.aioFeatures {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.aioFeature {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.aioFeature h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0066cc;
+  margin-bottom: 8px;
+}
+
+.aioFeature p {
+  font-size: 0.875rem;
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 制作内容の含まれるもの */
+.structureIncludes {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.includesTitle {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* 制作の流れセクション */
+.flowSection {
+  padding: 80px 24px;
+  background: white;
+}
+
+.flowList {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.flowItem {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.flowItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.flowNumber {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: #0066cc;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.flowContent {
+  flex: 1;
+}
+
+.flowContent h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.flowContent p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 料金セクション */
+.pricingSection {
+  padding: 80px 24px;
+  background: #f9fafb;
+}
+
+.pricingContent {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pricingText {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #374151;
+  margin-bottom: 24px;
+}
+
+.pricingText strong {
+  color: #0066cc;
+  font-size: 1.5rem;
+}
+
+.pricingButtons {
+  margin-top: 32px;
+}
+
+.estimateButton {
+  display: inline-block;
+  background: white;
+  color: #0066cc;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #0066cc;
+  transition: all 0.3s;
+}
+
+.estimateButton:hover {
+  background: #0066cc;
+  color: white;
+}
+
+/* レスポンシブ追加 */
+@media (min-width: 640px) {
+  .aioFeatures {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .approachGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }

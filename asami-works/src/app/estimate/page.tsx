@@ -41,30 +41,31 @@ function EstimateContent() {
   const [presetMessage, setPresetMessage] = useState<string | null>(null);
 
   const optionDetails: OptionDetail[] = [
-    { value: "responsive", label: "レスポンシブデザイン最適化", price: 77000 },
+    { value: "responsive", label: "レスポンシブデザイン最適化", price: 70000 },
     { value: "internal_seo", label: "内部SEO最適化", price: 0 },
-    { value: "form", label: "お問合せフォーム設置", price: 33000 },
-    { value: "writing", label: "ライティング代行（ブログ記事,商品説明等）", price: 22000 },
-    { value: "seo", label: "SEO対策強化", price: 88000 },
-    { value: "analytics", label: "Google Analytics・サーチコンソール設定", price: 22000 },
-    { value: "security", label: "セキュリティ強化対策", price: 33000 },
-    { value: "ad_support", label: "広告出稿サポート", price: 33000 },
-    { value: "multilingual", label: "多言語対応", price: 110000 },
-    { value: "instagram", label: "Instagram連携・埋め込み", price: 165000 },
-    { value: "wordpress", label: "WordPress導入", price: 110000 },
-    { value: "payment", label: "決済システム連携（Stripe等）", price: 660000 },
-    { value: "mypage", label: "マイページ機能 & 管理者ページ", price: 330000 },
-    { value: "chat", label: "チャット機能", price: 495000 },
-    { value: "mailmagazine", label: "メールマガジン配信システム", price: 55000 },
-    { value: "reservation", label: "予約システム連携（STORES予約等）", price: 220000 },
+    { value: "form", label: "お問合せフォーム設置", price: 30000 },
+    { value: "writing", label: "ライティング代行（ブログ記事,商品説明等）", price: 20000 },
+    { value: "seo", label: "SEO対策強化", price: 80000 },
+    { value: "analytics", label: "Google Analytics・サーチコンソール設定", price: 20000 },
+    { value: "security", label: "セキュリティ強化対策", price: 30000 },
+    { value: "ad_support", label: "広告出稿サポート", price: 30000 },
+    { value: "multilingual", label: "多言語対応", price: 100000 },
+    { value: "instagram", label: "Instagram連携・埋め込み", price: 150000 },
+    { value: "wordpress", label: "WordPress導入", price: 100000 },
+    { value: "payment", label: "決済システム連携", price: 600000 },
+    { value: "mypage", label: "マイページ機能 & 管理者ページ", price: 300000 },
+    { value: "chat", label: "チャット機能", price: 450000 },
+    { value: "mailmagazine", label: "メールマガジン配信システム", price: 50000 },
+    { value: "reservation", label: "予約システム連携（STORES予約等）", price: 200000 },
     { value: "video", label: "動画制作", price: 0 },
     { value: "logo_flyer", label: "ロゴ・チラシ制作との連携", price: 0 },
+    { value: "photography", label: "カメラマンによる撮影", price: 0 },
   ];
 
   // チャット機能の価格を動的に計算
   const getChatPrice = (currentOptions: string[]) => {
-    const basePrice = 495000;
-    const additionalPrice = 220000;
+    const basePrice = 450000;
+    const additionalPrice = 200000;
     return currentOptions.includes("mypage") ? basePrice : basePrice + additionalPrice;
   };
 
@@ -83,29 +84,29 @@ function EstimateContent() {
   // 多言語対応の価格を計算
   const getMultilingualPrice = (langCount: number, pages: number) => {
     if (langCount === 0) return 0;
-    const basePrice = 110000;
-    const pricePerPage = 22000;
+    const basePrice = 100000;
+    const pricePerPage = 20000;
     return basePrice + (pricePerPage * pages * langCount);
   };
 
   const siteTypeOptions: SiteTypeOption[] = [
-    { 
-      value: "lp", 
-      label: "ランディングページ", 
-      price: 220000, 
+    {
+      value: "lp",
+      label: "ランディングページ",
+      price: 120000,
       description: "コンバージョン特化の高品質1ページサイト・レスポンシブ・内部SEO標準装備"
     },
-    { 
-      value: "corporate", 
-      label: "コーポレートサイト", 
-      price: 385000, 
-      description: "企業信頼性向上・集客力強化・4ページ構成・プロフェッショナルデザイン"
+    {
+      value: "corporate",
+      label: "コーポレートサイト",
+      price: 600000,
+      description: "企業信頼性向上・集客力強化・4ページ構成・出張費込み（関東圏内）"
     },
-    { 
-      value: "grant", 
-      label: "小規模事業者持続化補助金対応型", 
-      price: 770000, 
-      description: "補助金申請対応・高機能システム・プレミアム保守プラン必須・申請サポート付"
+    {
+      value: "grant",
+      label: "小規模事業者持続化補助金対応型",
+      price: 700000,
+      description: "補助金申請対応・高機能システム・出張費込み（関東圏内）・プレミアム保守プラン必須"
     },
   ];
 
@@ -120,16 +121,27 @@ function EstimateContent() {
 
   // プリセット構成
   const presetConfigurations: Record<string, PresetConfiguration> = {
-    // 既存のLPプリセット
-    btob: {
+    // LPプリセット
+    lead: {
       siteType: "lp",
-      options: ["form"],
-      message: "BtoB資料請求LPの構成が選択されました"
+      options: ["form", "analytics"],
+      message: "リード獲得特化LPの構成が選択されました"
     },
     ad: {
       siteType: "lp",
       options: ["analytics", "ad_support"],
       message: "広告運用特化型LPの構成が選択されました"
+    },
+    highcvr: {
+      siteType: "lp",
+      options: ["form", "security", "writing"],
+      message: "高CVR商品訴求LPの構成が選択されました"
+    },
+    // 旧プリセット（互換性のため維持）
+    btob: {
+      siteType: "lp",
+      options: ["form"],
+      message: "BtoB資料請求LPの構成が選択されました"
     },
     ec: {
       siteType: "lp",
@@ -281,7 +293,7 @@ function EstimateContent() {
 
   // 価格計算
   const basePrice =
-    siteType === "lp" ? 220000 : siteType === "corporate" ? 385000 : siteType === "grant" ? 770000 : 0;
+    siteType === "lp" ? 120000 : siteType === "corporate" ? 600000 : siteType === "grant" ? 700000 : 0;
 
   const optionPrice = options.reduce((sum, opt) => {
     const item = optionDetails.find(o => o.value === opt);
@@ -310,9 +322,9 @@ function EstimateContent() {
 
   const pagePrice =
     siteType === "corporate" && pageCount && pageCount > 4
-      ? (pageCount - 4) * 11000
+      ? (pageCount - 4) * 10000
       : siteType === "grant" && pageCount && pageCount > 5
-      ? (pageCount - 5) * 11000
+      ? (pageCount - 5) * 10000
       : 0;
 
   const totalPrice = basePrice + optionPrice + pagePrice;
@@ -473,7 +485,7 @@ function EstimateContent() {
       <header className={styles.header}>
         <h1>見積もりフォーム</h1>
         <p>ご要望に合わせたプランをお選びください</p>
-        <p className={styles.taxNote}>※表示している価格は全て税込です</p>
+        <p className={styles.taxNote}>※表示している価格は全て税抜です</p>
       </header>
 
       {/* プリセットメッセージの表示 */}
@@ -544,10 +556,10 @@ function EstimateContent() {
               {currentSiteType.value === "grant" && (
                 <ul>
                   <li><strong>補助金申請対応：</strong>各種補助金の要件を満たした高機能システム</li>
-                  <li><strong>WordPress標準装備：</strong>110,000円相当のWordPressを無料で提供</li>
-                  <li><strong>SEO対策標準装備：</strong>88,000円相当のSEO基本対策を無料で実装</li>
+                  <li><strong>WordPress標準装備：</strong>100,000円相当のWordPressを無料で提供</li>
+                  <li><strong>SEO対策標準装備：</strong>80,000円相当のSEO基本対策を無料で実装</li>
                   <li><strong>申請書類サポート：</strong>補助金申請に必要な資料作成を支援</li>
-                  <li><strong>プレミアム保守プラン必須：</strong>月額27,500円〜のプレミアムプランへの加入が必要</li>
+                  <li><strong>プレミアム保守プラン必須：</strong>月額25,000円〜のプレミアムプランへの加入が必要</li>
                   <li><strong>拡張性確保：</strong>将来的な機能追加にも柔軟に対応</li>
                 </ul>
               )}
@@ -587,10 +599,10 @@ function EstimateContent() {
               {optionDetails.map(option => {
                 const isLocked = getLockedOptions(siteType).includes(option.value);
                 const isChecked = options.includes(option.value);
-                const isDisabled = isLocked || 
+                const isDisabled = isLocked ||
                   (option.value === "seo" && (siteType === "lp" || options.includes("wordpress"))) ||
                   (option.value === "analytics" && options.includes("wordpress")) ||
-                  (option.value === "payment" && !options.includes("wordpress")) ||
+                  (option.value === "payment" && !options.includes("wordpress") && siteType !== "corporate") ||
                   (option.value === "mailmagazine" && !options.includes("wordpress")) ||
                   (option.value === "security" && options.includes("payment"));
                 
@@ -611,7 +623,7 @@ function EstimateContent() {
                             ? "WordPress選択時は標準仕様"
                             : option.value === "analytics" && options.includes("wordpress")
                               ? "WordPress選択時は標準仕様"
-                              : option.value === "payment" && !options.includes("wordpress")
+                              : option.value === "payment" && !options.includes("wordpress") && siteType !== "corporate"
                                 ? "WordPress導入が必要です"
                                 : option.value === "mailmagazine" && !options.includes("wordpress")
                                   ? "WordPress導入が必要です"
@@ -666,7 +678,11 @@ function EstimateContent() {
                         )}
                         {option.value === "payment" && (
                           <span style={{ color: "#666", fontSize: "0.8rem" }}>
-                            {" "}※WordPress導入時のみ・セキュリティ対策必須・プレミアムプラン必須
+                            {options.includes("wordpress")
+                              ? "（Stripe等）※セキュリティ対策必須・プレミアムプラン必須"
+                              : siteType === "corporate"
+                                ? "（Stripe）※セキュリティ対策必須・プレミアムプラン必須"
+                                : " ※WordPress導入時のみ・セキュリティ対策必須・プレミアムプラン必須"}
                           </span>
                         )}
                         {option.value === "mailmagazine" && (
@@ -703,7 +719,7 @@ function EstimateContent() {
                             {` （${selectedLanguages.length}言語選択中）`}
                           </span>
                         )}
-                        {(option.value === "video" || option.value === "logo_flyer") && (
+                        {(option.value === "video" || option.value === "logo_flyer" || option.value === "photography") && (
                           <span style={{ color: "#666", fontSize: "0.8rem" }}>
                             {" "}（別途お見積もり）
                           </span>
@@ -717,13 +733,13 @@ function EstimateContent() {
                               ? "（標準仕様）"
                               : option.value === "analytics" && options.includes("wordpress")
                                 ? "（標準仕様）"
-                                : option.value === "payment" && !options.includes("wordpress")
+                                : option.value === "payment" && !options.includes("wordpress") && siteType !== "corporate"
                                   ? "（WordPress導入が必要）"
                                   : option.value === "mailmagazine" && !options.includes("wordpress")
                                     ? "（WordPress導入が必要）"
                                     : option.value === "security" && options.includes("payment")
                                       ? "（決済システムのため必須）"
-                                      : (option.value === "video" || option.value === "logo_flyer")
+                                      : (option.value === "video" || option.value === "logo_flyer" || option.value === "photography")
                                         ? "（別途お見積もり）"
                                         : option.value === "chat"
                                           ? `（+${getChatPrice(options).toLocaleString()}円）`
@@ -762,7 +778,7 @@ function EstimateContent() {
                   対応する言語を選択してください（複数選択可）
                   <br />
                   <span style={{ fontSize: '0.8rem' }}>
-                    ※基本料金110,000円 + ページ翻訳料金（22,000円/ページ×言語数）
+                    ※基本料金100,000円 + ページ翻訳料金（20,000円/ページ×言語数）
                   </span>
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px' }}>
@@ -806,7 +822,7 @@ function EstimateContent() {
                       {getMultilingualPrice(selectedLanguages.length, pageCount || (siteType === "lp" ? 1 : siteType === "corporate" ? 4 : 5)).toLocaleString()}円
                     </p>
                     <p style={{ margin: '8px 0 0 0', fontSize: '0.8rem', color: '#666' }}>
-                      計算式：110,000円 + 22,000円 × {pageCount || (siteType === "lp" ? 1 : siteType === "corporate" ? 4 : 5)}ページ × {selectedLanguages.length}言語 = {getMultilingualPrice(selectedLanguages.length, pageCount || (siteType === "lp" ? 1 : siteType === "corporate" ? 4 : 5)).toLocaleString()}円
+                      計算式：100,000円 + 20,000円 × {pageCount || (siteType === "lp" ? 1 : siteType === "corporate" ? 4 : 5)}ページ × {selectedLanguages.length}言語 = {getMultilingualPrice(selectedLanguages.length, pageCount || (siteType === "lp" ? 1 : siteType === "corporate" ? 4 : 5)).toLocaleString()}円
                     </p>
                   </div>
                 )}
@@ -824,7 +840,7 @@ function EstimateContent() {
                 <div className={styles.pageCountInfo}>
                   <p>基本{siteType === "grant" ? "5" : "4"}ページ含む</p>
                   <p className={styles.pageCountNote}>
-                    追加ページは1ページあたり11,000円
+                    追加ページは1ページあたり10,000円
                   </p>
                 </div>
                 <div className={styles.inputGroup}>
@@ -846,7 +862,7 @@ function EstimateContent() {
             <div className={styles.resultHeader}>
               <h2>概算見積もり</h2>
               <div className={styles.totalPrice}>
-                {totalPrice.toLocaleString()}円（税込）
+                {totalPrice.toLocaleString()}円（税抜）
               </div>
             </div>
             
@@ -1073,7 +1089,7 @@ function EstimateContent() {
                 )}
                 {options.includes("chat") && !options.includes("mypage") && (
                   <p style={{ fontSize: "0.8rem", color: "#666", marginTop: "4px" }}>
-                    ※チャット機能はマイページ実装なしの場合、追加料金220,000円が発生します。
+                    ※チャット機能はマイページ実装なしの場合、追加料金200,000円が発生します。
                   </p>
                 )}
               </div>

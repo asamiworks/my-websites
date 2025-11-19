@@ -5,7 +5,6 @@ import Solutions from "../components/sections/Solutions";
 import WhyMe from "../components/sections/WhyMe";
 import Works from "../components/sections/Works";
 import Strengths from "../components/sections/Strengths";
-import Services from "../components/sections/Services";
 import Process from "../components/sections/Process";
 import FAQ from "../components/sections/FAQ";
 import FlowCta from "../components/sections/FlowCta";
@@ -183,10 +182,7 @@ export default function HomePage() {
       
       {/* AsamiWorksの強み - 選ばれる理由 */}
       <Strengths />
-      
-      {/* サービス・価格 - 具体的な提案 */}
-      <Services />
-      
+
       {/* 制作の流れ - 安心感の提供 */}
       <Process />
       

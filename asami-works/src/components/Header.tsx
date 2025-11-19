@@ -145,14 +145,12 @@ export default function Header() {
       ]
     },
     {
-      label: "サービス",
+      label: "サポート",
       href: "#",
       hasDropdown: true,
       dropdownKey: "service",
       dropdownItems: [
-        { label: "制作実績", href: "/about" },
-        { label: "メール設定ガイド", href: "/support/email-setup" },
-        { label: "よくある質問", href: "/#faq" }
+        { label: "メール設定ガイド", href: "/support/email-setup" }
       ]
     }
   ];
@@ -450,30 +448,28 @@ export default function Header() {
                         ›
                       </span>
                     </button>
-                    {getMobileDropdownState(item.dropdownKey) && (
-                      <ul className={styles.mobileDropdown}>
-                        {item.dropdownItems?.map((dropItem) => (
-                          <li key={dropItem.href}>
-                            <Link 
-                              href={dropItem.href} 
-                              className={styles.mobileDropdownItem}
-                              onClick={(e) => {
-                                if (dropItem.href.startsWith('/#')) {
-                                  handleMobileAnchorClick(e, dropItem.href);
-                                } else {
-                                  scrollPositionRef.current = 0;
-                                }
-                              }}
-                            >
-                              {dropItem.label}
-                              {dropItem.badge && (
-                                <span className={styles.mobileBadge}>{dropItem.badge}</span>
-                              )}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <ul className={`${styles.mobileDropdown} ${getMobileDropdownState(item.dropdownKey) ? styles.mobileDropdownOpen : ''}`}>
+                      {item.dropdownItems?.map((dropItem) => (
+                        <li key={dropItem.href}>
+                          <Link
+                            href={dropItem.href}
+                            className={styles.mobileDropdownItem}
+                            onClick={(e) => {
+                              if (dropItem.href.startsWith('/#')) {
+                                handleMobileAnchorClick(e, dropItem.href);
+                              } else {
+                                scrollPositionRef.current = 0;
+                              }
+                            }}
+                          >
+                            {dropItem.label}
+                            {dropItem.badge && (
+                              <span className={styles.mobileBadge}>{dropItem.badge}</span>
+                            )}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
                   </>
                 ) : (
                   <Link 

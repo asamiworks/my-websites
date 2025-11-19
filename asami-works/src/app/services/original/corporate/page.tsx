@@ -3,20 +3,20 @@ import styles from "./CorporateService.module.css";
 import RelatedLinks from "@/components/RelatedLinks";
 
 export const metadata: Metadata = {
-  title: "コーポレートサイト制作 | AsamiWorks",
-  description: "企業の信頼性を高める本格的なWebサイト。4ページ構成・内部SEO基本対策込みで385,000円〜",
-  keywords: ["コーポレートサイト", "企業サイト", "Web制作", "ホームページ制作", "茨城", "千葉"],
+  title: "コーポレートサイト制作 | SEO・AIO対策対応 - AsamiWorks",
+  description: "AI時代だからこそ、現場に足を運び企業の雰囲気を感じて制作。SEO対策に加えAI検索最適化（AIO）にも対応。見つけてもらえるコーポレートサイトを構築します。",
+  keywords: ["コーポレートサイト", "企業サイト", "Web制作", "SEO対策", "AIO対策", "AI最適化", "茨城", "千葉"],
   openGraph: {
-    title: "コーポレートサイト制作 | AsamiWorks",
-    description: "企業の信頼性を高める本格的なWebサイト。4ページ構成・内部SEO基本対策込みで385,000円〜",
+    title: "コーポレートサイト制作 | SEO・AIO対策対応 - AsamiWorks",
+    description: "AI時代だからこそ、現場に足を運び企業の雰囲気を感じて制作。SEO対策に加えAI検索最適化（AIO）にも対応。",
     url: "https://asami-works.com/services/original/corporate",
     siteName: "AsamiWorks",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "コーポレートサイト制作 | AsamiWorks",
-    description: "企業の信頼性を高める本格的なWebサイト",
+    title: "コーポレートサイト制作 | SEO・AIO対策対応",
+    description: "AI時代だからこそ、現場訪問とSEO・AIO対策で差別化",
   },
   alternates: {
     canonical: "/services/original/corporate",
@@ -30,127 +30,124 @@ export default function CorporateService() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            企業の顔となる
+            AI時代だからこそ
             <br />
-            コーポレートサイト制作
+            "人"が作る価値がある
           </h1>
           <p className={styles.heroDescription}>
-            信頼と実績を伝える、プロフェッショナルなWebサイトを
+            現場の空気を感じ、企業の本質を捉えたサイトを
           </p>
           <div className={styles.buttonGroup}>
             <a href="/form" className={styles.primaryButton}>
               無料相談を予約する
             </a>
-            <a href="#features" className={styles.secondaryButton}>
+            <a href="#approach" className={styles.secondaryButton}>
               詳細を見る
             </a>
           </div>
         </div>
       </section>
 
-      {/* 価格セクション */}
-      <section className={styles.priceSection}>
+      {/* 課題提起セクション */}
+      <section className={styles.challengeSection}>
         <div className={styles.sectionContent}>
-          <h2 className={styles.sectionTitle}>充実の内容を適正価格で</h2>
-          <div className={styles.priceCard}>
-            <div>
-              <p className={styles.priceAmount}>385,000円〜</p>
-              <p className={styles.priceNote}>制作費用（税込）</p>
+          <h2 className={styles.sectionTitle}>誰でもサイトが作れる時代の課題</h2>
+          <div className={styles.challengeContent}>
+            <p className={styles.challengeText}>
+              AIの発達により、今や誰でも手軽にホームページを作成できるようになりました。
+              しかし、それは同時に膨大な数のWebサイトが存在することを意味します。
+            </p>
+            <p className={styles.challengeText}>
+              <strong>作ったサイトは、見つけてもらえていますか？</strong>
+            </p>
+            <p className={styles.challengeText}>
+              従来のSEO対策だけでは不十分な時代です。
+              ChatGPTやPerplexityなどのAI検索が普及する中、
+              <strong>AI検索最適化（AIO）</strong>への対応が、
+              これからのWebサイトには欠かせません。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* アプローチセクション */}
+      <section id="approach" className={styles.approachSection}>
+        <div className={styles.sectionContent}>
+          <h2 className={styles.sectionTitle}>私たちのアプローチ</h2>
+          <div className={styles.approachGrid}>
+            <div className={styles.approachItem}>
+              <h3 className={styles.approachTitle}>現場訪問による深い理解</h3>
+              <p className={styles.approachDescription}>
+                貴社のオフィスや店舗に足を運び、働く人々の姿、空間の雰囲気、
+                お客様との接点を自分の目で見て感じます。
+                その体験が、言葉では伝えきれない企業の魅力をサイトに反映させる原動力になります。
+              </p>
+              <p className={styles.approachNote}>
+                ※関東圏内は出張費込み。圏外は別途お見積もり
+              </p>
             </div>
-            <div className={styles.priceDivider}>
-              <p className={styles.priceIncludes}>基本プランに含まれるもの：</p>
-              <div className={styles.includesGrid}>
-                <ul className={styles.includesList}>
-                  <li>トップページ</li>
-                  <li>会社概要ページ</li>
-                  <li>事業内容ページ</li>
-                  <li>お問い合わせページ</li>
-                </ul>
-                <ul className={styles.includesList}>
-                  <li>スマホ・タブレット対応</li>
-                  <li>内部SEO基本対策</li>
-                  <li>SSL証明書設定</li>
-                </ul>
+            <div className={styles.approachItem}>
+              <h3 className={styles.approachTitle}>SEO + AIO 対策</h3>
+              <p className={styles.approachDescription}>
+                Google検索への最適化（SEO）はもちろん、
+                AI検索エンジンに正確に情報を伝える構造化データやセマンティックなマークアップを実装。
+                人にもAIにも「見つけてもらえる」サイトを構築します。
+              </p>
+            </div>
+            <div className={styles.approachItem}>
+              <h3 className={styles.approachTitle}>企業の本質を伝えるデザイン</h3>
+              <p className={styles.approachDescription}>
+                テンプレートの流用ではなく、現場で感じた企業の個性や強みを
+                デザインに落とし込みます。
+                訪問者に「この会社と取引したい」と思わせる説得力のあるサイトを制作します。
+              </p>
+            </div>
+            <div className={styles.approachItem}>
+              <h3 className={styles.approachTitle}>継続的な改善サポート</h3>
+              <p className={styles.approachDescription}>
+                公開して終わりではありません。
+                アクセス解析をもとにした改善提案や、コンテンツ更新のサポートで
+                サイトの価値を維持・向上させます。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AIOとは */}
+      <section className={styles.aioSection}>
+        <div className={styles.sectionContent}>
+          <h2 className={styles.sectionTitle}>AIO（AI検索最適化）とは</h2>
+          <div className={styles.aioContent}>
+            <p className={styles.aioText}>
+              AIO（AI Optimization）とは、ChatGPTやPerplexity、Google AIなどの
+              AI検索エンジンに対してWebサイトの情報を正確に伝えるための最適化技術です。
+            </p>
+            <div className={styles.aioFeatures}>
+              <div className={styles.aioFeature}>
+                <h4>構造化データの実装</h4>
+                <p>企業情報、サービス内容、所在地などをAIが理解しやすい形式で記述</p>
+              </div>
+              <div className={styles.aioFeature}>
+                <h4>セマンティックなHTML</h4>
+                <p>文章の意味や文脈をAIが正確に把握できるマークアップ</p>
+              </div>
+              <div className={styles.aioFeature}>
+                <h4>明確なコンテンツ構造</h4>
+                <p>質問と回答の形式など、AIが情報を抽出しやすい構成</p>
               </div>
             </div>
+            <p className={styles.aioText}>
+              これらの対策により、AI検索の回答に貴社の情報が引用される可能性が高まります。
+            </p>
           </div>
         </div>
       </section>
 
-      {/* こんな企業様におすすめ */}
-      <section className={styles.targetSection}>
-        <div className={styles.sectionContent}>
-          <h2 className={styles.sectionTitle}>こんな企業様におすすめ</h2>
-          <div className={styles.targetGrid}>
-            <div className={styles.targetItem}>
-              <h3 className={styles.targetTitle}>創業・起業したばかりの企業</h3>
-              <p className={styles.targetDescription}>信頼感のあるWebデザインで、ビジネスの第一歩を確実に</p>
-            </div>
-            <div className={styles.targetItem}>
-              <h3 className={styles.targetTitle}>リニューアルを検討中の企業</h3>
-              <p className={styles.targetDescription}>古くなったサイトを最新のデザインと技術で刷新</p>
-            </div>
-            <div className={styles.targetItem}>
-              <h3 className={styles.targetTitle}>採用活動を強化したい企業</h3>
-              <p className={styles.targetDescription}>求職者に選ばれる、魅力的な企業サイトへ</p>
-            </div>
-            <div className={styles.targetItem}>
-              <h3 className={styles.targetTitle}>BtoB営業を行う企業</h3>
-              <p className={styles.targetDescription}>取引先からの信頼を獲得する、プロフェッショナルなサイト</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 特徴セクション */}
-      <section id="features" className={styles.featuresSection}>
-        <div className={styles.sectionContent}>
-          <h2 className={styles.sectionTitle}>コーポレートサイト制作の特徴</h2>
-          <div className={styles.featuresGrid}>
-            <div className={styles.featureItem}>
-              <h3 className={styles.featureTitle}>企業の信頼性を演出</h3>
-              <p className={styles.featureDescription}>
-                業界や企業規模に応じた、プロフェッショナルで信頼感のあるデザインを提供します。
-              </p>
-            </div>
-            <div className={styles.featureItem}>
-              <h3 className={styles.featureTitle}>完全レスポンシブ対応</h3>
-              <p className={styles.featureDescription}>
-                PCはもちろん、スマートフォンやタブレットでも美しく、使いやすいサイトを実現。
-              </p>
-            </div>
-            <div className={styles.featureItem}>
-              <h3 className={styles.featureTitle}>内部SEO基本対策が標準装備</h3>
-              <p className={styles.featureDescription}>
-                検索エンジンに評価されやすい構造と、適切なメタ情報設定で集客力をアップ。
-              </p>
-            </div>
-            <div className={styles.featureItem}>
-              <h3 className={styles.featureTitle}>安全なお問い合わせフォーム</h3>
-              <p className={styles.featureDescription}>
-                お問合せフォームが標準装備。大切なお問い合わせを確実に受信できます。
-              </p>
-            </div>
-            <div className={styles.featureItem}>
-              <h3 className={styles.featureTitle}>SSL証明書対応</h3>
-              <p className={styles.featureDescription}>
-                通信の暗号化で安全性を確保。検索順位にも好影響を与えます。
-              </p>
-            </div>
-            <div className={styles.featureItem}>
-              <h3 className={styles.featureTitle}>最短3週間で納品</h3>
-              <p className={styles.featureDescription}>
-                いち早くサイトを公開したいという要望にも対応いたします。
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 制作実績イメージ */}
+      {/* 制作内容 */}
       <section className={styles.structureSection}>
         <div className={styles.sectionContent}>
-          <h2 className={styles.sectionTitle}>制作サイトの構成例</h2>
+          <h2 className={styles.sectionTitle}>制作内容</h2>
           <div className={styles.structureCard}>
             <div>
               <h3 className={styles.structureTitle}>基本4ページ構成</h3>
@@ -184,112 +181,110 @@ export default function CorporateService() {
                   </div>
                 </li>
               </ul>
+              <div className={styles.structureIncludes}>
+                <p className={styles.includesTitle}>すべてのプランに含まれるもの：</p>
+                <ul className={styles.includesList}>
+                  <li>スマホ・タブレット完全対応</li>
+                  <li>SEO内部対策</li>
+                  <li>AIO対策（構造化データ実装）</li>
+                  <li>SSL証明書設定</li>
+                  <li>お問い合わせフォーム</li>
+                  <li>現場出張（関東圏内）</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* オプション活用事例 */}
-      <section className={styles.exampleSection}>
+      {/* こんな企業様に */}
+      <section className={styles.targetSection}>
         <div className={styles.sectionContent}>
-          <h2 className={styles.sectionTitle}>オプション活用事例</h2>
-          <p className={styles.exampleSubtitle}>企業の成長戦略に合わせた最適なプラン例</p>
-          
-          <div className={styles.exampleGrid}>
-            <div className={styles.exampleCard}>
-              <div className={styles.exampleHeader}>
-                <h3 className={styles.exampleTitle}>事例1：信頼性重視型サイト</h3>
-                <p className={styles.exampleTarget}>企業の信頼性を高めたい成長企業様向け</p>
-              </div>
-              <div className={styles.exampleContent}>
-                <p className={styles.exampleDescription}>
-                  強化したSEO対策と、企業の魅力を最大限に伝えるサイトデザイン。
-                </p>
-                <div className={styles.exampleBreakdown}>
-                  <p className={styles.breakdownTitle}>プラン内訳：</p>
-                  <ul className={styles.breakdownList}>
-                    <li>コーポレートサイト制作: 385,000円</li>
-                    <li>SEO対策強化: 88,000円</li>
-                    <li>セキュリティ強化対策: 33,000円</li>
-                  </ul>
-                  <p className={styles.exampleTotal}>
-                    <span>合計</span>
-                    <span className={styles.totalPrice}>506,000円</span>
-                  </p>
-                </div>
-                <div className={styles.exampleCTA}>
-                  <a href="/estimate?preset=trust" className={styles.exampleButton}>
-                    この内容でサイト制作を依頼する
-                  </a>
-                </div>
+          <h2 className={styles.sectionTitle}>こんな企業様におすすめ</h2>
+          <div className={styles.targetGrid}>
+            <div className={styles.targetItem}>
+              <h3 className={styles.targetTitle}>Webからの問い合わせを増やしたい</h3>
+              <p className={styles.targetDescription}>SEO・AIO対策で検索からの流入を強化し、問い合わせにつなげます</p>
+            </div>
+            <div className={styles.targetItem}>
+              <h3 className={styles.targetTitle}>自社の魅力がうまく伝わっていない</h3>
+              <p className={styles.targetDescription}>現場訪問で感じた強みを、説得力のあるコンテンツに変換します</p>
+            </div>
+            <div className={styles.targetItem}>
+              <h3 className={styles.targetTitle}>AIで作ったサイトに違和感がある</h3>
+              <p className={styles.targetDescription}>人の手と目で作る、温かみと信頼感のあるデザインを提供します</p>
+            </div>
+            <div className={styles.targetItem}>
+              <h3 className={styles.targetTitle}>大手制作会社は敷居が高い</h3>
+              <p className={styles.targetDescription}>個人事業だからこその柔軟さと、丁寧なコミュニケーションで対応します</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 制作の流れ */}
+      <section className={styles.flowSection}>
+        <div className={styles.sectionContent}>
+          <h2 className={styles.sectionTitle}>制作の流れ</h2>
+          <div className={styles.flowList}>
+            <div className={styles.flowItem}>
+              <div className={styles.flowNumber}>1</div>
+              <div className={styles.flowContent}>
+                <h3>無料相談・ヒアリング</h3>
+                <p>オンラインまたは対面で、現状の課題や目標をお聞きします</p>
               </div>
             </div>
-            
-            <div className={styles.exampleCard}>
-              <div className={styles.exampleHeader}>
-                <h3 className={styles.exampleTitle}>事例2：情報発信強化型サイト</h3>
-                <p className={styles.exampleTarget}>継続的な情報発信で集客したい企業様向け</p>
-              </div>
-              <div className={styles.exampleContent}>
-                <p className={styles.exampleDescription}>
-                  WordPress導入とSEO対策で、長期的な集客基盤を構築。
-                </p>
-                <div className={styles.exampleBreakdown}>
-                  <p className={styles.breakdownTitle}>プラン内訳：</p>
-                  <ul className={styles.breakdownList}>
-                    <li>コーポレートサイト制作: 385,000円</li>
-                    <li>WordPress導入: 110,000円</li>
-                    <li>1ページ追加（ブログ）: 11,000円</li>
-                    <li>ライティング代行: 22,000円</li>
-                    <li>SEO基本対策: 0円（WordPress選択時）</li>
-                  </ul>
-                  <p className={styles.monthlyNote}>※月額サポートプラン ビジネス以上加入必須</p>
-                  <p className={styles.exampleTotal}>
-                    <span>合計</span>
-                    <span className={styles.totalPrice}>528,000円</span>
-                  </p>
-                </div>
-                <div className={styles.exampleCTA}>
-                  <a href="/estimate?preset=info" className={styles.exampleButton}>
-                    この内容でサイト制作を依頼する
-                  </a>
-                </div>
+            <div className={styles.flowItem}>
+              <div className={styles.flowNumber}>2</div>
+              <div className={styles.flowContent}>
+                <h3>現場訪問</h3>
+                <p>貴社を訪問し、雰囲気や強みを体感。写真撮影も可能です</p>
               </div>
             </div>
-            
-            <div className={styles.exampleCard}>
-              <div className={styles.exampleHeader}>
-                <h3 className={styles.exampleTitle}>事例3：グローバル展開型サイト</h3>
-                <p className={styles.exampleTarget}>海外市場に進出したい企業様向け</p>
+            <div className={styles.flowItem}>
+              <div className={styles.flowNumber}>3</div>
+              <div className={styles.flowContent}>
+                <h3>構成・デザイン提案</h3>
+                <p>訪問で得た情報をもとに、サイト構成とデザインを作成</p>
               </div>
-              <div className={styles.exampleContent}>
-                <p className={styles.exampleDescription}>
-                  多言語対応と実績ページで、国内外の顧客に訴求力のあるサイトを構築。
-                </p>
-                <div className={styles.exampleBreakdown}>
-                  <p className={styles.breakdownTitle}>プラン内訳：</p>
-                  <ul className={styles.breakdownList}>
-                    <li>コーポレートサイト制作: 385,000円</li>
-                    <li>ページ追加（3P）: 33,000円</li>
-                    <li>多言語対応（英語7ページ）: 264,000円</li>
-                    <li>SEO対策強化: 88,000円</li>
-                  </ul>
-                  <p className={styles.exampleTotal}>
-                    <span>合計</span>
-                    <span className={styles.totalPrice}>770,000円</span>
-                  </p>
-                </div>
-                <div className={styles.exampleCTA}>
-                  <a href="/estimate?preset=global" className={styles.exampleButton}>
-                    この内容でサイト制作を依頼する
-                  </a>
-                </div>
+            </div>
+            <div className={styles.flowItem}>
+              <div className={styles.flowNumber}>4</div>
+              <div className={styles.flowContent}>
+                <h3>制作・SEO/AIO実装</h3>
+                <p>デザイン確定後、コーディングと各種最適化を実施</p>
+              </div>
+            </div>
+            <div className={styles.flowItem}>
+              <div className={styles.flowNumber}>5</div>
+              <div className={styles.flowContent}>
+                <h3>公開・運用開始</h3>
+                <p>最終確認後に公開。継続的なサポートもご用意しています</p>
               </div>
             </div>
           </div>
-          
-          <div className={styles.exampleNote}>
-            {/* 必要に応じて注記を追加 */}
+        </div>
+      </section>
+
+      {/* 料金について */}
+      <section className={styles.pricingSection}>
+        <div className={styles.sectionContent}>
+          <h2 className={styles.sectionTitle}>料金について</h2>
+          <div className={styles.pricingContent}>
+            <p className={styles.pricingText}>
+              基本プラン（4ページ構成・出張費込み）は<strong>600,000円〜</strong>（税抜）です。
+            </p>
+            <p className={styles.pricingText}>
+              ページ追加、WordPress導入、多言語対応など、
+              ご要望に応じたオプションもご用意しています。
+              詳細は見積もりフォームでシミュレーションいただくか、
+              無料相談でお気軽にお尋ねください。
+            </p>
+            <div className={styles.pricingButtons}>
+              <a href="/estimate" className={styles.estimateButton}>
+                見積もりシミュレーション
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -297,10 +292,11 @@ export default function CorporateService() {
       {/* CTA */}
       <section className={styles.ctaSection}>
         <div className={styles.ctaContent}>
-          <h2 className={styles.ctaTitle}>どのようなサイトを作りたいかお聞かせください</h2>
+          <h2 className={styles.ctaTitle}>まずはお話をお聞かせください</h2>
           <p className={styles.ctaDescription}>
-            貴社の目的やご予算に合わせて、最適なプランをご提案いたします。<br />
-            まずは無料相談で、理想のWebサイトについてお話しください。
+            「こんなサイトにしたい」「今のサイトの課題は…」など、
+            漠然としたイメージでも構いません。
+            お話を伺いながら、最適な形を一緒に考えていきます。
           </p>
           <a href="/form" className={styles.ctaButton}>
             無料相談を予約する

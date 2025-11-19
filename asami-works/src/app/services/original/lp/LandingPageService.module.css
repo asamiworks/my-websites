@@ -65,10 +65,101 @@
   color: #9333ea;
 }
 
+/* 課題提起セクション */
+.challengeSection {
+  padding: 80px 24px;
+  background: #1e293b;
+  color: white;
+}
+
+.challengeSection .sectionTitle {
+  color: white;
+}
+
+.challengeSection .sectionTitle::after {
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+}
+
+.challengeContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.challengeText {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  color: #cbd5e1;
+}
+
+.challengeText strong {
+  color: #f472b6;
+  font-weight: 600;
+}
+
+/* 技術セクション */
+.technologySection {
+  padding: 80px 24px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.technologyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.technologyItem {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.technologyItem:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(147, 51, 234, 0.15);
+  border-color: rgba(147, 51, 234, 0.2);
+}
+
+.technologyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.technologyTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.technologyDescription {
+  color: #64748b;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
 /* 価格セクション */
 .priceSection {
-  padding: 64px 24px;
+  padding: 80px 24px;
   background: white;
+  position: relative;
+}
+
+.priceSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #9333ea, #ec4899, #9333ea);
 }
 
 .sectionContent {
@@ -82,19 +173,37 @@
   font-weight: 700;
   margin-bottom: 48px;
   color: #111827;
+  position: relative;
+  display: inline-block;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  border-radius: 2px;
 }
 
 .priceCard {
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 32px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(147, 51, 234, 0.12);
+  padding: 40px;
+  border: 1px solid rgba(147, 51, 234, 0.1);
 }
 
 .priceAmount {
   font-size: 3rem;
-  font-weight: 700;
-  color: #9333ea;
+  font-weight: 800;
+  background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 8px;
 }
 
@@ -181,12 +290,12 @@
 
 /* オプション活用事例セクション */
 .exampleSection {
-  padding: 64px 24px;
-  background: white;
+  padding: 80px 24px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 .exampleSubtitle {
-  color: #6b7280;
+  color: #64748b;
   font-size: 1.125rem;
   margin-bottom: 48px;
   text-align: center;
@@ -203,11 +312,18 @@
 
 .exampleCard {
   background: white;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.exampleCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(147, 51, 234, 0.15);
 }
 
 .exampleHeader {
@@ -217,9 +333,10 @@
 }
 
 .exampleTitle {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 8px 0;
+  white-space: nowrap;
 }
 
 .exampleTarget {
@@ -349,8 +466,8 @@
 
 /* ターゲットセクション */
 .targetSection {
-  padding: 64px 24px;
-  background: #f9fafb;
+  padding: 80px 24px;
+  background: white;
 }
 
 .targetList {
@@ -363,34 +480,42 @@
 
 .targetItem {
   background: white;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  padding: 28px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.targetItem:hover {
+  transform: translateX(8px);
+  box-shadow: 0 8px 32px rgba(147, 51, 234, 0.12);
+  border-color: rgba(147, 51, 234, 0.2);
 }
 
 .targetTitle {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.125rem;
   margin-bottom: 8px;
-  color: #111827;
+  color: #0f172a;
 }
 
 .targetDescription {
-  color: #6b7280;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 /* フローセクション */
 .flowSection {
-  padding: 64px 24px;
-  background: white;
+  padding: 80px 24px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 .flowList {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -400,25 +525,38 @@
   align-items: flex-start;
   gap: 24px;
   position: relative;
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.flowItem:hover {
+  transform: translateX(8px);
+  box-shadow: 0 8px 32px rgba(147, 51, 234, 0.12);
+  border-color: rgba(147, 51, 234, 0.2);
 }
 
 /* 番号の縦線を追加 */
 .flowItem:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 24px;
-  top: 56px;
-  width: 2px;
-  height: calc(100% + 16px);
-  background: #e5e7eb;
+  left: 47px;
+  bottom: -24px;
+  width: 3px;
+  height: 24px;
+  background: linear-gradient(180deg, #9333ea, #ec4899);
+  z-index: 2;
 }
 
 .flowNumber {
-  background: #9333ea;
+  background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%);
   color: white;
   width: 48px;
   height: 48px;
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -427,6 +565,7 @@
   flex-shrink: 0;
   position: relative;
   z-index: 1;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
 }
 
 .flowContent {
@@ -435,59 +574,79 @@
 }
 
 .flowContent h3 {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.125rem;
   margin-bottom: 8px;
-  color: #111827;
+  color: #0f172a;
   line-height: 1.4;
 }
 
 .flowContent p {
-  color: #6b7280;
-  line-height: 1.6;
-  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.7;
+  font-size: 0.9rem;
 }
 
 /* CTAセクション */
 .ctaSection {
-  padding: 64px 24px;
-  background: #9333ea;
+  padding: 80px 24px;
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 50%, #ec4899 100%);
   color: white;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 40%);
+  pointer-events: none;
 }
 
 .ctaContent {
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .ctaTitle {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 24px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .ctaDescription {
   font-size: 1.25rem;
   margin-bottom: 32px;
-  opacity: 0.9;
+  opacity: 0.95;
   line-height: 1.8;
 }
 
 .ctaButton {
   background: white;
   color: #9333ea;
-  padding: 16px 32px;
+  padding: 18px 40px;
   border-radius: 9999px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.125rem;
   text-decoration: none;
   display: inline-block;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .ctaButton:hover {
-  background: #f3f4f6;
+  background: #f8fafc;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* レスポンシブ対応 */
@@ -495,54 +654,65 @@
   .heroTitle {
     font-size: 2rem;
   }
-  
+
   .heroDescription {
     font-size: 1.125rem;
   }
-  
+
   .priceAmount {
     font-size: 2.5rem;
   }
-  
+
   .flowList {
-    gap: 24px;
-  }
-  
-  .flowItem {
     gap: 16px;
   }
-  
+
+  .flowItem {
+    gap: 16px;
+    padding: 20px;
+  }
+
   .flowNumber {
     width: 40px;
     height: 40px;
     font-size: 1rem;
+    border-radius: 10px;
   }
-  
+
   .flowItem:not(:last-child)::after {
-    left: 20px;
-    top: 48px;
+    left: 39px;
+    bottom: -16px;
+    height: 16px;
   }
-  
+
+  .technologyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .technologyIcon {
+    font-size: 2.5rem;
+  }
+
   .exampleGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .totalPrice {
     font-size: 1.25rem;
   }
-  
+
   .exampleTitle {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
-  
+
   .breakdownList li {
     font-size: 0.8rem;
   }
-  
+
   .sectionTitle {
     font-size: 1.75rem;
   }
-  
+
   .ctaTitle {
     font-size: 1.75rem;
   }
@@ -558,23 +728,29 @@
   .heroTitle {
     font-size: 3rem;
   }
-  
+
   .priceAmount {
     font-size: 3.5rem;
   }
-  
+
   .featuresGrid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
+  .technologyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .flowItem {
     gap: 32px;
+    padding: 28px;
   }
-  
+
   .flowItem:not(:last-child)::after {
-    left: 24px;
+    left: 51px;
+    bottom: -24px;
   }
-  
+
   .sectionTitle {
     font-size: 2.5rem;
   }
@@ -584,29 +760,33 @@
   .heroTitle {
     font-size: 3.5rem;
   }
-  
+
   .featuresGrid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
+  .technologyGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .exampleGrid {
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
-  
+
   .exampleTitle {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
-  
+
   .sectionTitle {
     font-size: 3rem;
   }
-  
+
   /* 3カラムレイアウトでカードの高さを揃える */
   .exampleCard {
     height: 100%;
   }
-  
+
   .exampleContent {
     min-height: 450px;
   }
