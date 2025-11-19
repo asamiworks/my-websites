@@ -217,14 +217,19 @@ export default function PaymentsPage() {
         const currentDifference = clientDoc.data().accumulatedDifference || 0;
         const newDifference = currentDifference + paymentDifference;
 
-        // lastPaidPeriodを更新（請求書のbillingPeriodEndまたはbillingMonthから）
+        // 支払い完了期間を更新（請求書のbillingPeriodStart/Endから）
         const updateData: any = {
           accumulatedDifference: newDifference,
           updatedAt: Timestamp.now(),
         };
 
-        // billingPeriodEndがある場合はその月を、なければbillingMonthを使用
+        // billingPeriodStart/Endを年月日形式で保存
+        if (selectedInvoice.billingPeriodStart) {
+          updateData.lastPaidPeriodStart = selectedInvoice.billingPeriodStart;
+        }
         if (selectedInvoice.billingPeriodEnd) {
+          updateData.lastPaidPeriodEnd = selectedInvoice.billingPeriodEnd;
+          // 後方互換性のため lastPaidPeriod も更新
           const periodEnd = selectedInvoice.billingPeriodEnd as any;
           const endDate = periodEnd.toDate ? periodEnd.toDate() : new Date(periodEnd);
           const year = endDate.getFullYear();

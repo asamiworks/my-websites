@@ -40,7 +40,9 @@ export interface Client {
 
   // 請求設定
   billingFrequency?: 'monthly' | 'yearly'; // 請求頻度（月額 or 年額）
-  lastPaidPeriod?: string; // 最後に支払った期間（YYYY-MM形式）
+  lastPaidPeriod?: string; // 最後に支払った期間（YYYY-MM形式）※後方互換性のため残す
+  lastPaidPeriodStart?: Timestamp; // 支払い完了期間の開始日（年月日）
+  lastPaidPeriodEnd?: Timestamp; // 支払い完了期間の終了日（年月日）
   accumulatedDifference?: number; // 累積過不足金（過払いならプラス、不足ならマイナス）
 
   // 支払い方法

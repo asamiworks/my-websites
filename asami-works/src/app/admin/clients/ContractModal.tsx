@@ -383,6 +383,21 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
             </p>
           </div>
 
+          {/* 支払い完了期間（読み取り専用） */}
+          {(client.lastPaidPeriodStart || client.lastPaidPeriodEnd) && (
+            <div className={styles.formGroup}>
+              <label className={styles.label}>支払い完了期間</label>
+              <div className={styles.readOnlyField}>
+                {client.lastPaidPeriodStart && timestampToDateString(client.lastPaidPeriodStart)}
+                {client.lastPaidPeriodStart && client.lastPaidPeriodEnd && ' 〜 '}
+                {client.lastPaidPeriodEnd && timestampToDateString(client.lastPaidPeriodEnd)}
+              </div>
+              <p className={styles.helpText}>
+                この期間は請求書の支払い完了時に自動更新されます
+              </p>
+            </div>
+          )}
+
           {/* 管理費スケジュール */}
           <div className={styles.scheduleSection}>
             <div className={styles.sectionHeader}>

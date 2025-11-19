@@ -129,17 +129,26 @@ export async function POST(request: NextRequest) {
             updatedAt: Timestamp.now(),
           });
 
-          // lastPaidPeriodを更新（月額管理費の重複請求を防止）
+          // 支払い完了期間を更新（月額管理費の重複請求を防止）
+          const clientUpdateData: Record<string, unknown> = {
+            updatedAt: Timestamp.now(),
+          };
+
+          if (invoiceData.billingPeriodStart) {
+            clientUpdateData.lastPaidPeriodStart = invoiceData.billingPeriodStart;
+          }
           if (invoiceData.billingPeriodEnd) {
+            clientUpdateData.lastPaidPeriodEnd = invoiceData.billingPeriodEnd;
+            // 後方互換性のため lastPaidPeriod も更新
             const periodEnd = invoiceData.billingPeriodEnd;
             const endDate = periodEnd.toDate ? periodEnd.toDate() : new Date(periodEnd);
             const year = endDate.getFullYear();
             const month = String(endDate.getMonth() + 1).padStart(2, '0');
+            clientUpdateData.lastPaidPeriod = `${year}-${month}`;
+          }
 
-            await db.collection('clients').doc(invoiceData.clientId).update({
-              lastPaidPeriod: `${year}-${month}`,
-              updatedAt: Timestamp.now(),
-            });
+          if (Object.keys(clientUpdateData).length > 1) {
+            await db.collection('clients').doc(invoiceData.clientId).update(clientUpdateData);
           }
 
           totalAmount += invoiceData.totalAmount;

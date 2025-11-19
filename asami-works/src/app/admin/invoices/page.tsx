@@ -542,12 +542,32 @@ function AdminInvoicesContent() {
           updatedBreakdown.finalPaymentPaid = true;
         }
 
-        // クライアントドキュメントを更新
-        await updateDoc(clientRef, {
+        // 支払い完了期間を更新（月額管理費の重複請求を防ぐ）
+        const updateData: Record<string, unknown> = {
           accumulatedDifference: newDifference,
           productionFeeBreakdown: updatedBreakdown,
           updatedAt: Timestamp.now(),
-        });
+        };
+
+        // billingPeriodStart/End から支払い完了期間を保存（年月日形式）
+        if (selectedInvoiceForPayment.billingPeriodStart) {
+          updateData.lastPaidPeriodStart = selectedInvoiceForPayment.billingPeriodStart;
+        }
+        if (selectedInvoiceForPayment.billingPeriodEnd) {
+          updateData.lastPaidPeriodEnd = selectedInvoiceForPayment.billingPeriodEnd;
+          // 後方互換性のため lastPaidPeriod も更新
+          const periodEnd = selectedInvoiceForPayment.billingPeriodEnd;
+          const endDate = periodEnd.toDate ? periodEnd.toDate() : new Date(periodEnd as unknown as string);
+          const year = endDate.getFullYear();
+          const month = String(endDate.getMonth() + 1).padStart(2, '0');
+          updateData.lastPaidPeriod = `${year}-${month}`;
+        } else if (selectedInvoiceForPayment.billingMonth) {
+          // フォールバック: billingMonth がある場合はそれを使用
+          updateData.lastPaidPeriod = selectedInvoiceForPayment.billingMonth;
+        }
+
+        // クライアントドキュメントを更新
+        await updateDoc(clientRef, updateData);
       }
 
       setShowPaymentModal(false);
@@ -785,14 +805,23 @@ function AdminInvoicesContent() {
 
             const scheduleStart = safeToDate(currentSchedule.fromDate);
             const baseDescription = currentSchedule.description || '月額管理費';
-            const lastPaid = selectedClient.lastPaidPeriod;
 
             // 未払い期間の開始を決定
             let unpaidStartDate: Date;
 
-            if (lastPaid) {
-              // lastPaidPeriodの翌月から開始
-              const [year, month] = lastPaid.split('-').map(Number);
+            // 優先順位: lastPaidPeriodEnd > lastPaidPeriod > scheduleStart
+            if (selectedClient.lastPaidPeriodEnd) {
+              // lastPaidPeriodEndの翌日から開始（年月日ベース）
+              const lastPaidEnd = safeToDate(selectedClient.lastPaidPeriodEnd);
+              if (lastPaidEnd) {
+                unpaidStartDate = new Date(lastPaidEnd);
+                unpaidStartDate.setDate(unpaidStartDate.getDate() + 1); // 翌日から
+              } else {
+                unpaidStartDate = billingMonth;
+              }
+            } else if (selectedClient.lastPaidPeriod) {
+              // 後方互換性: lastPaidPeriodの翌月から開始
+              const [year, month] = selectedClient.lastPaidPeriod.split('-').map(Number);
               unpaidStartDate = new Date(year, month, 1); // 翌月の1日
             } else if (scheduleStart) {
               // 初回請求の場合はスケジュール開始日から

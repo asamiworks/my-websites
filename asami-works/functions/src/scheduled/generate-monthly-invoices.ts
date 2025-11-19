@@ -245,8 +245,20 @@ export const generateMonthlyInvoices = onSchedule({
             continue;
           }
 
-          // lastPaidPeriodをチェック（既に支払い済みの期間はスキップ）
-          if (client.lastPaidPeriod) {
+          // 支払い完了期間をチェック（既に支払い済みの期間はスキップ）
+          // 優先順位: lastPaidPeriodEnd > lastPaidPeriod
+          if (client.lastPaidPeriodEnd) {
+            const lastPaidEnd = client.lastPaidPeriodEnd.toDate();
+            const billingEndDate = new Date(year, now.getMonth() + 1, 0); // 当月末
+
+            // 当月末が支払い済み期間に含まれる場合はスキップ
+            if (billingEndDate <= lastPaidEnd) {
+              console.log(`Skipping client ${client.id}: Already paid until ${lastPaidEnd.toISOString().split('T')[0]}`);
+              skipCount++;
+              continue;
+            }
+          } else if (client.lastPaidPeriod) {
+            // 後方互換性: lastPaidPeriod（YYYY-MM形式）を使用
             const [paidYear, paidMonth] = client.lastPaidPeriod.split('-').map(Number);
             const paidDate = new Date(paidYear, paidMonth - 1, 1);
             const currentBillingDate = new Date(year, now.getMonth(), 1);
