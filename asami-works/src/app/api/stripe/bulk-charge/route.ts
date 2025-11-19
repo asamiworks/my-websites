@@ -122,12 +122,23 @@ export async function POST(request: NextRequest) {
 
         if (paymentIntent.status === 'succeeded') {
           // 請求書を更新
-          await db.collection('invoices').doc(invoiceId).update({
+          const invoiceUpdateData: Record<string, unknown> = {
             status: 'paid',
             paidAt: Timestamp.now(),
             stripePaymentIntentId: paymentIntent.id,
+            paymentMethod: 'card',
             updatedAt: Timestamp.now(),
-          });
+          };
+
+          // クライアントのカード情報を保存
+          if (clientData.cardLast4) {
+            invoiceUpdateData.cardLast4 = clientData.cardLast4;
+          }
+          if (clientData.cardBrand) {
+            invoiceUpdateData.cardBrand = clientData.cardBrand;
+          }
+
+          await db.collection('invoices').doc(invoiceId).update(invoiceUpdateData);
 
           // 支払い完了期間を更新（月額管理費の重複請求を防止）
           const clientUpdateData: Record<string, unknown> = {

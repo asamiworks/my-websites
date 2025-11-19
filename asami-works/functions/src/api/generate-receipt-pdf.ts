@@ -26,6 +26,8 @@ interface Invoice {
   status: string;
   notes?: string;
   paymentMethod?: 'card' | 'bank_transfer' | 'other';
+  cardLast4?: string;
+  cardBrand?: string;
   receiptUrl?: string;
   receiptGeneratedAt?: string;
   receiptDownloadCount?: number;

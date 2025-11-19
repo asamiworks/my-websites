@@ -119,6 +119,8 @@ export interface Invoice {
   paidAmount?: number; // 実際に支払われた金額
   paymentDifference?: number; // 過不足金（totalAmount - paidAmount）
   paymentMethod?: 'card' | 'bank_transfer' | 'other';
+  cardLast4?: string; // カード下4桁
+  cardBrand?: string; // カードブランド（visa, mastercard等）
   manuallyMarkedAsPaid?: boolean; // 手動で支払済みにされたか
   markedAsPaidBy?: string; // 支払済みにした管理者のUID
 

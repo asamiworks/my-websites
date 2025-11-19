@@ -270,7 +270,7 @@ interface Invoice {
   status: string;
   notes?: string;
   paymentMethod?: 'card' | 'bank_transfer' | 'other';
-  cardLastFour?: string;
+  cardLast4?: string;
 }
 
 interface InvoiceItem {
@@ -332,8 +332,8 @@ export const ReceiptPDF: React.FC<ReceiptPDFProps> = ({ invoice, companyInfo, is
   const getPaymentMethodDisplay = () => {
     switch (invoice.paymentMethod) {
       case 'card':
-        if (invoice.cardLastFour) {
-          return `クレジットカード（****-${invoice.cardLastFour}）`;
+        if (invoice.cardLast4) {
+          return `クレジットカード（****-${invoice.cardLast4}）`;
         }
         return 'クレジットカード';
       case 'bank_transfer':

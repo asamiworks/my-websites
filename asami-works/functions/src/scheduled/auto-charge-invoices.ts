@@ -107,15 +107,25 @@ export const autoChargeInvoiceOnCreate = onDocumentCreated({
 
     // 決済成功時の処理
     if (paymentIntent.status === 'succeeded') {
-      await db.collection('invoices').doc(invoiceId).update({
+      const invoiceUpdateData: any = {
         status: 'paid',
         paidAmount: invoiceData.totalAmount,
         paidDate: admin.firestore.Timestamp.now(),
         stripePaymentIntentId: paymentIntent.id,
-        paymentMethod: 'credit_card',
+        paymentMethod: 'card',
         autoCharged: true,
         updatedAt: admin.firestore.Timestamp.now(),
-      });
+      };
+
+      // クライアントのカード情報を保存
+      if (clientData?.cardLast4) {
+        invoiceUpdateData.cardLast4 = clientData.cardLast4;
+      }
+      if (clientData?.cardBrand) {
+        invoiceUpdateData.cardBrand = clientData.cardBrand;
+      }
+
+      await db.collection('invoices').doc(invoiceId).update(invoiceUpdateData);
 
       // 一回払い項目（制作費）の支払い済みフラグを更新
       if (clientData?.productionFeeBreakdown && invoiceData.items) {
@@ -268,15 +278,25 @@ export const autoChargeInvoiceOnUpdate = onDocumentWritten({
     });
 
     if (paymentIntent.status === 'succeeded') {
-      await db.collection('invoices').doc(invoiceId).update({
+      const invoiceUpdateData: any = {
         status: 'paid',
         paidAmount: afterData.totalAmount,
         paidDate: admin.firestore.Timestamp.now(),
         stripePaymentIntentId: paymentIntent.id,
-        paymentMethod: 'credit_card',
+        paymentMethod: 'card',
         autoCharged: true,
         updatedAt: admin.firestore.Timestamp.now(),
-      });
+      };
+
+      // クライアントのカード情報を保存
+      if (clientData?.cardLast4) {
+        invoiceUpdateData.cardLast4 = clientData.cardLast4;
+      }
+      if (clientData?.cardBrand) {
+        invoiceUpdateData.cardBrand = clientData.cardBrand;
+      }
+
+      await db.collection('invoices').doc(invoiceId).update(invoiceUpdateData);
 
       // 一回払い項目（制作費）の支払い済みフラグを更新
       if (clientData?.productionFeeBreakdown && afterData.items) {

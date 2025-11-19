@@ -127,14 +127,24 @@ export async function POST(request: NextRequest) {
 
     if (paymentIntent.status === 'succeeded') {
       // Firestoreの請求書を更新
-      await db.collection('invoices').doc(invoiceId).update({
+      const invoiceUpdateData: Record<string, unknown> = {
         status: 'paid',
         paidAmount: invoiceData.totalAmount,
         paidAt: Timestamp.now(),
         stripePaymentIntentId: paymentIntent.id,
-        paymentMethod: 'credit_card',
+        paymentMethod: 'card',
         updatedAt: Timestamp.now(),
-      });
+      };
+
+      // クライアントのカード情報を保存
+      if (clientData.cardLast4) {
+        invoiceUpdateData.cardLast4 = clientData.cardLast4;
+      }
+      if (clientData.cardBrand) {
+        invoiceUpdateData.cardBrand = clientData.cardBrand;
+      }
+
+      await db.collection('invoices').doc(invoiceId).update(invoiceUpdateData);
 
       // 一回払い項目（制作費）の支払い済みフラグを更新
       if (clientData.productionFeeBreakdown && invoiceData.items) {

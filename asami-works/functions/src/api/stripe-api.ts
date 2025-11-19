@@ -209,13 +209,31 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
   }
 
   try {
-    await db.collection('invoices').doc(invoiceId).update({
+    // 請求書からクライアント情報を取得
+    const invoiceDoc = await db.collection('invoices').doc(invoiceId).get();
+    const invoiceData = invoiceDoc.data();
+
+    const updateData: any = {
       status: 'paid',
       paidAt: Timestamp.now(),
       paymentMethod: 'card',
       stripePaymentIntentId: session.payment_intent as string,
       updatedAt: Timestamp.now(),
-    });
+    };
+
+    // クライアントのカード情報を取得して保存
+    if (invoiceData?.clientId) {
+      const clientDoc = await db.collection('clients').doc(invoiceData.clientId).get();
+      const clientData = clientDoc.data();
+      if (clientData?.cardLast4) {
+        updateData.cardLast4 = clientData.cardLast4;
+      }
+      if (clientData?.cardBrand) {
+        updateData.cardBrand = clientData.cardBrand;
+      }
+    }
+
+    await db.collection('invoices').doc(invoiceId).update(updateData);
 
     console.log(`Invoice ${invoiceId} marked as paid`);
   } catch (error) {
