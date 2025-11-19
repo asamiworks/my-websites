@@ -80,7 +80,7 @@ export default function TokushohoPage() {
           </div>
           <div className={styles.sectionBody}>
             <p className={styles.sectionText}>
-              各サービスページに記載の価格をご確認ください。価格は税込表示です。
+              各サービスページに記載の価格をご確認ください。価格は税抜表示です。
             </p>
             <ul className={styles.list}>
               <li className={styles.listItem}>
@@ -145,7 +145,11 @@ export default function TokushohoPage() {
               <ul className={styles.list}>
                 <li className={styles.listItem}>
                   <span className={styles.listBullet}></span>
-                  <span>クレジットカード決済（Stripe）</span>
+                  <span>クレジットカード決済（Stripe）<br />
+                    <small style={{ color: '#6b7280', marginLeft: '1rem' }}>
+                      対応ブランド：Visa / Mastercard / JCB / American Express
+                    </small>
+                  </span>
                 </li>
                 <li className={styles.listItem}>
                   <span className={styles.listBullet}></span>
@@ -246,6 +250,14 @@ export default function TokushohoPage() {
               <h3 className={styles.subsectionTitle}>保証期間</h3>
               <p className={styles.sectionText}>
                 納品後30日間は、契約内容に基づく不具合について無償で修正対応いたします。
+              </p>
+            </div>
+
+            <div className={styles.subsection}>
+              <h3 className={styles.subsectionTitle}>クレジットカード決済の返金について</h3>
+              <p className={styles.sectionText}>
+                当社の責めに帰すべき事由により返金が発生した場合は、クレジットカードへの返金処理を行います。
+                返金処理後、お客様のカード会社の締め日により、実際の返金までに1〜2ヶ月程度かかる場合があります。
               </p>
             </div>
           </div>
