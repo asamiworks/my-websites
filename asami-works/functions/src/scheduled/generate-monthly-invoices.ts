@@ -17,6 +17,7 @@ interface Client {
   contractStartDate: admin.firestore.Timestamp;
   managementFeeSchedule?: ManagementFeeSchedule[];
   paymentMethod?: 'credit_card' | 'bank_transfer';
+  lastPaidPeriod?: string; // 最後に支払った期間（YYYY-MM形式）
 }
 
 interface ManagementFeeSchedule {
@@ -244,6 +245,20 @@ export const generateMonthlyInvoices = onSchedule({
             continue;
           }
 
+          // lastPaidPeriodをチェック（既に支払い済みの期間はスキップ）
+          if (client.lastPaidPeriod) {
+            const [paidYear, paidMonth] = client.lastPaidPeriod.split('-').map(Number);
+            const paidDate = new Date(paidYear, paidMonth - 1, 1);
+            const currentBillingDate = new Date(year, now.getMonth(), 1);
+
+            // 当月が既に支払い済みの場合はスキップ
+            if (currentBillingDate <= paidDate) {
+              console.log(`Skipping client ${client.id}: Already paid for ${billingMonth} (lastPaidPeriod: ${client.lastPaidPeriod})`);
+              skipCount++;
+              continue;
+            }
+          }
+
           // 未払い請求書をチェック
           const unpaidInvoices = await getUnpaidInvoices(client.id);
 
@@ -457,6 +472,19 @@ export const triggerMonthlyInvoiceGeneration = onRequest(async (request, respons
           console.log(`Skipping client ${client.id}: Invoice already exists for ${billingMonth}`);
           skipCount++;
           continue;
+        }
+
+        // lastPaidPeriodをチェック（既に支払い済みの期間はスキップ）
+        if (client.lastPaidPeriod) {
+          const [paidYear, paidMonth] = client.lastPaidPeriod.split('-').map(Number);
+          const paidDate = new Date(paidYear, paidMonth - 1, 1);
+          const currentBillingDate = new Date(year, now.getMonth(), 1);
+
+          if (currentBillingDate <= paidDate) {
+            console.log(`Skipping client ${client.id}: Already paid for ${billingMonth} (lastPaidPeriod: ${client.lastPaidPeriod})`);
+            skipCount++;
+            continue;
+          }
         }
 
         // 未払い請求書をチェック

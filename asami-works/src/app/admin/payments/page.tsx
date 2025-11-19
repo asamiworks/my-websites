@@ -128,7 +128,7 @@ export default function PaymentsPage() {
         updatedAt: Timestamp.now(),
       });
 
-      // クライアントの累積過不足金を更新
+      // クライアントの累積過不足金とlastPaidPeriodを更新
       const clientRef = doc(db, 'clients', selectedInvoice.clientId);
       const clientDoc = await getDoc(clientRef);
 
@@ -136,10 +136,25 @@ export default function PaymentsPage() {
         const currentDifference = clientDoc.data().accumulatedDifference || 0;
         const newDifference = currentDifference + paymentDifference;
 
-        await updateDoc(clientRef, {
+        // lastPaidPeriodを更新（請求書のbillingPeriodEndまたはbillingMonthから）
+        const updateData: any = {
           accumulatedDifference: newDifference,
           updatedAt: Timestamp.now(),
-        });
+        };
+
+        // billingPeriodEndがある場合はその月を、なければbillingMonthを使用
+        if (selectedInvoice.billingPeriodEnd) {
+          const endDate = selectedInvoice.billingPeriodEnd.toDate ?
+            selectedInvoice.billingPeriodEnd.toDate() :
+            new Date(selectedInvoice.billingPeriodEnd);
+          const year = endDate.getFullYear();
+          const month = String(endDate.getMonth() + 1).padStart(2, '0');
+          updateData.lastPaidPeriod = `${year}-${month}`;
+        } else if (selectedInvoice.billingMonth) {
+          updateData.lastPaidPeriod = selectedInvoice.billingMonth;
+        }
+
+        await updateDoc(clientRef, updateData);
       }
 
       setShowPaymentModal(false);
