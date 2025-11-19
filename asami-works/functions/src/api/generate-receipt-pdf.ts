@@ -171,10 +171,29 @@ export const generateReceiptPDF_HTTP = onRequest({
       return;
     }
 
+    const invoiceData = invoiceDoc.data();
     const invoice = {
       id: invoiceDoc.id,
-      ...invoiceDoc.data()
+      ...invoiceData
     } as Invoice;
+
+    // cardLast4がない場合、クライアント情報から取得
+    if (!invoice.cardLast4 && invoiceData?.clientId) {
+      const clientDoc = await db.collection('clients').doc(invoiceData.clientId).get();
+      if (clientDoc.exists) {
+        const clientData = clientDoc.data();
+        if (clientData?.cardLast4) {
+          invoice.cardLast4 = clientData.cardLast4;
+        }
+        if (clientData?.cardBrand) {
+          invoice.cardBrand = clientData.cardBrand;
+        }
+        // paymentMethodがない場合、クライアントの支払方法から推測
+        if (!invoice.paymentMethod && clientData?.paymentMethod === 'credit_card') {
+          invoice.paymentMethod = 'card';
+        }
+      }
+    }
 
     // 支払い済みチェック
     if (invoice.status !== 'paid') {
