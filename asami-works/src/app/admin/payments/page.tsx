@@ -157,9 +157,8 @@ export default function PaymentsPage() {
 
       const updateData: any = { updatedAt: Timestamp.now() };
       if (latestInvoice.billingPeriodEnd) {
-        const endDate = latestInvoice.billingPeriodEnd.toDate ?
-          latestInvoice.billingPeriodEnd.toDate() :
-          new Date(latestInvoice.billingPeriodEnd);
+        const periodEnd = latestInvoice.billingPeriodEnd as any;
+        const endDate = periodEnd.toDate ? periodEnd.toDate() : new Date(periodEnd);
         const year = endDate.getFullYear();
         const month = String(endDate.getMonth() + 1).padStart(2, '0');
         updateData.lastPaidPeriod = `${year}-${month}`;
