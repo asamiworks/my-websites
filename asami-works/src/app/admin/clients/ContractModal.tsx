@@ -30,7 +30,7 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
     end: any;
   } | null>(null);
 
-  // 最新の支払済み請求書から支払い完了期間を取得
+  // 支払済み請求書から支払い完了期間を取得（最初の支払い〜最新の支払い）
   useEffect(() => {
     const fetchLastPaidPeriod = async () => {
       try {
@@ -43,21 +43,32 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
         const snapshot = await getDocs(q);
 
         if (!snapshot.empty) {
-          // クライアント側でpaidAtでソートして最新を取得
+          // billingPeriodStart/Endがある請求書をフィルタ
           const paidInvoices = snapshot.docs
             .map(doc => doc.data())
-            .filter(inv => inv.billingPeriodEnd)
-            .sort((a, b) => {
-              const aDate = a.paidAt?.toDate?.() || new Date(0);
-              const bDate = b.paidAt?.toDate?.() || new Date(0);
-              return bDate.getTime() - aDate.getTime();
-            });
+            .filter(inv => inv.billingPeriodStart && inv.billingPeriodEnd);
 
           if (paidInvoices.length > 0) {
-            const latestInvoice = paidInvoices[0];
+            // 最も古いbillingPeriodStartを取得
+            let earliestStart: any = null;
+            let latestEnd: any = null;
+
+            for (const inv of paidInvoices) {
+              const startDate = inv.billingPeriodStart?.toDate?.() || new Date(inv.billingPeriodStart);
+              const endDate = inv.billingPeriodEnd?.toDate?.() || new Date(inv.billingPeriodEnd);
+
+              if (!earliestStart || startDate < (earliestStart.toDate?.() || new Date(earliestStart))) {
+                earliestStart = inv.billingPeriodStart;
+              }
+
+              if (!latestEnd || endDate > (latestEnd.toDate?.() || new Date(latestEnd))) {
+                latestEnd = inv.billingPeriodEnd;
+              }
+            }
+
             setLastPaidPeriod({
-              start: latestInvoice.billingPeriodStart,
-              end: latestInvoice.billingPeriodEnd,
+              start: earliestStart,
+              end: latestEnd,
             });
           }
         }
@@ -442,7 +453,7 @@ export default function ContractModal({ client, onClose, onSave }: ContractModal
               )}
             </div>
             <p className={styles.helpText}>
-              最新の支払済み請求書から自動取得されます
+              全ての支払済み請求書から自動取得されます（最初の支払い〜最新の支払い）
             </p>
           </div>
 
