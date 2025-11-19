@@ -31,6 +31,8 @@ export default function PaymentsPage() {
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank_transfer' | 'other'>('bank_transfer');
+  const [selectedInvoices, setSelectedInvoices] = useState<string[]>([]);
+  const [showBulkPaymentModal, setShowBulkPaymentModal] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -104,6 +106,78 @@ export default function PaymentsPage() {
     }
 
     setShowPaymentModal(true);
+  };
+
+  // 複数選択のトグル
+  const toggleInvoiceSelection = (invoiceId: string) => {
+    setSelectedInvoices(prev =>
+      prev.includes(invoiceId)
+        ? prev.filter(id => id !== invoiceId)
+        : [...prev, invoiceId]
+    );
+  };
+
+  // 同じクライアントの請求書のみ選択可能かチェック
+  const canSelectInvoice = (invoice: Invoice) => {
+    if (selectedInvoices.length === 0) return true;
+    const firstSelected = unpaidInvoices.find(inv => inv.id === selectedInvoices[0]);
+    return firstSelected?.clientId === invoice.clientId;
+  };
+
+  // 一括入金確認
+  const handleBulkConfirmPayment = async () => {
+    if (selectedInvoices.length === 0) return;
+
+    const invoicesToProcess = unpaidInvoices.filter(inv => selectedInvoices.includes(inv.id));
+    if (invoicesToProcess.length === 0) return;
+
+    const totalAmount = invoicesToProcess.reduce((sum, inv) => sum + inv.totalAmount, 0);
+    const clientId = invoicesToProcess[0].clientId;
+
+    try {
+      // 全ての請求書を入金確認
+      for (const invoice of invoicesToProcess) {
+        await updateDoc(doc(db, 'invoices', invoice.id), {
+          status: 'paid' as InvoiceStatus,
+          paidAmount: invoice.totalAmount,
+          paymentDifference: 0,
+          paymentMethod,
+          paidAt: Timestamp.now(),
+          updatedAt: Timestamp.now(),
+        });
+      }
+
+      // クライアントのlastPaidPeriodを更新（最新の期間で）
+      const clientRef = doc(db, 'clients', clientId);
+      const latestInvoice = invoicesToProcess.reduce((latest, inv) => {
+        const latestEnd = latest.billingPeriodEnd || latest.issueDate;
+        const invEnd = inv.billingPeriodEnd || inv.issueDate;
+        return invEnd > latestEnd ? inv : latest;
+      });
+
+      const updateData: any = { updatedAt: Timestamp.now() };
+      if (latestInvoice.billingPeriodEnd) {
+        const endDate = latestInvoice.billingPeriodEnd.toDate ?
+          latestInvoice.billingPeriodEnd.toDate() :
+          new Date(latestInvoice.billingPeriodEnd);
+        const year = endDate.getFullYear();
+        const month = String(endDate.getMonth() + 1).padStart(2, '0');
+        updateData.lastPaidPeriod = `${year}-${month}`;
+      } else if (latestInvoice.billingMonth) {
+        updateData.lastPaidPeriod = latestInvoice.billingMonth;
+      }
+      await updateDoc(clientRef, updateData);
+
+      setShowBulkPaymentModal(false);
+      setSelectedInvoices([]);
+      setPaymentMethod('bank_transfer');
+
+      alert(`${invoicesToProcess.length}件の請求書の入金を確認しました\n合計金額: ¥${totalAmount.toLocaleString()}`);
+      loadInvoices();
+    } catch (err) {
+      console.error('Error confirming bulk payment:', err);
+      alert('一括入金確認に失敗しました');
+    }
   };
 
   const handleConfirmPayment = async () => {
@@ -228,7 +302,17 @@ export default function PaymentsPage() {
 
         {/* 未払い請求書セクション */}
         <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>未払い請求書</h2>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>未払い請求書</h2>
+            {selectedInvoices.length > 0 && (
+              <button
+                className={styles.bulkButton}
+                onClick={() => setShowBulkPaymentModal(true)}
+              >
+                選択した{selectedInvoices.length}件を一括入金確認
+              </button>
+            )}
+          </div>
           {unpaidInvoices.length === 0 ? (
             <div className={styles.empty}>未払いの請求書はありません</div>
           ) : (
@@ -236,6 +320,26 @@ export default function PaymentsPage() {
               <table>
                 <thead>
                   <tr>
+                    <th className={styles.checkboxCol}>
+                      <input
+                        type="checkbox"
+                        checked={selectedInvoices.length === unpaidInvoices.length && unpaidInvoices.length > 0}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            // 全選択（同一クライアントのみ）
+                            if (unpaidInvoices.length > 0) {
+                              const firstClientId = unpaidInvoices[0].clientId;
+                              const sameClientInvoices = unpaidInvoices
+                                .filter(inv => inv.clientId === firstClientId)
+                                .map(inv => inv.id);
+                              setSelectedInvoices(sameClientInvoices);
+                            }
+                          } else {
+                            setSelectedInvoices([]);
+                          }
+                        }}
+                      />
+                    </th>
                     <th>請求書番号</th>
                     <th>クライアント</th>
                     <th>請求額</th>
@@ -248,8 +352,19 @@ export default function PaymentsPage() {
                 <tbody>
                   {unpaidInvoices.map((invoice) => {
                     const overdueDays = getOverdueDays(invoice.dueDate);
+                    const isSelected = selectedInvoices.includes(invoice.id);
+                    const canSelect = canSelectInvoice(invoice);
                     return (
-                      <tr key={invoice.id}>
+                      <tr key={invoice.id} className={isSelected ? styles.selectedRow : ''}>
+                        <td className={styles.checkboxCol}>
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            disabled={!canSelect}
+                            onChange={() => toggleInvoiceSelection(invoice.id)}
+                            title={!canSelect ? '同じクライアントの請求書のみ選択できます' : ''}
+                          />
+                        </td>
                         <td className={styles.invoiceNumber}>{invoice.invoiceNumber}</td>
                         <td>{invoice.clientName}</td>
                         <td className={styles.amount}>{formatCurrency(invoice.totalAmount)}</td>
@@ -267,7 +382,7 @@ export default function PaymentsPage() {
                             className={styles.confirmButton}
                             onClick={() => handleOpenPaymentModal(invoice)}
                           >
-                            💰 入金確認
+                            入金確認
                           </button>
                         </td>
                       </tr>
@@ -435,6 +550,91 @@ export default function PaymentsPage() {
                   disabled={!paymentAmount || isNaN(parseFloat(paymentAmount)) || parseFloat(paymentAmount) < 0}
                 >
                   入金確認
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 一括入金確認モーダル */}
+      {showBulkPaymentModal && selectedInvoices.length > 0 && (
+        <div className={styles.modal} onClick={() => setShowBulkPaymentModal(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>一括入金確認</h2>
+              <button className={styles.closeButton} onClick={() => setShowBulkPaymentModal(false)}>
+                ×
+              </button>
+            </div>
+
+            <div className={styles.form}>
+              <div className={styles.invoiceInfo}>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>選択件数:</span>
+                  <span className={styles.infoValue}>{selectedInvoices.length}件</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>クライアント:</span>
+                  <span className={styles.infoValue}>
+                    {unpaidInvoices.find(inv => inv.id === selectedInvoices[0])?.clientName}
+                  </span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>合計請求額:</span>
+                  <span className={styles.infoValueAmount}>
+                    {formatCurrency(
+                      unpaidInvoices
+                        .filter(inv => selectedInvoices.includes(inv.id))
+                        .reduce((sum, inv) => sum + inv.totalAmount, 0)
+                    )}
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.selectedList}>
+                <label className={styles.label}>選択した請求書</label>
+                <ul className={styles.invoiceList}>
+                  {unpaidInvoices
+                    .filter(inv => selectedInvoices.includes(inv.id))
+                    .map(inv => (
+                      <li key={inv.id}>
+                        {inv.invoiceNumber} - {formatCurrency(inv.totalAmount)}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.label}>
+                  支払い方法 <span className={styles.required}>*</span>
+                </label>
+                <select
+                  className={styles.input}
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value as 'card' | 'bank_transfer' | 'other')}
+                  required
+                >
+                  <option value="bank_transfer">銀行振込</option>
+                  <option value="card">クレジットカード</option>
+                  <option value="other">その他</option>
+                </select>
+              </div>
+
+              <div className={styles.formActions}>
+                <button
+                  type="button"
+                  className={styles.cancelButton}
+                  onClick={() => setShowBulkPaymentModal(false)}
+                >
+                  キャンセル
+                </button>
+                <button
+                  type="button"
+                  className={styles.submitButton}
+                  onClick={handleBulkConfirmPayment}
+                >
+                  一括入金確認
                 </button>
               </div>
             </div>
