@@ -130,9 +130,9 @@ export default function Header() {
       hasDropdown: true,
       dropdownKey: "original",
       dropdownItems: [
-        { label: "LPプラン", href: "/services/original/lp" },
-        { label: "HPプラン", href: "/services/original/corporate" },
-        { label: "補助金対応プラン", href: "/services/original/grant" }
+        { label: "ランディングページ制作", href: "/services/original/lp" },
+        { label: "ホームページ制作", href: "/services/original/corporate" },
+        { label: "補助金対応サイト", href: "/services/original/grant" }
       ]
     },
     {

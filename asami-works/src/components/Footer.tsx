@@ -20,9 +20,9 @@ export default function Footer() {
     original: {
       title: "サイト制作",
       links: [
-        { href: "/services/original/lp", label: "LPプラン" },
-        { href: "/services/original/corporate", label: "HPプラン" },
-        { href: "/services/original/grant", label: "補助金対応プラン" }
+        { href: "/services/original/lp", label: "ランディングページ制作" },
+        { href: "/services/original/corporate", label: "ホームページ制作" },
+        { href: "/services/original/grant", label: "補助金対応サイト" }
       ]
     },
     services: {

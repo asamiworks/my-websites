@@ -131,6 +131,7 @@ export interface Invoice {
   receiptGeneratedAt?: string; // 領収書PDF生成日時
   receiptDownloadCount?: number; // 領収書ダウンロード回数
   receiptFirstDownloadedAt?: Timestamp; // 領収書初回ダウンロード日時
+  receiptDisabled?: boolean; // 領収書生成を無効化（既に発行済みの場合など）
 
   // 返金情報
   refundId?: string; // Stripe Refund ID

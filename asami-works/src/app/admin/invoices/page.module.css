@@ -283,6 +283,24 @@
   background-color: #a7f3d0;
 }
 
+.enableButton {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.enableButton:hover {
+  background-color: #bfdbfe;
+}
+
+.disableButton {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.disableButton:hover {
+  background-color: #e5e7eb;
+}
+
 /* Modal Styles */
 .modal {
   position: fixed;

@@ -37,15 +37,6 @@ export default function Services() {
   return (
     <section id="services" className={styles.services} aria-label="サービス一覧">
       <div className={styles.container}>
-        <header className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>
-            選べる<span className={styles.highlight}>2つのサービス</span>
-          </h2>
-          <p className={styles.sectionDescription}>
-            お客様のニーズと予算に合わせて、最適なプランをご提案します
-          </p>
-        </header>
-
         <div className={styles.serviceGrid}>
           {services.map((service) => (
             <article
@@ -99,30 +90,6 @@ export default function Services() {
               </div>
             </article>
           ))}
-        </div>
-
-        <div className={styles.comparisonSection}>
-          <h3 className={styles.comparisonTitle}>どのサービスが最適？</h3>
-          <div className={styles.comparisonGrid}>
-            <div className={styles.comparisonCard}>
-              <h4 className={styles.comparisonCardTitle}>オリジナル制作</h4>
-              <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
-              <ul className={styles.comparisonList}>
-                <li>独自性を重視したい</li>
-                <li>ブランディングが重要</li>
-                <li>補助金を活用したい</li>
-              </ul>
-            </div>
-            <div className={styles.comparisonCard}>
-              <h4 className={styles.comparisonCardTitle}>WEBアプリ開発</h4>
-              <p className={styles.comparisonSubtitle}>こんな方におすすめ</p>
-              <ul className={styles.comparisonList}>
-                <li>業務を効率化したい</li>
-                <li>独自システムが必要</li>
-                <li>DXを推進したい</li>
-              </ul>
-            </div>
-          </div>
         </div>
 
         <div className={styles.ctaSection}>

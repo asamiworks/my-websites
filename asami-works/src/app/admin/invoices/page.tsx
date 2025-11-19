@@ -724,6 +724,28 @@ function AdminInvoicesContent() {
     }
   };
 
+  const handleToggleReceiptDisabled = async (invoice: Invoice) => {
+    const newValue = !invoice.receiptDisabled;
+    const confirmMessage = newValue
+      ? '領収書生成を無効にしますか？\n（既に別途発行済みの場合など）'
+      : '領収書生成を有効にしますか？';
+
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
+    try {
+      await updateDoc(doc(db, 'invoices', invoice.id), {
+        receiptDisabled: newValue,
+        updatedAt: Timestamp.now(),
+      });
+      loadInvoices();
+    } catch (err) {
+      console.error('Error toggling receipt disabled:', err);
+      alert('更新に失敗しました');
+    }
+  };
+
   const toggleInvoiceSelection = (invoiceId: string) => {
     const newSelected = new Set(selectedInvoices);
     if (newSelected.has(invoiceId)) {
@@ -1262,7 +1284,7 @@ function AdminInvoicesContent() {
                           📎 PDF表示
                         </a>
                       )}
-                      {invoice.status === 'paid' && (
+                      {invoice.status === 'paid' && !invoice.receiptDisabled && (
                         <button
                           className={styles.receiptButton}
                           onClick={() => handleGenerateReceipt(invoice)}
@@ -1271,7 +1293,7 @@ function AdminInvoicesContent() {
                           {generatingReceiptFor === invoice.id ? '領収書生成中...' : '📋 領収書生成'}
                         </button>
                       )}
-                      {invoice.status === 'paid' && invoice.receiptUrl && (
+                      {invoice.status === 'paid' && !invoice.receiptDisabled && invoice.receiptUrl && (
                         <a
                           href={invoice.receiptUrl}
                           target="_blank"
@@ -1281,6 +1303,15 @@ function AdminInvoicesContent() {
                         >
                           📎 領収書表示
                         </a>
+                      )}
+                      {invoice.status === 'paid' && (
+                        <button
+                          className={invoice.receiptDisabled ? styles.enableButton : styles.disableButton}
+                          onClick={() => handleToggleReceiptDisabled(invoice)}
+                          title={invoice.receiptDisabled ? '領収書生成を有効にする' : '領収書生成を無効にする'}
+                        >
+                          {invoice.receiptDisabled ? '🔓 領収書有効化' : '🔒 領収書無効'}
+                        </button>
                       )}
                       {invoice.status === 'paid' && invoice.stripePaymentIntentId && (
                         <button
