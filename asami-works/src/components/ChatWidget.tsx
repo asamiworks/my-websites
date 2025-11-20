@@ -243,13 +243,16 @@ export default function ChatWidget() {
           // 新しいチャットを作成
           const newChatId = await createNewChat();
 
-          // 各メッセージを保存
-          for (const message of messages) {
-            await saveMessage(message, newChatId);
-          }
+          // Chat objectを取得
+          const newChat = await loadChat(newChatId);
 
-          // フォーム状態も保存
-          if (newChatId) {
+          if (newChat) {
+            // 各メッセージを保存
+            for (const message of messages) {
+              await saveMessage(message, newChat);
+            }
+
+            // フォーム状態も保存
             await saveFormStates(
               collectBusinessInfo,
               collectInfo,
