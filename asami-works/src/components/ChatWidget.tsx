@@ -234,15 +234,42 @@ export default function ChatWidget() {
     }
   }, [currentChat, user, previousChatId]);
 
-  // ユーザーがログインした時、チャットを初期化
-  // 注: ChatContext が既にログイン時に chats を読み込んでいるので、
-  // ここでは明示的に新しいチャットを作成しない
-  // 新しいチャットはユーザーがメッセージを送信する時に作成される
+  // ユーザーがログインした時、ゲストモードのチャットを保存
   useEffect(() => {
-    // ChatContextがchatsを読み込むので、ここでは何もしない
-    // currentChatがない状態でメッセージを送信すると、
-    // sendMessage内で新しいチャットが作成される
-  }, [user]);
+    const saveGuestChat = async () => {
+      // ゲストモードからログインした場合、既存のメッセージを保存
+      if (user && isGuestMode && messages.length > 0 && !currentChat) {
+        try {
+          // 新しいチャットを作成
+          const newChatId = await createNewChat();
+
+          // 各メッセージを保存
+          for (const message of messages) {
+            await saveMessage(message, newChatId);
+          }
+
+          // フォーム状態も保存
+          if (newChatId) {
+            await saveFormStates(
+              collectBusinessInfo,
+              collectInfo,
+              inquiryComplete,
+              newChatId
+            );
+          }
+
+          // ゲストモードを解除
+          setIsGuestMode(false);
+
+          console.log('Guest chat saved successfully');
+        } catch (error) {
+          console.error('Failed to save guest chat:', error);
+        }
+      }
+    };
+
+    saveGuestChat();
+  }, [user, isGuestMode, messages, currentChat]);
 
   // 会員選択のハンドラー
   const handleSelectMember = () => {
@@ -663,6 +690,22 @@ export default function ChatWidget() {
               <p className={styles.chatSubtitle}>WEBのお悩みをサポートします</p>
             </div>
             <div className={styles.headerButtons}>
+              {!user && isGuestMode && (
+                <button
+                  className={styles.loginButton}
+                  onClick={() => {
+                    setAuthModalTab('signup');
+                    setShowAuthModal(true);
+                  }}
+                  aria-label="会話を保存"
+                  title="ログインして会話を保存"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </button>
+              )}
               {user && (
                 <button
                   className={styles.fullscreenButton}
