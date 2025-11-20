@@ -27,6 +27,7 @@ function SettingsContent() {
 
   // カード関連
   const [showCardForm, setShowCardForm] = useState(false);
+  const [cardDeleteLoading, setCardDeleteLoading] = useState(false);
 
   // パスワード変更
   const [currentPassword, setCurrentPassword] = useState('');
@@ -100,6 +101,55 @@ function SettingsContent() {
         } as Client;
         setClient(clientData);
       }
+    }
+  };
+
+  const handleDeleteCard = async () => {
+    if (!client || !clientId) return;
+
+    const confirmed = confirm(
+      `登録済みのカード情報を削除しますか？\n\n${client.cardBrand?.toUpperCase() || 'カード'} **** ${client.cardLast4 || '****'}\n\n削除すると、今後の請求書は自動決済されなくなります。`
+    );
+
+    if (!confirmed) return;
+
+    setCardDeleteLoading(true);
+
+    try {
+      const response = await fetch('/api/stripe/delete-payment-method', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'カード情報の削除に失敗しました');
+      }
+
+      alert('カード情報を削除しました');
+
+      // クライアント情報を再読み込み
+      if (auth.currentUser) {
+        const clientsQuery = query(
+          collection(db, 'clients'),
+          where('authUid', '==', auth.currentUser.uid)
+        );
+        const clientsSnapshot = await getDocs(clientsQuery);
+        if (!clientsSnapshot.empty) {
+          const clientData = {
+            id: clientsSnapshot.docs[0].id,
+            ...clientsSnapshot.docs[0].data()
+          } as Client;
+          setClient(clientData);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error deleting card:', error);
+      alert(error.message || 'カード情報の削除に失敗しました');
+    } finally {
+      setCardDeleteLoading(false);
     }
   };
 
@@ -490,12 +540,21 @@ function SettingsContent() {
                   <p style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
                     ✓ 請求書が発行されると自動的に決済されます
                   </p>
-                  <button
-                    className={styles.submitButton}
-                    onClick={() => setShowCardForm(true)}
-                  >
-                    カードを変更
-                  </button>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button
+                      className={styles.submitButton}
+                      onClick={() => setShowCardForm(true)}
+                    >
+                      カードを変更
+                    </button>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={handleDeleteCard}
+                      disabled={cardDeleteLoading}
+                    >
+                      {cardDeleteLoading ? '削除中...' : 'カードを削除'}
+                    </button>
+                  </div>
                 </div>
               ) : !showCardForm ? (
                 <div>
