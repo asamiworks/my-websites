@@ -573,6 +573,7 @@ export default function ChatWidget() {
           name: contactInfoData['お名前'],
           email: contactInfoData['メールアドレス'],
           phone: contactInfoData['電話番号'],
+          company: contactInfoData['会社名'] || '',
           businessType: collectBusinessInfo || '未指定',
           chatMessages: messages,
           userId: user.uid

@@ -144,7 +144,7 @@ async function sendEmail({ to, subject, html }: { to: string; subject: string; h
  * 問い合わせ自動返信メール送信
  */
 export async function sendAutoReply(contactData: ContactData): Promise<EmailResult> {
-  const { name, email, company, message } = contactData;
+  const { name, email, company, phone, message } = contactData;
   
   const subject = '【AsamiWorks】お問い合わせありがとうございます';
   const html = `
@@ -175,13 +175,19 @@ export async function sendAutoReply(contactData: ContactData): Promise<EmailResu
         <td style="padding: 8px 0; font-weight: bold;">メール:</td>
         <td style="padding: 8px 0;">${email}</td>
       </tr>
+      ${phone ? `
+      <tr>
+        <td style="padding: 8px 0; font-weight: bold;">電話番号:</td>
+        <td style="padding: 8px 0;">${phone}</td>
+      </tr>
+      ` : ''}
       <tr>
         <td style="padding: 8px 0; font-weight: bold; vertical-align: top;">内容:</td>
         <td style="padding: 8px 0; white-space: pre-wrap;">${message}</td>
       </tr>
     </table>
   </div>
-  
+
   <p>2営業日以内にご返信させていただきます。</p>
   
   <hr style="border: 1px solid #eee; margin: 30px 0;">
@@ -205,7 +211,7 @@ export async function sendAutoReply(contactData: ContactData): Promise<EmailResu
  * 管理者通知メール送信
  */
 export async function sendAdminNotification(contactData: ContactData): Promise<EmailResult> {
-  const { name, email, company, message } = contactData;
+  const { name, email, company, phone, message } = contactData;
   const adminEmail = getEnvVar('ADMIN_EMAIL');
   
   if (!adminEmail) {
@@ -233,13 +239,19 @@ export async function sendAdminNotification(contactData: ContactData): Promise<E
         <td style="padding: 8px 0; font-weight: bold;">メール:</td>
         <td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td>
       </tr>
+      ${phone ? `
+      <tr>
+        <td style="padding: 8px 0; font-weight: bold;">電話番号:</td>
+        <td style="padding: 8px 0;"><a href="tel:${phone}">${phone}</a></td>
+      </tr>
+      ` : ''}
       <tr>
         <td style="padding: 8px 0; font-weight: bold; vertical-align: top;">内容:</td>
         <td style="padding: 8px 0; white-space: pre-wrap;">${message}</td>
       </tr>
     </table>
   </div>
-  
+
   <p style="color: #666;">速やかに対応してください。</p>
 </div>
   `;

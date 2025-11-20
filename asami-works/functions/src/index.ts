@@ -91,6 +91,7 @@ interface ChatInquiryRequest {
   name: string;
   email: string;
   phone: string;
+  company?: string;
   businessType: string;
   chatMessages: Array<{
     role: 'user' | 'assistant';
@@ -329,7 +330,7 @@ export const chatInquiry = functions.https.onRequest((request, response) => {
 
     try {
       const body: ChatInquiryRequest = request.body;
-      const { name, email, phone, businessType, chatMessages, userId } = body;
+      const { name, email, phone, company, businessType, chatMessages, userId } = body;
 
       // ログ記録
       const record = rateLimitStore.get(clientIp);
@@ -366,7 +367,7 @@ export const chatInquiry = functions.https.onRequest((request, response) => {
         name,
         email,
         phone,
-        company: `業種: ${businessType}`,
+        company: company ? `${company}（業種: ${businessType}）` : `業種: ${businessType}`,
         message: chatContent,
         userAgent: request.headers['user-agent'] || '',
         ip: clientIp

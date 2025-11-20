@@ -23,6 +23,7 @@ interface ChatInquiryData {
   name: string;
   email: string;
   phone: string;
+  company?: string;
   businessType: string;
   chatMessages: Array<{
     role: 'user' | 'assistant';
