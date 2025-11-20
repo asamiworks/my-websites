@@ -5,7 +5,7 @@ const originalServices = [
   {
     id: "lp",
     title: "ランディングページ制作",
-    price: "220,000円〜",
+    price: "120,000円〜",
     description: "コンバージョン特化の1ページ完結型サイト。A/Bテスト対応で成果を最大化",
     features: [
       "高速表示の実現",
@@ -19,7 +19,7 @@ const originalServices = [
   {
     id: "corporate",
     title: "コーポレートサイト制作",
-    price: "385,000円〜",
+    price: "600,000円〜",
     description: "企業の信頼性を高める本格的なWebサイト。4ページ構成・内部SEO基本対策込み",
     features: [
       "基本4ページ構成",
@@ -33,7 +33,7 @@ const originalServices = [
   {
     id: "grant",
     title: "小規模事業者持続化補助金対応サイト制作",
-    price: "770,000円〜",
+    price: "700,000円〜",
     description: "補助金を活用して最大50万円（インボイス特例適用で最大100万円）の費用削減",
     features: [
       "WordPress導入（自社更新可能）",

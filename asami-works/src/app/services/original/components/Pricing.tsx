@@ -141,14 +141,14 @@ export default function Pricing() {
               <div className={styles.exampleBreakdown}>
                 <p className={styles.breakdownTitle}>プラン内訳：</p>
                 <ul className={styles.breakdownList}>
-                  <li>ランディングページ制作: 220,000円</li>
+                  <li>ランディングページ制作: 120,000円</li>
                   <li>お問い合わせフォーム設置: 33,000円</li>
                   <li>Google Analytics設定: 22,000円</li>
                   <li>広告出稿サポート: 33,000円</li>
                 </ul>
                 <p className={styles.exampleTotal}>
                   <span>合計</span>
-                  <span className={styles.totalPrice}>308,000円</span>
+                  <span className={styles.totalPrice}>208,000円</span>
                 </p>
               </div>
             </div>
@@ -167,7 +167,7 @@ export default function Pricing() {
               <div className={styles.exampleBreakdown}>
                 <p className={styles.breakdownTitle}>プラン内訳：</p>
                 <ul className={styles.breakdownList}>
-                  <li>コーポレートサイト制作: 385,000円</li>
+                  <li>コーポレートサイト制作: 600,000円</li>
                   <li>ページ追加（採用ページ2P）: 22,000円</li>
                   <li>SEO技術対策: 88,000円</li>
                   <li>セキュリティ強化対策: 33,000円</li>
@@ -175,7 +175,7 @@ export default function Pricing() {
                 </ul>
                 <p className={styles.exampleTotal}>
                   <span>合計</span>
-                  <span className={styles.totalPrice}>528,000円〜</span>
+                  <span className={styles.totalPrice}>743,000円〜</span>
                 </p>
               </div>
             </div>
@@ -194,19 +194,19 @@ export default function Pricing() {
               <div className={styles.exampleBreakdown}>
                 <p className={styles.breakdownTitle}>プラン内訳：</p>
                 <ul className={styles.breakdownList}>
-                  <li>小規模事業者持続化補助金対応サイト: 770,000円</li>
+                  <li>小規模事業者持続化補助金対応サイト: 700,000円</li>
                   <li>WordPress導入: 110,000円</li>
                   <li>マイページ機能: 330,000円</li>
                   <li>メールマガジン配信: 55,000円</li>
                   <li>SEO技術対策: 88,000円</li>
                 </ul>
                 <p className={styles.monthlyNote}>※月額サポートプラン加入必須（プレミアム）</p>
-                
-                  
-                  <p className={styles.subsidyNote}>補助金適用後：実質853,000円〜</p>
-                 
+
+
+                  <p className={styles.subsidyNote}>補助金適用後：実質783,000円〜</p>
+
                 <p className={styles.exampleTotal}>
-                <span>合計</span><span className={styles.totalPrice}>1,353,000円</span>
+                <span>合計</span><span className={styles.totalPrice}>1,283,000円</span>
                 </p>
               </div>
             </div>
