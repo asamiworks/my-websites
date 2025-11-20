@@ -14,7 +14,7 @@ export default function TokushohoPage() {
         {/* ヘッダー */}
         <div className={styles.header}>
           <h1 className={styles.title}>特定商取引法に基づく表記</h1>
-          <p className={styles.lastUpdated}>最終更新：2025年11月15日</p>
+          <p className={styles.lastUpdated}>最終更新：2025年11月20日</p>
         </div>
 
         {/* 事業者情報カード */}
@@ -26,11 +26,11 @@ export default function TokushohoPage() {
             <div className={styles.infoTable}>
               <div className={styles.infoRow}>
                 <div className={styles.infoLabel}>事業者名</div>
-                <div className={styles.infoValue}>AsamiWorks</div>
+                <div className={styles.infoValue}>浅見 洋輔（あさみ ようすけ）</div>
               </div>
               <div className={styles.infoRow}>
-                <div className={styles.infoLabel}>代表者</div>
-                <div className={styles.infoValue}>浅見 洋輔（あさみ ようすけ）</div>
+                <div className={styles.infoLabel}>屋号</div>
+                <div className={styles.infoValue}>AsamiWorks</div>
               </div>
               <div className={styles.infoRow}>
                 <div className={styles.infoLabel}>所在地</div>
@@ -80,7 +80,7 @@ export default function TokushohoPage() {
           </div>
           <div className={styles.sectionBody}>
             <p className={styles.sectionText}>
-              各サービスページに記載の価格をご確認ください。価格は税抜表示です。
+              各サービスページに記載の価格をご確認ください。当事業者は免税事業者のため、消費税の請求はありません。
             </p>
             <ul className={styles.list}>
               <li className={styles.listItem}>
@@ -176,6 +176,20 @@ export default function TokushohoPage() {
               <p className={styles.sectionText}>
                 ※詳細は個別の契約書にて定めます。
               </p>
+            </div>
+
+            <div className={styles.subsection}>
+              <h3 className={styles.subsectionTitle}>決済期間</h3>
+              <ul className={styles.list}>
+                <li className={styles.listItem}>
+                  <span className={styles.listBullet}></span>
+                  <span>クレジットカード決済：決済完了後、ただちに処理されます</span>
+                </li>
+                <li className={styles.listItem}>
+                  <span className={styles.listBullet}></span>
+                  <span>銀行振込：請求書発行後、14日以内にお振込みください</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
