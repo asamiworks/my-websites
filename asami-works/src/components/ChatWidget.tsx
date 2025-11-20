@@ -30,6 +30,7 @@ export default function ChatWidget() {
   const [showMembershipSelection, setShowMembershipSelection] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
+  const [googleOnlyMode, setGoogleOnlyMode] = useState(false);
   const [isGuestMode, setIsGuestMode] = useState(false);
 
   const [messages, setMessages] = useState<Message[]>([
@@ -201,34 +202,10 @@ export default function ChatWidget() {
             setQuickReplies([]);
           }
         } else {
-          // 新規チャット: 初期メッセージと初期の選択肢を表示
-          // ただし、既にユーザーがメッセージを送信している場合はリセットしない
-          // （createNewChat()が呼ばれた直後の状態を保持するため）
-          setMessages(prev => {
-            // 初期メッセージのみの場合、またはメッセージがない場合のみリセット
-            if (prev.length <= 1) {
-              return [
-                {
-                  role: "assistant",
-                  content: "AIチャットサービスへようこそ。本日はどのようなことでお困りですか？"
-                }
-              ];
-            }
-            // ユーザーが既にメッセージを送信している場合は現在の状態を維持
-            return prev;
-          });
-          setQuickReplies(prev => {
-            // 初期状態の場合のみリセット
-            if (prev.length === 0 || prev.length === 4) {
-              return [
-                "新規のお客様が増えない",
-                "ホームページを改善したい",
-                "業務が煩雑で時間が足りない",
-                "競合に負けている気がする"
-              ];
-            }
-            return prev;
-          });
+          // currentChatがあるが、メッセージが空の場合
+          // （ゲストチャットを保存した直後など）
+          // 既存のメッセージと選択肢を維持し、初期状態に戻さない
+          // 何もしない（現在の状態を保持）
         }
       }
     }
@@ -697,11 +674,11 @@ export default function ChatWidget() {
                 <button
                   className={styles.loginButton}
                   onClick={() => {
-                    setAuthModalTab('signup');
+                    setGoogleOnlyMode(true);
                     setShowAuthModal(true);
                   }}
                   aria-label="会話を保存"
-                  title="ログインして会話を保存"
+                  title="Googleアカウントでログインして会話を保存"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -1037,8 +1014,12 @@ export default function ChatWidget() {
       {/* Auth Modal */}
       <AuthModal
         isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
+        onClose={() => {
+          setShowAuthModal(false);
+          setGoogleOnlyMode(false);
+        }}
         defaultTab={authModalTab}
+        googleOnly={googleOnlyMode}
       />
     </>
   );
