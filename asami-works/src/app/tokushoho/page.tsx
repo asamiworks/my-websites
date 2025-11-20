@@ -14,7 +14,7 @@ export default function TokushohoPage() {
         {/* ヘッダー */}
         <div className={styles.header}>
           <h1 className={styles.title}>特定商取引法に基づく表記</h1>
-          <p className={styles.lastUpdated}>最終更新：2025年11月20日</p>
+          <p className={styles.lastUpdated}>最終更新：2025年11月19日</p>
         </div>
 
         {/* 事業者情報カード */}
@@ -187,7 +187,7 @@ export default function TokushohoPage() {
                 </li>
                 <li className={styles.listItem}>
                   <span className={styles.listBullet}></span>
-                  <span>銀行振込：請求書発行後、14日以内にお振込みください</span>
+                  <span>銀行振込：月初（1日）発行、月末までにお振込みください</span>
                 </li>
               </ul>
             </div>
