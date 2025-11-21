@@ -1,0 +1,2056 @@
+/* コンテナ */
+.container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* ヒーローセクション */
+.hero {
+  background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #e3f2fd;
+}
+
+.heroDescription {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  line-height: 1.8;
+  color: #e3f2fd;
+}
+
+.demoBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.demoBadge span {
+  font-size: 1.5rem;
+}
+
+/* ヒーローセクション - コンパクト版 */
+.heroCompact {
+  background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+  color: white;
+  padding: 80px 20px 100px;
+}
+
+/* デモアプリケーションコンテナ */
+.demoAppContainer {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 3px solid #cbd5e0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 80px 20px 80px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  container-type: inline-size;
+  container-name: demo-app;
+}
+
+/* アプリヘッダー（固定） */
+.appHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  padding: 12px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.appHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ハンバーガーメニュー */
+.hamburgerButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 101;
+}
+
+.hamburgerButton span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburgerButton:hover span {
+  background: #e3f2fd;
+}
+
+.appLogo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.logoIcon {
+  font-size: 1.5rem;
+}
+
+.logoText {
+  white-space: nowrap;
+}
+
+.appNav {
+  display: flex;
+  gap: 24px;
+}
+
+.appNavLink {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.appNavLink:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.appHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.userName {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.logoutButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* サイドバー */
+.sidebar {
+  position: absolute;
+  top: 56px;
+  left: -280px;
+  width: 280px;
+  height: calc(100% - 56px);
+  background: #ffffff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease;
+  z-index: 99;
+  overflow-y: auto;
+}
+
+.sidebarOpen {
+  left: 0;
+}
+
+.sidebarNav {
+  padding: 16px 0;
+}
+
+.sidebarLink {
+  display: block;
+  width: 100%;
+  padding: 12px 24px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  font-weight: 500;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebarLink:hover {
+  background: #f0f0f0;
+  color: #1a73e8;
+}
+
+.sidebarLinkActive {
+  background: #e3f2fd;
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+.sidebarGroup {
+  border-top: 1px solid #e0e0e0;
+}
+
+.sidebarGroupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  transition: background 0.2s ease;
+}
+
+.sidebarGroupHeader:hover {
+  background: #f0f0f0;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.arrowOpen {
+  transform: rotate(-180deg);
+}
+
+.sidebarGroupContent {
+  background: #f8f9fa;
+}
+
+.sidebarSubLink {
+  display: block;
+  width: 100%;
+  padding: 10px 24px 10px 48px;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebarSubLink:hover {
+  background: #e8e8e8;
+  color: #1a73e8;
+  padding-left: 52px;
+}
+
+.sidebarSubLinkActive {
+  background: #e3f2fd;
+  color: #1a73e8;
+  font-weight: 600;
+  border-left: 3px solid #1a73e8;
+  padding-left: 49px;
+}
+
+.sidebarOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 98;
+}
+
+/* デモコンテナが広い時はサイドバーを常に表示 */
+@container demo-app (min-width: 1024px) {
+  .sidebar {
+    left: 0;
+    top: 56px;
+    height: calc(100% - 56px);
+  }
+
+  .hamburgerButton {
+    display: none;
+  }
+
+  .sidebarOverlay {
+    display: none;
+  }
+
+  .appContent {
+    margin-left: 280px;
+  }
+}
+
+/* スクロール可能なコンテンツエリア */
+.appContent {
+  flex: 1;
+  overflow-y: auto;
+  background: #f8f9fa;
+  scroll-behavior: smooth;
+}
+
+.heroCompactContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heroCompactTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.3;
+}
+
+.heroCompactSubtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #e3f2fd;
+  margin-left: 12px;
+}
+
+.heroCompactDescription {
+  margin-top: 20px;
+}
+
+.overviewLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e3f2fd;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.overviewText {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 900px;
+}
+
+/* セクション共通 */
+.overviewSection,
+.dashboardSection,
+.dataSection,
+.featuresSection,
+.techSection {
+  padding: 60px 20px;
+}
+
+.overviewSection {
+  background-color: white;
+}
+
+.sectionContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #202124;
+}
+
+.sectionDescription {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #5f6368;
+  margin-bottom: 50px;
+  line-height: 1.8;
+}
+
+/* ダッシュボード */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.statCard {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.statIcon {
+  font-size: 3rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.statContent {
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #202124;
+}
+
+/* タブナビゲーション */
+.tabNav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+  overflow-x: auto;
+}
+
+.tabButton {
+  padding: 14px 28px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #5f6368;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+
+.tabButton:hover {
+  color: #1a73e8;
+}
+
+.tabButton.active {
+  color: #1a73e8;
+  border-bottom-color: #1a73e8;
+}
+
+/* 検索バー */
+.searchBar {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
+/* テーブル */
+.tableContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tableHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #202124;
+}
+
+.addButton {
+  padding: 10px 20px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.addButton:hover {
+  background: #1557b0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+}
+
+/* アクションボタン */
+.actionButton {
+  padding: 6px 16px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 8px;
+}
+
+.actionButton:hover {
+  background: #1557b0;
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+/* 削除ボタン */
+.deleteButton {
+  padding: 6px 16px;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.deleteButton:hover {
+  background: #b71c1c;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.dataTable thead {
+  background: #f8f9fa;
+}
+
+.dataTable th {
+  padding: 14px;
+  text-align: left;
+  font-weight: 600;
+  color: #5f6368;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.dataTable td {
+  padding: 14px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #202124;
+}
+
+.dataTable tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.notesCell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.negative {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+/* ステータスバッジ */
+.statusBadge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusBadge.success {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.statusBadge.warning {
+  background: #fef3c7;
+  color: #f59e0b;
+}
+
+.statusBadge.info {
+  background: #e8f0fe;
+  color: #1a73e8;
+}
+
+.statusBadge.secondary {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.statusBadge.shared {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.statusBadge.single {
+  background: #e0e7ff;
+  color: #6366f1;
+}
+
+/* 共同所有バッジ */
+.sharedBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* 所有者リスト */
+.ownershipList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ownershipItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.sharePercent {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #e8f0fe;
+  color: #1a73e8;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 詳細モーダルの所有者情報 */
+.ownershipSection {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.ownershipSection > p:first-child {
+  margin-top: 0;
+}
+
+.ownershipDetail {
+  margin-top: 12px;
+}
+
+.ownershipDetailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.ownershipDetailItem:last-child {
+  border-bottom: none;
+}
+
+.ownerName {
+  font-size: 1rem;
+  color: #202124;
+  font-weight: 500;
+}
+
+.primaryBadge {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #1a73e8;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.sharePercentLarge {
+  display: inline-block;
+  padding: 6px 14px;
+  background: #e8f0fe;
+  color: #1a73e8;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.singleOwner {
+  color: #5f6368;
+  font-size: 0.95rem;
+  margin: 8px 0;
+}
+
+/* 按分情報 */
+.prorationInfo {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.prorationInfo > p:first-child {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.prorationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: white;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.prorationItem:last-child {
+  margin-bottom: 0;
+}
+
+.prorationItem span:first-child {
+  color: #202124;
+  font-weight: 500;
+}
+
+.prorationItem span:last-child {
+  color: #1a73e8;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* 請求書詳細セクション */
+.invoiceStatusSection {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.invoiceItemsSection {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.invoiceItemsSection > p:first-child {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.invoiceItemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.invoiceItemCard {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.invoiceItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.itemDescription {
+  color: #5f6368;
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+
+.invoiceItemDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #5f6368;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.itemAmount {
+  font-weight: 700;
+  color: #202124;
+  font-size: 1rem;
+}
+
+.shareAmountSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px;
+  background: #e8f0fe;
+  border-radius: 6px;
+}
+
+.shareLabel {
+  font-weight: 600;
+  color: #5f6368;
+  font-size: 0.9rem;
+}
+
+.shareAmount {
+  font-weight: 700;
+  color: #1a73e8;
+  font-size: 1.1rem;
+}
+
+/* 按分計算の視覚化 */
+.allocationVisualization {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #1a73e8;
+  margin-top: 20px;
+}
+
+.allocationVisualization h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #202124;
+  margin: 0 0 8px 0;
+}
+
+.allocationNote {
+  font-size: 0.9rem;
+  color: #5f6368;
+  margin: 0 0 20px 0;
+}
+
+.allocationBars {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.allocationBar {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.allocationBarLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #202124;
+}
+
+.allocationBarLabel span:last-child {
+  color: #1a73e8;
+  font-size: 1.1rem;
+}
+
+.allocationBarTrack {
+  width: 100%;
+  height: 24px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.allocationBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #1a73e8 0%, #4285f4 100%);
+  border-radius: 12px;
+  transition: width 0.5s ease;
+}
+
+.allocationBarAmounts {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #5f6368;
+}
+
+.allocationBarAmounts span:first-child {
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+/* PDFプレビュー */
+.pdfPreview {
+  margin: 24px 0;
+  background: #f0f0f0;
+  padding: 24px;
+  border-radius: 4px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.pdfDocument {
+  background: white;
+  padding: 60px 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 800px;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif;
+  line-height: 1.8;
+}
+
+.pdfHeader {
+  text-align: center;
+  border-bottom: 3px double #000;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.pdfHeader h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #000;
+  margin: 0 0 10px 0;
+  letter-spacing: 16px;
+}
+
+.invoiceId {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #000;
+  margin: 0;
+}
+
+.pdfSection {
+  margin-bottom: 30px;
+}
+
+.pdfRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.pdfColumn {
+  flex: 1;
+}
+
+.pdfColumn p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #000;
+}
+
+.pdfColumn p strong {
+  font-size: 1.05rem;
+  color: #000;
+  font-weight: 500;
+}
+
+.pdfTotalAmount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px 24px;
+  border: 2px solid #000;
+  margin: 20px 0;
+}
+
+.pdfTotalAmount span:first-child {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+  letter-spacing: 0.1em;
+}
+
+.pdfAmount {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #000;
+  letter-spacing: 0.05em;
+}
+
+.pdfSection h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+  margin: 0 0 16px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #000;
+  letter-spacing: 0.1em;
+}
+
+.pdfTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  border: 1px solid #000;
+}
+
+.pdfTable th,
+.pdfTable td {
+  padding: 10px 8px;
+  text-align: left;
+  border: 1px solid #000;
+  font-size: 0.9rem;
+}
+
+.pdfTable th {
+  background: white;
+  font-weight: 500;
+  color: #000;
+}
+
+.pdfTable td {
+  color: #000;
+  background: white;
+}
+
+.pdfTable td:nth-child(3),
+.pdfTable td:nth-child(4),
+.pdfTable td:nth-child(5),
+.pdfTable th:nth-child(3),
+.pdfTable th:nth-child(4),
+.pdfTable th:nth-child(5) {
+  text-align: right;
+}
+
+.pdfFooter {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid #000;
+  text-align: center;
+}
+
+.pdfFooter p {
+  margin: 4px 0;
+  font-size: 0.85rem;
+  color: #000;
+  line-height: 1.6;
+}
+
+.pdfFooter p:first-child {
+  font-weight: 500;
+  color: #000;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+/* 機能カードグリッド */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.featureCard {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.featureCard h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #202124;
+  margin-bottom: 12px;
+}
+
+.featureCard p {
+  color: #5f6368;
+  line-height: 1.6;
+}
+
+/* 技術スタック */
+.techSection {
+  background: white;
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.techItem {
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.techItem h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #202124;
+  margin-bottom: 8px;
+}
+
+.techItem p {
+  color: #5f6368;
+  font-size: 0.95rem;
+}
+
+/* CTAセクション */
+.ctaSection {
+  background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.ctaContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.ctaDescription {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  line-height: 1.8;
+  color: #e3f2fd;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 16px 40px;
+  background: white;
+  color: #1a73e8;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.ctaButton:hover {
+  background: #e3f2fd;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* モーダル */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+  margin: auto;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #202124;
+  margin-bottom: 16px;
+}
+
+.modal p {
+  color: #5f6368;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.modalText {
+  color: #5f6368;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.confirmButton {
+  padding: 12px 32px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirmButton:hover {
+  background: #1557b0;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+}
+
+.cancelButton {
+  padding: 12px 32px;
+  background: #f3f4f6;
+  color: #5f6368;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancelButton:hover {
+  background: #e5e7eb;
+}
+
+.closeButton {
+  padding: 12px 32px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+  background: #1557b0;
+}
+
+.detailContent {
+  margin-top: 20px;
+}
+
+.detailContent dl {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.detailContent dt {
+  font-weight: 600;
+  color: #5f6368;
+  font-size: 0.9rem;
+}
+
+.detailContent dd {
+  color: #202124;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* 期間選択セクション */
+.periodSelection {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.periodControls {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.controlGroup label {
+  font-weight: 600;
+  color: #5f6368;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.formSelect {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #202124;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.formSelect:hover {
+  border-color: #1a73e8;
+}
+
+.formSelect:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* グラフセクション */
+.chartsSection {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.chartsSection > h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #202124;
+  margin-bottom: 24px;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.chartCard {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.chartCard:hover {
+  border-color: #1a73e8;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.chartHeader h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #202124;
+  margin: 0;
+}
+
+.chartUnit {
+  font-size: 0.875rem;
+  color: #5f6368;
+  font-weight: 500;
+}
+
+.chartContainer {
+  height: 250px;
+  position: relative;
+}
+
+/* トレーニング記録入力フォームセクション */
+.formSection {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.formHeader {
+  margin-bottom: 30px;
+}
+
+.formHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #202124;
+  margin-bottom: 10px;
+}
+
+.formSubtitle {
+  font-size: 0.95rem;
+  color: #5f6368;
+  line-height: 1.6;
+}
+
+/* タブ説明セクション */
+.tabDescription {
+  margin-bottom: 24px;
+}
+
+.tabDescription h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #202124;
+  margin-bottom: 10px;
+}
+
+.tabDescription p {
+  font-size: 1rem;
+  color: #5f6368;
+  line-height: 1.7;
+}
+
+/* モード切り替えトグル */
+.modeToggle {
+  display: flex;
+  gap: 8px;
+  background: #f8f9fa;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.formCard {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.formCard:hover {
+  border-color: #1a73e8;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.1);
+}
+
+.formCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.formCardNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.formCardHeader h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #202124;
+  margin: 0;
+}
+
+.formCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formGroup label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #5f6368;
+}
+
+.inputWithUnit {
+  display: flex;
+  align-items: stretch;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.inputWithUnit:focus-within {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.inputWithUnit input {
+  flex: 1;
+  padding: 12px 14px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #202124;
+  background: transparent;
+}
+
+.inputWithUnit input:disabled {
+  color: #5f6368;
+  cursor: not-allowed;
+}
+
+.unitLabel {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  background: #f8f9fa;
+  color: #5f6368;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-left: 1px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.formTextarea {
+  padding: 12px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #202124;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.formTextarea:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+  outline: none;
+}
+
+.formTextarea:disabled {
+  color: #5f6368;
+  cursor: not-allowed;
+  background: white;
+}
+
+.formHint {
+  font-size: 0.85rem;
+  color: #5f6368;
+  line-height: 1.5;
+  margin: 0;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border-left: 3px solid #1a73e8;
+}
+
+/* 入力モード切り替え */
+.modeButton {
+  flex: 1;
+  padding: 10px 24px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #5f6368;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.modeButton:hover {
+  color: #1a73e8;
+}
+
+.modeButton.active {
+  background: white;
+  color: #1a73e8;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 選択情報表示 */
+.selectedHorseInfo {
+  padding: 16px;
+  background: #e8f0fe;
+  border-radius: 8px;
+  border-left: 4px solid #1a73e8;
+  margin-top: 16px;
+}
+
+.infoLabel {
+  font-weight: 600;
+  color: #5f6368;
+  margin-right: 12px;
+}
+
+.infoValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a73e8;
+}
+
+.formDivider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #e0e0e0 20%, #e0e0e0 80%, transparent 100%);
+  margin: 30px 0;
+}
+
+/* 項目別入力セクション */
+.itemInputSection {
+  padding: 20px;
+}
+
+.allHorsesForm {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+}
+
+.itemTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #202124;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.itemNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.horseInputRow {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.horseInputRow:last-of-type {
+  border-bottom: none;
+}
+
+.horseInputGroup {
+  padding: 20px;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.horseInputGroup:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.horseName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #202124;
+}
+
+/* 体温入力 */
+.tempInputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.tempField label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+/* 心拍数入力 */
+.heartRateInputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.heartRateField label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+/* 酸化ストレス入力 */
+.stressInputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.stressField label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+/* 空の状態メッセージ */
+.emptyState {
+  padding: 60px 20px;
+  text-align: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+}
+
+.emptyState p {
+  font-size: 1.1rem;
+  color: #5f6368;
+  margin: 0;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .heroCompact {
+    padding: 30px 16px;
+  }
+
+  .heroCompactTitle {
+    font-size: 1.5rem;
+  }
+
+  .heroCompactSubtitle {
+    display: block;
+    margin-left: 0;
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+
+  .overviewLabel {
+    font-size: 0.9rem;
+  }
+
+  .overviewText {
+    font-size: 0.875rem;
+  }
+
+  .demoAppContainer {
+    margin: 10px;
+  }
+
+  .appHeader {
+    padding: 10px 12px;
+  }
+
+  .appHeaderLeft {
+    gap: 12px;
+  }
+
+  .appLogo {
+    font-size: 0.9rem;
+  }
+
+  .logoIcon {
+    font-size: 1.2rem;
+  }
+
+  .appNav {
+    display: none; /* Hide navigation on mobile */
+  }
+
+  .userName {
+    font-size: 0.85rem;
+  }
+
+  .logoutButton {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tabNav {
+    justify-content: flex-start;
+  }
+
+  .searchBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .tableContainer {
+    padding: 20px;
+    overflow-x: auto;
+  }
+
+  .tableHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+
+  .dataTable {
+    font-size: 0.9rem;
+  }
+
+  .dataTable th,
+  .dataTable td {
+    padding: 10px;
+  }
+
+  .actionButton,
+  .deleteButton {
+    padding: 4px 12px;
+    font-size: 0.75rem;
+  }
+
+  .modal {
+    padding: 24px;
+    width: 95%;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+  }
+
+  .confirmButton,
+  .cancelButton,
+  .closeButton {
+    width: 100%;
+  }
+
+  .detailContent dl {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .detailContent dt {
+    margin-top: 12px;
+  }
+
+  .periodControls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .controlGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .formSelect {
+    width: 100%;
+  }
+
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chartCard {
+    padding: 16px;
+  }
+
+  .chartContainer {
+    height: 200px;
+  }
+
+  .featuresGrid,
+  .techGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaTitle {
+    font-size: 1.8rem;
+  }
+
+  .ctaDescription {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,116 @@
+.flowSection {
+    padding: 60px 20px;
+    background-color: #f5f8fb;
+    text-align: center;
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+    color: #005bac;
+    margin-bottom: 10px;
+  }
+  
+  .description {
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .flowLabel {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #005bac;
+    background-color: #e3f0ff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 0 auto 20px;
+  }
+  
+  /* コンテナ */
+  .flowContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 16px;
+    padding-bottom: 10px;
+    justify-content: flex-start;
+  }
+  
+  /* デスクトップ時は中央寄せに */
+  @media screen and (min-width: 768px) {
+    .flowContainer {
+      justify-content: center;
+      overflow-x: visible;
+    }
+  }
+  
+  /* 各カード */
+  .flowCard {
+    background-color: #fff;
+    width: 80px;
+    height: 320px;
+    min-width: 80px;
+    border: 2px solid #005bac;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 0;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 91, 172, 0.08);
+    flex-shrink: 0;
+  }
+  
+  .cardNumber {
+    width: 40px;
+    height: 40px;
+    background-color: #005bac;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .cardTitle {
+    writing-mode: vertical-rl;
+    font-size: 0.95rem;
+    color: #333;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    text-align: center;
+  }
+  
+  /* 無料相談ゾーン */
+  .freeZone {
+    background-color: #e9f4ff;
+    border-color: #339dff;
+  }
+  
+  /* CMS関連工程（薄く＋破線） */
+  .cmsOnly {
+    border-style: dashed;
+    opacity: 0.7;
+  }
+  
+  
+  .slideHint {
+    display: none;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  
+  /* スマホサイズでのみ表示 */
+  @media screen and (max-width: 767px) {
+    .slideHint {
+      display: block;
+    }
+  }
+  
+  

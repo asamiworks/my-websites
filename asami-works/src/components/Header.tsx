@@ -136,20 +136,16 @@ export default function Header() {
       ]
     },
     {
-      label: "その他制作",
-      href: "#",
-      hasDropdown: true,
-      dropdownKey: "others",
-      dropdownItems: [
-        { label: "WEBアプリ開発", href: "/services/webapp" }
-      ]
+      label: "WEBアプリ開発",
+      href: "/services/webapp"
     },
     {
-      label: "サポート",
+      label: "ご案内",
       href: "#",
       hasDropdown: true,
       dropdownKey: "service",
       dropdownItems: [
+        { label: "サービス比較", href: "/services/comparison" },
         { label: "メール設定ガイド", href: "/support/email-setup" }
       ]
     }

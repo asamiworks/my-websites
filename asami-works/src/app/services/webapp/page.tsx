@@ -244,6 +244,32 @@ export default function WebAppService() {
           </div>
         </section>
 
+        {/* Demos Section */}
+        <section className={styles.section}>
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionLabel}>Demos</span>
+              <h2 className={styles.sectionTitle}>WEBアプリデモ一覧</h2>
+              <p className={styles.sectionSub}>
+                実際の開発事例を参考にしたデモアプリをご覧いただけます
+              </p>
+            </div>
+            <div className={styles.cardGrid}>
+              <article className={styles.card}>
+                <span className={styles.cardLabel}>Stable Management</span>
+                <h3 className={styles.cardTitle}>厩舎管理システム</h3>
+                <p className={styles.cardText}>
+                  競走馬の厩舎管理システム。馬主管理、入厩記録、診療記録、請求書自動生成など、
+                  複雑なビジネスロジックを持つ本格的なシステムのデモです。
+                </p>
+                <a href="/services/webapp/stable-management" className={styles.cardLink}>
+                  デモを見る →
+                </a>
+              </article>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className={styles.ctaSection}>
           <div className={styles.ctaInner}>

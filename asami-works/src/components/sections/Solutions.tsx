@@ -81,6 +81,11 @@ export default function Solutions() {
             きめ細やかなサポートで、<br />
             <strong>あなたのビジネスを成功に導きます</strong>
           </p>
+          <div className={styles.comparisonLink}>
+            <a href="/services/comparison" className={styles.comparisonButton}>
+              WEBサイトとWEBアプリの違いはこちら →
+            </a>
+          </div>
         </div>
       </div>
     </section>

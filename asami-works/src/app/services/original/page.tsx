@@ -5,11 +5,11 @@ import Flow from "./components/Flow";
 import styles from "./original.module.css";
 
 export const metadata: Metadata = {
-  title: "オリジナル制作サービス | AsamiWorks",
+  title: "WEBサイト制作プラン詳細 | AsamiWorks",
   description: "完全オーダーメイドのWeb制作サービス。コーポレートサイト、ランディングページ、補助金対応サイトまで、お客様のニーズに合わせた最適なWebサイトを制作いたします。",
-  keywords: ["オリジナル制作", "Web制作", "オーダーメイド", "コーポレートサイト", "ランディングページ", "補助金対応"],
+  keywords: ["Web制作", "ホームページ制作", "オーダーメイド", "コーポレートサイト", "ランディングページ", "補助金対応"],
   openGraph: {
-    title: "オリジナル制作サービス | AsamiWorks",
+    title: "WEBサイト制作プラン詳細 | AsamiWorks",
     description: "完全オーダーメイドのWeb制作サービス",
     url: "https://asami-works.com/services/original",
     siteName: "AsamiWorks",
@@ -24,7 +24,7 @@ export default function OriginalServicesPage() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            オリジナル制作サービス
+            WEBサイト制作プラン詳細
             <span className={styles.heroSubtitle}>完全オーダーメイドのWeb制作</span>
           </h1>
           <p className={styles.heroDescription}>
