@@ -314,7 +314,7 @@ const initialMedicalRecords: MedicalRecord[] = [
 export default function StableManagementDemo() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "owners" | "horses" | "invoices" | "health" | "training" | "medical" | "facility">("dashboard");
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState<"add" | "edit" | "detail" | "pdf">("add");
+  const [modalType, setModalType] = useState<"add" | "edit" | "detail" | "pdf" | "invoice">("add");
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [healthPeriod, setHealthPeriod] = useState<"1month" | "3months" | "6months" | "1year" | "all">("3months");
   const [selectedHorse, setSelectedHorse] = useState<string>("all");
@@ -1742,7 +1742,7 @@ export default function StableManagementDemo() {
                       {/* 所有者情報 */}
                       <div className={styles.ownershipSection}>
                         <p className={styles.ownershipTitle}><strong>所有者情報</strong></p>
-                        {selectedItem.ownership?.map((owner, index) => (
+                        {selectedItem.ownership?.map((owner: HorseOwnership, index: number) => (
                           <div key={index} className={styles.ownerItem}>
                             <p>
                               {owner.ownerName}
