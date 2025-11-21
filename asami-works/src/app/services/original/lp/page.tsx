@@ -76,7 +76,6 @@ export default function LandingPageService() {
           <h2 className={styles.sectionTitle}>成果を出すための技術</h2>
           <div className={styles.technologyGrid}>
             <div className={styles.technologyItem}>
-              <div className={styles.technologyIcon}>⚡</div>
               <h3 className={styles.technologyTitle}>超高速表示</h3>
               <p className={styles.technologyDescription}>
                 Core Web Vitals最適化により、3秒以内の表示を実現。
@@ -84,7 +83,6 @@ export default function LandingPageService() {
               </p>
             </div>
             <div className={styles.technologyItem}>
-              <div className={styles.technologyIcon}>🤖</div>
               <h3 className={styles.technologyTitle}>AIO対策</h3>
               <p className={styles.technologyDescription}>
                 ChatGPTやPerplexityなどのAI検索に最適化された構造化データを実装。
@@ -92,7 +90,6 @@ export default function LandingPageService() {
               </p>
             </div>
             <div className={styles.technologyItem}>
-              <div className={styles.technologyIcon}>🎯</div>
               <h3 className={styles.technologyTitle}>コンバージョン設計</h3>
               <p className={styles.technologyDescription}>
                 ユーザー心理に基づいた導線設計。
@@ -101,7 +98,6 @@ export default function LandingPageService() {
               </p>
             </div>
             <div className={styles.technologyItem}>
-              <div className={styles.technologyIcon}>📊</div>
               <h3 className={styles.technologyTitle}>A/Bテスト対応</h3>
               <p className={styles.technologyDescription}>
                 複数パターンを比較検証できる構造で制作。
@@ -109,7 +105,6 @@ export default function LandingPageService() {
               </p>
             </div>
             <div className={styles.technologyItem}>
-              <div className={styles.technologyIcon}>📱</div>
               <h3 className={styles.technologyTitle}>完全レスポンシブ</h3>
               <p className={styles.technologyDescription}>
                 スマホからの流入が8割を超える現在、
@@ -117,7 +112,6 @@ export default function LandingPageService() {
               </p>
             </div>
             <div className={styles.technologyItem}>
-              <div className={styles.technologyIcon}>🔒</div>
               <h3 className={styles.technologyTitle}>セキュリティ</h3>
               <p className={styles.technologyDescription}>
                 SSL証明書設定、フォームのスパム対策など、

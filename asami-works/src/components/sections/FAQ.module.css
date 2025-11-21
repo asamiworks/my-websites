@@ -57,9 +57,19 @@
   box-shadow: 0 4px 20px rgba(26, 115, 232, 0.15);
 }
 
-/* AppSheetカテゴリーの質問が開いた時の特別なスタイル */
-.faqItem:has(.category:contains("AppSheet")).open {
+/* サイト関連が開いた時（青） */
+.faqItemSite.open {
+  box-shadow: 0 4px 20px rgba(26, 115, 232, 0.15);
+}
+
+/* アプリ関連が開いた時（緑） */
+.faqItemApp.open {
   box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+}
+
+/* WEB関連が開いた時（オレンジ） */
+.faqItemWeb.open {
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
 }
 
 .faqQuestion {
@@ -92,10 +102,22 @@
   flex-shrink: 0;
 }
 
-/* AppSheetカテゴリー用の特別なスタイル */
-.faqItem:nth-child(n+7) .category {
+/* サイト関連（デフォルト - 青） */
+.categorySite {
+  background: #e8f0fe;
+  color: #1a73e8;
+}
+
+/* アプリ関連（緑） */
+.categoryApp {
   background: #d1fae5;
   color: #10b981;
+}
+
+/* WEB関連（オレンジ） */
+.categoryWeb {
+  background: #fff4e6;
+  color: #f59e0b;
 }
 
 .faqQuestion h3 {
@@ -132,9 +154,19 @@
   transform: translateY(-50%) rotate(180deg);
 }
 
-/* AppSheetカテゴリーの質問が開いた時のアイコンカラー */
-.faqItem:nth-child(n+7).open .icon {
+/* サイト関連が開いた時のアイコン（青） */
+.faqItemSite.open .icon {
+  background: #1a73e8;
+}
+
+/* アプリ関連が開いた時のアイコン（緑） */
+.faqItemApp.open .icon {
   background: #10b981;
+}
+
+/* WEB関連が開いた時のアイコン（オレンジ） */
+.faqItemWeb.open .icon {
+  background: #f59e0b;
 }
 
 .faqAnswer {
