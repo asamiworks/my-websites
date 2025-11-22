@@ -24,6 +24,12 @@ interface Room {
   status: "vacant" | "occupied" | "reserved";
   tenant?: string;
   contractEndDate?: string;
+  // 空室の場合
+  lastVacatedDate?: string;  // 前回の退去日
+  maintenanceDate?: string;  // メンテナンス予定日
+  // 入居中の場合
+  moveInDate?: string;  // 入居日
+  nextRenewalDate?: string;  // 次回更新日
 }
 
 interface Property {
@@ -78,7 +84,9 @@ interface Invoice {
   amount: number;
   dueDate: string;
   issueDate: string;
-  status: "draft" | "issued" | "paid" | "overdue";
+  moveInDate: string;  // 入居日
+  nextRenewalDate: string;  // 次回更新日
+  status: "draft" | "reminding" | "paid" | "overdue";
   items: InvoiceItem[];
 }
 
@@ -159,11 +167,11 @@ const initialProperties: Property[] = [
     occupiedUnits: 18,
     buildYear: 2018,
     rooms: [
-      { roomNumber: "101", floor: 1, layout: "1K", area: 25, rent: 85000, status: "occupied", tenant: "伊藤 健一", contractEndDate: "2026-03-31" },
-      { roomNumber: "102", floor: 1, layout: "1K", area: 25, rent: 85000, status: "occupied", tenant: "渡辺 美咲", contractEndDate: "2025-12-31" },
-      { roomNumber: "103", floor: 1, layout: "1K", area: 25, rent: 85000, status: "vacant" },
-      { roomNumber: "201", floor: 2, layout: "1LDK", area: 40, rent: 120000, status: "occupied", tenant: "中村 雅人", contractEndDate: "2026-06-30" },
-      { roomNumber: "202", floor: 2, layout: "1LDK", area: 40, rent: 120000, status: "vacant" },
+      { roomNumber: "101", floor: 1, layout: "1K", area: 25, rent: 85000, status: "occupied", tenant: "伊藤 健一", contractEndDate: "2026-03-31", moveInDate: "2024-04-01", nextRenewalDate: "2026-03-31" },
+      { roomNumber: "102", floor: 1, layout: "1K", area: 25, rent: 85000, status: "occupied", tenant: "渡辺 美咲", contractEndDate: "2025-12-31", moveInDate: "2023-12-01", nextRenewalDate: "2025-12-31" },
+      { roomNumber: "103", floor: 1, layout: "1K", area: 25, rent: 85000, status: "vacant", lastVacatedDate: "2024-10-15", maintenanceDate: "2024-11-25" },
+      { roomNumber: "201", floor: 2, layout: "1LDK", area: 40, rent: 120000, status: "occupied", tenant: "中村 雅人", contractEndDate: "2026-06-30", moveInDate: "2024-07-01", nextRenewalDate: "2026-06-30" },
+      { roomNumber: "202", floor: 2, layout: "1LDK", area: 40, rent: 120000, status: "vacant", lastVacatedDate: "2024-09-30" },
     ]
   },
   {
@@ -177,9 +185,9 @@ const initialProperties: Property[] = [
     occupiedUnits: 9,
     buildYear: 2015,
     rooms: [
-      { roomNumber: "A-101", floor: 1, layout: "2LDK", area: 55, rent: 180000, status: "occupied", tenant: "小林 真理子", contractEndDate: "2026-01-31" },
-      { roomNumber: "A-102", floor: 1, layout: "2LDK", area: 55, rent: 180000, status: "occupied", tenant: "加藤 慎太郎", contractEndDate: "2025-11-30" },
-      { roomNumber: "B-201", floor: 2, layout: "1K", area: 28, rent: 95000, status: "occupied", tenant: "吉田 優子", contractEndDate: "2026-02-28" },
+      { roomNumber: "A-101", floor: 1, layout: "2LDK", area: 55, rent: 180000, status: "occupied", tenant: "小林 真理子", contractEndDate: "2026-01-31", moveInDate: "2024-02-01", nextRenewalDate: "2026-01-31" },
+      { roomNumber: "A-102", floor: 1, layout: "2LDK", area: 55, rent: 180000, status: "occupied", tenant: "加藤 慎太郎", contractEndDate: "2025-11-30", moveInDate: "2023-11-01", nextRenewalDate: "2025-11-30" },
+      { roomNumber: "B-201", floor: 2, layout: "1K", area: 28, rent: 95000, status: "occupied", tenant: "吉田 優子", contractEndDate: "2026-02-28", moveInDate: "2024-03-01", nextRenewalDate: "2026-02-28" },
     ]
   },
   {
@@ -193,9 +201,9 @@ const initialProperties: Property[] = [
     occupiedUnits: 13,
     buildYear: 2020,
     rooms: [
-      { roomNumber: "301", floor: 3, layout: "2LDK", area: 60, rent: 200000, status: "occupied", tenant: "松本 大輔", contractEndDate: "2026-05-31" },
-      { roomNumber: "302", floor: 3, layout: "2LDK", area: 60, rent: 200000, status: "reserved" },
-      { roomNumber: "401", floor: 4, layout: "3LDK", area: 75, rent: 280000, status: "occupied", tenant: "井上 奈々", contractEndDate: "2026-08-31" },
+      { roomNumber: "301", floor: 3, layout: "2LDK", area: 60, rent: 200000, status: "occupied", tenant: "松本 大輔", contractEndDate: "2026-05-31", moveInDate: "2024-06-01", nextRenewalDate: "2026-05-31" },
+      { roomNumber: "302", floor: 3, layout: "2LDK", area: 60, rent: 200000, status: "reserved", lastVacatedDate: "2024-08-20" },
+      { roomNumber: "401", floor: 4, layout: "3LDK", area: 75, rent: 280000, status: "occupied", tenant: "井上 奈々", contractEndDate: "2026-08-31", moveInDate: "2024-09-01", nextRenewalDate: "2026-08-31" },
     ]
   },
   {
@@ -209,9 +217,9 @@ const initialProperties: Property[] = [
     occupiedUnits: 16,
     buildYear: 2017,
     rooms: [
-      { roomNumber: "101", floor: 1, layout: "1DK", area: 32, rent: 105000, status: "occupied", tenant: "木村 拓也", contractEndDate: "2026-04-30" },
-      { roomNumber: "102", floor: 1, layout: "1DK", area: 32, rent: 105000, status: "vacant" },
-      { roomNumber: "201", floor: 2, layout: "1LDK", area: 45, rent: 140000, status: "occupied", tenant: "斎藤 麻衣", contractEndDate: "2025-12-31" },
+      { roomNumber: "101", floor: 1, layout: "1DK", area: 32, rent: 105000, status: "occupied", tenant: "木村 拓也", contractEndDate: "2026-04-30", moveInDate: "2024-05-01", nextRenewalDate: "2026-04-30" },
+      { roomNumber: "102", floor: 1, layout: "1DK", area: 32, rent: 105000, status: "vacant", lastVacatedDate: "2024-07-31", maintenanceDate: "2024-11-30" },
+      { roomNumber: "201", floor: 2, layout: "1LDK", area: 45, rent: 140000, status: "occupied", tenant: "斎藤 麻衣", contractEndDate: "2025-12-31", moveInDate: "2023-12-15", nextRenewalDate: "2025-12-31" },
     ]
   },
   {
@@ -256,6 +264,8 @@ const initialInvoices: Invoice[] = [
     amount: 85000,
     dueDate: "2025-11-27",
     issueDate: "2025-11-01",
+    moveInDate: "2024-04-01",
+    nextRenewalDate: "2026-03-31",
     status: "paid",
     items: [
       { description: "家賃（11月分）", amount: 85000 }
@@ -270,7 +280,9 @@ const initialInvoices: Invoice[] = [
     amount: 85000,
     dueDate: "2025-11-27",
     issueDate: "2025-11-01",
-    status: "issued",
+    moveInDate: "2023-12-01",
+    nextRenewalDate: "2025-12-31",
+    status: "reminding",
     items: [
       { description: "家賃（11月分）", amount: 85000 }
     ]
@@ -284,6 +296,8 @@ const initialInvoices: Invoice[] = [
     amount: 120000,
     dueDate: "2025-11-27",
     issueDate: "2025-11-01",
+    moveInDate: "2024-07-01",
+    nextRenewalDate: "2026-06-30",
     status: "paid",
     items: [
       { description: "家賃（11月分）", amount: 120000 }
@@ -298,6 +312,8 @@ const initialInvoices: Invoice[] = [
     amount: 180000,
     dueDate: "2025-11-27",
     issueDate: "2025-11-01",
+    moveInDate: "2024-02-01",
+    nextRenewalDate: "2026-01-31",
     status: "paid",
     items: [
       { description: "家賃（11月分）", amount: 180000 }
@@ -312,6 +328,8 @@ const initialInvoices: Invoice[] = [
     amount: 180000,
     dueDate: "2025-11-27",
     issueDate: "2025-11-01",
+    moveInDate: "2023-11-01",
+    nextRenewalDate: "2025-11-30",
     status: "overdue",
     items: [
       { description: "家賃（11月分）", amount: 180000 }
@@ -398,7 +416,8 @@ export default function RentalManagementDemo() {
   const [contractSort, setContractSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "name", order: "asc" });
 
   const [invoiceSearch, setInvoiceSearch] = useState("");
-  const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<"all" | "draft" | "issued" | "paid" | "overdue">("all");
+  const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<"all" | "draft" | "reminding" | "paid" | "overdue">("all");
+  const [selectedPropertyId, setSelectedPropertyId] = useState<number>(1); // 物件選択用
   const [invoiceSort, setInvoiceSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "id", order: "asc" });
 
   const [maintenanceSearch, setMaintenanceSearch] = useState("");
@@ -1265,104 +1284,84 @@ export default function RentalManagementDemo() {
             </section>
           )}
 
-          {/* Finance & Invoicing */}
+          {/* Property Management */}
           {activeTab === "finance" && (
             <section className={styles.dataSection}>
               <div className={styles.sectionContent}>
-                <h2 className={styles.sectionTitle}>家賃・請求管理</h2>
+                <h2 className={styles.sectionTitle}>物件管理</h2>
 
+                {/* Property Selection */}
+                <div className={styles.propertySelection}>
+                  <label htmlFor="property-select" className={styles.selectLabel}>物件を選択：</label>
+                  <select
+                    id="property-select"
+                    className={styles.propertySelect}
+                    value={selectedPropertyId}
+                    onChange={(e) => setSelectedPropertyId(Number(e.target.value))}
+                  >
+                    {properties.map((property) => (
+                      <option key={property.id} value={property.id}>
+                        {property.name} （{property.address}）
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Rooms Table */}
                 <div className={styles.tableContainer}>
                   <div className={styles.tableHeader}>
-                    <h3>請求一覧（{filteredInvoices.length}件）</h3>
-                  </div>
-
-                  {/* Search & Filter */}
-                  <div className={styles.searchFilterBar}>
-                    <input
-                      type="text"
-                      className={styles.searchInput}
-                      placeholder="請求番号、入居者名、物件名で検索..."
-                      value={invoiceSearch}
-                      onChange={(e) => setInvoiceSearch(e.target.value)}
-                    />
-                    <select
-                      className={styles.filterSelect}
-                      value={invoiceStatusFilter}
-                      onChange={(e) => setInvoiceStatusFilter(e.target.value as any)}
-                    >
-                      <option value="all">すべて</option>
-                      <option value="draft">下書き</option>
-                      <option value="issued">請求済</option>
-                      <option value="paid">入金済</option>
-                      <option value="overdue">未入金</option>
-                    </select>
+                    <h3>{properties.find(p => p.id === selectedPropertyId)?.name} - 部屋一覧</h3>
                   </div>
 
                   <table className={styles.dataTable}>
                     <thead>
                       <tr>
-                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "id")}>
-                          請求番号 {invoiceSort.key === "id" && (invoiceSort.order === "asc" ? "▲" : "▼")}
-                        </th>
-                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "tenantName")}>
-                          入居者 {invoiceSort.key === "tenantName" && (invoiceSort.order === "asc" ? "▲" : "▼")}
-                        </th>
-                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "propertyName")}>
-                          物件 {invoiceSort.key === "propertyName" && (invoiceSort.order === "asc" ? "▲" : "▼")}
-                        </th>
-                        <th>部屋</th>
-                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "issueDate")}>
-                          発行日 {invoiceSort.key === "issueDate" && (invoiceSort.order === "asc" ? "▲" : "▼")}
-                        </th>
+                        <th>部屋番号</th>
+                        <th>階数</th>
+                        <th>間取り</th>
+                        <th>面積</th>
+                        <th>家賃</th>
                         <th>ステータス</th>
+                        <th>入居者</th>
+                        <th>入居日 / 退去日</th>
+                        <th>次回更新日 / メンテナンス</th>
                         <th>操作</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredInvoices.map((invoice) => (
-                        <tr key={invoice.id}>
-                          <td>{invoice.id}</td>
-                          <td>{invoice.tenantName}</td>
-                          <td>{invoice.propertyName}</td>
-                          <td>{invoice.roomNumber}</td>
-                          <td>{invoice.issueDate}</td>
+                      {properties.find(p => p.id === selectedPropertyId)?.rooms.map((room) => (
+                        <tr key={room.roomNumber}>
+                          <td>{room.roomNumber}</td>
+                          <td>{room.floor}F</td>
+                          <td>{room.layout}</td>
+                          <td>{room.area}㎡</td>
+                          <td>¥{room.rent.toLocaleString()}</td>
                           <td>
-                            <span className={`${styles.statusBadge} ${styles[invoice.status]}`}>
-                              {invoice.status === "paid" ? "入金済" :
-                               invoice.status === "issued" ? "請求済" :
-                               invoice.status === "overdue" ? "未入金" : "下書き"}
+                            <span className={`${styles.statusBadge} ${
+                              room.status === "occupied" ? styles.occupied :
+                              room.status === "vacant" ? styles.vacant :
+                              styles.reserved
+                            }`}>
+                              {room.status === "occupied" ? "入居中" :
+                               room.status === "vacant" ? "空室" : "予約済"}
                             </span>
                           </td>
+                          <td>{room.tenant || "-"}</td>
                           <td>
-                            <button className={styles.actionButton} onClick={() => openDetailModal(invoice)}>詳細</button>
+                            {room.status === "occupied" ? room.moveInDate || "-" :
+                             room.status === "vacant" ? (room.lastVacatedDate ? `退去: ${room.lastVacatedDate}` : "-") : "-"}
+                          </td>
+                          <td>
+                            {room.status === "occupied" ? room.nextRenewalDate || "-" :
+                             room.status === "vacant" ? (room.maintenanceDate ? `メンテ: ${room.maintenanceDate}` : "-") : "-"}
+                          </td>
+                          <td>
+                            <button className={styles.actionButton} onClick={() => openDetailModal(room)}>編集</button>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                </div>
-
-                {/* Arrears Summary */}
-                <div className={styles.summaryCard}>
-                  <h3>収納状況サマリー</h3>
-                  <div className={styles.summaryGrid}>
-                    <div className={styles.summaryItem}>
-                      <span className={styles.summaryLabel}>今月請求額</span>
-                      <span className={styles.summaryValue}>¥{invoices.reduce((sum, i) => sum + i.amount, 0).toLocaleString()}</span>
-                    </div>
-                    <div className={styles.summaryItem}>
-                      <span className={styles.summaryLabel}>入金済</span>
-                      <span className={styles.summaryValue}>
-                        ¥{invoices.filter(i => i.status === "paid").reduce((sum, i) => sum + i.amount, 0).toLocaleString()}
-                      </span>
-                    </div>
-                    <div className={styles.summaryItem}>
-                      <span className={styles.summaryLabel}>未入金</span>
-                      <span className={`${styles.summaryValue} ${styles.alert}`}>
-                        ¥{invoices.filter(i => i.status === "overdue" || i.status === "issued").reduce((sum, i) => sum + i.amount, 0).toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </section>
@@ -1934,6 +1933,84 @@ export default function RentalManagementDemo() {
                           <span className={styles.detailValue}>¥{item.amount.toLocaleString()}</span>
                         </div>
                       ))}
+                    </>
+                  )}
+
+                  {/* Room details */}
+                  {selectedItem.layout && !selectedItem.rooms && (
+                    <>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>部屋番号</span>
+                        <span className={styles.detailValue}>{selectedItem.roomNumber}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>階数</span>
+                        <span className={styles.detailValue}>{selectedItem.floor}F</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>間取り</span>
+                        <span className={styles.detailValue}>{selectedItem.layout}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>面積</span>
+                        <span className={styles.detailValue}>{selectedItem.area}㎡</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>家賃</span>
+                        <span className={styles.detailValue}>¥{selectedItem.rent.toLocaleString()}/月</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>ステータス</span>
+                        <span className={styles.detailValue}>
+                          {selectedItem.status === "occupied" ? "入居中" :
+                           selectedItem.status === "vacant" ? "空室" : "予約済"}
+                        </span>
+                      </div>
+
+                      {selectedItem.status === "occupied" && (
+                        <>
+                          <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>入居者</span>
+                            <span className={styles.detailValue}>{selectedItem.tenant}</span>
+                          </div>
+                          <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>入居日</span>
+                            <span className={styles.detailValue}>{selectedItem.moveInDate || "-"}</span>
+                          </div>
+                          <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>契約終了日</span>
+                            <span className={styles.detailValue}>{selectedItem.contractEndDate || "-"}</span>
+                          </div>
+                          <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>次回更新日</span>
+                            <span className={styles.detailValue}>{selectedItem.nextRenewalDate || "-"}</span>
+                          </div>
+                        </>
+                      )}
+
+                      {selectedItem.status === "vacant" && (
+                        <>
+                          <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>前回の退去日</span>
+                            <span className={styles.detailValue}>{selectedItem.lastVacatedDate || "-"}</span>
+                          </div>
+                          <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>メンテナンス予定日</span>
+                            <span className={styles.detailValue}>{selectedItem.maintenanceDate || "-"}</span>
+                          </div>
+                          <div style={{ marginTop: "20px", padding: "16px", background: "#f8f9fa", borderRadius: "6px" }}>
+                            <p style={{ fontSize: "0.9rem", color: "#475569", marginBottom: "12px" }}>
+                              メンテナンス予定日を設定できます（デモ用）
+                            </p>
+                            <input
+                              type="date"
+                              className={styles.dateInput}
+                              defaultValue={selectedItem.maintenanceDate || ""}
+                              placeholder="メンテナンス予定日"
+                            />
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
 

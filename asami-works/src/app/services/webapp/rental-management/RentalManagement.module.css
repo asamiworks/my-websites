@@ -1322,3 +1322,76 @@
     font-size: 1.4rem;
   }
 }
+
+/* Property Management Styles */
+.propertySelection {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.selectLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-right: 12px;
+}
+
+.propertySelect {
+  padding: 10px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 300px;
+}
+
+.propertySelect:hover {
+  border-color: #cbd5e1;
+}
+
+.propertySelect:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* Room Status Badges */
+.statusBadge.occupied {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.statusBadge.vacant {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.statusBadge.reserved {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+/* Date Input */
+.dateInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.dateInput:hover {
+  border-color: #cbd5e1;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
