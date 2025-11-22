@@ -256,6 +256,17 @@ export default function WebAppService() {
             </div>
             <div className={styles.cardGrid}>
               <article className={styles.card}>
+                <span className={styles.cardLabel}>Rental Management</span>
+                <h3 className={styles.cardTitle}>不動産賃貸管理システム</h3>
+                <p className={styles.cardText}>
+                  物件・入居者・契約を一元管理する賃貸管理システム。見学予約カレンダー、家賃管理、修繕依頼管理など、
+                  不動産業務を効率化する機能を搭載したデモです。
+                </p>
+                <a href="/services/webapp/rental-management" className={styles.cardLink}>
+                  デモを見る →
+                </a>
+              </article>
+              <article className={styles.card}>
                 <span className={styles.cardLabel}>Stable Management</span>
                 <h3 className={styles.cardTitle}>厩舎管理システム</h3>
                 <p className={styles.cardText}>
