@@ -1195,16 +1195,19 @@ export default function RentalManagementDemo() {
                 {calendarView === "week" && (
                   <div className={styles.calendarWeek}>
                     <div className={styles.calendarHeader}>
-                      {weekDates.map((date, index) => (
-                        <div key={index} className={styles.calendarDay}>
-                          <div className={styles.dayLabel}>
-                            {["月", "火", "水", "木", "金", "土", "日"][index]}
+                      {weekDates.map((date, index) => {
+                        const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+                        return (
+                          <div key={index} className={styles.calendarDay}>
+                            <div className={styles.dayLabel}>
+                              {dayNames[date.getDay()]}
+                            </div>
+                            <div className={styles.dayDate}>
+                              {date.getMonth() + 1}/{date.getDate()}
+                            </div>
                           </div>
-                          <div className={styles.dayDate}>
-                            {date.getMonth() + 1}/{date.getDate()}
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
 
                     <div className={styles.calendarBody}>
@@ -1432,11 +1435,251 @@ export default function RentalManagementDemo() {
               <button className={styles.modalClose} onClick={closeModal}>×</button>
             </div>
             <div className={styles.modalBody}>
-              <p>モーダル内容（デモ用）</p>
-              {selectedItem && (
-                <pre className={styles.demoData}>
-                  {JSON.stringify(selectedItem, null, 2)}
-                </pre>
+              {selectedItem ? (
+                <div className={styles.detailContent}>
+                  {/* Owner details */}
+                  {selectedItem.type && (
+                    <>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>オーナー名</span>
+                        <span className={styles.detailValue}>{selectedItem.name}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>種別</span>
+                        <span className={styles.detailValue}>{selectedItem.type === "corporate" ? "法人" : "個人"}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>管理物件数</span>
+                        <span className={styles.detailValue}>{selectedItem.properties}件</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>総戸数</span>
+                        <span className={styles.detailValue}>{selectedItem.totalUnits}戸</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>メールアドレス</span>
+                        <span className={styles.detailValue}>{selectedItem.email}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>電話番号</span>
+                        <span className={styles.detailValue}>{selectedItem.phone}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>住所</span>
+                        <span className={styles.detailValue}>{selectedItem.address}</span>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Property details */}
+                  {selectedItem.rooms && (
+                    <>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>物件名</span>
+                        <span className={styles.detailValue}>{selectedItem.name}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>オーナー</span>
+                        <span className={styles.detailValue}>{selectedItem.ownerName}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>所在地</span>
+                        <span className={styles.detailValue}>{selectedItem.address}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>築年</span>
+                        <span className={styles.detailValue}>{selectedItem.buildYear}年</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>総戸数</span>
+                        <span className={styles.detailValue}>{selectedItem.totalUnits}戸</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>入居戸数</span>
+                        <span className={styles.detailValue}>{selectedItem.occupiedUnits}戸</span>
+                      </div>
+                      <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>部屋一覧</h4>
+                      {selectedItem.rooms.map((room: Room, idx: number) => (
+                        <div key={idx} className={styles.roomItem}>
+                          <strong>{room.roomNumber}</strong> - {room.layout} ({room.area}㎡) - ¥{room.rent.toLocaleString()}/月
+                          {room.status === "occupied" && room.tenant ? ` - ${room.tenant}様` : ` - ${room.status === "vacant" ? "空室" : "予約済"}`}
+                        </div>
+                      ))}
+                    </>
+                  )}
+
+                  {/* Tenant details */}
+                  {selectedItem.contractStartDate && !selectedItem.items && !selectedItem.category && !selectedItem.customerPhone && (
+                    <>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>入居者名</span>
+                        <span className={styles.detailValue}>{selectedItem.name}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>物件</span>
+                        <span className={styles.detailValue}>{selectedItem.propertyName}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>部屋番号</span>
+                        <span className={styles.detailValue}>{selectedItem.roomNumber}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>家賃</span>
+                        <span className={styles.detailValue}>¥{selectedItem.rent.toLocaleString()}/月</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>契約期間</span>
+                        <span className={styles.detailValue}>{selectedItem.contractStartDate} 〜 {selectedItem.contractEndDate}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>電話番号</span>
+                        <span className={styles.detailValue}>{selectedItem.phone}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>メールアドレス</span>
+                        <span className={styles.detailValue}>{selectedItem.email}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>緊急連絡先</span>
+                        <span className={styles.detailValue}>{selectedItem.emergencyContact}</span>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Invoice details */}
+                  {selectedItem.items && (
+                    <>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>請求番号</span>
+                        <span className={styles.detailValue}>{selectedItem.id}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>入居者</span>
+                        <span className={styles.detailValue}>{selectedItem.tenantName}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>物件</span>
+                        <span className={styles.detailValue}>{selectedItem.propertyName} {selectedItem.roomNumber}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>発行日</span>
+                        <span className={styles.detailValue}>{selectedItem.issueDate}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>支払期限</span>
+                        <span className={styles.detailValue}>{selectedItem.dueDate}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>請求額</span>
+                        <span className={styles.detailValue}>¥{selectedItem.amount.toLocaleString()}</span>
+                      </div>
+                      <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>明細</h4>
+                      {selectedItem.items.map((item: InvoiceItem, idx: number) => (
+                        <div key={idx} className={styles.detailRow}>
+                          <span className={styles.detailLabel}>{item.description}</span>
+                          <span className={styles.detailValue}>¥{item.amount.toLocaleString()}</span>
+                        </div>
+                      ))}
+                    </>
+                  )}
+
+                  {/* Maintenance details */}
+                  {selectedItem.category && (
+                    <>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>依頼ID</span>
+                        <span className={styles.detailValue}>{selectedItem.id}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>物件</span>
+                        <span className={styles.detailValue}>{selectedItem.propertyName} {selectedItem.roomNumber}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>依頼者</span>
+                        <span className={styles.detailValue}>{selectedItem.tenantName}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>カテゴリ</span>
+                        <span className={styles.detailValue}>
+                          {selectedItem.category === "water" ? "水回り" :
+                           selectedItem.category === "electric" ? "電気" :
+                           selectedItem.category === "equipment" ? "設備" : "その他"}
+                        </span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>内容</span>
+                        <span className={styles.detailValue}>{selectedItem.description}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>優先度</span>
+                        <span className={styles.detailValue}>
+                          {selectedItem.priority === "high" ? "高" :
+                           selectedItem.priority === "medium" ? "中" : "低"}
+                        </span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>依頼日</span>
+                        <span className={styles.detailValue}>{selectedItem.requestDate}</span>
+                      </div>
+                      {selectedItem.contractor && (
+                        <div className={styles.detailRow}>
+                          <span className={styles.detailLabel}>担当業者</span>
+                          <span className={styles.detailValue}>{selectedItem.contractor}</span>
+                        </div>
+                      )}
+                      {selectedItem.completedDate && (
+                        <div className={styles.detailRow}>
+                          <span className={styles.detailLabel}>完了日</span>
+                          <span className={styles.detailValue}>{selectedItem.completedDate}</span>
+                        </div>
+                      )}
+                      {selectedItem.cost && (
+                        <div className={styles.detailRow}>
+                          <span className={styles.detailLabel}>費用</span>
+                          <span className={styles.detailValue}>¥{selectedItem.cost.toLocaleString()}</span>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {/* Viewing Reservation details */}
+                  {selectedItem.customerPhone && (
+                    <>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>予約ID</span>
+                        <span className={styles.detailValue}>{selectedItem.id}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>予約日時</span>
+                        <span className={styles.detailValue}>{selectedItem.date} {selectedItem.time}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>物件</span>
+                        <span className={styles.detailValue}>{selectedItem.propertyName} {selectedItem.roomNumber}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>お客様名</span>
+                        <span className={styles.detailValue}>{selectedItem.customerName}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>連絡先</span>
+                        <span className={styles.detailValue}>{selectedItem.customerPhone}</span>
+                      </div>
+                      <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>担当者</span>
+                        <span className={styles.detailValue}>{selectedItem.staffName}</span>
+                      </div>
+                      {selectedItem.notes && (
+                        <div className={styles.detailRow}>
+                          <span className={styles.detailLabel}>備考</span>
+                          <span className={styles.detailValue}>{selectedItem.notes}</span>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              ) : (
+                <p>新規登録フォーム（デモ用）</p>
               )}
             </div>
             <div className={styles.modalFooter}>

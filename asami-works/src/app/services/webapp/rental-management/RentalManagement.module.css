@@ -1098,6 +1098,47 @@
   padding: 24px;
 }
 
+.detailContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: #475569;
+  min-width: 120px;
+  font-size: 0.9rem;
+}
+
+.detailValue {
+  color: #1e293b;
+  text-align: right;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.roomItem {
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
 .demoData {
   background: #f8f9fa;
   padding: 16px;
