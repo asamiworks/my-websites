@@ -1274,9 +1274,6 @@ export default function RentalManagementDemo() {
                 <div className={styles.tableContainer}>
                   <div className={styles.tableHeader}>
                     <h3>請求一覧（{filteredInvoices.length}件）</h3>
-                    <button className={styles.addButton} onClick={openAddModal}>
-                      + 請求書発行
-                    </button>
                   </div>
 
                   {/* Search & Filter */}
@@ -1314,11 +1311,8 @@ export default function RentalManagementDemo() {
                           物件 {invoiceSort.key === "propertyName" && (invoiceSort.order === "asc" ? "▲" : "▼")}
                         </th>
                         <th>部屋</th>
-                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "amount")}>
-                          請求額 {invoiceSort.key === "amount" && (invoiceSort.order === "asc" ? "▲" : "▼")}
-                        </th>
-                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "dueDate")}>
-                          支払期限 {invoiceSort.key === "dueDate" && (invoiceSort.order === "asc" ? "▲" : "▼")}
+                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "issueDate")}>
+                          発行日 {invoiceSort.key === "issueDate" && (invoiceSort.order === "asc" ? "▲" : "▼")}
                         </th>
                         <th>ステータス</th>
                         <th>操作</th>
@@ -1331,8 +1325,7 @@ export default function RentalManagementDemo() {
                           <td>{invoice.tenantName}</td>
                           <td>{invoice.propertyName}</td>
                           <td>{invoice.roomNumber}</td>
-                          <td>¥{invoice.amount.toLocaleString()}</td>
-                          <td>{invoice.dueDate}</td>
+                          <td>{invoice.issueDate}</td>
                           <td>
                             <span className={`${styles.statusBadge} ${styles[invoice.status]}`}>
                               {invoice.status === "paid" ? "入金済" :
