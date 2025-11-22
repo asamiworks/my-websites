@@ -381,6 +381,35 @@ export default function RentalManagementDemo() {
   const [maintenanceRequests, setMaintenanceRequests] = useState<MaintenanceRequest[]>(initialMaintenanceRequests);
   const [viewingReservations, setViewingReservations] = useState<ViewingReservation[]>(initialViewingReservations);
 
+  // Search & Filter states
+  const [ownerSearch, setOwnerSearch] = useState("");
+  const [ownerTypeFilter, setOwnerTypeFilter] = useState<"all" | "individual" | "corporate">("all");
+  const [ownerSort, setOwnerSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "id", order: "asc" });
+
+  const [propertySearch, setPropertySearch] = useState("");
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState<"all" | "apartment" | "mansion" | "house">("all");
+  const [propertySort, setPropertySort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "id", order: "asc" });
+
+  const [tenantSearch, setTenantSearch] = useState("");
+  const [tenantStatusFilter, setTenantStatusFilter] = useState<"all" | "active" | "notice" | "moving">("all");
+  const [tenantSort, setTenantSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "id", order: "asc" });
+
+  const [contractSearch, setContractSearch] = useState("");
+  const [contractSort, setContractSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "name", order: "asc" });
+
+  const [invoiceSearch, setInvoiceSearch] = useState("");
+  const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<"all" | "draft" | "issued" | "paid" | "overdue">("all");
+  const [invoiceSort, setInvoiceSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "id", order: "asc" });
+
+  const [maintenanceSearch, setMaintenanceSearch] = useState("");
+  const [maintenanceStatusFilter, setMaintenanceStatusFilter] = useState<"all" | "pending" | "assigned" | "in-progress" | "completed">("all");
+  const [maintenancePriorityFilter, setMaintenancePriorityFilter] = useState<"all" | "high" | "medium" | "low">("all");
+  const [maintenanceSort, setMaintenanceSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "id", order: "asc" });
+
+  const [viewingSearch, setViewingSearch] = useState("");
+  const [viewingStatusFilter, setViewingStatusFilter] = useState<"all" | "scheduled" | "completed" | "cancelled">("all");
+  const [viewingSort, setViewingSort] = useState<{ key: string; order: "asc" | "desc" }>({ key: "date", order: "asc" });
+
   // Calculations
   const totalUnits = properties.reduce((sum, p) => sum + p.totalUnits, 0);
   const occupiedUnits = properties.reduce((sum, p) => sum + p.occupiedUnits, 0);
@@ -433,6 +462,109 @@ export default function RentalManagementDemo() {
   };
 
   const weekDates = getWeekDates(new Date(selectedDate));
+
+  // Sort handler
+  const handleSort = (
+    currentSort: { key: string; order: "asc" | "desc" },
+    setSort: React.Dispatch<React.SetStateAction<{ key: string; order: "asc" | "desc" }>>,
+    key: string
+  ) => {
+    if (currentSort.key === key) {
+      setSort({ key, order: currentSort.order === "asc" ? "desc" : "asc" });
+    } else {
+      setSort({ key, order: "asc" });
+    }
+  };
+
+  // Generic sort function
+  const sortData = <T,>(data: T[], sortConfig: { key: string; order: "asc" | "desc" }): T[] => {
+    return [...data].sort((a: any, b: any) => {
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
+
+      if (aVal === bVal) return 0;
+
+      const comparison = aVal < bVal ? -1 : 1;
+      return sortConfig.order === "asc" ? comparison : -comparison;
+    });
+  };
+
+  // Filtered and sorted data
+  const filteredOwners = sortData(
+    owners
+      .filter(o => ownerTypeFilter === "all" || o.type === ownerTypeFilter)
+      .filter(o =>
+        o.name.toLowerCase().includes(ownerSearch.toLowerCase()) ||
+        o.email.toLowerCase().includes(ownerSearch.toLowerCase()) ||
+        o.phone.includes(ownerSearch)
+      ),
+    ownerSort
+  );
+
+  const filteredProperties = sortData(
+    properties
+      .filter(p => propertyTypeFilter === "all" || p.type === propertyTypeFilter)
+      .filter(p =>
+        p.name.toLowerCase().includes(propertySearch.toLowerCase()) ||
+        p.address.toLowerCase().includes(propertySearch.toLowerCase()) ||
+        p.ownerName.toLowerCase().includes(propertySearch.toLowerCase())
+      ),
+    propertySort
+  );
+
+  const filteredTenants = sortData(
+    tenants
+      .filter(t => tenantStatusFilter === "all" || t.status === tenantStatusFilter)
+      .filter(t =>
+        t.name.toLowerCase().includes(tenantSearch.toLowerCase()) ||
+        t.propertyName.toLowerCase().includes(tenantSearch.toLowerCase()) ||
+        t.roomNumber.toLowerCase().includes(tenantSearch.toLowerCase())
+      ),
+    tenantSort
+  );
+
+  const filteredContracts = sortData(
+    tenants.filter(t =>
+      t.name.toLowerCase().includes(contractSearch.toLowerCase()) ||
+      t.propertyName.toLowerCase().includes(contractSearch.toLowerCase()) ||
+      t.roomNumber.toLowerCase().includes(contractSearch.toLowerCase())
+    ),
+    contractSort
+  );
+
+  const filteredInvoices = sortData(
+    invoices
+      .filter(i => invoiceStatusFilter === "all" || i.status === invoiceStatusFilter)
+      .filter(i =>
+        i.id.toLowerCase().includes(invoiceSearch.toLowerCase()) ||
+        i.tenantName.toLowerCase().includes(invoiceSearch.toLowerCase()) ||
+        i.propertyName.toLowerCase().includes(invoiceSearch.toLowerCase())
+      ),
+    invoiceSort
+  );
+
+  const filteredMaintenance = sortData(
+    maintenanceRequests
+      .filter(m => maintenanceStatusFilter === "all" || m.status === maintenanceStatusFilter)
+      .filter(m => maintenancePriorityFilter === "all" || m.priority === maintenancePriorityFilter)
+      .filter(m =>
+        m.propertyName.toLowerCase().includes(maintenanceSearch.toLowerCase()) ||
+        m.tenantName.toLowerCase().includes(maintenanceSearch.toLowerCase()) ||
+        m.description.toLowerCase().includes(maintenanceSearch.toLowerCase())
+      ),
+    maintenanceSort
+  );
+
+  const filteredViewings = sortData(
+    viewingReservations
+      .filter(v => viewingStatusFilter === "all" || v.status === viewingStatusFilter)
+      .filter(v =>
+        v.propertyName.toLowerCase().includes(viewingSearch.toLowerCase()) ||
+        v.customerName.toLowerCase().includes(viewingSearch.toLowerCase()) ||
+        v.staffName.toLowerCase().includes(viewingSearch.toLowerCase())
+      ),
+    viewingSort
+  );
 
   return (
     <div className={styles.container}>
@@ -748,25 +880,56 @@ export default function RentalManagementDemo() {
                 {masterTab === "owners" && (
                   <div className={styles.tableContainer}>
                     <div className={styles.tableHeader}>
-                      <h3>オーナー一覧（{owners.length}件）</h3>
+                      <h3>オーナー一覧（{filteredOwners.length}件）</h3>
                       <button className={styles.addButton} onClick={openAddModal}>
                         + 新規登録
                       </button>
                     </div>
+
+                    {/* Search & Filter */}
+                    <div className={styles.searchFilterBar}>
+                      <input
+                        type="text"
+                        className={styles.searchInput}
+                        placeholder="オーナー名、メール、電話番号で検索..."
+                        value={ownerSearch}
+                        onChange={(e) => setOwnerSearch(e.target.value)}
+                      />
+                      <select
+                        className={styles.filterSelect}
+                        value={ownerTypeFilter}
+                        onChange={(e) => setOwnerTypeFilter(e.target.value as any)}
+                      >
+                        <option value="all">すべての種別</option>
+                        <option value="individual">個人</option>
+                        <option value="corporate">法人</option>
+                      </select>
+                    </div>
+
                     <table className={styles.dataTable}>
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>オーナー名</th>
-                          <th>種別</th>
-                          <th>管理物件数</th>
-                          <th>総戸数</th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(ownerSort, setOwnerSort, "id")}>
+                            ID {ownerSort.key === "id" && (ownerSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(ownerSort, setOwnerSort, "name")}>
+                            オーナー名 {ownerSort.key === "name" && (ownerSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(ownerSort, setOwnerSort, "type")}>
+                            種別 {ownerSort.key === "type" && (ownerSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(ownerSort, setOwnerSort, "properties")}>
+                            管理物件数 {ownerSort.key === "properties" && (ownerSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(ownerSort, setOwnerSort, "totalUnits")}>
+                            総戸数 {ownerSort.key === "totalUnits" && (ownerSort.order === "asc" ? "▲" : "▼")}
+                          </th>
                           <th>連絡先</th>
                           <th>操作</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {owners.map((owner) => (
+                        {filteredOwners.map((owner) => (
                           <tr key={owner.id}>
                             <td>{owner.id}</td>
                             <td>{owner.name}</td>
@@ -792,26 +955,58 @@ export default function RentalManagementDemo() {
                 {masterTab === "properties" && (
                   <div className={styles.tableContainer}>
                     <div className={styles.tableHeader}>
-                      <h3>物件一覧（{properties.length}件）</h3>
+                      <h3>物件一覧（{filteredProperties.length}件）</h3>
                       <button className={styles.addButton} onClick={openAddModal}>
                         + 新規登録
                       </button>
                     </div>
+
+                    {/* Search & Filter */}
+                    <div className={styles.searchFilterBar}>
+                      <input
+                        type="text"
+                        className={styles.searchInput}
+                        placeholder="物件名、住所、オーナー名で検索..."
+                        value={propertySearch}
+                        onChange={(e) => setPropertySearch(e.target.value)}
+                      />
+                      <select
+                        className={styles.filterSelect}
+                        value={propertyTypeFilter}
+                        onChange={(e) => setPropertyTypeFilter(e.target.value as any)}
+                      >
+                        <option value="all">すべての種別</option>
+                        <option value="apartment">アパート</option>
+                        <option value="mansion">マンション</option>
+                        <option value="house">一戸建て</option>
+                      </select>
+                    </div>
+
                     <table className={styles.dataTable}>
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>物件名</th>
-                          <th>オーナー</th>
-                          <th>種別</th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(propertySort, setPropertySort, "id")}>
+                            ID {propertySort.key === "id" && (propertySort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(propertySort, setPropertySort, "name")}>
+                            物件名 {propertySort.key === "name" && (propertySort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(propertySort, setPropertySort, "ownerName")}>
+                            オーナー {propertySort.key === "ownerName" && (propertySort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(propertySort, setPropertySort, "type")}>
+                            種別 {propertySort.key === "type" && (propertySort.order === "asc" ? "▲" : "▼")}
+                          </th>
                           <th>所在地</th>
-                          <th>総戸数</th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(propertySort, setPropertySort, "totalUnits")}>
+                            総戸数 {propertySort.key === "totalUnits" && (propertySort.order === "asc" ? "▲" : "▼")}
+                          </th>
                           <th>入居率</th>
                           <th>操作</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {properties.map((property) => {
+                        {filteredProperties.map((property) => {
                           const rate = property.totalUnits > 0
                             ? ((property.occupiedUnits / property.totalUnits) * 100).toFixed(0)
                             : "0";
@@ -847,26 +1042,60 @@ export default function RentalManagementDemo() {
                 {masterTab === "tenants" && (
                   <div className={styles.tableContainer}>
                     <div className={styles.tableHeader}>
-                      <h3>入居者一覧（{tenants.length}件）</h3>
+                      <h3>入居者一覧（{filteredTenants.length}件）</h3>
                       <button className={styles.addButton} onClick={openAddModal}>
                         + 新規登録
                       </button>
                     </div>
+
+                    {/* Search & Filter */}
+                    <div className={styles.searchFilterBar}>
+                      <input
+                        type="text"
+                        className={styles.searchInput}
+                        placeholder="入居者名、物件名、部屋番号で検索..."
+                        value={tenantSearch}
+                        onChange={(e) => setTenantSearch(e.target.value)}
+                      />
+                      <select
+                        className={styles.filterSelect}
+                        value={tenantStatusFilter}
+                        onChange={(e) => setTenantStatusFilter(e.target.value as any)}
+                      >
+                        <option value="all">すべて</option>
+                        <option value="active">入居中</option>
+                        <option value="notice">退去予告</option>
+                        <option value="moving">退去手続中</option>
+                      </select>
+                    </div>
+
                     <table className={styles.dataTable}>
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>入居者名</th>
-                          <th>物件名</th>
-                          <th>部屋番号</th>
-                          <th>家賃</th>
-                          <th>契約終了日</th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(tenantSort, setTenantSort, "id")}>
+                            ID {tenantSort.key === "id" && (tenantSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(tenantSort, setTenantSort, "name")}>
+                            入居者名 {tenantSort.key === "name" && (tenantSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(tenantSort, setTenantSort, "propertyName")}>
+                            物件名 {tenantSort.key === "propertyName" && (tenantSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(tenantSort, setTenantSort, "roomNumber")}>
+                            部屋番号 {tenantSort.key === "roomNumber" && (tenantSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(tenantSort, setTenantSort, "rent")}>
+                            家賃 {tenantSort.key === "rent" && (tenantSort.order === "asc" ? "▲" : "▼")}
+                          </th>
+                          <th className={styles.sortableHeader} onClick={() => handleSort(tenantSort, setTenantSort, "contractEndDate")}>
+                            契約終了日 {tenantSort.key === "contractEndDate" && (tenantSort.order === "asc" ? "▲" : "▼")}
+                          </th>
                           <th>ステータス</th>
                           <th>操作</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {tenants.map((tenant) => (
+                        {filteredTenants.map((tenant) => (
                           <tr key={tenant.id}>
                             <td>{tenant.id}</td>
                             <td>{tenant.name}</td>
@@ -959,26 +1188,50 @@ export default function RentalManagementDemo() {
 
                 <div className={styles.tableContainer}>
                   <div className={styles.tableHeader}>
-                    <h3>契約一覧（{tenants.length}件）</h3>
+                    <h3>契約一覧（{filteredContracts.length}件）</h3>
                     <button className={styles.addButton} onClick={openAddModal}>
                       + 新規契約
                     </button>
                   </div>
+
+                  {/* Search Bar */}
+                  <div className={styles.searchFilterBar}>
+                    <input
+                      type="text"
+                      className={styles.searchInput}
+                      placeholder="入居者名、物件名、部屋番号で検索..."
+                      value={contractSearch}
+                      onChange={(e) => setContractSearch(e.target.value)}
+                    />
+                  </div>
+
                   <table className={styles.dataTable}>
                     <thead>
                       <tr>
-                        <th>入居者</th>
-                        <th>物件</th>
-                        <th>部屋</th>
-                        <th>契約開始日</th>
-                        <th>契約終了日</th>
-                        <th>家賃</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(contractSort, setContractSort, "name")}>
+                          入居者 {contractSort.key === "name" && (contractSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(contractSort, setContractSort, "propertyName")}>
+                          物件 {contractSort.key === "propertyName" && (contractSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(contractSort, setContractSort, "roomNumber")}>
+                          部屋 {contractSort.key === "roomNumber" && (contractSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(contractSort, setContractSort, "contractStartDate")}>
+                          契約開始日 {contractSort.key === "contractStartDate" && (contractSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(contractSort, setContractSort, "contractEndDate")}>
+                          契約終了日 {contractSort.key === "contractEndDate" && (contractSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(contractSort, setContractSort, "rent")}>
+                          家賃 {contractSort.key === "rent" && (contractSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>更新判定</th>
                         <th>操作</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {tenants.map((tenant) => {
+                      {filteredContracts.map((tenant) => {
                         const endDate = new Date(tenant.contractEndDate);
                         const threeMonthsFromNow = new Date();
                         threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3);
@@ -1020,26 +1273,59 @@ export default function RentalManagementDemo() {
 
                 <div className={styles.tableContainer}>
                   <div className={styles.tableHeader}>
-                    <h3>請求一覧（{invoices.length}件）</h3>
+                    <h3>請求一覧（{filteredInvoices.length}件）</h3>
                     <button className={styles.addButton} onClick={openAddModal}>
                       + 請求書発行
                     </button>
                   </div>
+
+                  {/* Search & Filter */}
+                  <div className={styles.searchFilterBar}>
+                    <input
+                      type="text"
+                      className={styles.searchInput}
+                      placeholder="請求番号、入居者名、物件名で検索..."
+                      value={invoiceSearch}
+                      onChange={(e) => setInvoiceSearch(e.target.value)}
+                    />
+                    <select
+                      className={styles.filterSelect}
+                      value={invoiceStatusFilter}
+                      onChange={(e) => setInvoiceStatusFilter(e.target.value as any)}
+                    >
+                      <option value="all">すべて</option>
+                      <option value="draft">下書き</option>
+                      <option value="issued">請求済</option>
+                      <option value="paid">入金済</option>
+                      <option value="overdue">未入金</option>
+                    </select>
+                  </div>
+
                   <table className={styles.dataTable}>
                     <thead>
                       <tr>
-                        <th>請求番号</th>
-                        <th>入居者</th>
-                        <th>物件</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "id")}>
+                          請求番号 {invoiceSort.key === "id" && (invoiceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "tenantName")}>
+                          入居者 {invoiceSort.key === "tenantName" && (invoiceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "propertyName")}>
+                          物件 {invoiceSort.key === "propertyName" && (invoiceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>部屋</th>
-                        <th>請求額</th>
-                        <th>支払期限</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "amount")}>
+                          請求額 {invoiceSort.key === "amount" && (invoiceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(invoiceSort, setInvoiceSort, "dueDate")}>
+                          支払期限 {invoiceSort.key === "dueDate" && (invoiceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>ステータス</th>
                         <th>操作</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {invoices.map((invoice) => (
+                      {filteredInvoices.map((invoice) => (
                         <tr key={invoice.id}>
                           <td>{invoice.id}</td>
                           <td>{invoice.tenantName}</td>
@@ -1097,28 +1383,73 @@ export default function RentalManagementDemo() {
 
                 <div className={styles.tableContainer}>
                   <div className={styles.tableHeader}>
-                    <h3>メンテナンス依頼一覧（{maintenanceRequests.length}件）</h3>
+                    <h3>メンテナンス依頼一覧（{filteredMaintenance.length}件）</h3>
                     <button className={styles.addButton} onClick={openAddModal}>
                       + 新規依頼
                     </button>
                   </div>
+
+                  {/* Search & Filters */}
+                  <div className={styles.searchFilterBar}>
+                    <input
+                      type="text"
+                      className={styles.searchInput}
+                      placeholder="物件名、入居者名、内容で検索..."
+                      value={maintenanceSearch}
+                      onChange={(e) => setMaintenanceSearch(e.target.value)}
+                    />
+                    <select
+                      className={styles.filterSelect}
+                      value={maintenanceStatusFilter}
+                      onChange={(e) => setMaintenanceStatusFilter(e.target.value as any)}
+                    >
+                      <option value="all">すべて</option>
+                      <option value="pending">未対応</option>
+                      <option value="assigned">手配済</option>
+                      <option value="in-progress">対応中</option>
+                      <option value="completed">完了</option>
+                    </select>
+                    <select
+                      className={styles.filterSelect}
+                      value={maintenancePriorityFilter}
+                      onChange={(e) => setMaintenancePriorityFilter(e.target.value as any)}
+                    >
+                      <option value="all">すべて</option>
+                      <option value="high">高</option>
+                      <option value="medium">中</option>
+                      <option value="low">低</option>
+                    </select>
+                  </div>
+
                   <table className={styles.dataTable}>
                     <thead>
                       <tr>
-                        <th>ID</th>
-                        <th>物件</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(maintenanceSort, setMaintenanceSort, "id")}>
+                          ID {maintenanceSort.key === "id" && (maintenanceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(maintenanceSort, setMaintenanceSort, "propertyName")}>
+                          物件 {maintenanceSort.key === "propertyName" && (maintenanceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>部屋</th>
-                        <th>依頼者</th>
-                        <th>カテゴリ</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(maintenanceSort, setMaintenanceSort, "tenantName")}>
+                          依頼者 {maintenanceSort.key === "tenantName" && (maintenanceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(maintenanceSort, setMaintenanceSort, "category")}>
+                          カテゴリ {maintenanceSort.key === "category" && (maintenanceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>内容</th>
-                        <th>優先度</th>
-                        <th>ステータス</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(maintenanceSort, setMaintenanceSort, "priority")}>
+                          優先度 {maintenanceSort.key === "priority" && (maintenanceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(maintenanceSort, setMaintenanceSort, "status")}>
+                          ステータス {maintenanceSort.key === "status" && (maintenanceSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>業者</th>
                         <th>操作</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {maintenanceRequests.map((request) => (
+                      {filteredMaintenance.map((request) => (
                         <tr key={request.id}>
                           <td>{request.id}</td>
                           <td>{request.propertyName}</td>
@@ -1245,22 +1576,52 @@ export default function RentalManagementDemo() {
 
                 {/* List View */}
                 <div className={styles.tableContainer}>
-                  <h3>予約一覧</h3>
+                  <h3>予約一覧（{filteredViewings.length}件）</h3>
+
+                  {/* Search & Filter */}
+                  <div className={styles.searchFilterBar}>
+                    <input
+                      type="text"
+                      className={styles.searchInput}
+                      placeholder="物件名、お客様名、担当者名で検索..."
+                      value={viewingSearch}
+                      onChange={(e) => setViewingSearch(e.target.value)}
+                    />
+                    <select
+                      className={styles.filterSelect}
+                      value={viewingStatusFilter}
+                      onChange={(e) => setViewingStatusFilter(e.target.value as any)}
+                    >
+                      <option value="all">すべて</option>
+                      <option value="scheduled">予約済</option>
+                      <option value="completed">完了</option>
+                      <option value="cancelled">キャンセル</option>
+                    </select>
+                  </div>
+
                   <table className={styles.dataTable}>
                     <thead>
                       <tr>
-                        <th>予約日時</th>
-                        <th>物件</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(viewingSort, setViewingSort, "date")}>
+                          予約日時 {viewingSort.key === "date" && (viewingSort.order === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(viewingSort, setViewingSort, "propertyName")}>
+                          物件 {viewingSort.key === "propertyName" && (viewingSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>部屋</th>
-                        <th>お客様</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(viewingSort, setViewingSort, "customerName")}>
+                          お客様 {viewingSort.key === "customerName" && (viewingSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>連絡先</th>
-                        <th>担当者</th>
+                        <th className={styles.sortableHeader} onClick={() => handleSort(viewingSort, setViewingSort, "staffName")}>
+                          担当者 {viewingSort.key === "staffName" && (viewingSort.order === "asc" ? "▲" : "▼")}
+                        </th>
                         <th>ステータス</th>
                         <th>操作</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {viewingReservations.map((viewing) => (
+                      {filteredViewings.map((viewing) => (
                         <tr key={viewing.id}>
                           <td>{viewing.date} {viewing.time}</td>
                           <td>{viewing.propertyName}</td>
